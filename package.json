@@ -30,6 +30,8 @@
     "lint-staged": ">=10",
     "next-plugin-graphql": "^0.0.2",
     "postcss": "^8.4.14",
+    "postcss-import": "^14.1.0",
+    "postcss-nesting": "^10.1.10",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.11",
     "tailwindcss": "^3.1.2",
