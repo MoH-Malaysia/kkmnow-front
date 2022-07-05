@@ -14,7 +14,7 @@ const Indicators: FunctionComponent<IndicatorsProps> = ({ areaType }) => {
   return (
     <div className="mb-3 flex h-full w-full items-center">
       <div className="w-0 md:w-1/3" />
-      <div className="flex w-full items-center md:w-2/3">
+      <div className="flex w-full items-center gap-1 md:w-2/3">
         {/* WORSE THAN MEDIAN */}
         <div className="flex w-1/3 items-center justify-start text-dim md:justify-center">
           {/* LEFT ARROW ICON */}
