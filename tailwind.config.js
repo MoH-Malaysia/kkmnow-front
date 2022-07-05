@@ -24,6 +24,10 @@ module.exports = {
         washed: "#F1F5F9", // Slate 100
         outline: "#E2E8F0", // Slate 200
         outlineHover: "#94A3B8", // Slate 400
+        background: "#F8FAFC", // Slate 500
+      },
+      gridTemplateColumns: {
+        14: "repeat(14, minmax(0, 1fr))",
       },
     },
   },
