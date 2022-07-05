@@ -6,56 +6,53 @@ import { isObjInArr } from "lib/helpers";
 
 import { OptionType } from "@components/types";
 
-type CommonProps<T> = {
+type CommonProps<L, V> = {
   disabled?: boolean;
   multiple?: boolean;
-  options: OptionType<T>[];
+  options: OptionType<L, V>[];
   description?: string;
+  onChange: (selected: OptionType<L, V>) => void;
+  width?: string;
 };
 
-type ConditionalProps<T> =
+type ConditionalProps<L, V> =
   | {
       multiple?: true;
-      selected?: OptionType<T>[];
+      selected?: OptionType<L, V>[];
       title: string;
       placeholder?: never;
-      setSelected: (selected: OptionType<T>) => void;
       clearSelected: () => void;
     }
   | {
       multiple?: false;
-      selected?: OptionType<T>;
+      selected?: OptionType<L, V>;
       title?: never;
       placeholder?: string;
-      setSelected: React.Dispatch<React.SetStateAction<OptionType<T>>>;
       clearSelected?: never;
     };
 
-type DropdownProps<T> = CommonProps<T> & ConditionalProps<T>;
+type DropdownProps<L, V> = CommonProps<L, V> & ConditionalProps<L, V>;
 
-const Dropdown = <T extends string | number = string>({
+const Dropdown = <L extends string | number = string, V = string>({
   disabled = false,
   multiple = false,
   options,
   selected,
-  setSelected,
+  onChange,
   clearSelected,
   title,
   description,
   placeholder,
-}: DropdownProps<T>) => {
+  width,
+}: DropdownProps<L, V>) => {
   return (
     <Listbox
       value={selected}
-      onChange={(option: OptionType<T>) =>
-        multiple ? null : setSelected(option)
-      }
+      onChange={(option: OptionType<L, V>) => (multiple ? null : onChange(option))}
       multiple={multiple}
       disabled={disabled}
     >
-      <div
-        className={`relative text-sm ${disabled ? "cursor-not-allowed" : ""}`}
-      >
+      <div className={`relative text-sm ${disabled ? "cursor-not-allowed" : ""}`}>
         <Listbox.Button
           className={`
             relative flex w-full items-center gap-[6px] rounded-md border border-outline bg-white py-[6px] pl-3 pr-8 text-left shadow-sm 
@@ -67,21 +64,16 @@ const Dropdown = <T extends string | number = string>({
           `}
         >
           <span className="block truncate">
-            {multiple
-              ? title
-              : (selected as OptionType<T>)?.label || placeholder || "Select"}
+            {multiple ? title : (selected as OptionType<L, V>)?.label || placeholder || "Select"}
           </span>
           {/* NUMBER OF OPTIONS SELECTED (MULTIPLE = TRUE) */}
-          {multiple && (selected as OptionType<T>[])?.length > 0 && (
+          {multiple && (selected as OptionType<L, V>[])?.length > 0 && (
             <span className="rounded-md bg-dim px-1 py-0.5 text-xs text-white">
-              {(selected as OptionType<T>[]).length}
+              {(selected as OptionType<L, V>[]).length}
             </span>
           )}
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-1.5">
-            <ChevronDownIcon
-              className="h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            />
+            <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
         </Listbox.Button>
         <Transition
@@ -90,11 +82,14 @@ const Dropdown = <T extends string | number = string>({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute right-0 mt-1 max-h-60 w-40 overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Listbox.Options
+            className={`
+              focus:outline-none" absolute right-0 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5
+              ${width ?? "w-full"}
+            `}
+          >
             {/* DESCRIPTION */}
-            {description && (
-              <p className="py-1 px-4 text-xs text-dim">{description}</p>
-            )}
+            {description && <p className="py-1 px-4 text-xs text-dim">{description}</p>}
             {/* OPTIONS */}
             {options.map((option, index) => (
               <Listbox.Option
@@ -104,7 +99,7 @@ const Dropdown = <T extends string | number = string>({
                   ${multiple ? "pl-10" : "pl-4"}
                   ${active ? "bg-washed" : ""}
                 `}
-                onClick={() => (multiple ? setSelected(option) : null)}
+                onClick={() => (multiple ? onChange(option) : null)}
                 value={option}
               >
                 <span
@@ -118,7 +113,7 @@ const Dropdown = <T extends string | number = string>({
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     <input
                       type="checkbox"
-                      checked={isObjInArr(selected as OptionType<T>[], option)}
+                      checked={isObjInArr(selected as OptionType<L, V>[], option)}
                       className="h-4 w-4 rounded border-gray-300 text-dim focus:ring-0"
                     />
                   </span>
