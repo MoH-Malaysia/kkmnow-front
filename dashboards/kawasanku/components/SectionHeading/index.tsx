@@ -1,5 +1,5 @@
-import { useTranslation } from "next-i18next";
 import { FunctionComponent } from "react";
+import { useTranslation } from "next-i18next";
 
 type SectionHeadingProps = {
   children?: React.ReactNode;
