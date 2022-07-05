@@ -1,9 +1,9 @@
 import { FunctionComponent } from "react";
 import { useTranslation } from "next-i18next";
 
-interface ChoroplethScaleProps {
+type ChoroplethScaleProps = {
   colorScale?: string[];
-}
+};
 
 const ChoroplethScale: FunctionComponent<ChoroplethScaleProps> = ({ colorScale }) => {
   const { t } = useTranslation("kawasanku");
