@@ -41,7 +41,7 @@ const Kawasanku: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => 
           {t("section1_title2")}
         </SectionHeading>
       </div>
-      <JitterplotSection areaType={AREA_TYPES.State} data={data} comparisons={[]} />
+      <JitterplotSection areaType={AREA_TYPES.State} data={data} />
       <ChoroplethSection />
     </div>
   );
