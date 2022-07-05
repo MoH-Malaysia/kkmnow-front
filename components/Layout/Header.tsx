@@ -14,7 +14,7 @@ const Header = () => {
   const { language, onLanguageChange } = useLanguage();
 
   return (
-    <div className="sticky top-0 left-0 w-full">
+    <div className="sticky top-0 left-0 z-20 w-full">
       <Container background="bg-white" className="flex items-center gap-4 py-[11px]">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
@@ -45,7 +45,7 @@ const Header = () => {
               />
             </div>
           </div>
-          <Dropdown selected={language} setSelected={onLanguageChange} options={languages} />
+          <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
         </div>
       </Container>
     </div>
