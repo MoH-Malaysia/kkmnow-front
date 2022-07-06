@@ -61,7 +61,7 @@ const Spotlight: FunctionComponent<SpotlightProps> = ({
       </div>
       <div className="flex w-full flex-wrap items-start gap-3 md:w-auto md:items-center">
         {/* CURRENT LOCATION */}
-        {currentLocation && <Label color="bg-accent" text={currentLocation?.label} />}
+        {currentLocation && <Label color="bg-black" text={currentLocation?.label} />}
         {/* JITTER COMPARISONS */}
         {comparisons.length !== 0 &&
           comparisons.map((comparison, index) => {
@@ -89,7 +89,7 @@ type LabelProps = {
 
 const Label = ({ color, text, isClearable = false, handleClear }: LabelProps) => {
   return (
-    <div className={`flex items-center ${isClearable ? "rounded-xl bg-gray-200 px-2 py-0.5" : ""}`}>
+    <div className={`flex items-center ${isClearable ? "rounded-xl bg-washed px-2 py-0.5" : ""}`}>
       <div className="rounded-full bg-white p-0.5">
         <div className={`h-3 w-3 rounded-full ${color}`} />
       </div>

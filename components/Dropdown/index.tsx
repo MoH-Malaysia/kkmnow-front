@@ -73,7 +73,7 @@ const Dropdown = <L extends string | number = string, V = string>({
             </span>
           )}
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-1.5">
-            <ChevronDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+            <ChevronDownIcon className="h-5 w-5 text-dim" aria-hidden="true" />
           </span>
         </Listbox.Button>
         <Transition
@@ -114,7 +114,7 @@ const Dropdown = <L extends string | number = string, V = string>({
                     <input
                       type="checkbox"
                       checked={isObjInArr(selected as OptionType<L, V>[], option)}
-                      className="h-4 w-4 rounded border-gray-300 text-dim focus:ring-0"
+                      className="h-4 w-4 rounded border-outline text-dim focus:ring-0"
                     />
                   </span>
                 )}

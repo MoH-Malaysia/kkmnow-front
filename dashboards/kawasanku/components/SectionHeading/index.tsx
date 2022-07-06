@@ -11,7 +11,7 @@ const SectionHeading: FunctionComponent<SectionHeadingProps> = ({ children }) =>
   return (
     <div className="mb-5 flex w-full flex-col items-start justify-between gap-2 md:mb-7 md:flex-row md:items-center md:gap-0">
       <h4>{children}</h4>
-      <p className="text-sm text-gray-400">{t("census_2020")}</p>
+      <p className="text-sm text-outlineHover">{t("census_2020")}</p>
     </div>
   );
 };

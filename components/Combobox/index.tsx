@@ -96,9 +96,7 @@ const ComboBox = <L extends string | number = string, V = string>({
                     <Combobox.Option
                       key={index}
                       className={({ active }) =>
-                        `relative cursor-pointer select-none py-2 px-3 ${
-                          active ? "bg-gray-100" : ""
-                        }`
+                        `relative cursor-pointer select-none py-2 px-3 ${active ? "bg-washed" : ""}`
                       }
                       value={option}
                     >
