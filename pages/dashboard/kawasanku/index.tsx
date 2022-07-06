@@ -44,9 +44,48 @@ const Kawasanku: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => 
     female: Math.floor(Math.random() * 500000),
   });
 
+  let snapshotArr = [
+    Array(2)
+      .fill(0)
+      .map((_, i) => ({
+        id: `Key ${i + 1}`,
+        value: (Math.random() * 100).toFixed(1),
+      })),
+    Array(3)
+      .fill(0)
+      .map((_, i) => ({
+        id: `Key ${i + 1}`,
+        value: (Math.random() * 100).toFixed(1),
+      })),
+    Array(2)
+      .fill(0)
+      .map((_, i) => ({
+        id: `Key ${i + 1}`,
+        value: (Math.random() * 100).toFixed(1),
+      })),
+    Array(4)
+      .fill(0)
+      .map((_, i) => ({
+        id: `Key ${i + 1}`,
+        value: (Math.random() * 100).toFixed(1),
+      })),
+    Array(6)
+      .fill(0)
+      .map((_, i) => ({
+        id: `Key ${i + 1}`,
+        value: (Math.random() * 100).toFixed(1),
+      })),
+    Array(4)
+      .fill(0)
+      .map((_, i) => ({
+        id: `Key ${i + 1}`,
+        value: (Math.random() * 100).toFixed(1),
+      })),
+  ];
+
   return (
     <div className="divide-y">
-      <DemographicSection pyramidChartData={pyramidChartData} />
+      <DemographicSection pyramidChartData={pyramidChartData} snapshotData={snapshotArr} />
       <JitterplotSection areaType={AREA_TYPES.State} data={jitteplotData} />
       <ChoroplethSection />
     </div>

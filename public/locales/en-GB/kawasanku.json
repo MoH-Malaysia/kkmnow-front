@@ -16,10 +16,11 @@
   "section1_title1": "What does the population of",
   "section1_title2": "look like?",
   "pyramid": {
+    "title": "Population",
     "male": "Male",
     "female": "Female"
   },
-  "doughnut": {
+  "snapshot": {
     "metric_1": "Sex",
     "metric_2": "Ethnicity",
     "metric_3": "Nationality",
