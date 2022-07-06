@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.6",
+    "@nivo/bar": "^0.79.1",
     "@nivo/core": "^0.79.0",
     "@nivo/geo": "^0.79.1",
     "@nivo/scatterplot": "^0.79.1",

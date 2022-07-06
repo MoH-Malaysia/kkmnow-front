@@ -26,7 +26,7 @@ const KawasankuLayout: FunctionComponent<KawasankuLayoutProps> = ({ children }) 
         </div>
         <p className="text-sm font-bold">{t("filter_title")}</p>
       </Hero>
-      <Container className="py-11">{children}</Container>
+      <Container>{children}</Container>
     </Layout>
   );
 };

@@ -17,9 +17,7 @@
   "section1_title2": "look like?",
   "pyramid": {
     "male": "Male",
-    "male_surplus": "Male surplus",
-    "female": "Female",
-    "female_surplus": "Female surplus"
+    "female": "Female"
   },
   "doughnut": {
     "metric_1": "Sex",

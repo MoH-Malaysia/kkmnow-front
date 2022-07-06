@@ -111,32 +111,26 @@ export type IDoughnutCharts = {
 // ];
 
 // -----------------------------------------------------------------------------
-// PYRAMID STACKED BAR CHART
+// PYRAMID CHART
 // -----------------------------------------------------------------------------
-export type IBarChartData = {
+export type IPyramidChartData = {
   // keys must be in this exact order
   id: string; // age range
-  male_surplus: number; // negative of actual value
   male: number; // negative of actual value
   female: number;
-  female_surplus: number;
 };
 
 // EXAMPLE
 // [
 //   {
 //     id: "0-4",
-//     male_surplus: -2,
 //     male: -48,
 //     female: 47,
-//     female_surplus: 3,
 //   },
 //   {
 //     id: "5-9",
-//     male_surplus: -2,
 //     male: -48,
 //     female: 47,
-//     female_surplus: 3,
 //   },
 //   // ...
 // ];
