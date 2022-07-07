@@ -59,23 +59,27 @@ const Spotlight: FunctionComponent<SpotlightProps> = ({
           width="w-60"
         />
       </div>
-      <div className="flex w-full flex-wrap items-start gap-3 md:w-auto md:items-center">
-        {/* CURRENT LOCATION */}
-        {currentLocation && <Label color="bg-black" text={currentLocation?.label} />}
-        {/* JITTER COMPARISONS */}
-        {comparisons.length !== 0 &&
-          comparisons.map((comparison, index) => {
-            return (
-              <Label
-                key={index}
-                color={index === 0 ? "bg-[#D44647]" : index === 1 ? "bg-[#2873E8]" : "bg-[#EC9E29]"}
-                text={comparison.label}
-                isClearable={true}
-                handleClear={() => handleClearComparison(comparison)}
-              />
-            );
-          })}
-      </div>
+      {(currentLocation || comparisons.length > 0) && (
+        <div className="flex w-full flex-wrap items-start gap-3 md:w-auto md:items-center">
+          {/* CURRENT LOCATION */}
+          {currentLocation && <Label color="bg-black" text={currentLocation?.label} />}
+          {/* JITTER COMPARISONS */}
+          {comparisons.length !== 0 &&
+            comparisons.map((comparison, index) => {
+              return (
+                <Label
+                  key={index}
+                  color={
+                    index === 0 ? "bg-[#D44647]" : index === 1 ? "bg-[#2873E8]" : "bg-[#EC9E29]"
+                  }
+                  text={comparison.label}
+                  isClearable={true}
+                  handleClear={() => handleClearComparison(comparison)}
+                />
+              );
+            })}
+        </div>
+      )}
     </div>
   );
 };

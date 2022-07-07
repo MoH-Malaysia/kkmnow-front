@@ -45,9 +45,9 @@ const Choropleth = () => {
   // }, [metric, geoFilter]);
 
   return (
-    <div className="py-6">
+    <div className="py-12 md:py-6">
       <SectionHeading>{t("section3_title")}</SectionHeading>
-      <div className="flex h-full w-full flex-col items-center gap-2 md:flex-row md:gap-7">
+      <div className="flex h-full w-full flex-col items-center gap-3 md:flex-row md:gap-7">
         {/* INDICATOR */}
         <div className="flex h-full w-full items-center gap-2 md:w-auto">
           <p className="text-sm">{t("indicator")}:</p>

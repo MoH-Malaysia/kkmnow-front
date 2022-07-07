@@ -27,7 +27,7 @@ const JitterplotSection: FunctionComponent<JitterplotSectionProps> = ({
   const [comparisons, setComparisons] = useState<OptionType[]>([]);
 
   return (
-    <div className="py-6">
+    <div className="py-12 md:py-6">
       <SectionHeading>{t("section2_title1")}</SectionHeading>
       <Spotlight comparisons={comparisons} setComparisons={setComparisons} />
       <Jitterplots areaType={areaType} data={data} comparisons={comparisons} />

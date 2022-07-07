@@ -23,7 +23,7 @@ const DemographicSection: FunctionComponent<DemographicSectionProps> = ({
   const { t } = useTranslation("kawasanku");
 
   return (
-    <div className="py-6">
+    <div className="py-12 md:py-6">
       <SectionHeading>
         {t("section1_title1")} <span className="capitalize underline">{t("malaysia")}</span>{" "}
         {t("section1_title2")}
