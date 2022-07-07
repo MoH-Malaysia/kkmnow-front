@@ -18,6 +18,7 @@ const PyramidChart: FunctionComponent<PyramidChartProps> = ({ data }) => {
         <p>{t("pyramid.male")}</p>
         <p className="text-rose-600">{t("pyramid.female")}</p>
       </div>
+      {/* TODO (@itschrislow): update height */}
       <div className="h-96 min-h-full w-full">
         <ResponsiveBarCanvas
           data={data}
