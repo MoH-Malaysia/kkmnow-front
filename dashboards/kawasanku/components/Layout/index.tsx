@@ -1,21 +1,26 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
 
 import Map from "../Map";
 import Hero from "@components/Hero";
 import Layout from "@components/Layout";
+import Dropdown from "@components/Dropdown";
 import Container from "@components/Container";
 import GoogleMapWrapper from "@components/GoogleMapWrapper";
 
-import { BREAKPOINTS } from "@lib/constants";
+import { BREAKPOINTS, STATES } from "@lib/constants";
+import { DASHBOARD_ROUTES } from "@lib/routes";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 import exampleGeojson from "../../geojson/malaysia.json";
+import { GEO_FILTER } from "@dashboards/kawasanku/lib/constants";
 
 type KawasankuLayoutProps = {
   children: React.ReactNode;
 };
 
 const KawasankuLayout: FunctionComponent<KawasankuLayoutProps> = ({ children }) => {
+  const router = useRouter();
   const { t } = useTranslation("kawasanku");
 
   const width = useWindowWidth();
@@ -59,6 +64,7 @@ const KawasankuLayout: FunctionComponent<KawasankuLayoutProps> = ({ children }) 
           className="z-10 flex w-full lg:grid lg:grid-cols-12"
         >
           <div className="text-dim lg:col-span-7">
+            {/* HERO CONTENT */}
             <div className="mb-10 flex w-full flex-col gap-2">
               <p className="text-sm font-bold uppercase">{t("kawasanku")}</p>
               <h3 className="text-black">{t("header")}</h3>
@@ -80,7 +86,41 @@ const KawasankuLayout: FunctionComponent<KawasankuLayoutProps> = ({ children }) 
                 </p>
               )}
             </div>
-            <p className="text-sm font-bold">{t("filter_title")}</p>
+            {/* FILTERS */}
+            {/* TODO (@itschrislow): update filters onChange function after API is ready */}
+            <div className="flex w-full flex-col gap-2 lg:flex-row lg:items-center">
+              <p className="text-sm font-bold">{t("filter_title")}: </p>
+              <Dropdown
+                onChange={state =>
+                  router.push(`${DASHBOARD_ROUTES.KAWASANKU}/${state.value}`, {
+                    query: router.query,
+                  })
+                }
+                options={STATES.map(state => ({
+                  label: state.name,
+                  value: state.key,
+                }))}
+                placeholder={t("filter1_placeholder")}
+              />
+              <Dropdown
+                onChange={() => {}}
+                options={Object.values(GEO_FILTER).map(geo => ({ label: t(geo), value: geo }))}
+                placeholder={t("filter2_placeholder")}
+              />
+              {/* TODO (@itschrislow): update area options after API is ready */}
+              <Dropdown
+                onChange={area =>
+                  router.push(`${router.pathname}/${area.value}`, {
+                    query: router.query,
+                  })
+                }
+                options={STATES.map(state => ({
+                  label: state.name,
+                  value: state.key,
+                }))}
+                placeholder={t("filter3_placeholder")}
+              />
+            </div>
           </div>
           {/* GOOGLE MAP WRAPPER */}
         </Hero>

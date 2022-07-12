@@ -1,10 +1,10 @@
 import { useTranslation } from "next-i18next";
 import { FunctionComponent, useEffect, useState } from "react";
 
-import { STATES_KEY } from "@dashboards/kawasanku/lib/constants";
-
 import ComboBox from "@components/Combobox";
 import { OptionType } from "@components/types";
+
+import { STATES } from "@lib/constants";
 
 type SpotlightProps = {
   stateKey?: string;
@@ -24,8 +24,8 @@ const Spotlight: FunctionComponent<SpotlightProps> = ({
   const { t } = useTranslation("kawasanku");
 
   const [options, setOptions] = useState<OptionType[]>(
-    Object.values(STATES_KEY).map(state => {
-      return { label: t(`states.${state}`), value: state };
+    Object.values(STATES).map(state => {
+      return { label: state.name, value: state.key };
     })
   );
 
@@ -39,7 +39,7 @@ const Spotlight: FunctionComponent<SpotlightProps> = ({
     setComparisons(comparisons.filter(option => option.value !== removedOption.value));
   };
 
-  // TODO: use fixed area options until API is ready
+  // TODO (@itschrislow): use fixed area options until API is ready
   // useEffect(() => {
   //   if (areaType)
   //     getAreaOptions({ filter: areaType, state: stateKey, withState: true })
