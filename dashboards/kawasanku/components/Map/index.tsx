@@ -47,7 +47,7 @@ const Map: React.FC<MapProps> = ({ height, geojson }) => {
 
   return (
     <div
-      style={{ ...(width < BREAKPOINTS.LG && height && { height: height + 100 }) }}
+      style={{ ...(width < BREAKPOINTS.LG && height && { height: height }) }}
       className="absolute top-0 left-0 -z-10 flex w-full lg:h-full"
       ref={ref}
     />
