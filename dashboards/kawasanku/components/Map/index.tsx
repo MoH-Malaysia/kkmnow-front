@@ -1,11 +1,17 @@
 import { useRef, useEffect } from "react";
 
+import { BREAKPOINTS } from "@lib/constants";
+import { useWindowWidth } from "@hooks/useWindowWidth";
+
 interface MapProps extends google.maps.MapOptions {
+  height?: number;
   geojson: any;
 }
 
-const Map: React.FC<MapProps> = ({ geojson }) => {
+const Map: React.FC<MapProps> = ({ height, geojson }) => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const width = useWindowWidth();
 
   useEffect(() => {
     if (ref.current) {
@@ -39,7 +45,13 @@ const Map: React.FC<MapProps> = ({ geojson }) => {
     }
   }, [geojson]);
 
-  return <div className="absolute top-0 left-0 -z-10 flex h-full w-full" ref={ref} />;
+  return (
+    <div
+      style={{ ...(width < BREAKPOINTS.LG && height && { height: height + 100 }) }}
+      className="absolute top-0 left-0 -z-10 flex w-full lg:h-full"
+      ref={ref}
+    />
+  );
 };
 
 export default Map;
