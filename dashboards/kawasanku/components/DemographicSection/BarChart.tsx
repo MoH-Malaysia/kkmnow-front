@@ -19,7 +19,7 @@ const BarChart: FunctionComponent<BarChartProps> = ({ title, data, height }) => 
       <div style={{ height }} className="relative w-full">
         <div className="absolute top-0 left-0 w-full text-xs">
           {data.map((item, index) => (
-            <div className={`${index < data.length - 1 ? "mb-[10px]" : ""}`}>
+            <div key={index} className={`${index < data.length - 1 ? "mb-[10px]" : ""}`}>
               <div className="mb-1 flex w-full justify-between">
                 <p>{item.id}</p>
                 <p className="text-dim">{item.value}%</p>
