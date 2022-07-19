@@ -66,6 +66,13 @@
       radial-gradient(at 5% 0%, hsla(158, 92%, 80%, 1) 0px, transparent 50%);
   }
 
+  .hero-light-4 {
+    background-color: hsl(25, 100%, 94%);
+    background-image: radial-gradient(at 94% 100%, hsl(3, 100%, 93%), transparent 100%),
+      radial-gradient(at 47% 92%, hsl(20, 100%, 95%) 0px, transparent 50%),
+      radial-gradient(at 5% 0%, hsl(25, 100%, 94%) 0px, transparent 50%);
+  }
+
   .hero-dark-1 {
     background-color: hsla(239, 76%, 28%, 1);
     background-image: radial-gradient(at 22% 0%, hsla(236, 45%, 31%, 1) 0px, transparent 50%),
