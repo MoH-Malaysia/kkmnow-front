@@ -17,8 +17,8 @@
   "section1_title2": "look like?",
   "pyramid": {
     "title": "Population",
-    "male": "Male",
-    "female": "Female"
+    "male": "Lelaki",
+    "female": "Perempuan"
   },
   "snapshot": {
     "sex": "Sex",
@@ -29,12 +29,12 @@
     "agegroup": "Age group",
     "housing": "Occupied dwellings",
     "labour": "Employment status",
-    "sex_male": "Male",
-    "sex_female": "Female",
+    "sex_male": "Lelaki",
+    "sex_female": "Perempuan",
     "ethnicity_bumi": "Bumiputera",
-    "ethnicity_chinese": "Chinese",
-    "ethnicity_indian": "Indian",
-    "ethnicity_other": "Other",
+    "ethnicity_chinese": "Cina",
+    "ethnicity_indian": "India",
+    "ethnicity_other": "Lain",
     "nationality_local": "Citizen",
     "nationality_foreign": "Non-citizen",
     "religion_muslim": "Muslim",
