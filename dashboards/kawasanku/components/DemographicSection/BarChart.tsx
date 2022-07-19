@@ -46,7 +46,7 @@ const BarChart: FunctionComponent<BarChartProps> = ({ title, data, height, trans
             ctx.rect(x, y + 20, width, 10);
             ctx.fill();
           }}
-          tooltip={({ id, formattedValue, color }) => {
+          tooltip={({ formattedValue, color, data: { id } }) => {
             return (
               <div className="flex items-center justify-center rounded-[2px] bg-white py-[5px] px-[9px] shadow">
                 <div className="mr-2 h-3 w-3" style={{ backgroundColor: color }} />
