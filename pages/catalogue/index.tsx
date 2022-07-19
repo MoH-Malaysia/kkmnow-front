@@ -33,32 +33,25 @@ const Catalogue: NextPage = () => {
 
   const [geography, setGeography] = useState<OptionType[]>([]);
 
-  const [dataStart, setDataStart] = useState<OptionType<number>>({
+  const [dataStart, setDataStart] = useState<OptionType<number, number>>({
     label: dataStartOptions[0],
     value: dataStartOptions[0],
   });
 
-  const [dataEnd, setDataEnd] = useState<OptionType<number>>({
+  const [dataEnd, setDataEnd] = useState<OptionType<number, number>>({
     label: dataEndOptions[0],
     value: dataEndOptions[0],
   });
 
   const [dataSource, setDataSource] = useState<OptionType[]>([]);
 
-  const exampleCatalogCategories = [
-    "Health",
-    "Transport",
-    "Geography",
-    "Education",
-  ];
+  const exampleCatalogCategories = ["Health", "Transport", "Geography", "Education"];
 
   const exampleCatalogData = Array(4)
     .fill(0)
     .map((_, i) => ({
       title: exampleCatalogCategories[i],
-      datasets: Array(14).fill(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-      ),
+      datasets: Array(14).fill("Lorem ipsum dolor sit amet, consectetur adipiscing elit"),
     }));
 
   const handleClearFilters = () => {
@@ -97,18 +90,14 @@ const Catalogue: NextPage = () => {
       <Hero background="hero-light-1">
         <h3 className="mb-2">Data Catalogue</h3>
         <p className="max-w-3xl text-dim">
-          Your one-stop interface to browse Malaysia's wealth of open data. This
-          page documents not just the data used on AKSARA, but all open data
-          from all Malaysian government agencies.
+          Your one-stop interface to browse Malaysia's wealth of open data. This page documents not
+          just the data used on AKSARA, but all open data from all Malaysian government agencies.
         </p>
       </Hero>
       <Container className="min-h-screen pb-5">
         {/* SEARCH BAR & FILTERS */}
         <div className="sticky top-[56px] flex items-center justify-between border-b border-outline bg-white py-2">
-          <Search
-            query={query}
-            onChange={(query?: string) => setQuery(query)}
-          />
+          <Search query={query} onChange={(query?: string) => setQuery(query)} />
           <div className="flex items-center gap-2">
             {isDefaultFilters ? (
               <p className="text-sm text-dim">Filters: </p>
@@ -123,17 +112,18 @@ const Catalogue: NextPage = () => {
             )}
             <Dropdown
               selected={interval}
-              setSelected={setInterval}
+              onChange={setInterval}
               options={intervalOptions.map(option => ({
                 label: option,
                 value: option,
               }))}
+              width="w-40"
             />
             <Dropdown
               multiple={true}
               title="Geography"
               selected={geography}
-              setSelected={(option: OptionType) =>
+              onChange={(option: OptionType) =>
                 handleSelectMultipleDropdown(option, geography, setGeography)
               }
               clearSelected={() => setGeography([])}
@@ -141,30 +131,33 @@ const Catalogue: NextPage = () => {
                 label: option,
                 value: option,
               }))}
+              width="w-40"
             />
-            <Dropdown<number>
+            <Dropdown<number, number>
               description="Dataset begins from"
               selected={dataStart}
-              setSelected={setDataStart}
+              onChange={setDataStart}
               options={dataStartOptions.map(option => ({
                 label: option,
                 value: option,
               }))}
+              width="w-40"
             />
-            <Dropdown<number>
+            <Dropdown<number, number>
               description="Most recent datapoint"
               selected={dataEnd}
-              setSelected={setDataEnd}
+              onChange={setDataEnd}
               options={dataEndOptions.map(option => ({
                 label: option,
                 value: option,
               }))}
+              width="w-40"
             />
             <Dropdown
               multiple={true}
               title="Data source"
               selected={dataSource}
-              setSelected={(option: OptionType) =>
+              onChange={(option: OptionType) =>
                 handleSelectMultipleDropdown(option, dataSource, setDataSource)
               }
               clearSelected={() => setDataSource([])}
@@ -172,6 +165,7 @@ const Catalogue: NextPage = () => {
                 label: option,
                 value: option,
               }))}
+              width="w-40"
             />
           </div>
         </div>
@@ -185,8 +179,7 @@ const Catalogue: NextPage = () => {
                   {catalog.datasets.map((dataset, datasetIndex) => (
                     <Link href="/" key={datasetIndex}>
                       <ul className="text-link">
-                        {(datasetIndex + 1).toString().padStart(2, "0")}{" "}
-                        {dataset}
+                        {(datasetIndex + 1).toString().padStart(2, "0")} {dataset}
                       </ul>
                     </Link>
                   ))}

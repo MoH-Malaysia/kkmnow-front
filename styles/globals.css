@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* TAILWIND CSS */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* DASHBOARDS CSS */
+@import "./dashboards/kawasanku.css";
 
 @layer base {
   h1 {
