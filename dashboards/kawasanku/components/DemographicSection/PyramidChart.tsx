@@ -3,27 +3,27 @@ import { useTranslation } from "next-i18next";
 import { BarDatum, ResponsiveBarCanvas } from "@nivo/bar";
 
 import { formatNumberPrefix } from "@lib/helpers";
-import { IPyramidChartData } from "@dashboards/kawasanku/lib/types";
 
-export type PyramidChartProps = {
-  data: BarDatum extends IPyramidChartData[] ? IPyramidChartData[] : BarDatum[];
+type PyramidChartProps = {
+  keys: string[];
+  data: BarDatum[];
+  translationPrefix: string;
 };
 
-const PyramidChart: FunctionComponent<PyramidChartProps> = ({ data }) => {
+const PyramidChart: FunctionComponent<PyramidChartProps> = ({ keys, data, translationPrefix }) => {
   const { t } = useTranslation("kawasanku");
 
   return (
-    <div>
+    <div className="h-full">
       <div className="flex items-center justify-between pl-10 text-xs font-medium">
-        <p>{t("pyramid.male")}</p>
-        <p className="text-rose-600">{t("pyramid.female")}</p>
+        <p>{t(`${translationPrefix}.${keys[0]}`)}</p>
+        <p className="text-rose-600">{t(`${translationPrefix}.${keys[1]}`)}</p>
       </div>
-      {/* TODO (@itschrislow): update height */}
-      <div className="h-96 min-h-full w-full">
+      <div className="h-96 w-full md:h-[440px]">
         <ResponsiveBarCanvas
           data={data}
           indexBy="id"
-          keys={["male", "female"]}
+          keys={keys}
           margin={{ top: 0, right: 20, bottom: 20, left: 45 }}
           padding={0.3}
           layout="horizontal"
@@ -40,7 +40,7 @@ const PyramidChart: FunctionComponent<PyramidChartProps> = ({ data }) => {
               <div className="flex items-center justify-center rounded-[2px] bg-white py-[5px] px-[9px] shadow">
                 <div className="mr-2 h-3 w-3" style={{ backgroundColor: color }} />
                 <p>
-                  {t(`pyramid.${id}`)}:{" "}
+                  {t(`${translationPrefix}.${id}`)}:{" "}
                   <span className="font-bold">
                     {formattedValue[0] === "-" ? formattedValue.substring(1) : formattedValue}
                   </span>

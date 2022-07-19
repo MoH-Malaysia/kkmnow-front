@@ -1,10 +1,8 @@
 import dynamic from "next/dynamic";
-import { BarDatum } from "@nivo/bar";
 import { FunctionComponent } from "react";
 import { useTranslation } from "next-i18next";
 
-import { IBarChartData } from "@lib/types";
-import { IPyramidChartData } from "@dashboards/kawasanku/lib/types";
+import { IBarChartData, IPyramidChartData } from "@lib/types";
 
 import ChartTitle from "./ChartTitle";
 import SectionHeading from "../SectionHeading";
@@ -14,7 +12,7 @@ const PyramidChart = dynamic(() => import("./PyramidChart"), { ssr: false });
 
 type DemographicSectionProps = {
   snapshotData: IBarChartData;
-  pyramidChartData: BarDatum[] extends IPyramidChartData[] ? IPyramidChartData[] : BarDatum[];
+  pyramidChartData: IPyramidChartData;
 };
 
 const DemographicSection: FunctionComponent<DemographicSectionProps> = ({
@@ -36,7 +34,11 @@ const DemographicSection: FunctionComponent<DemographicSectionProps> = ({
         {/* POPULATION PYRAMID CHART */}
         <div className="w-full lg:w-1/4">
           <ChartTitle>{t("pyramid.title")}</ChartTitle>
-          <PyramidChart data={pyramidChartData} />
+          <PyramidChart
+            keys={pyramidChartData.keys}
+            data={pyramidChartData.data}
+            translationPrefix="pyramid"
+          />
         </div>
         {/* SNAPSHOT BAR CHARTS */}
         <div className="grid w-full grid-cols-1 gap-12 md:grid-cols-3 lg:w-3/4">

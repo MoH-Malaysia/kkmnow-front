@@ -25,3 +25,14 @@ export interface IChart {
 export interface IBarChartData extends IChart {
   data: BarDatum[];
 }
+
+// PYRAMID CHART
+interface PyramidChartInterface extends IChart {
+  data: { [key: string]: number }[];
+}
+
+type PyramidChartType = {
+  data: { id: string }[];
+};
+
+export type IPyramidChartData = PyramidChartInterface & PyramidChartType;

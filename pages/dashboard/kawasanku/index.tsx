@@ -13,7 +13,10 @@ import JitterplotSection from "@dashboards/kawasanku/components/JitterplotSectio
 import ChoroplethSection from "@dashboards/kawasanku/components/ChoroplethSection";
 import DemographicSection from "@dashboards/kawasanku/components/DemographicSection";
 
-const Kawasanku: Page = ({ snapshotData }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Kawasanku: Page = ({
+  pyramidChartData,
+  snapshotData,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   // TODO (@itschrislow): replace example data with real data from API
   let jitteplotData: any = {};
 
@@ -32,20 +35,6 @@ const Kawasanku: Page = ({ snapshotData }: InferGetStaticPropsType<typeof getSta
           ],
         }));
     });
-
-  let pyramidChartData = Array(20)
-    .fill(0)
-    .map((_, i) => ({
-      id: `${i * 5} - ${i * 5 + 5 - 1}`,
-      male: Math.floor(Math.random() * -500000),
-      female: Math.floor(Math.random() * 500000),
-    }));
-
-  pyramidChartData.push({
-    id: `100+`,
-    male: Math.floor(Math.random() * -500000),
-    female: Math.floor(Math.random() * 500000),
-  });
 
   return (
     <div className="divide-y">
@@ -68,11 +57,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     location: MALAYSIA.key,
   });
 
+  const pyramidChartData = data.pyramid_chart.population_age;
   const snapshotData = data.bar_chart;
 
   return {
     props: {
       ...translation,
+      pyramidChartData,
       snapshotData,
     },
   };

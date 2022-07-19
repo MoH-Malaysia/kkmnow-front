@@ -4,6 +4,9 @@ export type IKawasankuDashboard = {
   bar_chart: {
     [key: string]: IBarChartData;
   };
+  pyramid_chart: {
+    population_age: IPyramidChartData;
+  };
 };
 
 // -----------------------------------------------------------------------------
