@@ -2,15 +2,18 @@ import { FunctionComponent } from "react";
 import { useTranslation } from "next-i18next";
 import { BarDatum, ResponsiveBarCanvas } from "@nivo/bar";
 
+import { replaceChartIdWithTranslation } from "@lib/helpers";
+
 import ChartTitle from "./ChartTitle";
 
 type BarChartProps = {
   title: string;
   data: BarDatum[];
   height: number;
+  translationPrefix: string;
 };
 
-const BarChart: FunctionComponent<BarChartProps> = ({ title, data, height }) => {
+const BarChart: FunctionComponent<BarChartProps> = ({ title, data, height, translationPrefix }) => {
   const { t } = useTranslation("kawasanku");
 
   return (
@@ -18,18 +21,18 @@ const BarChart: FunctionComponent<BarChartProps> = ({ title, data, height }) => 
       <ChartTitle>{title}</ChartTitle>
       <div style={{ height }} className="relative w-full">
         <div className="absolute top-0 left-0 w-full text-xs">
-          {data.map((item, index) => (
+          {replaceChartIdWithTranslation(t, translationPrefix, data).map((item, index) => (
             <div key={index} className={`${index < data.length - 1 ? "mb-[10px]" : ""}`}>
               <div className="mb-1 flex w-full justify-between">
                 <p>{item.id}</p>
-                <p className="text-dim">{item.value}%</p>
+                <p className="text-dim">{Number(item.value).toFixed(1)}%</p>
               </div>
               <div className="h-[10px] w-full bg-washed"></div>
             </div>
           ))}
         </div>
         <ResponsiveBarCanvas
-          data={data}
+          data={data.slice().reverse()}
           layout="horizontal"
           minValue={0}
           maxValue={100}

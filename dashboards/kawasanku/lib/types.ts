@@ -1,3 +1,11 @@
+import { IBarChartData } from "@lib/types";
+
+export type IKawasankuDashboard = {
+  bar_chart: {
+    [key: string]: IBarChartData;
+  };
+};
+
 // -----------------------------------------------------------------------------
 // GEOJSON
 // -----------------------------------------------------------------------------

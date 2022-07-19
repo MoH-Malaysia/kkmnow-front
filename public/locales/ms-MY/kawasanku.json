@@ -1,3 +1,11 @@
 {
-  "test": "test malay"
+  "test": "test malay",
+  "snapshot": {
+    "sex_male": "Lelaki",
+    "sex_female": "Perempuan",
+    "ethnicity_bumi": "Bumiputera",
+    "ethnicity_chinese": "Cina",
+    "ethnicity_indian": "India",
+    "ethnicity_other": "Lain"
+  }
 }

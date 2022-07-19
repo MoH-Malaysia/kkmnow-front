@@ -5,6 +5,11 @@ export enum BREAKPOINTS {
   XL = 1440,
 }
 
+export const MALAYSIA = {
+  key: "mys",
+  name: "Malaysia",
+};
+
 export const STATES = [
   {
     key: "jhr",
@@ -71,3 +76,7 @@ export const STATES = [
     name: "W.P.Putrajaya",
   },
 ];
+
+export enum DASHBOARDS {
+  KAWASANKU = "kawasanku",
+}
