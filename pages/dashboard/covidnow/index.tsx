@@ -1,7 +1,13 @@
 import { Hero, Container } from "@components/index";
 import { post } from "@lib/api";
-import { BarLine, Choropleth, Line, Stages, Table } from "@dashboards/covidnow/components";
+import dynamic from "next/dynamic";
+import { Choropleth, Stages, Table } from "@dashboards/covidnow/components";
+
 import { InferGetStaticPropsType, GetStaticProps } from "next";
+
+const BarLine = dynamic(() => import("@dashboards/covidnow/components/BarLine"), { ssr: false });
+const Line = dynamic(() => import("@dashboards/covidnow/components/Line"), { ssr: false });
+// dynamic(() => import('@dashboards/covidnow/components/index').then(components => components))
 
 const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -53,7 +59,16 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-2">
-            <Line></Line>
+            <Line
+              className="h-[450px] w-full"
+              title="Snapshot of Key Variables"
+              gridYValues={[0, 25, 50, 75, 100]}
+              unitY="%"
+              enableGridX={false}
+              enablePointLabel={true}
+              minY={0}
+              maxY={100}
+            />
             <Choropleth></Choropleth>
           </div>
         </section>
