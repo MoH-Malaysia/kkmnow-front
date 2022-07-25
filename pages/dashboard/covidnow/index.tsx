@@ -36,13 +36,13 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <h4>How are COVID-19 key indicators trending?</h4>
             <span className="text-dim">Data as of {new Date().toDateString()}</span>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-            <BarLine></BarLine>
-            <BarLine></BarLine>
-            <BarLine></BarLine>
-            <BarLine></BarLine>
-            <BarLine></BarLine>
-            <BarLine></BarLine>
+          <div className="grid grid-cols-1 gap-12 py-6 lg:grid-cols-2 xl:grid-cols-3">
+            <BarLine title="Deaths by Date of Death"></BarLine>
+            <BarLine title="Patients Ventilated"></BarLine>
+            <BarLine title="Patients in ICU"></BarLine>
+            <BarLine title="Hospital Admissions"></BarLine>
+            <BarLine title="Confirmed Cases"></BarLine>
+            <BarLine title="Tests Conducted"></BarLine>
           </div>
         </section>
         <section className="border-b py-12">
@@ -64,8 +64,8 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               title="Snapshot of Key Variables"
               gridYValues={[0, 25, 50, 75, 100]}
               unitY="%"
-              enableGridX={false}
               enablePointLabel={true}
+              enableGridX={false}
               minY={0}
               maxY={100}
             />

@@ -10,6 +10,12 @@ export const isObjInArr = (arr: any[], obj: any) => {
   return arr.some((item: any) => isObjEqual(item, obj));
 };
 
+export const maxBy = (array: Array<any>, key: string) => {
+  return array.reduce((prev, current) => {
+    return prev[key] > current[key] ? prev : current;
+  });
+};
+
 export const handleSelectMultipleDropdown = (
   selectedOption: OptionType,
   options: OptionType[],

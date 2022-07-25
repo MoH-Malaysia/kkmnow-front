@@ -10,9 +10,25 @@ interface LineProps {
   gridYValues?: Array<number> | undefined;
   minY?: number | "auto";
   maxY?: number | "auto";
+  curve?:
+    | "basis"
+    | "cardinal"
+    | "catmullRom"
+    | "linear"
+    | "monotoneX"
+    | "monotoneY"
+    | "natural"
+    | "step"
+    | "stepAfter"
+    | "stepBefore"
+    | undefined;
+  interactive?: boolean;
+  enablePointLabel?: boolean;
+  enableLabel?: boolean;
   enableGridX?: boolean;
   enableGridY?: boolean;
-  enablePointLabel?: boolean;
+  enableAxisY?: boolean;
+  enableAxisX?: boolean;
 }
 
 const Line: FunctionComponent<LineProps> = ({
@@ -21,11 +37,15 @@ const Line: FunctionComponent<LineProps> = ({
   unitX,
   unitY,
   data = dummy,
+  curve = "linear",
+  enablePointLabel = false,
   enableGridX = true,
   enableGridY = true,
-  enablePointLabel = false,
+  enableAxisX = true,
+  enableAxisY = true,
   gridXValues = undefined,
   gridYValues = undefined,
+  interactive = true,
   minY = "auto",
   maxY = "auto",
 }) => {
@@ -35,12 +55,16 @@ const Line: FunctionComponent<LineProps> = ({
       <div className="h-full w-full">
         <ResponsiveLine
           data={data}
-          axisLeft={{
-            tickSize: 0,
-            tickPadding: 10,
-            tickValues: gridYValues,
-            format: value => (unitY ? value.toString().concat(unitY) : value),
-          }}
+          axisLeft={
+            enableAxisY
+              ? {
+                  tickSize: 0,
+                  tickPadding: 10,
+                  tickValues: gridYValues,
+                  format: value => (unitY ? value.toString().concat(unitY) : value),
+                }
+              : null
+          }
           theme={{
             grid: {
               line: {
@@ -49,17 +73,22 @@ const Line: FunctionComponent<LineProps> = ({
               },
             },
           }}
+          curve={curve}
           enableGridX={enableGridX}
           enableGridY={enableGridY}
-          axisBottom={{
-            tickSize: 0,
-            tickPadding: 5,
-            tickRotation: 0,
-            legend: "x-axis title",
-            legendPosition: "middle",
-            legendOffset: 36,
-            format: value => (unitX ? value.toString().concat(unitX) : value),
-          }}
+          axisBottom={
+            enableAxisX
+              ? {
+                  tickSize: 0,
+                  tickPadding: 5,
+                  tickRotation: 0,
+                  legend: "x-axis title",
+                  legendPosition: "middle",
+                  legendOffset: 36,
+                  format: value => (unitX ? value.toString().concat(unitX) : value),
+                }
+              : null
+          }
           margin={{ top: 40, right: 10, bottom: 40, left: 40 }}
           xScale={{
             type: "linear",
@@ -75,7 +104,8 @@ const Line: FunctionComponent<LineProps> = ({
             max: maxY,
             clamp: true,
           }}
-          useMesh={true}
+          isInteractive={interactive}
+          useMesh={interactive}
           enablePointLabel={enablePointLabel}
           pointLabelYOffset={-14}
           pointLabel={function (t) {
