@@ -1,12 +1,15 @@
 import { Hero, Container } from "@components/index";
 import { post } from "@lib/api";
 import dynamic from "next/dynamic";
-import { Choropleth, Stages, Table } from "@dashboards/covidnow/components";
+import { Stages, Table } from "@dashboards/covidnow/components";
 
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 
 const BarLine = dynamic(() => import("@dashboards/covidnow/components/BarLine"), { ssr: false });
 const Line = dynamic(() => import("@dashboards/covidnow/components/Line"), { ssr: false });
+const Choropleth = dynamic(() => import("@dashboards/covidnow/components/Choropleth"), {
+  ssr: false,
+});
 // dynamic(() => import('@dashboards/covidnow/components/index').then(components => components))
 
 const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -17,7 +20,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           <span className="text-sm font-bold uppercase tracking-widest text-dim">covid-19</span>
           <h3 className="text-black">The latest data on the pandemic in Malaysia.</h3>
           <p className="text-dim">
-            Drawing from the Ministry of Health’s excellent COVIDNOW dashboard, this page allows you
+            Drawing from the Ministry of Health's excellent COVIDNOW dashboard, this page allows you
             to track the evolution of the epidemic in Malaysia on a daily basis.
           </p>
           <p className="text-dim">
@@ -58,7 +61,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               <BarLine></BarLine>
             </div>
           </div>
-          <div className="grid grid-cols-1 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <Line
               className="h-[450px] w-full"
               title="Snapshot of Key Variables"
@@ -69,7 +72,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               minY={0}
               maxY={100}
             />
-            <Choropleth></Choropleth>
+            <Choropleth title="Geographic Distribution of Key Variables"></Choropleth>
           </div>
         </section>
         <section className="border-b py-12">
