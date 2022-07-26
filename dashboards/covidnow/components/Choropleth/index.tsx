@@ -12,13 +12,13 @@ import { features as ParliamentMobile } from "../../../kawasanku/geojson/parlime
 import { features as DunDesktop } from "../../../kawasanku/geojson/dun_desktop.json";
 import { features as DunMobile } from "../../../kawasanku/geojson/dun_mobile.json";
 
+/**
+ * Choropleth component
+ */
 interface ChoroplethProps {
   className?: string;
   title?: string;
   data?: any;
-}
-interface ChoroplethScaleProps {
-  colors: string[];
 }
 
 const Choropleth: FunctionComponent<ChoroplethProps> = ({
@@ -61,6 +61,12 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   );
 };
 
+/**
+ * Choropleth Scale Component
+ */
+interface ChoroplethScaleProps {
+  colors: string[];
+}
 const ChoroplethScale: FunctionComponent<ChoroplethScaleProps> = ({ colors }) => {
   const [min, max] = [colors[0], colors[colors.length - 1]];
 
@@ -78,11 +84,11 @@ const ChoroplethScale: FunctionComponent<ChoroplethScaleProps> = ({ colors }) =>
   );
 };
 
-export default Choropleth;
-
 const dummyData = [
   {
     id: "MYS",
     value: 416502,
   },
 ];
+
+export default Choropleth;
