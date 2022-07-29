@@ -1,5 +1,5 @@
 import { ResponsiveChoropleth } from "@nivo/geo";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, ReactElement, useState } from "react";
 import {
   CHOROPLETH_RED_SCALE,
   CHOROPLETH_GREEN_SCALE,
@@ -17,12 +17,14 @@ import { features as DunMobile } from "../../../kawasanku/geojson/dun_mobile.jso
  */
 interface ChoroplethProps {
   className?: string;
+  menu?: ReactElement;
   title?: string;
   data?: any;
 }
 
 const Choropleth: FunctionComponent<ChoroplethProps> = ({
   className = "w-full h-[400px]",
+  menu,
   title,
   data = dummyData,
 }) => {
@@ -36,7 +38,10 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   };
   return (
     <div>
-      {title && <span className="text-base font-bold">{title}</span>}
+      <div className="grid grid-cols-2">
+        <span className="text-base font-bold">{title ?? ""}</span>
+        {menu && <div className="flex justify-end">{menu}</div>}
+      </div>
       <div className={className}>
         <ResponsiveChoropleth
           data={data}

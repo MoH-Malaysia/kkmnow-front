@@ -1,10 +1,11 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 import { AxisTickProps } from "@nivo/axes";
 import { line, curveMonotoneX } from "d3-shape";
 
 interface BarProps {
   className?: string;
+  menu?: ReactElement;
   title?: string;
   indexBy?: string;
   keys?: string[];
@@ -40,6 +41,7 @@ const LineLayer = ({ bars, xScale, yScale }) => {
 
 const Bar: FunctionComponent<BarProps> = ({
   className = "w-full h-full", // manage CSS here
+  menu,
   title,
   unitX,
   unitY,
@@ -65,7 +67,10 @@ const Bar: FunctionComponent<BarProps> = ({
 }) => {
   return (
     <div className={className}>
-      {title && <span className="text-base font-bold">{title}</span>}
+      <div className="grid grid-cols-2">
+        <span className="text-base font-bold">{title ?? ""}</span>
+        {menu && <div className="flex justify-end">{menu}</div>}
+      </div>
       <div className="h-full w-full">
         <ResponsiveBar
           data={data}

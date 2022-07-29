@@ -1,4 +1,4 @@
-import { Hero, Container, Tabs, Panel } from "@components/index";
+import { Hero, Container, Tabs, Panel, MenuDropdown } from "@components/index";
 import { post } from "@lib/api";
 import dynamic from "next/dynamic";
 import { Stages, Table } from "@dashboards/covidnow/components";
@@ -65,12 +65,12 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <span className="text-dim">Data as of {new Date().toDateString()}</span>
           </div>
           <div className="grid grid-cols-1 gap-12 py-6 lg:grid-cols-2 xl:grid-cols-3">
-            <BarLine title="Deaths by Date of Death"></BarLine>
-            <BarLine title="Patients Ventilated"></BarLine>
-            <BarLine title="Patients in ICU"></BarLine>
-            <BarLine title="Hospital Admissions"></BarLine>
-            <BarLine title="Confirmed Cases"></BarLine>
-            <BarLine title="Tests Conducted"></BarLine>
+            <BarLine title="Deaths by Date of Death" menu={<MenuDropdown />} />
+            <BarLine title="Patients Ventilated" menu={<MenuDropdown />} />
+            <BarLine title="Patients in ICU" menu={<MenuDropdown />} />
+            <BarLine title="Hospital Admissions" menu={<MenuDropdown />} />
+            <BarLine title="Confirmed Cases" menu={<MenuDropdown />} />
+            <BarLine title="Tests Conducted" menu={<MenuDropdown />} />
           </div>
         </section>
         <section className="border-b py-12">
@@ -78,12 +78,19 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <h4>What does the latest data show?</h4>
             <span className="text-dim">Data as of {new Date().toDateString()}</span>
           </div>
-          <div className="grid grid-cols-1 py-6 lg:grid-cols-4">
-            <div className="col-span-1 lg:col-span-3">
-              <Stages title="Active COVID-19 Cases" className="pt-10"></Stages>
+          <div className="grid grid-cols-1 gap-12 py-6 lg:grid-cols-3">
+            <div className="col-span-1 lg:col-span-2">
+              <Stages title="Active COVID-19 Cases" className="pt-10" menu={<MenuDropdown />} />
             </div>
             <div className="col-span-1">
-              <span className="block pb-4 text-base font-bold">{TabsMenu[currentTab].title}</span>
+              {/* <span className="block pb-4 text-base font-bold">{TabsMenu[currentTab].title}</span> */}
+              <div className="grid grid-cols-2">
+                <span className="block pb-4 text-base font-bold">{TabsMenu[currentTab].title}</span>
+                <div className="flex justify-end">
+                  <MenuDropdown />
+                </div>
+              </div>
+
               <Tabs onChange={selectTab}>
                 {TabsMenu.map((menu, index) => {
                   return (
@@ -185,6 +192,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <Line
               className="h-[450px] w-full"
+              menu={<MenuDropdown />}
               title="Snapshot of Key Variables"
               gridYValues={[0, 25, 50, 75, 100]}
               unitY="%"
@@ -193,7 +201,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               minY={0}
               maxY={100}
             />
-            <Choropleth title="Geographic Distribution of Key Variables"></Choropleth>
+            <Choropleth title="Geographic Distribution of Key Variables" menu={<MenuDropdown />} />
           </div>
         </section>
         <section className="border-b py-12">

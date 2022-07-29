@@ -1,7 +1,8 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
 interface LineProps {
   className?: string;
+  menu?: ReactElement;
   title?: string;
   data?: any;
   unitX?: string;
@@ -33,6 +34,7 @@ interface LineProps {
 
 const Line: FunctionComponent<LineProps> = ({
   className = "w-full h-full", // manage CSS here
+  menu,
   title,
   unitX,
   unitY,
@@ -51,7 +53,10 @@ const Line: FunctionComponent<LineProps> = ({
 }) => {
   return (
     <div className={className}>
-      {title && <span className="text-base font-bold">{title}</span>}
+      <div className="grid grid-cols-2">
+        <span className="text-base font-bold">{title ?? ""}</span>
+        {menu && <div className="flex justify-end">{menu}</div>}
+      </div>
       <div className="h-full w-full">
         <ResponsiveLine
           data={data}

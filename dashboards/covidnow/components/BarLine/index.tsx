@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactElement } from "react";
 import { Tooltip } from "@components/index";
 import { maxBy } from "@lib/helpers";
 import { Bar } from "..";
@@ -11,6 +11,7 @@ interface BarLineProps {
   indexBy?: string;
   keys?: Array<string>;
   data?: Array<any>;
+  menu?: ReactElement;
 }
 
 const BarLine: FunctionComponent<BarLineProps> = ({
@@ -18,6 +19,7 @@ const BarLine: FunctionComponent<BarLineProps> = ({
   indexBy = "x",
   keys = ["y"],
   data = dummyBar,
+  menu,
 }) => {
   const generateXTicks = (data: any, key: string, count: number) => {
     let ticks: Array<any> = [];
@@ -45,7 +47,10 @@ const BarLine: FunctionComponent<BarLineProps> = ({
   // TODO: Add dropdown menu option
   return (
     <div>
-      {title && <span className="text-base font-bold">{title}</span>}
+      <div className="grid grid-cols-2">
+        <span className="text-base font-bold">{title ?? ""}</span>
+        {menu && <div className="flex justify-end">{menu}</div>}
+      </div>
       <Stats data={dummyStats} className="py-4"></Stats>
       <Bar
         className="h-[370px] w-full"

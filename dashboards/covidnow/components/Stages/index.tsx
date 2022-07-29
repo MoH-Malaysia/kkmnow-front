@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactElement, ReactNode } from "react";
 import { ArrowRightIcon } from "@heroicons/react/solid";
 
 /**
@@ -7,12 +7,16 @@ import { ArrowRightIcon } from "@heroicons/react/solid";
 interface StagesProps {
   className?: string;
   title?: string;
+  menu?: ReactElement;
 }
 
-const Stages: FunctionComponent<StagesProps> = ({ title, className = "" }) => {
+const Stages: FunctionComponent<StagesProps> = ({ title, className = "", menu }) => {
   return (
     <div>
-      {title && <span className="text-base font-bold">{title}</span>}
+      <div className="grid grid-cols-2">
+        <span className="text-base font-bold">{title ?? ""}</span>
+        {menu && <div className="flex justify-end">{menu}</div>}
+      </div>
       <div className={className}>
         {/* Active Cases */}
         <div className="m-auto w-fit rounded bg-washed py-1.5 px-3 text-center">
