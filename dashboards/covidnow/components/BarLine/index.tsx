@@ -56,6 +56,7 @@ const BarLine: FunctionComponent<BarLineProps> = ({
         gridYValues={generateYTicks(data, "y", 5)}
         enableGridX={false}
         enableGridY={true}
+        enableLine={true}
         maxY={Math.floor(1.25 * maxBy(data, "y").y)}
       />
     </div>

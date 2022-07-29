@@ -5,6 +5,7 @@ import { Stages, Table } from "@dashboards/covidnow/components";
 
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 
+const Bar = dynamic(() => import("@dashboards/covidnow/components/Bar"), { ssr: false });
 const BarLine = dynamic(() => import("@dashboards/covidnow/components/BarLine"), { ssr: false });
 const Line = dynamic(() => import("@dashboards/covidnow/components/Line"), { ssr: false });
 const Choropleth = dynamic(() => import("@dashboards/covidnow/components/Choropleth"), {
@@ -57,8 +58,17 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <div className="col-span-1 lg:col-span-3">
               <Stages></Stages>
             </div>
-            <div className="col-span-1">
-              <BarLine></BarLine>
+            <div className="col-span-1 h-[550px]">
+              <Bar
+                interactive={false}
+                indexBy="state"
+                customTickX="state"
+                enableLabel={true}
+                enableAxisX={false}
+                enableGridX={false}
+                enableGridY={false}
+                layout="horizontal"
+              />
             </div>
           </div>
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
