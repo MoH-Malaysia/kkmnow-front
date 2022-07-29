@@ -66,12 +66,12 @@ const Bar: FunctionComponent<BarProps> = ({
   maxY = "auto",
 }) => {
   return (
-    <div className={className}>
+    <div>
       <div className="grid grid-cols-2">
         <span className="text-base font-bold">{title ?? ""}</span>
-        {menu && <div className="flex justify-end">{menu}</div>}
+        {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
       </div>
-      <div className="h-full w-full">
+      <div className={className}>
         <ResponsiveBar
           data={data}
           indexBy={indexBy}

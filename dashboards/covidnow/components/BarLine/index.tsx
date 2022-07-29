@@ -44,12 +44,11 @@ const BarLine: FunctionComponent<BarLineProps> = ({
     return ticks;
   };
 
-  // TODO: Add dropdown menu option
   return (
     <div>
       <div className="grid grid-cols-2">
         <span className="text-base font-bold">{title ?? ""}</span>
-        {menu && <div className="flex justify-end">{menu}</div>}
+        {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
       </div>
       <Stats data={dummyStats} className="py-4"></Stats>
       <Bar

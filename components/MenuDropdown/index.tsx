@@ -8,7 +8,7 @@ const MenuDropdown: FunctionComponent<MenuDropdownProps> = () => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button>
-        <DotsHorizontalIcon className="h-4 w-4"></DotsHorizontalIcon>
+        <DotsHorizontalIcon className="h-4 px-2"></DotsHorizontalIcon>
       </Menu.Button>
       <Transition
         as={Fragment}

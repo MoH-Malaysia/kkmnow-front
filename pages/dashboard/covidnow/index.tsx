@@ -1,4 +1,4 @@
-import { Hero, Container, Tabs, Panel, MenuDropdown } from "@components/index";
+import { Hero, Container, Tabs, Panel, MenuDropdown, Dropdown, Tooltip } from "@components/index";
 import { post } from "@lib/api";
 import dynamic from "next/dynamic";
 import { Stages, Table } from "@dashboards/covidnow/components";
@@ -7,6 +7,7 @@ import { useState } from "react";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 
 const Bar = dynamic(() => import("@dashboards/covidnow/components/Bar"), { ssr: false });
+const Donut = dynamic(() => import("@dashboards/covidnow/components/Donut"), { ssr: false });
 const BarLine = dynamic(() => import("@dashboards/covidnow/components/BarLine"), { ssr: false });
 const Line = dynamic(() => import("@dashboards/covidnow/components/Line"), { ssr: false });
 const Choropleth = dynamic(() => import("@dashboards/covidnow/components/Choropleth"), {
@@ -61,6 +62,74 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Container className="min-h-screen">
         <section className="border-b py-12">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+            <h4>Utilizations</h4>
+            <span className="text-dim">Data as of {new Date().toDateString()}</span>
+          </div>
+          <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
+            <div className="flex items-center gap-3">
+              <Donut className="h-[56px] w-[56px]" />
+              <div>
+                <p className="text-dim">Ventilators</p>
+                <Tooltip
+                  trigger={
+                    <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                      74.3%
+                    </span>
+                  }
+                >
+                  Tooltip for Ventilators
+                </Tooltip>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Donut className="h-[56px] w-[56px]" />
+              <div>
+                <p className="text-dim">ICUs</p>
+                <Tooltip
+                  trigger={
+                    <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                      74.3%
+                    </span>
+                  }
+                >
+                  Tooltip for ICUs
+                </Tooltip>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Donut className="h-[56px] w-[56px]" />
+              <div>
+                <p className="text-dim">Hospital Beds</p>
+                <Tooltip
+                  trigger={
+                    <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                      74.3%
+                    </span>
+                  }
+                >
+                  Tooltip for Hospital Beds
+                </Tooltip>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Donut className="h-[56px] w-[56px]" />
+              <div>
+                <p className="text-dim">PKRC</p>
+                <Tooltip
+                  trigger={
+                    <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                      74.3%
+                    </span>
+                  }
+                >
+                  Tooltip for PKRC
+                </Tooltip>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="border-b py-12">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
             <h4>How are COVID-19 key indicators trending?</h4>
             <span className="text-dim">Data as of {new Date().toDateString()}</span>
           </div>
@@ -83,7 +152,6 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               <Stages title="Active COVID-19 Cases" className="pt-10" menu={<MenuDropdown />} />
             </div>
             <div className="col-span-1">
-              {/* <span className="block pb-4 text-base font-bold">{TabsMenu[currentTab].title}</span> */}
               <div className="grid grid-cols-2">
                 <span className="block pb-4 text-base font-bold">{TabsMenu[currentTab].title}</span>
                 <div className="flex justify-end">
@@ -192,7 +260,27 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <Line
               className="h-[450px] w-full"
-              menu={<MenuDropdown />}
+              menu={
+                <>
+                  <Dropdown
+                    placeholder="Spotlight"
+                    onChange={() => {}}
+                    options={[
+                      { label: "hello", value: 1 },
+                      { label: "world", value: 2 },
+                    ]}
+                  />
+                  <Dropdown
+                    placeholder="Variable Title"
+                    onChange={() => {}}
+                    options={[
+                      { label: "hello", value: 1 },
+                      { label: "world", value: 2 },
+                    ]}
+                  />
+                  <MenuDropdown />
+                </>
+              }
               title="Snapshot of Key Variables"
               gridYValues={[0, 25, 50, 75, 100]}
               unitY="%"
@@ -201,7 +289,22 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               minY={0}
               maxY={100}
             />
-            <Choropleth title="Geographic Distribution of Key Variables" menu={<MenuDropdown />} />
+            <Choropleth
+              title="Geographic Distribution of Key Variables"
+              menu={
+                <>
+                  <Dropdown
+                    placeholder="Variable Title"
+                    onChange={() => {}}
+                    options={[
+                      { label: "hello", value: 1 },
+                      { label: "world", value: 2 },
+                    ]}
+                  />
+                  <MenuDropdown />
+                </>
+              }
+            />
           </div>
         </section>
         <section className="border-b py-12">
