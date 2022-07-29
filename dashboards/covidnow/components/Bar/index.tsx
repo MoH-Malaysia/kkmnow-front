@@ -1,6 +1,5 @@
-import { FunctionComponent, ReactElement } from "react";
-import { ResponsiveBar, BarCustomLayer, BarDatum, ComputedDatum } from "@nivo/bar";
-import { PropertyAccessor, useTheme } from "@nivo/core";
+import { FunctionComponent } from "react";
+import { ResponsiveBar } from "@nivo/bar";
 import { AxisTickProps } from "@nivo/axes";
 import { line, curveMonotoneX } from "d3-shape";
 
@@ -130,7 +129,12 @@ const Bar: FunctionComponent<BarProps> = ({
               : null
           }
           padding={0.4}
-          margin={{ top: 40, right: 5, bottom: 40, left: layout === "vertical" ? 30 : 180 }}
+          margin={{
+            top: layout === "vertical" ? 40 : 10,
+            right: 5,
+            bottom: 40,
+            left: layout === "vertical" ? 30 : 180,
+          }}
           gridXValues={gridXValues}
           gridYValues={gridYValues}
           layers={
@@ -185,9 +189,6 @@ const dummy = Array(19)
   .reverse();
 
 const StateTick = (tick: AxisTickProps<string>) => {
-  const theme = useTheme();
-
-  //   console.log(tick);
   return (
     <g transform={`translate(${tick.x - 150},${tick.y})`}>
       <image
