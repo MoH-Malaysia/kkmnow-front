@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement } from "react";
-import { ResponsiveBar, BarCustomLayer, BarDatum } from "@nivo/bar";
-import { useTheme } from "@nivo/core";
+import { ResponsiveBar, BarCustomLayer, BarDatum, ComputedDatum } from "@nivo/bar";
+import { PropertyAccessor, useTheme } from "@nivo/core";
 import { AxisTickProps } from "@nivo/axes";
 import { line, curveMonotoneX } from "d3-shape";
 
@@ -88,9 +88,9 @@ const Bar: FunctionComponent<BarProps> = ({
           minValue={minY}
           maxValue={maxY}
           enableLabel={enableLabel}
-          label={value => {
-            if (hideLabelKeys?.includes(value.id)) return "";
-            return value.formattedValue;
+          label={({ id, formattedValue }) => {
+            if (hideLabelKeys?.includes(id.toString())) return "";
+            return formattedValue;
           }}
           valueFormat={d => {
             return (
