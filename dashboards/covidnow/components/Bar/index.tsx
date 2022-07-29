@@ -18,6 +18,7 @@ interface BarProps {
   minY?: number | "auto";
   maxY?: number | "auto";
   enableLabel?: boolean;
+  hideLabelKeys?: string[];
   enableLine?: boolean;
   enableGridX?: boolean;
   enableGridY?: boolean;
@@ -26,6 +27,7 @@ interface BarProps {
   reverse?: boolean;
   customTickX?: "state" | undefined;
   interactive?: boolean;
+  animate?: boolean;
 }
 
 const LineLayer = ({ bars, xScale, yScale }) => {
@@ -47,6 +49,7 @@ const Bar: FunctionComponent<BarProps> = ({
   layout = "vertical",
   data = dummy,
   interactive = true,
+  animate = false,
   customTickX = undefined,
   enableGridX = true,
   enableGridY = true,
@@ -56,6 +59,7 @@ const Bar: FunctionComponent<BarProps> = ({
   gridXValues = undefined,
   gridYValues = undefined,
   enableLabel = false,
+  hideLabelKeys,
   reverse = false,
   minY = "auto",
   maxY = "auto",
@@ -79,16 +83,23 @@ const Bar: FunctionComponent<BarProps> = ({
               },
             },
           }}
-          colors={["#5384EF"]}
+          colors={["rgba(15, 23, 42, 1)", "rgba(241, 245, 249, 1)"]}
           groupMode="stacked"
           minValue={minY}
           maxValue={maxY}
           enableLabel={enableLabel}
-          valueFormat={d => (
-            <tspan x={-20} style={{ fontSize: "14px", fill: "rgba(100, 116, 139, 1)" }}>
-              {d}
-            </tspan>
-          )}
+          label={value => {
+            if (hideLabelKeys?.includes(value.id)) return "";
+            return value.formattedValue;
+          }}
+          valueFormat={d => {
+            return (
+              <tspan x={-20} style={{ fontSize: "14px", fill: "rgba(100, 116, 139, 1)" }}>
+                {d}
+              </tspan>
+            );
+          }}
+          animate={animate}
           isInteractive={interactive}
           enableGridX={enableGridX}
           enableGridY={enableGridY}
@@ -160,9 +171,14 @@ const dummy = Array(19)
   .map((_, index) => {
     let date = new Date();
     date.setDate(date.getDate() - index);
+
+    const y1 = Math.floor(Math.random() * 98 + 2);
+    const y2 = 100 - y1;
+
     return {
       x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
-      y: Math.floor(Math.random() * 100 + 2),
+      y: y1,
+      y2: y2,
       state: Object.keys(statesMap)[index],
     };
   })
@@ -171,7 +187,7 @@ const dummy = Array(19)
 const StateTick = (tick: AxisTickProps<string>) => {
   const theme = useTheme();
 
-  console.log(tick);
+  //   console.log(tick);
   return (
     <g transform={`translate(${tick.x - 150},${tick.y})`}>
       <image

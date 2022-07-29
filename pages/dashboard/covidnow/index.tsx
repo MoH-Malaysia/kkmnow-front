@@ -60,8 +60,10 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
             <div className="col-span-1 h-[550px]">
               <Bar
+                keys={["y", "y2"]}
                 interactive={false}
                 indexBy="state"
+                hideLabelKeys={["y2"]}
                 customTickX="state"
                 enableLabel={true}
                 enableAxisX={false}
