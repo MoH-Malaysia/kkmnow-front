@@ -253,7 +253,6 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <Tabs
               className="flex flex-wrap justify-end gap-2"
               title="Vaccination Progress by State"
-              menu={<MenuDropdown />}
             >
               {TableTabsMenu.map((menu, index) => {
                 return (
