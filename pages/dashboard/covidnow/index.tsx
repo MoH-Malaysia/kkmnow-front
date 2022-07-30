@@ -1,4 +1,13 @@
-import { Hero, Container, Tabs, Panel, MenuDropdown, Dropdown, Tooltip } from "@components/index";
+import {
+  Hero,
+  Container,
+  Tabs,
+  Panel,
+  MenuDropdown,
+  Dropdown,
+  Tooltip,
+  Section,
+} from "@components/index";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useState } from "react";
 
@@ -77,12 +86,10 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           </p>
         </div>
       </Hero>
+
       <Container className="min-h-screen">
-        <section className="border-b py-12">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-            <h4>Utilizations</h4>
-            <span className="text-dim">Data as of {new Date().toDateString()}</span>
-          </div>
+        {/* Utilisations */}
+        <Section title="Utilisations">
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
               <Donut className="h-[56px] w-[56px]" />
@@ -145,12 +152,10 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               </div>
             </div>
           </div>
-        </section>
-        <section className="border-b py-12">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-            <h4>How are COVID-19 key indicators trending?</h4>
-            <span className="text-dim">Data as of {new Date().toDateString()}</span>
-          </div>
+        </Section>
+
+        {/* How are COVID-19 key indicators trending */}
+        <Section title="How are COVID-19 key indicators trending?">
           <div className="grid grid-cols-1 gap-12 py-6 lg:grid-cols-2 xl:grid-cols-3">
             <BarLine title="Deaths by Date of Death" menu={<MenuDropdown />} />
             <BarLine title="Patients Ventilated" menu={<MenuDropdown />} />
@@ -159,12 +164,10 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <BarLine title="Confirmed Cases" menu={<MenuDropdown />} />
             <BarLine title="Tests Conducted" menu={<MenuDropdown />} />
           </div>
-        </section>
-        <section className="border-b py-12">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-            <h4>What does the latest data show?</h4>
-            <span className="text-dim">Data as of {new Date().toDateString()}</span>
-          </div>
+        </Section>
+
+        {/* What does the latest data show? */}
+        <Section title="What does the latest data show?">
           <div className="grid grid-cols-1 gap-12 py-6 lg:grid-cols-3">
             <div className="col-span-1 lg:col-span-2">
               <Stages title="Active COVID-19 Cases" className="pt-10" menu={<MenuDropdown />} />
@@ -197,81 +200,6 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     </Panel>
                   );
                 })}
-                {/* <Panel title="Deaths">
-                        <Bar
-                            className="w-full h-[550px]"
-                            keys={["y", "y2"]}
-                            interactive={false}
-                            indexBy="state"
-                            hideLabelKeys={["y2"]}
-                            customTickX="state"
-                            enableLabel={true}
-                            enableAxisX={false}
-                            enableGridX={false}
-                            enableGridY={false}
-                            layout="horizontal"
-                          />
-                    </Panel>
-                    <Panel title="Vent.">
-                        <Bar
-                            className="w-full h-[550px]"
-                            keys={["y", "y2"]}
-                            interactive={false}
-                            indexBy="state"
-                            hideLabelKeys={["y2"]}
-                            customTickX="state"
-                            enableLabel={true}
-                            enableAxisX={false}
-                            enableGridX={false}
-                            enableGridY={false}
-                            layout="horizontal"
-                          />
-                    </Panel>
-                    <Panel title="ICU">
-                        <Bar
-                            className="w-full h-[550px]"
-                            keys={["y", "y2"]}
-                            interactive={false}
-                            indexBy="state"
-                            hideLabelKeys={["y2"]}
-                            customTickX="state"
-                            enableLabel={true}
-                            enableAxisX={false}
-                            enableGridX={false}
-                            enableGridY={false}
-                            layout="horizontal"
-                          />
-                    </Panel>
-                    <Panel title="Hosp.">
-                        <Bar
-                            className="w-full h-[550px]"
-                            keys={["y", "y2"]}
-                            interactive={false}
-                            indexBy="state"
-                            hideLabelKeys={["y2"]}
-                            customTickX="state"
-                            enableLabel={true}
-                            enableAxisX={false}
-                            enableGridX={false}
-                            enableGridY={false}
-                            layout="horizontal"
-                          />
-                    </Panel>
-                    <Panel title="Cases">
-                        <Bar
-                            className="w-full h-[550px]"
-                            keys={["y", "y2"]}
-                            interactive={false}
-                            indexBy="state"
-                            hideLabelKeys={["y2"]}
-                            customTickX="state"
-                            enableLabel={true}
-                            enableAxisX={false}
-                            enableGridX={false}
-                            enableGridY={false}
-                            layout="horizontal"
-                          />
-                    </Panel> */}
               </Tabs>
             </div>
           </div>
@@ -324,12 +252,10 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               }
             />
           </div>
-        </section>
-        <section className="border-b py-12">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
-            <h4>How vaccinated against COVID-19 are we?</h4>
-            <span className="text-dim">Data as of {new Date().toDateString()}</span>
-          </div>
+        </Section>
+
+        {/* How vaccinated against COVID-19 are we? */}
+        <Section title="How vaccinated against COVID-19 are we?">
           <div>
             <Tabs
               className="flex flex-wrap justify-end gap-2"
@@ -344,7 +270,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               })}
             </Tabs>
           </div>
-        </section>
+        </Section>
       </Container>
     </>
   );
