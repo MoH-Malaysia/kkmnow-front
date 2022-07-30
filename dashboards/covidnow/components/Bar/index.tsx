@@ -2,11 +2,13 @@ import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 import { AxisTickProps } from "@nivo/axes";
 import { line, curveMonotoneX } from "d3-shape";
+import { ChartHeader } from "@dashboards/covidnow/components";
 
 interface BarProps {
   className?: string;
   menu?: ReactElement;
   title?: string;
+  controls?: ReactElement;
   indexBy?: string;
   keys?: string[];
   layout?: "vertical" | "horizontal";
@@ -43,6 +45,7 @@ const Bar: FunctionComponent<BarProps> = ({
   className = "w-full h-full", // manage CSS here
   menu,
   title,
+  controls,
   unitX,
   unitY,
   indexBy = "x",
@@ -67,10 +70,7 @@ const Bar: FunctionComponent<BarProps> = ({
 }) => {
   return (
     <div>
-      <div className="grid grid-cols-2">
-        <span className="text-base font-bold">{title ?? ""}</span>
-        {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
-      </div>
+      <ChartHeader title={title} menu={menu} controls={controls} />
       <div className={className}>
         <ResponsiveBar
           data={data}

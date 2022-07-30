@@ -6,6 +6,7 @@ interface TabsProps {
   className?: string;
   current?: number;
   title?: string;
+  menu?: ReactElement;
   onChange?: ((index: number) => void) | undefined;
 }
 
@@ -14,6 +15,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
   children,
   title,
   current,
+  menu,
   onChange = () => {},
 }) => {
   return (
@@ -34,6 +36,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
                 {props.title}
               </Tab>
             ))}
+            {menu}
           </Tab.List>
         </div>
         <Tab.Panels className="w-full">

@@ -26,7 +26,11 @@ const Section: FunctionComponent<SectionProps> = ({
             date
           )}
         </div>
-        {description && typeof description === "string" ? <p>{description}</p> : description}
+        {description && typeof description === "string" ? (
+          <p className="py-4 text-dim">{description}</p>
+        ) : (
+          description
+        )}
       </div>
       {children}
     </section>
