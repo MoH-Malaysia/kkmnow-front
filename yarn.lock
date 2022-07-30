@@ -212,6 +212,18 @@
     d3-geo "^1.11.3"
     lodash "^4.17.21"
 
+"@nivo/heatmap@^0.79.1":
+  version "0.79.1"
+  resolved "https://registry.yarnpkg.com/@nivo/heatmap/-/heatmap-0.79.1.tgz#e420e1d4a6a6d88126be9b06bd4b5c5f461a7ebc"
+  integrity sha512-lMYtmGrMCjnV0SJ/FwRFY94Wjw93U7x8Ex2J9hIRoabtEbGcMZBaQMVQwQE2gUDjh4aDj+/ihLXcUxLc+7fz3g==
+  dependencies:
+    "@nivo/annotations" "0.79.1"
+    "@nivo/axes" "0.79.0"
+    "@nivo/colors" "0.79.1"
+    "@nivo/tooltip" "0.79.0"
+    "@react-spring/web" "9.3.1"
+    d3-scale "^3.2.3"
+
 "@nivo/legends@0.79.1":
   version "0.79.1"
   resolved "https://registry.yarnpkg.com/@nivo/legends/-/legends-0.79.1.tgz#60b1806bba547f796e6e5b66943d65153de60c79"
