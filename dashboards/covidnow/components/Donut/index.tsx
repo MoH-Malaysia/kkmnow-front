@@ -1,10 +1,12 @@
 import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
+import { ChartHeader } from "@dashboards/covidnow/components";
 interface DonutProps {
   className?: string;
   data?: any;
   menu?: ReactElement;
   title?: string;
+  controls?: ReactElement;
   animate?: boolean;
   innerRadius?: number;
   interactive?: boolean;
@@ -15,16 +17,14 @@ const Donut: FunctionComponent<DonutProps> = ({
   data = dummy,
   menu,
   title,
+  controls,
   animate = false,
   interactive = true,
   innerRadius = 0.7,
 }) => {
   return (
     <div>
-      <div className="grid grid-cols-2">
-        <span className="text-base font-bold">{title ?? ""}</span>
-        {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
-      </div>
+      <ChartHeader title={title} menu={menu} controls={controls} />
       <div className={className}>
         <ResponsiveRadialBar
           data={data}

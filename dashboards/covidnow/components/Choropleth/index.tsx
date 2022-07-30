@@ -1,5 +1,6 @@
 import { ResponsiveChoropleth } from "@nivo/geo";
 import { FunctionComponent, ReactElement, useState } from "react";
+import { ChartHeader } from "@dashboards/covidnow/components";
 import {
   CHOROPLETH_RED_SCALE,
   CHOROPLETH_GREEN_SCALE,
@@ -19,11 +20,13 @@ interface ChoroplethProps {
   className?: string;
   menu?: ReactElement;
   title?: string;
+  controls?: ReactElement;
   data?: any;
 }
 
 const Choropleth: FunctionComponent<ChoroplethProps> = ({
   className = "w-full h-[400px]",
+  controls,
   menu,
   title,
   data = dummyData,
@@ -38,10 +41,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   };
   return (
     <div>
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-        <span className="text-base font-bold">{title ?? ""}</span>
-        {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
-      </div>
+      <ChartHeader title={title} menu={menu} controls={controls} />
       <div className={className}>
         <ResponsiveChoropleth
           data={data}

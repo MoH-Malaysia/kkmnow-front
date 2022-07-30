@@ -11,7 +11,7 @@ import {
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useState } from "react";
 
-import { Stages } from "@dashboards/covidnow/components";
+import { ChartHeader, Stages } from "@dashboards/covidnow/components";
 import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 
@@ -173,12 +173,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               <Stages title="Active COVID-19 Cases" className="pt-10" menu={<MenuDropdown />} />
             </div>
             <div className="col-span-1">
-              <div className="grid grid-cols-2">
-                <span className="block text-base font-bold">{BarTabsMenu[currentTab].title}</span>
-                <div className="flex justify-end">
-                  <MenuDropdown />
-                </div>
-              </div>
+              <ChartHeader title={BarTabsMenu[currentTab].title} menu={<MenuDropdown />} />
 
               <Tabs onChange={selectTab}>
                 {BarTabsMenu.map((menu, index) => {
@@ -206,7 +201,8 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <Line
               className="h-[450px] w-full"
-              menu={
+              menu={<MenuDropdown />}
+              controls={
                 <>
                   <Dropdown
                     placeholder="Spotlight"
@@ -224,7 +220,6 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       { label: "world", value: 2 },
                     ]}
                   />
-                  <MenuDropdown />
                 </>
               }
               title="Snapshot of Key Variables"
@@ -237,19 +232,17 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             />
             <Choropleth
               title="Geographic Distribution of Key Variables"
-              menu={
-                <>
-                  <Dropdown
-                    placeholder="Variable Title"
-                    onChange={() => {}}
-                    options={[
-                      { label: "hello", value: 1 },
-                      { label: "world", value: 2 },
-                    ]}
-                  />
-                  <MenuDropdown />
-                </>
+              controls={
+                <Dropdown
+                  placeholder="Variable Title"
+                  onChange={() => {}}
+                  options={[
+                    { label: "hello", value: 1 },
+                    { label: "world", value: 2 },
+                  ]}
+                />
               }
+              menu={<MenuDropdown />}
             />
           </div>
         </Section>
