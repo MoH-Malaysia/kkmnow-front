@@ -1,22 +1,23 @@
 import { Hero, Container, Tabs, Panel, MenuDropdown, Dropdown, Tooltip } from "@components/index";
-import { post } from "@lib/api";
-import dynamic from "next/dynamic";
-import { Stages, Table } from "@dashboards/covidnow/components";
+import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useState } from "react";
 
-import { InferGetStaticPropsType, GetStaticProps } from "next";
+import { Stages } from "@dashboards/covidnow/components";
+import dynamic from "next/dynamic";
+import { post } from "@lib/api";
 
 const Bar = dynamic(() => import("@dashboards/covidnow/components/Bar"), { ssr: false });
 const Donut = dynamic(() => import("@dashboards/covidnow/components/Donut"), { ssr: false });
 const BarLine = dynamic(() => import("@dashboards/covidnow/components/BarLine"), { ssr: false });
 const Line = dynamic(() => import("@dashboards/covidnow/components/Line"), { ssr: false });
+const Table = dynamic(() => import("@dashboards/covidnow/components/Table"), { ssr: false });
 const Choropleth = dynamic(() => import("@dashboards/covidnow/components/Choropleth"), {
   ssr: false,
 });
 
 const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [currentTab, selectTab] = useState(0);
-  const TabsMenu = [
+  const BarTabsMenu = [
     {
       name: "Deaths",
       title: "Deaths per 100K",
@@ -36,6 +37,23 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
     {
       name: "Cases",
       title: "Cases per 100K",
+    },
+  ];
+  const TableTabsMenu = [
+    {
+      name: "Show All",
+    },
+    {
+      name: "Total",
+    },
+    {
+      name: "Adults",
+    },
+    {
+      name: "Adolescents",
+    },
+    {
+      name: "Children",
     },
   ];
 
@@ -153,14 +171,14 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
             <div className="col-span-1">
               <div className="grid grid-cols-2">
-                <span className="block pb-4 text-base font-bold">{TabsMenu[currentTab].title}</span>
+                <span className="block text-base font-bold">{BarTabsMenu[currentTab].title}</span>
                 <div className="flex justify-end">
                   <MenuDropdown />
                 </div>
               </div>
 
               <Tabs onChange={selectTab}>
-                {TabsMenu.map((menu, index) => {
+                {BarTabsMenu.map((menu, index) => {
                   return (
                     <Panel key={index} title={menu.name}>
                       <Bar
@@ -313,7 +331,18 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <span className="text-dim">Data as of {new Date().toDateString()}</span>
           </div>
           <div>
-            <Table />
+            <Tabs
+              className="flex flex-wrap justify-end gap-2"
+              title="Vaccination Progress by State"
+            >
+              {TableTabsMenu.map((menu, index) => {
+                return (
+                  <Panel key={index} title={menu.name}>
+                    <Table />
+                  </Panel>
+                );
+              })}
+            </Tabs>
           </div>
         </section>
       </Container>

@@ -135,9 +135,9 @@ const Bar: FunctionComponent<BarProps> = ({
           }
           padding={0.4}
           margin={{
-            top: layout === "vertical" ? 40 : 10,
+            top: layout === "vertical" ? 40 : 0,
             right: 5,
-            bottom: 40,
+            bottom: layout === "vertical" ? 40 : 10,
             left: layout === "vertical" ? 30 : 180,
           }}
           gridXValues={gridXValues}

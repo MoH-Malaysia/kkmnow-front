@@ -5,6 +5,7 @@
 
 /* DASHBOARDS CSS */
 @import "./dashboards/kawasanku.css";
+@import "./dashboards/covidnow.css";
 
 @layer base {
   h1 {
