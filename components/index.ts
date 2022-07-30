@@ -5,3 +5,4 @@ export { default as Layout } from "./Layout";
 export { default as Tooltip } from "./Tooltip";
 export { default as Tabs, Panel } from "./Tabs";
 export { default as MenuDropdown } from "./MenuDropdown";
+export { default as Section } from "./Section";
