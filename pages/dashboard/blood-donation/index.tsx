@@ -39,8 +39,23 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         {/* Is {{ area }}'s current blood supply sufficient? */}
         <Section title="Is Klang Valley's current blood supply sufficient?">
           <div className="grid grid-cols-1 gap-12 py-6 xl:grid-cols-2 ">
-            <Heatmap className="h-[500px]" />
-            <BarLine title="Patients Ventilated" menu={<MenuDropdown />} />
+            <Heatmap className="h-[500px]" title="Blood Supply by States" />
+            <div>
+              <Tabs title="Vaccination Progress by State">
+                <Panel title="Type A">
+                  <BarLine />
+                </Panel>
+                <Panel title="Type B">
+                  <BarLine />
+                </Panel>
+                <Panel title="Type AB">
+                  <BarLine />
+                </Panel>
+                <Panel title="Type O">
+                  <BarLine />
+                </Panel>
+              </Tabs>
+            </div>
           </div>
         </Section>
 

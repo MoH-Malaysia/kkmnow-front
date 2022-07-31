@@ -1,61 +1,74 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
+import { ChartHeader } from "@dashboards/covidnow/components";
 
 interface HeatmapProps {
   className?: string;
   data?: any;
+  title?: string | ReactElement;
+  menu?: ReactElement;
+  controls?: ReactElement;
 }
 
-const Heatmap: FunctionComponent<HeatmapProps> = ({ className, data = dummy }) => {
+const Heatmap: FunctionComponent<HeatmapProps> = ({
+  className,
+  title,
+  data = dummy,
+  menu,
+  controls,
+}) => {
   return (
-    <div className={className}>
-      <ResponsiveHeatMap
-        data={data}
-        margin={{ top: 30, right: 0, bottom: 60, left: 60 }}
-        valueFormat=">-.2s"
-        axisTop={{
-          tickSize: 0,
-          tickPadding: 10,
-          tickRotation: 0,
-          legend: "",
-          legendOffset: 46,
-        }}
-        axisLeft={{
-          ticksPosition: "before",
-          tickSize: 0,
-          tickPadding: 10,
-          tickRotation: 0,
-          legend: "country",
-          legendPosition: "middle",
-          legendOffset: -72,
-        }}
-        colors={{
-          type: "diverging",
-          scheme: "blues",
-          minValue: -100000,
-          maxValue: 100000,
-          divergeAt: 0.5,
-        }}
-        emptyColor="#555555"
-        legends={[
-          {
-            anchor: "bottom",
-            translateX: 0,
-            translateY: 30,
-            length: 400,
-            thickness: 8,
-            direction: "row",
-            tickPosition: "after",
-            tickSize: 3,
-            tickSpacing: 4,
-            tickOverlap: false,
-            tickFormat: ">-.2s",
-            title: "Value →",
-            titleAlign: "start",
-            titleOffset: 4,
-          },
-        ]}
-      />
+    <div>
+      <ChartHeader title={title} menu={menu} controls={controls} />
+      <div className={className}>
+        <ResponsiveHeatMap
+          data={data}
+          margin={{ top: 30, right: 0, bottom: 60, left: 60 }}
+          valueFormat=">-.2s"
+          axisTop={{
+            tickSize: 0,
+            tickPadding: 10,
+            tickRotation: 0,
+            legend: "",
+            legendOffset: 46,
+          }}
+          axisLeft={{
+            ticksPosition: "before",
+            tickSize: 0,
+            tickPadding: 10,
+            tickRotation: 0,
+            legend: "country",
+            legendPosition: "middle",
+            legendOffset: -72,
+          }}
+          colors={{
+            type: "diverging",
+            scheme: "blues",
+            minValue: -100000,
+            maxValue: 100000,
+            divergeAt: 0.5,
+          }}
+          emptyColor="#555555"
+          legends={[
+            {
+              anchor: "bottom",
+              translateX: 0,
+              translateY: 30,
+              length: 400,
+              thickness: 8,
+              direction: "row",
+              tickPosition: "after",
+              tickSize: 3,
+              tickSpacing: 4,
+              tickOverlap: false,
+              tickFormat: ">-.2s",
+              title: "Value →",
+              titleAlign: "start",
+              titleOffset: 4,
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 };
