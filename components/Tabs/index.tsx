@@ -22,26 +22,24 @@ const Tabs: FunctionComponent<TabsProps> = ({
   return (
     <>
       <Tab.Group selectedIndex={current} onChange={onChange}>
-        <ChartHeader
-          title={title}
-          menu={menu}
-          controls={
-            <Tab.List className={className}>
-              {children.map(({ props: { title } }, index) => (
-                <Tab
-                  key={index}
-                  className={({ selected }) =>
-                    selected
-                      ? "text-base font-medium text-black underline underline-offset-4"
-                      : "text-base text-dim underline underline-offset-4"
-                  }
-                >
-                  {title}
-                </Tab>
-              ))}
-            </Tab.List>
-          }
-        />
+        <div className="flex flex-wrap justify-between gap-4 py-4">
+          {title && <span className="text-base font-bold">{title}</span>}
+          <Tab.List className={className}>
+            {children.map(({ props: { title } }, index) => (
+              <Tab
+                key={index}
+                className={({ selected }) =>
+                  selected
+                    ? "text-base font-medium text-black underline underline-offset-4"
+                    : "text-base text-dim underline underline-offset-4"
+                }
+              >
+                {title}
+              </Tab>
+            ))}
+            {menu}
+          </Tab.List>
+        </div>
 
         <Tab.Panels className="w-full">
           {children.map(({ props: { children } }, index) => (
