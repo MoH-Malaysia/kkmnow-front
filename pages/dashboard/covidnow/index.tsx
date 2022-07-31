@@ -156,7 +156,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
         {/* How are COVID-19 key indicators trending */}
         <Section title="How are COVID-19 key indicators trending?">
-          <div className="grid grid-cols-1 gap-12 py-6 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <BarLine title="Deaths by Date of Death" menu={<MenuDropdown />} />
             <BarLine title="Patients Ventilated" menu={<MenuDropdown />} />
             <BarLine title="Patients in ICU" menu={<MenuDropdown />} />
@@ -168,7 +168,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
         {/* What does the latest data show? */}
         <Section title="What does the latest data show?">
-          <div className="grid grid-cols-1 gap-12 py-6 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-3">
             <div className="col-span-1 lg:col-span-2">
               <Stages title="Active COVID-19 Cases" className="pt-10" menu={<MenuDropdown />} />
             </div>
@@ -251,7 +251,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         <Section title="How vaccinated against COVID-19 are we?">
           <div>
             <Tabs
-              className="flex flex-wrap justify-end gap-2"
+              className="flex flex-wrap justify-end gap-2 pb-4"
               title="Vaccination Progress by State"
             >
               {TableTabsMenu.map((menu, index) => {
