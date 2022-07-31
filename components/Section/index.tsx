@@ -27,7 +27,7 @@ const Section: FunctionComponent<SectionProps> = ({
           )}
         </div>
         {description && typeof description === "string" ? (
-          <p className="py-4 text-dim">{description}</p>
+          <p className="pt-4 text-dim">{description}</p>
         ) : (
           description
         )}
