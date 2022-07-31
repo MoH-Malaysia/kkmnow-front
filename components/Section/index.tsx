@@ -21,7 +21,7 @@ const Section: FunctionComponent<SectionProps> = ({
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           {title && typeof title === "string" ? <h4>{title}</h4> : title}
           {date && date === "current" ? (
-            <span className="text-dim">Data as of {new Date().toDateString()}</span>
+            <span className="text-sm text-dim">Data as of {new Date().toDateString()}</span>
           ) : (
             date
           )}
