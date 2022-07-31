@@ -21,7 +21,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
   return (
     <>
       <Tab.Group selectedIndex={current} onChange={onChange}>
-        <div className="flex flex-wrap justify-between gap-4 py-4">
+        <div className="flex flex-wrap justify-between gap-4 pb-4">
           {title && typeof title === "string" ? (
             <span className="text-base font-bold">{title}</span>
           ) : (
