@@ -1,12 +1,11 @@
 import { FunctionComponent, ReactElement } from "react";
 import { Tab } from "@headlessui/react";
-import { ChartHeader } from "@dashboards/covidnow/components";
 
 interface TabsProps {
   children: Array<ReactElement>;
   className?: string;
   current?: number;
-  title?: string;
+  title?: string | ReactElement;
   menu?: ReactElement;
   onChange?: ((index: number) => void) | undefined;
 }
@@ -23,9 +22,13 @@ const Tabs: FunctionComponent<TabsProps> = ({
     <>
       <Tab.Group selectedIndex={current} onChange={onChange}>
         <div className="flex flex-wrap justify-between gap-4 py-4">
-          {title && <span className="text-base font-bold">{title}</span>}
+          {title && typeof title === "string" ? (
+            <span className="text-base font-bold">{title}</span>
+          ) : (
+            title
+          )}
           <Tab.List className={className}>
-            {children.map(({ props: { title } }, index) => (
+            {children.map(({ props: { name } }, index) => (
               <Tab
                 key={index}
                 className={({ selected }) =>
@@ -34,7 +37,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
                     : "text-base text-dim underline underline-offset-4"
                 }
               >
-                {title}
+                {name}
               </Tab>
             ))}
             {menu}
@@ -52,11 +55,11 @@ const Tabs: FunctionComponent<TabsProps> = ({
 };
 
 interface PanelProps {
-  title: string | ReactElement;
+  name: string | ReactElement;
   children?: ReactElement | string;
 }
 
-const Panel: FunctionComponent<PanelProps> = ({ children, title }) => {
+const Panel: FunctionComponent<PanelProps> = ({ children, name }) => {
   return <>{children}</>;
 };
 

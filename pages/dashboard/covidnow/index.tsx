@@ -178,7 +178,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               <Tabs onChange={selectTab}>
                 {BarTabsMenu.map((menu, index) => {
                   return (
-                    <Panel key={index} title={menu.name}>
+                    <Panel key={index} name={menu.name}>
                       <Bar
                         className="h-[550px] w-full"
                         keys={["y", "y2"]}
@@ -256,7 +256,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             >
               {TableTabsMenu.map((menu, index) => {
                 return (
-                  <Panel key={index} title={menu.name}>
+                  <Panel key={index} name={menu.name}>
                     <Table />
                   </Panel>
                 );
