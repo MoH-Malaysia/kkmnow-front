@@ -5,12 +5,12 @@ export enum BREAKPOINTS {
   XL = 1440,
 }
 
-export const MALAYSIA = {
+export const MALAYSIA: Record<string, string> = {
   key: "mys",
   name: "Malaysia",
 };
 
-export const STATES = [
+export const STATES: Array<Record<string, string>> = [
   {
     key: "jhr",
     name: "Johor",
@@ -24,12 +24,24 @@ export const STATES = [
     name: "Kelantan",
   },
   {
+    key: "kvy",
+    name: "Klang Valley",
+  },
+  {
+    key: "kul",
+    name: "Kuala Lumpur",
+  },
+  {
+    key: "lbn",
+    name: "Labuan",
+  },
+  {
     key: "mlk",
     name: "Melaka",
   },
   {
     key: "nsn",
-    name: "Negeri Sembilan",
+    name: "N.Sembilan",
   },
   {
     key: "phg",
@@ -45,7 +57,11 @@ export const STATES = [
   },
   {
     key: "png",
-    name: "Pulau Pinang",
+    name: "P.Pinang",
+  },
+  {
+    key: "pjy",
+    name: "Putrajaya",
   },
   {
     key: "sbh",
@@ -63,19 +79,13 @@ export const STATES = [
     key: "trg",
     name: "Terengganu",
   },
-  {
-    key: "kul",
-    name: "W.P. Kuala Lumpur",
-  },
-  {
-    key: "lbn",
-    name: "W.P.Labuan",
-  },
-  {
-    key: "pjy",
-    name: "W.P.Putrajaya",
-  },
 ];
+
+export const CountryAndStates = (() => {
+  return [MALAYSIA, ...STATES].reduce((prev, current) => {
+    return { ...prev, ...{ [current.key]: current.name } };
+  }, {});
+})();
 
 export enum DASHBOARDS {
   KAWASANKU = "kawasanku",
