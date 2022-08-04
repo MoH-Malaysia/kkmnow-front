@@ -102,7 +102,6 @@ const Line: FunctionComponent<LineProps> = ({
               },
             },
           }}
-          //   colors="rgba(255, 78, 78, 1)"
           lineWidth={lineWidth}
           curve={curve}
           enableGridX={enableGridX}

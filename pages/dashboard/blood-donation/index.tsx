@@ -124,10 +124,14 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <BarLine title="Daily Donations" menu={<MenuDropdown />} />
 
             <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-              <BarLine title="Donation by donation type" menu={<MenuDropdown />} />
-              <BarLine title="Donation by blood group (phenotype)" menu={<MenuDropdown />} />
-              <BarLine title="Donation by donor type" menu={<MenuDropdown />} />
-              <BarLine title="Donation by location" menu={<MenuDropdown />} />
+              <BarLine title="Donation by donation type" menu={<MenuDropdown />} stats={null} />
+              <BarLine
+                title="Donation by blood group (phenotype)"
+                menu={<MenuDropdown />}
+                stats={null}
+              />
+              <BarLine title="Donation by donor type" menu={<MenuDropdown />} stats={null} />
+              <BarLine title="Donation by location" menu={<MenuDropdown />} stats={null} />
             </div>
           </div>
         </Section>
@@ -139,8 +143,26 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             stop donating, as well as to support a growing population."
         >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
-            <Bar className="h-[300px]" title="Number of new donors" menu={<MenuDropdown />} />
-            <Bar className="h-[300px]" title="New donors by age group" menu={<MenuDropdown />} />
+            <div>
+              <Tabs title="Number of new donors" menu={<MenuDropdown />}>
+                <Panel name="Annual">
+                  <Bar className="h-[300px]" />
+                </Panel>
+                <Panel name="Monthly">
+                  <Bar className="h-[300px]" />
+                </Panel>
+              </Tabs>
+            </div>
+            <div>
+              <Tabs title="New donors by age group" menu={<MenuDropdown />}>
+                <Panel name="Past 1 year">
+                  <Bar className="h-[300px]" />
+                </Panel>
+                <Panel name="Past 1 month">
+                  <Bar className="h-[300px]" />
+                </Panel>
+              </Tabs>
+            </div>
           </div>
         </Section>
 

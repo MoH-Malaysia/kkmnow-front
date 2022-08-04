@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
-import { ChartHeader } from "@dashboards/covidnow/components";
-import { AxisTickProps } from "@nivo/axes";
+import { ChartHeader, StateTick } from "@dashboards/covidnow/components";
+import { CountryAndStates } from "@lib/constants";
 import { CHOROPLETH_RED_SCALE } from "@dashboards/kawasanku/lib/constants";
 interface HeatmapProps {
   className?: string;
@@ -104,86 +104,22 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
           }}
           emptyColor="#555555"
           animate={false}
-          //   legends={[
-          //     {
-          //       anchor: "bottom",
-          //       translateX: 0,
-          //       translateY: 30,
-          //       length: 400,
-          //       thickness: 8,
-          //       direction: "row",
-          //       tickPosition: "after",
-          //       tickSize: 3,
-          //       tickSpacing: 4,
-          //       tickOverlap: false,
-          //       tickFormat: ">-.2s",
-          //       title: "Value →",
-          //       titleAlign: "start",
-          //       titleOffset: 4,
-          //     },
-          //   ]}
         />
       </div>
     </div>
   );
 };
 
-const StateTick = (tick: AxisTickProps<string>) => {
-  return (
-    <g transform={`translate(${tick.x - 150},${tick.y})`}>
-      <image
-        x={-28}
-        y={-6}
-        href={`/static/images/states/${tick.value}.jpeg`}
-        style={{ width: "18px" }}
-      ></image>
-      <text
-        textAnchor="start"
-        dominantBaseline="middle"
-        style={{
-          fontSize: "14px",
-          textAlign: "left",
-        }}
-      >
-        {statesMap[tick.value]}
-      </text>
-    </g>
-  );
-};
-
-const statesMap = {
-  jhr: "Johor",
-  kdh: "Kedah",
-  ktn: "Kelantan",
-  kul: "Kuala Lumpur",
-  kvy: "Klang Valley",
-  lbn: "Labuan",
-  mlk: "Melaka",
-  mys: "Malaysia",
-  nsn: "N.Sembilan",
-  phg: "Pahang",
-  pjy: "Putrajaya",
-  pls: "Perlis",
-  png: "P.Pinang",
-  prk: "Perak",
-  sbh: "Sabah",
-  sgr: "Selangor",
-  swk: "Sarawak",
-  trg: "Terengganu",
-  wp: "W.Persekutuan",
-};
-
-const dummy = Array(19)
+const dummy = Array(Object.keys(CountryAndStates).length)
   .fill(0)
   .map((_, index) => {
     let date = new Date();
     date.setDate(date.getDate() - index);
 
     const y1 = () => Math.floor(Math.random() * 98 + 2);
-    const y2 = 100 - y1();
 
     return {
-      id: Object.keys(statesMap)[index],
+      id: Object.keys(CountryAndStates)[index],
       data: [
         {
           x: "A",
