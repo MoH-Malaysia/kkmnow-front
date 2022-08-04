@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
 import { ChartHeader } from "@dashboards/covidnow/components";
+import type { OrdinalColorScaleConfigScheme } from "@nivo/colors";
 interface DonutProps {
   className?: string;
   data?: any;
@@ -10,6 +11,7 @@ interface DonutProps {
   animate?: boolean;
   innerRadius?: number;
   interactive?: boolean;
+  type?: "progress" | "default";
 }
 
 const Donut: FunctionComponent<DonutProps> = ({
@@ -21,7 +23,27 @@ const Donut: FunctionComponent<DonutProps> = ({
   animate = false,
   interactive = true,
   innerRadius = 0.7,
+  type = "default",
 }) => {
+  const colors = (data: Array<any>, key = "y") => {
+    switch (type) {
+      case "progress":
+        if (percentage(data, key) > 90) return ["#DC2626", "rgb(241, 245, 249)"];
+        if (percentage(data, key) > 75) return ["#FB8229", "rgb(241, 245, 249)"];
+        if (percentage(data, key) > 50) return ["#FBBF24", "rgb(241, 245, 249)"];
+        else return ["#22C55E", "rgb(241, 245, 249)"];
+      default:
+        return { scheme: "category10" as OrdinalColorScaleConfigScheme["scheme"] };
+    }
+  };
+
+  const percentage = (data: Array<any>, key: string) => {
+    const actual = data[0][key];
+    const total = data.reduce((prev, current) => prev + current[key], 0);
+
+    return Math.floor((actual / total) * 100);
+  };
+
   return (
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} />
@@ -36,7 +58,7 @@ const Donut: FunctionComponent<DonutProps> = ({
               },
             },
           }}
-          colors={["rgba(15, 23, 42, 1)", "rgba(241, 245, 249, 1)"]}
+          colors={colors(data[0].data, "y")}
           endAngle={360}
           radialAxisStart={null}
           radialAxisEnd={null}
@@ -58,7 +80,7 @@ const dummy = [
     data: [
       {
         x: "Vegetables",
-        y: 233,
+        y: 238,
       },
       {
         x: "Fruits",

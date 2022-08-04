@@ -3,6 +3,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import { line, curveMonotoneX } from "d3-shape";
 import { ChartHeader, StateTick } from "@dashboards/covidnow/components";
 import { CountryAndStates } from "@lib/constants";
+import type { BarCustomLayerProps, BarDatum } from "@nivo/bar";
 
 interface BarProps {
   className?: string;
@@ -35,21 +36,20 @@ interface BarProps {
 
 const LineLayer =
   (key: string) =>
-  ({
-    bars,
-    xScale,
-    yScale,
-  }: {
-    bars: Array<any>;
-    xScale: Function;
-    yScale: Function;
-  }): JSX.Element => {
+  ({ bars, xScale, yScale }: BarCustomLayerProps<BarDatum>): JSX.Element => {
     const lineGenerator = line()
       .curve(curveMonotoneX)
       .x((d: any) => xScale(d.data.indexValue) + d.width / 2)
       .y((d: any) => yScale(d.data.data[key]));
 
-    return <path d={lineGenerator(bars)!} fill="none" stroke="#2563EB" strokeWidth="2px" />;
+    return (
+      <path
+        d={lineGenerator(bars as Iterable<[number, number]>)!}
+        fill="none"
+        stroke="#2563EB"
+        strokeWidth="2px"
+      />
+    );
   };
 
 const Bar: FunctionComponent<BarProps> = ({
@@ -108,13 +108,12 @@ const Bar: FunctionComponent<BarProps> = ({
             if (hideLabelKeys?.includes(id.toString())) return "";
             return formattedValue;
           }}
-          // TODO: Fix type mismatch. For now, pls ignore
           valueFormat={(d: number) => {
             return (
               <tspan x={-20} style={{ fontSize: "14px", fill: "rgba(100, 116, 139, 1)" }}>
                 {d}
               </tspan>
-            );
+            ) as unknown as string;
           }}
           animate={animate}
           isInteractive={interactive}
@@ -155,7 +154,6 @@ const Bar: FunctionComponent<BarProps> = ({
           }}
           gridXValues={gridXValues}
           gridYValues={gridYValues}
-          // TODO: Fix type mismatch. For now, pls ignore
           layers={
             enableLine
               ? ["grid", "axes", "bars", LineLayer(lineKey), "markers", "legends"]
