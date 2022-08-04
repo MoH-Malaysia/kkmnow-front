@@ -12,6 +12,7 @@ interface BarLineProps {
   keys?: Array<string>;
   data?: Array<any>;
   menu?: ReactElement;
+  stats?: Array<StatProps> | null;
 }
 
 const BarLine: FunctionComponent<BarLineProps> = ({
@@ -19,6 +20,7 @@ const BarLine: FunctionComponent<BarLineProps> = ({
   indexBy = "x",
   keys = ["y"],
   data = dummyBar,
+  stats = dummyStats,
   menu,
 }) => {
   const generateXTicks = (data: any, key: string, count: number) => {
@@ -50,7 +52,7 @@ const BarLine: FunctionComponent<BarLineProps> = ({
         <span className="text-base font-bold">{title ?? ""}</span>
         {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
       </div>
-      <Stats data={dummyStats} className="py-4"></Stats>
+      {stats && <Stats data={stats} className="py-4"></Stats>}
       <Bar
         className="h-[370px] w-full"
         data={data}
@@ -122,6 +124,7 @@ const dummyBar = Array(180)
     return {
       x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
       y: Math.floor(Math.random() * 100 + 2),
+      line: Math.floor(Math.random() * 100 + 2),
     };
   })
   .reverse();

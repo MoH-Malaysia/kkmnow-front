@@ -1,4 +1,4 @@
-import { FunctionComponent, useReducer, useMemo, useState, ReactElement } from "react";
+import { FunctionComponent, useMemo, useState, ReactElement } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -8,112 +8,19 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { SwitchVerticalIcon, ArrowSmUpIcon, ArrowSmDownIcon } from "@heroicons/react/solid";
+import { CountryAndStates } from "@lib/constants";
 
 interface TableProps {
   className?: string;
   title?: string;
   menu?: ReactElement;
+  data?: any;
+  config?: Array<any>;
 }
 
-const Table: FunctionComponent<TableProps> = ({ className = "", title, menu }) => {
-  const rerender = useReducer(() => ({}), {})[1];
-
+const Table: FunctionComponent<TableProps> = ({ className = "", title, menu, data = dummy }) => {
+  const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  const columns = useMemo<ColumnDef<Record<string, any>>[]>(
-    () => [
-      {
-        header: "",
-        id: "state",
-        accessorKey: "state",
-        enableSorting: false,
-        cell: item => {
-          const state = item.getValue();
-          return (
-            <div className="flex items-center gap-3">
-              <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
-              <span>{statesMap[state]}</span>
-            </div>
-          );
-        },
-      },
-      {
-        id: "total",
-        header: "Total",
-        columns: [
-          {
-            id: "total.perc_1dose",
-            header: "% 1 Dose",
-            accessorFn: item => item.total.perc_1dose,
-          },
-          {
-            id: "total.perc_2dose",
-            header: "% 2 Doses",
-            accessorFn: item => item.total.perc_2dose,
-          },
-          {
-            id: "perc_1booster",
-            header: "% 1 Booster",
-            accessorFn: item => item.total.perc_1booster,
-          },
-        ],
-      },
-      {
-        id: "adult",
-        header: "Adults",
-        columns: [
-          {
-            id: "adult.perc_1dose",
-            header: "% 1 Dose",
-            accessorFn: item => item.adult.perc_1dose,
-          },
-          {
-            id: "adult.perc_2dose",
-            header: "% 2 Doses",
-            accessorFn: item => item.adult.perc_2dose,
-          },
-          {
-            id: "adult.perc_1booster",
-            header: "% 1 Booster",
-            accessorFn: item => item.adult.perc_1booster,
-          },
-        ],
-      },
-      {
-        id: "adolescent",
-        header: "Adolescent",
-        columns: [
-          {
-            id: "adolescent.perc_1dose",
-            header: "% 1 Dose",
-            accessorFn: item => item.adolescent.perc_1dose,
-          },
-          {
-            id: "adolescent.perc_2dose",
-            header: "% 2 Doses",
-            accessorFn: item => item.adolescent.perc_2dose,
-          },
-        ],
-      },
-      {
-        id: "children",
-        header: "Children",
-        columns: [
-          {
-            id: "children.perc_1dose",
-            header: "% 1 Dose",
-            accessorFn: item => item.children.perc_1dose,
-          },
-          {
-            id: "children.perc_2dose",
-            header: "% 2 Doses",
-            accessorFn: item => item.children.perc_2dose,
-          },
-        ],
-      },
-    ],
-    []
-  );
 
   const sortTooltip = (sortDir: "asc" | "desc" | false) => {
     if (sortDir === false) return "Sort";
@@ -122,8 +29,6 @@ const Table: FunctionComponent<TableProps> = ({ className = "", title, menu }) =
 
     return undefined;
   };
-
-  const [data, setData] = useState(dummy);
 
   const table = useReactTable({
     data,
@@ -134,7 +39,7 @@ const Table: FunctionComponent<TableProps> = ({ className = "", title, menu }) =
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
+    debugTable: false,
   });
 
   return (
@@ -143,7 +48,7 @@ const Table: FunctionComponent<TableProps> = ({ className = "", title, menu }) =
         <span className="text-base font-bold">{title ?? ""}</span>
         {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
       </div>
-      <table className={`table${className}`}>
+      <table className={`table ${className}`}>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
@@ -214,32 +119,102 @@ const Table: FunctionComponent<TableProps> = ({ className = "", title, menu }) =
   );
 };
 
-const statesMap = {
-  jhr: "Johor",
-  kdh: "Kedah",
-  ktn: "Kelantan",
-  kul: "Kuala Lumpur",
-  kvy: "Klang Valley",
-  lbn: "Labuan",
-  mlk: "Melaka",
-  mys: "Malaysia",
-  nsn: "N.Sembilan",
-  phg: "Pahang",
-  pjy: "Putrajaya",
-  pls: "Perlis",
-  png: "P.Pinang",
-  prk: "Perak",
-  sbh: "Sabah",
-  sgr: "Selangor",
-  swk: "Sarawak",
-  trg: "Terengganu",
-  wp: "W.Persekutuan",
-};
+const config = [
+  {
+    header: "",
+    id: "state",
+    accessorKey: "state",
+    enableSorting: false,
+    cell: (item: any) => {
+      const state = item.getValue() as string;
+      return (
+        <div className="flex items-center gap-3">
+          <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
+          <span>{CountryAndStates[state]}</span>
+        </div>
+      );
+    },
+  },
+  {
+    id: "total",
+    header: "Total",
+    columns: [
+      {
+        id: "total.perc_1dose",
+        header: "% 1 Dose",
+        accessorFn: (item: any) => item.total.perc_1dose,
+      },
+      {
+        id: "total.perc_2dose",
+        header: "% 2 Doses",
+        accessorFn: (item: any) => item.total.perc_2dose,
+      },
+      {
+        id: "perc_1booster",
+        header: "% 1 Booster",
+        accessorFn: (item: any) => item.total.perc_1booster,
+      },
+    ],
+  },
+  {
+    id: "adult",
+    header: "Adults",
+    columns: [
+      {
+        id: "adult.perc_1dose",
+        header: "% 1 Dose",
+        accessorFn: (item: any) => item.adult.perc_1dose,
+      },
+      {
+        id: "adult.perc_2dose",
+        header: "% 2 Doses",
+        accessorFn: (item: any) => item.adult.perc_2dose,
+      },
+      {
+        id: "adult.perc_1booster",
+        header: "% 1 Booster",
+        accessorFn: (item: any) => item.adult.perc_1booster,
+      },
+    ],
+  },
+  {
+    id: "adolescent",
+    header: "Adolescent",
+    columns: [
+      {
+        id: "adolescent.perc_1dose",
+        header: "% 1 Dose",
+        accessorFn: (item: any) => item.adolescent.perc_1dose,
+      },
+      {
+        id: "adolescent.perc_2dose",
+        header: "% 2 Doses",
+        accessorFn: (item: any) => item.adolescent.perc_2dose,
+      },
+    ],
+  },
+  {
+    id: "children",
+    header: "Children",
+    columns: [
+      {
+        id: "children.perc_1dose",
+        header: "% 1 Dose",
+        accessorFn: (item: any) => item.children.perc_1dose,
+      },
+      {
+        id: "children.perc_2dose",
+        header: "% 2 Doses",
+        accessorFn: (item: any) => item.children.perc_2dose,
+      },
+    ],
+  },
+];
 
-const dummy = Array(19)
+const dummy = Array(Object.keys(CountryAndStates).length)
   .fill(0)
   .map((_, index) => {
-    const state = Object.keys(statesMap)[index];
+    const state = Object.keys(CountryAndStates)[index];
     return {
       id: index,
       state: state,

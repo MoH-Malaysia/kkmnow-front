@@ -92,7 +92,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         <Section title="Utilisations">
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" />
+              <Donut className="h-[56px] w-[56px]" type="progress" />
               <div>
                 <p className="text-dim">Ventilators</p>
                 <Tooltip
@@ -107,7 +107,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" />
+              <Donut className="h-[56px] w-[56px]" type="progress" />
               <div>
                 <p className="text-dim">ICUs</p>
                 <Tooltip
@@ -122,7 +122,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" />
+              <Donut className="h-[56px] w-[56px]" type="progress" />
               <div>
                 <p className="text-dim">Hospital Beds</p>
                 <Tooltip
@@ -137,7 +137,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" />
+              <Donut className="h-[56px] w-[56px]" type="progress" />
               <div>
                 <p className="text-dim">PKRC</p>
                 <Tooltip

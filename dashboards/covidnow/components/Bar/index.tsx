@@ -1,8 +1,9 @@
 import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveBar } from "@nivo/bar";
-import { AxisTickProps } from "@nivo/axes";
 import { line, curveMonotoneX } from "d3-shape";
-import { ChartHeader } from "@dashboards/covidnow/components";
+import { ChartHeader, StateTick } from "@dashboards/covidnow/components";
+import { CountryAndStates } from "@lib/constants";
+import type { BarCustomLayerProps, BarDatum } from "@nivo/bar";
 
 interface BarProps {
   className?: string;
@@ -30,16 +31,26 @@ interface BarProps {
   customTickX?: "state" | undefined;
   interactive?: boolean;
   animate?: boolean;
+  lineKey?: string;
 }
 
-const LineLayer = ({ bars, xScale, yScale }) => {
-  const lineGenerator = line()
-    .curve(curveMonotoneX)
-    .x(d => xScale(d.data.indexValue) + d.width / 2)
-    .y(d => yScale(d.data.data.y));
+const LineLayer =
+  (key: string) =>
+  ({ bars, xScale, yScale }: BarCustomLayerProps<BarDatum>): JSX.Element => {
+    const lineGenerator = line()
+      .curve(curveMonotoneX)
+      .x((d: any) => xScale(d.data.indexValue) + d.width / 2)
+      .y((d: any) => yScale(d.data.data[key]));
 
-  return <path d={lineGenerator(bars)!} fill="none" stroke="#2563EB" strokeWidth="2px" />;
-};
+    return (
+      <path
+        d={lineGenerator(bars as Iterable<[number, number]>)!}
+        fill="none"
+        stroke="#2563EB"
+        strokeWidth="2px"
+      />
+    );
+  };
 
 const Bar: FunctionComponent<BarProps> = ({
   className = "w-full h-full", // manage CSS here
@@ -67,6 +78,7 @@ const Bar: FunctionComponent<BarProps> = ({
   reverse = false,
   minY = "auto",
   maxY = "auto",
+  lineKey = "line",
 }) => {
   return (
     <div>
@@ -96,12 +108,12 @@ const Bar: FunctionComponent<BarProps> = ({
             if (hideLabelKeys?.includes(id.toString())) return "";
             return formattedValue;
           }}
-          valueFormat={d => {
+          valueFormat={(d: number) => {
             return (
               <tspan x={-20} style={{ fontSize: "14px", fill: "rgba(100, 116, 139, 1)" }}>
                 {d}
               </tspan>
-            );
+            ) as unknown as string;
           }}
           animate={animate}
           isInteractive={interactive}
@@ -143,7 +155,9 @@ const Bar: FunctionComponent<BarProps> = ({
           gridXValues={gridXValues}
           gridYValues={gridYValues}
           layers={
-            enableLine ? ["grid", "axes", "bars", LineLayer, "markers", "legends"] : undefined
+            enableLine
+              ? ["grid", "axes", "bars", LineLayer(lineKey), "markers", "legends"]
+              : undefined
           }
         />
       </div>
@@ -151,67 +165,23 @@ const Bar: FunctionComponent<BarProps> = ({
   );
 };
 
-export default Bar;
-
-const statesMap = {
-  jhr: "Johor",
-  kdh: "Kedah",
-  ktn: "Kelantan",
-  kul: "Kuala Lumpur",
-  kvy: "Klang Valley",
-  lbn: "Labuan",
-  mlk: "Melaka",
-  mys: "Malaysia",
-  nsn: "N.Sembilan",
-  phg: "Pahang",
-  pjy: "Putrajaya",
-  pls: "Perlis",
-  png: "P.Pinang",
-  prk: "Perak",
-  sbh: "Sabah",
-  sgr: "Selangor",
-  swk: "Sarawak",
-  trg: "Terengganu",
-  wp: "W.Persekutuan",
-};
-
-const dummy = Array(19)
+const dummy = Array(Object.keys(CountryAndStates).length)
   .fill(0)
   .map((_, index) => {
     let date = new Date();
     date.setDate(date.getDate() - index);
 
-    const y1 = Math.floor(Math.random() * 98 + 2);
-    const y2 = 100 - y1;
+    const y1 = () => Math.floor(Math.random() * 98 + 2);
+    const y2 = 100 - y1();
 
     return {
       x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
-      y: y1,
+      y: y1(),
       y2: y2,
-      state: Object.keys(statesMap)[index],
+      line: y1(),
+      state: Object.keys(CountryAndStates)[index],
     };
   })
   .reverse();
 
-const StateTick = (tick: AxisTickProps<string>) => {
-  return (
-    <g transform={`translate(${tick.x - 150},${tick.y})`}>
-      <image
-        x={-28}
-        y={-6}
-        href={`/static/images/states/${tick.value}.jpeg`}
-        style={{ width: "18px" }}
-      ></image>
-      <text
-        textAnchor="start"
-        dominantBaseline="middle"
-        style={{
-          fontSize: "14px",
-          textAlign: "left",
-        }}
-      >
-        {statesMap[tick.value]}
-      </text>
-    </g>
-  );
-};
+export default Bar;
