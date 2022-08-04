@@ -15,6 +15,7 @@ import { post } from "@lib/api";
 
 const Bar = dynamic(() => import("@dashboards/covidnow/components/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@dashboards/covidnow/components/Heatmap"), { ssr: false });
+const Line = dynamic(() => import("@dashboards/covidnow/components/Line"), { ssr: false });
 const BarLine = dynamic(() => import("@dashboards/covidnow/components/BarLine"), { ssr: false });
 
 const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -25,10 +26,9 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
           <h3 className="text-black">Blood Donation</h3>
           <p className="text-dim">
-            For a more general look at infectious diseases such as measles, chicken pox, and HFMD,
-            head on over to our A stable and high supply of blood is critical for a well-functioning
-            public healthcare system. This dashboard, which gives you near-real-time updates on key
-            indicators related to blood transfusion services, is brought to you by the{" "}
+            A stable and high supply of blood is critical for a well-functioning public healthcare
+            system. This dashboard, which gives you near real-time updates on key indicators related
+            to blood transfusion services, is brought to you by the{" "}
             <a href="#" className="font-semibold text-blue-600">
               National Blood Centre (PDN).
             </a>
@@ -38,21 +38,72 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Container className="min-h-screen">
         {/* Is {{ area }}'s current blood supply sufficient? */}
         <Section title="Is Klang Valley's current blood supply sufficient?">
-          <div className="grid grid-cols-1 gap-12 py-6 xl:grid-cols-2 ">
-            <Heatmap className="h-[500px]" title="Blood Supply by States" />
+          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
+            <Heatmap
+              className="h-[500px]"
+              title="Blood Supply by States"
+              hoverTarget="row"
+              menu={<MenuDropdown />}
+            />
             <div>
-              <Tabs title="Vaccination Progress by State">
-                <Panel title="Type A">
-                  <BarLine />
+              <Tabs
+                title={
+                  <Tooltip
+                    trigger={
+                      <span className="text-lg font-bold underline decoration-dashed underline-offset-4">
+                        Blood supply over time
+                      </span>
+                    }
+                  >
+                    Tooltip for Blood supply over time
+                  </Tooltip>
+                }
+                menu={<MenuDropdown />}
+              >
+                <Panel name="Type A">
+                  <Line
+                    className="h-[500px] w-full"
+                    lineWidth={1}
+                    maxY={75}
+                    enableArea={true}
+                    enableGridX={false}
+                    enablePoint={false}
+                    enablePointLabel={false}
+                    enableLabel={false}
+                  />
                 </Panel>
-                <Panel title="Type B">
-                  <BarLine />
+                <Panel name="Type B">
+                  <Line
+                    className="h-[500px] w-full"
+                    lineWidth={0}
+                    enableArea={true}
+                    enableGridX={false}
+                    enablePoint={false}
+                    enablePointLabel={false}
+                    enableLabel={false}
+                  />
                 </Panel>
-                <Panel title="Type AB">
-                  <BarLine />
+                <Panel name="Type AB">
+                  <Line
+                    className="h-[500px] w-full"
+                    lineWidth={0}
+                    enableArea={true}
+                    enableGridX={false}
+                    enablePoint={false}
+                    enablePointLabel={false}
+                    enableLabel={false}
+                  />
                 </Panel>
-                <Panel title="Type O">
-                  <BarLine />
+                <Panel name="Type O">
+                  <Line
+                    className="h-[500px] w-full"
+                    lineWidth={0}
+                    enableArea={true}
+                    enableGridX={false}
+                    enablePoint={false}
+                    enablePointLabel={false}
+                    enableLabel={false}
+                  />
                 </Panel>
               </Tabs>
             </div>

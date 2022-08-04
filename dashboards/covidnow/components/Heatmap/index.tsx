@@ -1,29 +1,77 @@
 import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
 import { ChartHeader } from "@dashboards/covidnow/components";
-
+import { AxisTickProps } from "@nivo/axes";
+import { CHOROPLETH_RED_SCALE } from "@dashboards/kawasanku/lib/constants";
 interface HeatmapProps {
   className?: string;
   data?: any;
   title?: string | ReactElement;
   menu?: ReactElement;
   controls?: ReactElement;
+  schema?: Array<Record<string, string | number>>;
+  minY?: number;
+  maxY?: number;
+  hoverTarget?: "cell" | "row" | "column" | "rowColumn";
 }
+
+const sortedSchema = [
+  {
+    label: "Low",
+    labelColor: "#FFF",
+    max: 25,
+  },
+  {
+    label: "Mid",
+    labelColor: "#000",
+    max: 50,
+  },
+  {
+    label: "Safe",
+    labelColor: "#000",
+    max: 80,
+  },
+  {
+    label: "High",
+    labelColor: "#000",
+    max: Infinity,
+  },
+];
 
 const Heatmap: FunctionComponent<HeatmapProps> = ({
   className,
   title,
   data = dummy,
+  schema = sortedSchema,
   menu,
   controls,
+  minY = 0,
+  maxY = 100,
+  hoverTarget,
 }) => {
+  const get = (
+    props: { id: any; serieId: any; data: any; formattedValue: any; color?: any },
+    key: string
+  ) => {
+    let { id, serieId, data, formattedValue, color } = props;
+    if (!schema && key === "label") return formattedValue ?? "";
+    if (!schema && key === "labelColor") return color ?? "#000";
+
+    for (const scheme of schema) {
+      if (data.y < scheme.max) return scheme[key];
+    }
+
+    return formattedValue ?? "";
+  };
+
   return (
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} />
       <div className={className}>
         <ResponsiveHeatMap
           data={data}
-          margin={{ top: 30, right: 0, bottom: 60, left: 60 }}
+          margin={{ top: 30, right: 0, bottom: 10, left: 180 }}
+          hoverTarget={hoverTarget}
           valueFormat=">-.2s"
           axisTop={{
             tickSize: 0,
@@ -32,48 +80,132 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
             legend: "",
             legendOffset: 46,
           }}
+          label={props => get(props, "label")}
+          labelTextColor={props => get(props, "labelColor")}
           axisLeft={{
             ticksPosition: "before",
             tickSize: 0,
             tickPadding: 10,
             tickRotation: 0,
-            legend: "country",
-            legendPosition: "middle",
-            legendOffset: -72,
+            renderTick: StateTick,
           }}
           colors={{
-            type: "diverging",
-            scheme: "blues",
-            minValue: -100000,
-            maxValue: 100000,
-            divergeAt: 0.5,
+            type: "quantize",
+            // scheme: "reds",
+            minValue: minY,
+            maxValue: maxY,
+            steps: 4,
+            colors: [
+              "rgba(255, 255, 255, 1)",
+              "rgba(248, 250, 252, 1)",
+              "rgba(255, 192, 192, 1)",
+              "rgba(255, 78, 78, 1)",
+            ].reverse(),
           }}
           emptyColor="#555555"
-          legends={[
-            {
-              anchor: "bottom",
-              translateX: 0,
-              translateY: 30,
-              length: 400,
-              thickness: 8,
-              direction: "row",
-              tickPosition: "after",
-              tickSize: 3,
-              tickSpacing: 4,
-              tickOverlap: false,
-              tickFormat: ">-.2s",
-              title: "Value →",
-              titleAlign: "start",
-              titleOffset: 4,
-            },
-          ]}
+          animate={false}
+          //   legends={[
+          //     {
+          //       anchor: "bottom",
+          //       translateX: 0,
+          //       translateY: 30,
+          //       length: 400,
+          //       thickness: 8,
+          //       direction: "row",
+          //       tickPosition: "after",
+          //       tickSize: 3,
+          //       tickSpacing: 4,
+          //       tickOverlap: false,
+          //       tickFormat: ">-.2s",
+          //       title: "Value →",
+          //       titleAlign: "start",
+          //       titleOffset: 4,
+          //     },
+          //   ]}
         />
       </div>
     </div>
   );
 };
 
-const dummy = [
+const StateTick = (tick: AxisTickProps<string>) => {
+  return (
+    <g transform={`translate(${tick.x - 150},${tick.y})`}>
+      <image
+        x={-28}
+        y={-6}
+        href={`/static/images/states/${tick.value}.jpeg`}
+        style={{ width: "18px" }}
+      ></image>
+      <text
+        textAnchor="start"
+        dominantBaseline="middle"
+        style={{
+          fontSize: "14px",
+          textAlign: "left",
+        }}
+      >
+        {statesMap[tick.value]}
+      </text>
+    </g>
+  );
+};
+
+const statesMap = {
+  jhr: "Johor",
+  kdh: "Kedah",
+  ktn: "Kelantan",
+  kul: "Kuala Lumpur",
+  kvy: "Klang Valley",
+  lbn: "Labuan",
+  mlk: "Melaka",
+  mys: "Malaysia",
+  nsn: "N.Sembilan",
+  phg: "Pahang",
+  pjy: "Putrajaya",
+  pls: "Perlis",
+  png: "P.Pinang",
+  prk: "Perak",
+  sbh: "Sabah",
+  sgr: "Selangor",
+  swk: "Sarawak",
+  trg: "Terengganu",
+  wp: "W.Persekutuan",
+};
+
+const dummy = Array(19)
+  .fill(0)
+  .map((_, index) => {
+    let date = new Date();
+    date.setDate(date.getDate() - index);
+
+    const y1 = () => Math.floor(Math.random() * 98 + 2);
+    const y2 = 100 - y1();
+
+    return {
+      id: Object.keys(statesMap)[index],
+      data: [
+        {
+          x: "A",
+          y: y1(),
+        },
+        {
+          x: "B",
+          y: y1(),
+        },
+        {
+          x: "AB",
+          y: y1(),
+        },
+        {
+          x: "O",
+          y: y1(),
+        },
+      ],
+    };
+  });
+
+const dummyDiagonal = [
   {
     id: "Japan",
     data: [
