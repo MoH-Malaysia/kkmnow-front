@@ -8,3 +8,4 @@ export { default as Table } from "./Table";
 export { default as ChartHeader } from "./ChartHeader";
 
 export { default as StateTick } from "./Ticks/StateTick";
+export { default as Slider } from "./Slider";

@@ -8,6 +8,7 @@ import {
   Tooltip,
   Section,
 } from "@components/index";
+import { Slider } from "@dashboards/covidnow/components";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 
 import dynamic from "next/dynamic";
@@ -121,7 +122,13 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               stress."
         >
           <div className="flex w-full flex-col gap-12">
-            <BarLine title="Daily Donations" menu={<MenuDropdown />} />
+            <div className="space-y-4">
+              <BarLine title="Daily Donations" menu={<MenuDropdown />} stats={null} />
+              <Slider className="pt-7" type="default" onChange={(item: any) => console.log(item)} />
+              <span className="text-sm text-dim">
+                Use this time slider to zoom in specific time range
+              </span>
+            </div>
 
             <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
               <BarLine title="Donation by donation type" menu={<MenuDropdown />} stats={null} />

@@ -86,3 +86,12 @@
 .graphiql-container {
   @apply min-h-screen;
 }
+
+input[type="range"] {
+  opacity: 0%;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  pointer-events: all;
+  -webkit-appearance: none;
+}
