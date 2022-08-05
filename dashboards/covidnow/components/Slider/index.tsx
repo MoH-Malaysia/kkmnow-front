@@ -203,6 +203,6 @@ const Slider: FunctionComponent<SliderProps> = ({
   );
 };
 
-const dummy = ["Saab", "Volvo", "BMW"];
+const dummy = ["Saab", "Volvo", "BMW", "Proton", "Perodua", "Mercedes", "Toyota", "Honda"];
 
 export default Slider;

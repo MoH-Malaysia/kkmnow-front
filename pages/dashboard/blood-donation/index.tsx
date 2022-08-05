@@ -124,7 +124,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
               <BarLine title="Daily Donations" menu={<MenuDropdown />} stats={null} />
-              <Slider className="pt-7" type="default" onChange={(item: any) => console.log(item)} />
+              <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
               <span className="text-sm text-dim">
                 Use this time slider to zoom in specific time range
               </span>
