@@ -1,0 +1,34 @@
+.table {
+  @apply relative w-full max-w-full;
+}
+
+.table-responsive {
+  @apply overflow-scroll lg:overflow-visible;
+}
+
+.table th {
+  @apply font-normal text-dim;
+}
+.table tbody tr {
+  @apply border-b-[0.5px] border-l-[0.5px] border-l-black;
+}
+
+.table tbody tr:first-child {
+  @apply border-t-[0.5px];
+}
+
+.table tbody tr:last-child {
+  @apply border-b-[0.5px] border-b-black;
+}
+
+.table td {
+  @apply border-r-[0.5px] py-1 px-2;
+}
+
+.table td:not(:first-child) {
+  @apply text-right;
+}
+
+.table tr:first-child {
+  @apply border-t-black;
+}

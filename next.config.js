@@ -4,5 +4,5 @@ const withGraphql = require("next-plugin-graphql");
 
 module.exports = withGraphql({
   i18n,
-  reactStrictMode: true,
+  reactStrictMode: false, // Bug requires strict-mode false: https://github.com/plouc/nivo/issues/2009
 });

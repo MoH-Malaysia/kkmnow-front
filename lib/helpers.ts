@@ -1,77 +1,6 @@
 import { SetStateAction } from "react";
-import axios from "axios";
 import { OptionType } from "@components/types";
-import GQLPayload from "graphql/class/GQLPayload";
-
-/**
- * Base Backend APIs
- */
-const BACKENDS = {
-  CMS: process.env.CMS_URL ?? "http://localhost:8055/",
-  CMS_GRAPH: process.env.CMS_GRAPHQL_URL ?? "http://localhost:8055/graphql",
-  ROSH: "ROSH",
-};
-
-/**
- * Universal GET helper function.
- * @param type CMS | CMS_GRAPH | ROSH
- * @param url Endpoint URL
- * @returns result
- */
-export const get = (type: keyof typeof BACKENDS, url: string): Promise<unknown> => {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(type === "CMS_GRAPH" ? BACKENDS[type] : BACKENDS[type].concat(url as string))
-      .then(response => {
-        switch (type) {
-          case "CMS":
-          case "CMS_GRAPH":
-            resolve(response.data.data);
-            break;
-          case "ROSH":
-            resolve(response.data);
-            break;
-          default:
-            resolve(response.data);
-            break;
-        }
-      })
-      .catch(err => reject(err));
-  });
-};
-
-/**
- * Universal POST helper function.
- * @param type CMS | CMS_GRAPH | ROSH
- * @param url Endpoint URL
- * @param payload GQLPayload class | any
- * @returns result
- */
-export const post = (
-  type: keyof typeof BACKENDS,
-  url: string | null,
-  payload: GQLPayload | any
-): Promise<unknown> => {
-  return new Promise((resolve, reject) => {
-    axios
-      .post(type === "CMS_GRAPH" ? BACKENDS[type] : BACKENDS[type].concat(url as string), payload)
-      .then(response => {
-        switch (type) {
-          case "CMS":
-          case "CMS_GRAPH":
-            resolve(response.data.data);
-            break;
-          case "ROSH":
-            resolve(response.data);
-            break;
-          default:
-            resolve(response.data);
-            break;
-        }
-      })
-      .catch(err => reject(err));
-  });
-};
+import { TFunction } from "next-i18next";
 
 export const isObjEqual = (obj1: any, obj2: any) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -79,6 +8,12 @@ export const isObjEqual = (obj1: any, obj2: any) => {
 
 export const isObjInArr = (arr: any[], obj: any) => {
   return arr.some((item: any) => isObjEqual(item, obj));
+};
+
+export const maxBy = (array: Array<any>, key: string) => {
+  return array.reduce((prev, current) => {
+    return prev[key] > current[key] ? prev : current;
+  });
 };
 
 export const handleSelectMultipleDropdown = (
@@ -91,4 +26,22 @@ export const handleSelectMultipleDropdown = (
   } else {
     useStateHookFunction([...options, selectedOption]);
   }
+};
+
+export const capitalize = (s: string) => {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
+export const formatNumberPrefix = (n: number) => {
+  if (n > 999999) return `${(n / 1000000).toFixed(1)}M`;
+  else return n > 999 ? `${(n / 1000).toFixed(0)}k` : n;
+};
+
+export const replaceChartIdWithTranslation = (t: TFunction, prefix: string, data: any[]) => {
+  return data.map((item: any) => {
+    return {
+      ...item,
+      id: t(`${prefix}${prefix ? "." : ""}${item.id}`),
+    };
+  });
 };

@@ -1,6 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* TAILWIND CSS */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* DASHBOARDS CSS */
+@import "./dashboards/kawasanku.css";
+@import "./dashboards/covidnow.css";
 
 @layer base {
   h1 {
@@ -17,6 +22,13 @@
 
   h4 {
     @apply text-xl font-bold;
+  }
+  h5 {
+    @apply text-xl font-normal tracking-normal text-gray-500;
+  }
+
+  h6 {
+    @apply text-base font-semibold uppercase tracking-wider text-gray-500;
   }
 }
 
@@ -55,6 +67,13 @@
       radial-gradient(at 5% 0%, hsla(158, 92%, 80%, 1) 0px, transparent 50%);
   }
 
+  .hero-light-4 {
+    background-color: hsl(25, 100%, 94%);
+    background-image: radial-gradient(at 94% 100%, hsl(3, 100%, 93%), transparent 100%),
+      radial-gradient(at 47% 92%, hsl(20, 100%, 95%) 0px, transparent 50%),
+      radial-gradient(at 5% 0%, hsl(25, 100%, 94%) 0px, transparent 50%);
+  }
+
   .hero-dark-1 {
     background-color: hsla(239, 76%, 28%, 1);
     background-image: radial-gradient(at 22% 0%, hsla(236, 45%, 31%, 1) 0px, transparent 50%),
@@ -66,4 +85,13 @@
 
 .graphiql-container {
   @apply min-h-screen;
+}
+
+input[type="range"] {
+  opacity: 0%;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  pointer-events: all;
+  -webkit-appearance: none;
 }
