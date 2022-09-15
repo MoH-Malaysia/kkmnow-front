@@ -4,14 +4,14 @@ import {
   Tabs,
   Panel,
   MenuDropdown,
-  Dropdown,
+  Checkbox,
   Tooltip,
   Section,
   Slider,
 } from "@components/index";
 
 import { InferGetStaticPropsType, GetStaticProps } from "next";
-
+import { useData } from "@hooks/useData";
 import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 
@@ -21,6 +21,12 @@ const Line = dynamic(() => import("@components/Chart/Line"), { ssr: false });
 const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
 
 const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { data, setData } = useData({
+    relative_donation_type: false,
+    relative_blood_group: false,
+    relative_donor_type: false,
+    relative_location: false,
+  });
   return (
     <>
       <Hero background="hero-light-1">
@@ -67,6 +73,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     className="h-[500px] w-full"
                     lineWidth={1}
                     maxY={75}
+                    colorScheme="blood-red"
                     enableArea={true}
                     enableGridX={false}
                     enablePoint={false}
@@ -79,6 +86,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     className="h-[500px] w-full"
                     lineWidth={0}
                     enableArea={true}
+                    colorScheme="blood-red"
                     enableGridX={false}
                     enablePoint={false}
                     enablePointLabel={false}
@@ -90,6 +98,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     className="h-[500px] w-full"
                     lineWidth={0}
                     enableArea={true}
+                    colorScheme="blood-red"
                     enableGridX={false}
                     enablePoint={false}
                     enablePointLabel={false}
@@ -101,6 +110,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     className="h-[500px] w-full"
                     lineWidth={0}
                     enableArea={true}
+                    colorScheme="blood-red"
                     enableGridX={false}
                     enablePoint={false}
                     enablePointLabel={false}
@@ -132,14 +142,78 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
 
             <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-              <BarLine title="Donation by donation type" menu={<MenuDropdown />} stats={null} />
-              <BarLine
+              <Line
+                className="h-[500px] w-full"
+                title="Donation by donation type"
+                menu={<MenuDropdown />}
+                subheader={
+                  <Checkbox
+                    name="donation_type"
+                    value={data.relative_donation_type}
+                    onChange={e => setData("relative_donation_type", e.target.checked)}
+                  >
+                    Relative
+                  </Checkbox>
+                }
+                enableArea
+                enableGridX={false}
+                enablePoint={false}
+                legends="right"
+              />
+              <Line
+                className="h-[500px] w-full"
                 title="Donation by blood group (phenotype)"
                 menu={<MenuDropdown />}
-                stats={null}
+                subheader={
+                  <Checkbox
+                    name="blood_group"
+                    value={data.relative_blood_group}
+                    onChange={e => setData("relative_blood_group", e.target.checked)}
+                  >
+                    Relative
+                  </Checkbox>
+                }
+                enableArea
+                enableGridX={false}
+                enablePoint={false}
+                legends="right"
               />
-              <BarLine title="Donation by donor type" menu={<MenuDropdown />} stats={null} />
-              <BarLine title="Donation by location" menu={<MenuDropdown />} stats={null} />
+              <Line
+                className="h-[500px] w-full"
+                title="Donation by donor type"
+                menu={<MenuDropdown />}
+                subheader={
+                  <Checkbox
+                    name="donor_type"
+                    value={data.relative_donor_type}
+                    onChange={e => setData("relative_donor_type", e.target.checked)}
+                  >
+                    Relative
+                  </Checkbox>
+                }
+                enableArea
+                enableGridX={false}
+                enablePoint={false}
+                legends="right"
+              />
+              <Line
+                className="h-[500px] w-full"
+                title="Donation by location"
+                menu={<MenuDropdown />}
+                subheader={
+                  <Checkbox
+                    name="location"
+                    value={data.relative_location}
+                    onChange={e => setData("relative_location", e.target.checked)}
+                  >
+                    Relative
+                  </Checkbox>
+                }
+                enableArea
+                enableGridX={false}
+                enablePoint={false}
+                legends="right"
+              />
             </div>
           </div>
         </Section>
@@ -154,20 +228,20 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <div>
               <Tabs title="Number of new donors" menu={<MenuDropdown />}>
                 <Panel name="Annual">
-                  <Bar className="h-[300px]" />
+                  <Bar className="h-[300px]" enableGridX={false} />
                 </Panel>
                 <Panel name="Monthly">
-                  <Bar className="h-[300px]" />
+                  <Bar className="h-[300px]" enableGridX={false} />
                 </Panel>
               </Tabs>
             </div>
             <div>
               <Tabs title="New donors by age group" menu={<MenuDropdown />}>
                 <Panel name="Past 1 year">
-                  <Bar className="h-[300px]" />
+                  <Bar className="h-[300px]" enableGridX={false} />
                 </Panel>
                 <Panel name="Past 1 month">
-                  <Bar className="h-[300px]" />
+                  <Bar className="h-[300px]" enableGridX={false} />
                 </Panel>
               </Tabs>
             </div>

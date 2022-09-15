@@ -6,6 +6,7 @@ export { default as Tooltip } from "./Tooltip";
 export { default as Tabs, Panel } from "./Tabs";
 export { default as MenuDropdown } from "./MenuDropdown";
 export { default as Section } from "./Section";
+export { default as Checkbox } from "./Checkbox";
 
 /** Chart */
 export { default as BarLine } from "./Chart/BarLine";
