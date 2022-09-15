@@ -47,7 +47,7 @@ const About = () => {
           <p className="text-center text-dim">{about.description}</p>
         </div>
         {/* TEAM STATS */}
-        <div className="flex w-full justify-center gap-4">
+        <div className="flex w-full flex-col items-center justify-center gap-2 md:flex-row md:gap-4">
           <TeamStats arrLen={7} text={about.web_devs} />
           <TeamStats arrLen={10} text={about.data_scientists} />
           <TeamStats arrLen={35} text={about.partners} />
