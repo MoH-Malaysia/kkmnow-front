@@ -23,7 +23,7 @@ const Header = () => {
   const [isTabletNavOpen, setIsTabletNavOpen] = useState(false);
 
   return (
-    <div className="sticky top-0 left-0 w-full">
+    <div className="sticky top-0 left-0 z-20 w-full">
       <Container background="bg-white" className="flex items-center gap-4 border-b py-[11px]">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
