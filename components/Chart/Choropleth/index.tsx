@@ -8,7 +8,7 @@ import {
   //   CHOROPLETH_RED_PURPLE_SCALE,
   //   CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
 } from "@lib/constants";
-import { features as ParliamentDesktop } from "@lib/geojson/parlimen_desktop.json";
+import ParliamentDesktop from "@lib/geojson/parlimen_desktop.json";
 // import { features as ParliamentMobile } from "@lib/geojson/parlimen_mobile.json";
 // import { features as DunDesktop } from "@lib/geojson/dun_desktop.json";
 // import { features as DunMobile } from "@lib/geojson/dun_mobile.json";
@@ -31,7 +31,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   title,
   data = dummyData,
 }) => {
-  const [feature, setState] = useState(ParliamentDesktop);
+  const [feature, setState] = useState(ParliamentDesktop.features);
   const config = {
     colors: CHOROPLETH_RED_SCALE,
     projectionScale: 2300,
