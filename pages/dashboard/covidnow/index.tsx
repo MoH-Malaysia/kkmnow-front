@@ -7,20 +7,20 @@ import {
   Dropdown,
   Tooltip,
   Section,
+  ChartHeader,
+  Stages,
 } from "@components/index";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useState } from "react";
-
-import { ChartHeader, Stages } from "@dashboards/covidnow/components";
 import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 
-const Bar = dynamic(() => import("@dashboards/covidnow/components/Bar"), { ssr: false });
-const Donut = dynamic(() => import("@dashboards/covidnow/components/Donut"), { ssr: false });
-const BarLine = dynamic(() => import("@dashboards/covidnow/components/BarLine"), { ssr: false });
-const Line = dynamic(() => import("@dashboards/covidnow/components/Line"), { ssr: false });
-const Table = dynamic(() => import("@dashboards/covidnow/components/Table"), { ssr: false });
-const Choropleth = dynamic(() => import("@dashboards/covidnow/components/Choropleth"), {
+const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
+const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
+const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
+const Line = dynamic(() => import("@components/Chart/Line"), { ssr: false });
+const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
+const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), {
   ssr: false,
 });
 
@@ -270,7 +270,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  // const { data } = await post("") // your fetch function here
+  // const { data } = await post("") // fetch static data here
 
   return {
     props: {},

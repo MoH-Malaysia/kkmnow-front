@@ -7,17 +7,18 @@ import {
   Dropdown,
   Tooltip,
   Section,
+  Slider,
 } from "@components/index";
-import { Slider } from "@dashboards/covidnow/components";
+
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 
 import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 
-const Bar = dynamic(() => import("@dashboards/covidnow/components/Bar"), { ssr: false });
-const Heatmap = dynamic(() => import("@dashboards/covidnow/components/Heatmap"), { ssr: false });
-const Line = dynamic(() => import("@dashboards/covidnow/components/Line"), { ssr: false });
-const BarLine = dynamic(() => import("@dashboards/covidnow/components/BarLine"), { ssr: false });
+const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
+const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
+const Line = dynamic(() => import("@components/Chart/Line"), { ssr: false });
+const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
 
 const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -198,7 +199,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 };
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  // const { data } = await post("") // your fetch function here
+  // const { data } = await post("") // fetch static data here
 
   return {
     props: {},

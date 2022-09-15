@@ -1,5 +1,0 @@
-query ListArticles {
-  articles {
-    id
-  }
-}
