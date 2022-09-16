@@ -9,6 +9,7 @@ import {
   Section,
   ChartHeader,
   Stages,
+  BarMeter,
 } from "@components/index";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useState } from "react";
@@ -98,6 +99,11 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             <Waffle className="h-[220px] w-[220px]" title="1st Booster" />
             <Waffle className="h-[220px] w-[220px]" title="2nd Booster" />
           </div>
+        </Section> */}
+
+        {/* EXAMPLE BAR METER */}
+        {/* <Section title="BAR METER">
+          <BarMeter className="relative flex h-[500px] w-full justify-between" />
         </Section> */}
 
         {/* Utilisations */}

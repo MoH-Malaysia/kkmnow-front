@@ -16,6 +16,11 @@ export const maxBy = (array: Array<any>, key: string) => {
   });
 };
 
+export const minMax = (e: number) => {
+  if (!e) return 0;
+  return Math.min(Math.max(e, 0), 100);
+};
+
 export const handleSelectMultipleDropdown = (
   selectedOption: OptionType,
   options: OptionType[],

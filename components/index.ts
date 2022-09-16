@@ -9,9 +9,11 @@ export { default as Section } from "./Section";
 export { default as Checkbox } from "./Checkbox";
 
 /** Chart */
-export { default as BarLine } from "./Chart/BarLine";
 export { default as Line } from "./Chart/Line";
 export { default as Bar } from "./Chart/Bar";
+export { default as BarLine } from "./Chart/BarLine";
+export { default as BarMeter } from "./Chart/BarMeter";
+
 export { default as Donut } from "./Chart/Donut";
 export { default as Stages } from "./Chart/Stages";
 export { default as Choropleth } from "./Chart/Choropleth";
