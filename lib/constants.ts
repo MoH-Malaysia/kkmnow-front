@@ -153,3 +153,71 @@ export const CHOROPLETH_RED_PURPLE_SCALE = [
   "#7A0177",
   "#49006A",
 ];
+
+// HEATMAP SCHEMAS
+export type HeatmapSchema = {
+  label?: string;
+  labelColor?: string;
+  max: number;
+};
+
+export const BLOOD_SUPPLY_SCHEMA: HeatmapSchema[] = [
+  {
+    label: "Low",
+    labelColor: "#FFF",
+    max: 25,
+  },
+  {
+    label: "Mid",
+    labelColor: "#000",
+    max: 50,
+  },
+  {
+    label: "Safe",
+    labelColor: "#000",
+    max: 80,
+  },
+  {
+    label: "High",
+    labelColor: "#000",
+    max: Infinity,
+  },
+];
+export const BLOOD_DONATION_SCHEMA: HeatmapSchema[] = [
+  {
+    labelColor: "#000",
+    max: 0,
+  },
+  {
+    labelColor: "#000",
+    max: 5000,
+  },
+  {
+    labelColor: "#FFF",
+    max: 20000,
+  },
+  {
+    labelColor: "#FFF",
+    max: 50000,
+  },
+  {
+    labelColor: "#FFF",
+    max: Infinity,
+  },
+];
+
+// HEATMAP COLORS
+export const BLOOD_SUPPLY_COLOR: Array<string> = [
+  "rgba(255, 78, 78, 1)",
+  "rgba(255, 192, 192, 1)",
+  "rgba(248, 250, 252, 1)",
+  "rgba(255, 255, 255, 1)",
+];
+
+export const BLOOD_DONATION_COLOR: Array<string> = [
+  "rgba(237, 246, 252, 1)",
+  "rgba(181, 221, 242, 1)",
+  "rgba(96, 185, 225, 1)",
+  "rgba(22, 168, 220, 1)",
+  "rgba(0, 114, 197, 1)",
+];

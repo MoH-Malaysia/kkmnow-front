@@ -60,7 +60,7 @@ const Bar: FunctionComponent<BarProps> = ({
   unitX,
   unitY,
   indexBy = "x",
-  keys = ["y"],
+  keys = ["y1"],
   layout = "vertical",
   data = dummy,
   interactive = true,
@@ -176,7 +176,7 @@ const dummy = Array(Object.keys(CountryAndStates).length)
 
     return {
       x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
-      y: y1(),
+      y1: y1(),
       y2: y2,
       line: y1(),
       state: Object.keys(CountryAndStates)[index],

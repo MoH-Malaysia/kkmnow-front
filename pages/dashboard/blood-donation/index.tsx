@@ -8,10 +8,16 @@ import {
   Tooltip,
   Section,
   Slider,
+  Choropleth,
 } from "@components/index";
-
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useData } from "@hooks/useData";
+import {
+  BLOOD_SUPPLY_SCHEMA,
+  BLOOD_SUPPLY_COLOR,
+  BLOOD_DONATION_COLOR,
+  BLOOD_DONATION_SCHEMA,
+} from "@lib/constants";
 import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 
@@ -51,6 +57,9 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               className="h-[500px]"
               title="Blood Supply by States"
               hoverTarget="row"
+              axisLeft="state"
+              schema={BLOOD_SUPPLY_SCHEMA}
+              color={BLOOD_SUPPLY_COLOR}
               menu={<MenuDropdown />}
             />
             <div>
@@ -254,9 +263,142 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           description="To ensure a stable and high supply of blood, we need 10% of the eliglble population to
             donate at least 1 time per year."
         >
-          <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
-            <Heatmap className="h-[500px]" />
-            <Heatmap className="h-[500px]" />
+          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
+            <div className="w-full space-y-4">
+              <Tabs title="Donor rates across key demographics" menu={<MenuDropdown />}>
+                <Panel name="Per Capita">
+                  <>
+                    <Heatmap
+                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      data={dummyTwoRowHeatmap}
+                      subdata={dummyOneColTwoRowHeatmap}
+                      axisLeft="default"
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+
+                    <Heatmap
+                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      title="Male"
+                      data={dummyFourRowHeatmap}
+                      subdata={dummyOneColFourRowHeatmap}
+                      axisLeft="default"
+                      axisTop={null}
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+
+                    <Heatmap
+                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      title="Female"
+                      data={dummyFourRowHeatmap}
+                      subdata={dummyOneColFourRowHeatmap}
+                      axisLeft="default"
+                      axisTop={null}
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+                  </>
+                </Panel>
+                <Panel name="% of Donations">
+                  <>
+                    <Heatmap
+                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      data={dummyTwoRowHeatmap}
+                      subdata={dummyOneColTwoRowHeatmap}
+                      axisLeft="default"
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+
+                    <Heatmap
+                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      title="Male"
+                      data={dummyFourRowHeatmap}
+                      subdata={dummyOneColFourRowHeatmap}
+                      axisLeft="default"
+                      axisTop={null}
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+
+                    <Heatmap
+                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      title="Female"
+                      data={dummyFourRowHeatmap}
+                      subdata={dummyOneColFourRowHeatmap}
+                      axisLeft="default"
+                      axisTop={null}
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+                  </>
+                </Panel>
+                <Panel name="Absolute">
+                  <>
+                    <Heatmap
+                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      data={dummyTwoRowHeatmap}
+                      subdata={dummyOneColTwoRowHeatmap}
+                      axisLeft="default"
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+
+                    <Heatmap
+                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      title="Male"
+                      data={dummyFourRowHeatmap}
+                      subdata={dummyOneColFourRowHeatmap}
+                      axisLeft="default"
+                      axisTop={null}
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+
+                    <Heatmap
+                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      title="Female"
+                      data={dummyFourRowHeatmap}
+                      subdata={dummyOneColFourRowHeatmap}
+                      axisLeft="default"
+                      axisTop={null}
+                      interactive={false}
+                      schema={BLOOD_DONATION_SCHEMA}
+                      color={BLOOD_DONATION_COLOR}
+                    />
+                  </>
+                </Panel>
+              </Tabs>
+            </div>
+
+            <Heatmap
+              className="flex h-[690px] overflow-auto pt-7 lg:overflow-hidden"
+              title="Donor retention: How well do we retain donors?"
+              menu={<MenuDropdown />}
+              data={dummyDiagonal}
+              axisLeft={{
+                ticksPosition: "before",
+                tickSize: 0,
+                tickPadding: 10,
+                tickRotation: 0,
+              }}
+              legend={{
+                top: "Donated after N years",
+                left: "Donated in",
+              }}
+              interactive={false}
+              schema={BLOOD_DONATION_SCHEMA}
+              color={BLOOD_DONATION_COLOR}
+            />
           </div>
         </Section>
 
@@ -265,12 +407,485 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           title="How is this data collected?"
           description="Map showing locations of BBIS centres:"
         >
-          <p>Map goes here</p>
+          <Choropleth />
         </Section>
       </Container>
     </>
   );
 };
+
+const dummyOneColTwoRowHeatmap = [
+  {
+    id: "Male",
+    data: [
+      {
+        x: "Overall",
+        y: -13623,
+      },
+    ],
+  },
+  {
+    id: "Female",
+    data: [
+      {
+        x: "Overall",
+        y: -13623,
+      },
+    ],
+  },
+];
+const dummyOneColFourRowHeatmap = [
+  {
+    id: "Chinese",
+    data: [
+      {
+        x: "Overall",
+        y: -13623,
+      },
+    ],
+  },
+  {
+    id: "Indian",
+    data: [
+      {
+        x: "Overall",
+        y: -13623,
+      },
+    ],
+  },
+  {
+    id: "Bumiputera",
+    data: [
+      {
+        x: "Overall",
+        y: -13623,
+      },
+    ],
+  },
+  {
+    id: "Other",
+    data: [
+      {
+        x: "Overall",
+        y: -13623,
+      },
+    ],
+  },
+];
+
+const dummyTwoRowHeatmap = [
+  {
+    id: "Male",
+    data: [
+      {
+        x: "Train",
+        y: -13623,
+      },
+      {
+        x: "Subway",
+        y: 49382,
+      },
+      {
+        x: "Bus",
+        y: -49785,
+      },
+      {
+        x: "Car",
+        y: 38066,
+      },
+      {
+        x: "Boat",
+        y: -70988,
+      },
+      {
+        x: "Moto",
+        y: 60325,
+      },
+      {
+        x: "Moped",
+        y: -25685,
+      },
+      {
+        x: "Bicycle",
+        y: 18402,
+      },
+    ],
+  },
+  {
+    id: "Female",
+    data: [
+      {
+        x: "Train",
+        y: 11476,
+      },
+      {
+        x: "Subway",
+        y: -7392,
+      },
+      {
+        x: "Bus",
+        y: 19185,
+      },
+      {
+        x: "Car",
+        y: -20491,
+      },
+      {
+        x: "Boat",
+        y: -66405,
+      },
+      {
+        x: "Moto",
+        y: 62149,
+      },
+      {
+        x: "Moped",
+        y: -62377,
+      },
+      {
+        x: "Bicycle",
+        y: 18402,
+      },
+    ],
+  },
+];
+const dummyFourRowHeatmap = [
+  {
+    id: "Chinese",
+    data: [
+      {
+        x: "Train",
+        y: -13623,
+      },
+      {
+        x: "Subway",
+        y: 49382,
+      },
+      {
+        x: "Bus",
+        y: -49785,
+      },
+      {
+        x: "Car",
+        y: 38066,
+      },
+      {
+        x: "Boat",
+        y: -70988,
+      },
+      {
+        x: "Moto",
+        y: 60325,
+      },
+      {
+        x: "Moped",
+        y: -25685,
+      },
+      {
+        x: "Bicycle",
+        y: 18402,
+      },
+    ],
+  },
+  {
+    id: "Indian",
+    data: [
+      {
+        x: "Train",
+        y: 11476,
+      },
+      {
+        x: "Subway",
+        y: -7392,
+      },
+      {
+        x: "Bus",
+        y: 19185,
+      },
+      {
+        x: "Car",
+        y: -20491,
+      },
+      {
+        x: "Boat",
+        y: -66405,
+      },
+      {
+        x: "Moto",
+        y: 62149,
+      },
+      {
+        x: "Moped",
+        y: -62377,
+      },
+      {
+        x: "Bicycle",
+        y: 18402,
+      },
+    ],
+  },
+  {
+    id: "Bumiputera",
+    data: [
+      {
+        x: "Train",
+        y: 11476,
+      },
+      {
+        x: "Subway",
+        y: -7392,
+      },
+      {
+        x: "Bus",
+        y: 19185,
+      },
+      {
+        x: "Car",
+        y: -20491,
+      },
+      {
+        x: "Boat",
+        y: -66405,
+      },
+      {
+        x: "Moto",
+        y: 62149,
+      },
+      {
+        x: "Moped",
+        y: -62377,
+      },
+      {
+        x: "Bicycle",
+        y: 18402,
+      },
+    ],
+  },
+  {
+    id: "Other",
+    data: [
+      {
+        x: "Train",
+        y: 11476,
+      },
+      {
+        x: "Subway",
+        y: -7392,
+      },
+      {
+        x: "Bus",
+        y: 19185,
+      },
+      {
+        x: "Car",
+        y: -20491,
+      },
+      {
+        x: "Boat",
+        y: -66405,
+      },
+      {
+        x: "Moto",
+        y: 62149,
+      },
+      {
+        x: "Moped",
+        y: -62377,
+      },
+      {
+        x: "Bicycle",
+        y: 18402,
+      },
+    ],
+  },
+];
+
+const dummyDiagonal = [
+  {
+    id: "Japan",
+    data: [
+      {
+        x: "Train",
+        y: -13623,
+      },
+      {
+        x: "Subway",
+        y: 49382,
+      },
+      {
+        x: "Bus",
+        y: -49785,
+      },
+      {
+        x: "Car",
+        y: 38066,
+      },
+      {
+        x: "Boat",
+        y: -70988,
+      },
+      {
+        x: "Moto",
+        y: 60325,
+      },
+      {
+        x: "Moped",
+        y: -25685,
+      },
+      {
+        x: "Bicycle",
+        y: 18402,
+      },
+    ],
+  },
+  {
+    id: "France",
+    data: [
+      {
+        x: "Train",
+        y: 11476,
+      },
+      {
+        x: "Subway",
+        y: -7392,
+      },
+      {
+        x: "Bus",
+        y: 19185,
+      },
+      {
+        x: "Car",
+        y: -20491,
+      },
+      {
+        x: "Boat",
+        y: -66405,
+      },
+      {
+        x: "Moto",
+        y: 62149,
+      },
+      {
+        x: "Moped",
+        y: -62377,
+      },
+    ],
+  },
+  {
+    id: "US",
+    data: [
+      {
+        x: "Train",
+        y: 55769,
+      },
+      {
+        x: "Subway",
+        y: -6430,
+      },
+      {
+        x: "Bus",
+        y: 95228,
+      },
+      {
+        x: "Car",
+        y: 38713,
+      },
+      {
+        x: "Boat",
+        y: -20260,
+      },
+      {
+        x: "Moto",
+        y: 15754,
+      },
+    ],
+  },
+  {
+    id: "Germany",
+    data: [
+      {
+        x: "Train",
+        y: 99572,
+      },
+      {
+        x: "Subway",
+        y: -42981,
+      },
+      {
+        x: "Bus",
+        y: -17820,
+      },
+      {
+        x: "Car",
+        y: 80488,
+      },
+      {
+        x: "Boat",
+        y: -68851,
+      },
+    ],
+  },
+  {
+    id: "Norway",
+    data: [
+      {
+        x: "Train",
+        y: 58659,
+      },
+      {
+        x: "Subway",
+        y: -54633,
+      },
+      {
+        x: "Bus",
+        y: -91166,
+      },
+      {
+        x: "Car",
+        y: 86125,
+      },
+    ],
+  },
+  {
+    id: "Iceland",
+    data: [
+      {
+        x: "Train",
+        y: -72165,
+      },
+      {
+        x: "Subway",
+        y: 5633,
+      },
+      {
+        x: "Bus",
+        y: 81015,
+      },
+    ],
+  },
+  {
+    id: "UK",
+    data: [
+      {
+        x: "Train",
+        y: -51205,
+      },
+      {
+        x: "Subway",
+        y: 18326,
+      },
+    ],
+  },
+  {
+    id: "Vietnam",
+    data: [
+      {
+        x: "Train",
+        y: -20267,
+      },
+    ],
+  },
+];
 
 export const getStaticProps: GetStaticProps = async ctx => {
   // const { data } = await post("") // fetch static data here

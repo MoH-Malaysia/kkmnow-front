@@ -19,4 +19,5 @@ export { default as Table } from "./Chart/Table";
 export { default as ChartHeader } from "./Chart/ChartHeader";
 
 export { default as StateTick } from "./Chart/Ticks/StateTick";
+export { default as DefaultTick } from "./Chart/Ticks/DefaultTick";
 export { default as Slider } from "./Chart/Slider";

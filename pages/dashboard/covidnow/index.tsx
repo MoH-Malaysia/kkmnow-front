@@ -181,7 +181,7 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     <Panel key={index} name={menu.name}>
                       <Bar
                         className="h-[550px] w-full"
-                        keys={["y", "y2"]}
+                        keys={["y1", "y2"]}
                         interactive={false}
                         indexBy="state"
                         hideLabelKeys={["y2"]}
