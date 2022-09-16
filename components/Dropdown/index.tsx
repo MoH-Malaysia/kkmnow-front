@@ -43,7 +43,7 @@ const Dropdown = <L extends string | number = string, V = string>({
   title,
   description,
   placeholder,
-  width,
+  width = "w-fit",
 }: DropdownProps<L, V>) => {
   return (
     <Listbox

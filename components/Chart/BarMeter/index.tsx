@@ -50,40 +50,44 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
 
 const dummy = [
   {
-    id: "Pahang",
-    value: 50,
+    id: "80+",
+    value: 80.6,
   },
   {
-    id: "N. Sembilan",
-    value: 23,
+    id: "70-79",
+    value: 90.8,
   },
   {
-    id: "Kuala Lumpur",
-    value: 300,
+    id: "60-69",
+    value: 98.4,
   },
   {
-    id: "Johor",
-    value: 23,
+    id: "50-59",
+    value: 97.6,
   },
   {
-    id: "Pulau Pinang",
-    value: 23,
+    id: "40-49",
+    value: 102.3,
   },
   {
-    id: "Melaka",
-    value: 23,
+    id: "30-39",
+    value: 96.4,
   },
   {
-    id: "Terengganu",
-    value: 23,
+    id: "20-29",
+    value: 91.2,
   },
   {
-    id: "Kelantan",
-    value: 23,
+    id: "10-19",
+    value: 94.7,
   },
   {
-    id: "Perak",
-    value: 23,
+    id: "5-9",
+    value: 49.9,
+  },
+  {
+    id: "0-4",
+    value: 0,
   },
 ];
 
