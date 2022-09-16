@@ -22,6 +22,7 @@ interface ChoroplethProps {
   title?: string;
   controls?: ReactElement;
   data?: any;
+  enableScale?: boolean;
 }
 
 const Choropleth: FunctionComponent<ChoroplethProps> = ({
@@ -30,11 +31,12 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   menu,
   title,
   data = dummyData,
+  enableScale = true,
 }) => {
   const [feature, setState] = useState(ParliamentDesktop.features);
   const config = {
     colors: CHOROPLETH_RED_SCALE,
-    projectionScale: 2300,
+    projectionScale: 3500,
     projectionTranslation: [0.65, 0.9] as [number, number],
     borderWidth: 0.25,
     borderColor: "#13293d",
@@ -61,7 +63,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
           // }}
         />
       </div>
-      <ChoroplethScale colors={config.colors}></ChoroplethScale>
+      {enableScale && <ChoroplethScale colors={config.colors}></ChoroplethScale>}
     </div>
   );
 };

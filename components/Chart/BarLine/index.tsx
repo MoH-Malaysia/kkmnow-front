@@ -114,7 +114,7 @@ const Stats: FunctionComponent<StatsProps> = ({ data, className }) => {
 };
 
 /**
- * Dummy data
+ * Dummy data BarLine (Timeseries)
  */
 const dummyBar = Array(180)
   .fill(0)
