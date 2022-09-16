@@ -18,11 +18,8 @@ import { post } from "@lib/api";
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
 const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
-const Line = dynamic(() => import("@components/Chart/Line"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
-const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), {
-  ssr: false,
-});
+const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false });
 
 const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [currentTab, selectTab] = useState(0);
@@ -88,6 +85,21 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Hero>
 
       <Container className="min-h-screen">
+        {/* EXAMPLE WAFFLE */}
+        {/* <Section title="EXAMPLE WAFFLE">
+          <div className="grid grid-cols-4 gap-6">
+            <Waffle className="h-[220px] w-[220px]" title="1st Dose">
+              <div>
+                <p>Total - 16,228,368</p>
+                <p>Daily - 1,026</p>
+              </div>
+            </Waffle>
+            <Waffle className="h-[220px] w-[220px]" title="2nd Dose" />
+            <Waffle className="h-[220px] w-[220px]" title="1st Booster" />
+            <Waffle className="h-[220px] w-[220px]" title="2nd Booster" />
+          </div>
+        </Section> */}
+
         {/* Utilisations */}
         <Section title="Utilisations">
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
@@ -199,50 +211,19 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-            <Line
-              className="h-[450px] w-full"
-              menu={<MenuDropdown />}
-              controls={
-                <>
-                  <Dropdown
-                    placeholder="Spotlight"
-                    onChange={() => {}}
-                    options={[
-                      { label: "hello", value: 1 },
-                      { label: "world", value: 2 },
-                    ]}
-                  />
-                  <Dropdown
-                    placeholder="Variable Title"
-                    onChange={() => {}}
-                    options={[
-                      { label: "hello", value: 1 },
-                      { label: "world", value: 2 },
-                    ]}
-                  />
-                </>
-              }
-              title="Snapshot of Key Variables"
-              gridYValues={[0, 25, 50, 75, 100]}
-              unitY="%"
-              enablePointLabel={true}
+            <Bar
+              title="Deaths by Vaccination Status"
+              className="h-[450px]"
+              mode="grouped"
+              keys={["y1", "y2"]}
               enableGridX={false}
-              minY={0}
-              maxY={100}
             />
-            <Choropleth
-              title="Geographic Distribution of Key Variables"
-              controls={
-                <Dropdown
-                  placeholder="Variable Title"
-                  onChange={() => {}}
-                  options={[
-                    { label: "hello", value: 1 },
-                    { label: "world", value: 2 },
-                  ]}
-                />
-              }
-              menu={<MenuDropdown />}
+            <Bar
+              title="Deaths per 100k by Vaccination Status"
+              className="h-[450px]"
+              mode="grouped"
+              keys={["y1", "y2"]}
+              enableGridX={false}
             />
           </div>
         </Section>

@@ -14,6 +14,7 @@ interface BarProps {
   keys?: string[];
   layout?: "vertical" | "horizontal";
   data?: any;
+  mode?: "grouped" | "stacked";
   unitX?: string;
   unitY?: string;
   gridXValues?: Array<number> | undefined;
@@ -61,6 +62,7 @@ const Bar: FunctionComponent<BarProps> = ({
   unitY,
   indexBy = "x",
   keys = ["y1"],
+  mode = "stacked",
   layout = "vertical",
   data = dummy,
   interactive = true,
@@ -100,7 +102,7 @@ const Bar: FunctionComponent<BarProps> = ({
             },
           }}
           colors={["rgba(15, 23, 42, 1)", "rgba(241, 245, 249, 1)"]}
-          groupMode="stacked"
+          groupMode={mode}
           minValue={minY}
           maxValue={maxY}
           enableLabel={enableLabel}

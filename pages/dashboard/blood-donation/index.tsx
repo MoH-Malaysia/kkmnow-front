@@ -8,7 +8,6 @@ import {
   Tooltip,
   Section,
   Slider,
-  Choropleth,
 } from "@components/index";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useData } from "@hooks/useData";
@@ -22,6 +21,7 @@ import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
+const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Line = dynamic(() => import("@components/Chart/Line"), { ssr: false });
 const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });

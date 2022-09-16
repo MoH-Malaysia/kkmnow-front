@@ -23,6 +23,7 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
         <div className="relative flex items-center gap-4">
           <input
             id={name}
+            className="h-4 w-4 rounded border border-outline text-black shadow-sm focus:ring-black"
             type="checkbox"
             name={name}
             defaultChecked={value}
