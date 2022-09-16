@@ -15,15 +15,18 @@ import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { post } from "@lib/api";
+import { useData } from "@hooks/useData";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
 const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
-const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false });
 
 const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [currentTab, selectTab] = useState(0);
+  const { data, setData } = useData({
+    filter_death: 0,
+    filter_state: 0,
+  });
   const BarTabsMenu = [
     {
       name: "Deaths",
@@ -48,19 +51,16 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   ];
   const TableTabsMenu = [
     {
+      name: "Deaths",
+    },
+    {
+      name: "Hosp.",
+    },
+    {
+      name: "Cases",
+    },
+    {
       name: "Show All",
-    },
-    {
-      name: "Total",
-    },
-    {
-      name: "Adults",
-    },
-    {
-      name: "Adolescents",
-    },
-    {
-      name: "Children",
     },
   ];
 
@@ -86,28 +86,8 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Hero>
 
       <Container className="min-h-screen">
-        {/* EXAMPLE WAFFLE */}
-        {/* <Section title="EXAMPLE WAFFLE">
-          <div className="grid grid-cols-4 gap-6">
-            <Waffle className="h-[220px] w-[220px]" title="1st Dose">
-              <div>
-                <p>Total - 16,228,368</p>
-                <p>Daily - 1,026</p>
-              </div>
-            </Waffle>
-            <Waffle className="h-[220px] w-[220px]" title="2nd Dose" />
-            <Waffle className="h-[220px] w-[220px]" title="1st Booster" />
-            <Waffle className="h-[220px] w-[220px]" title="2nd Booster" />
-          </div>
-        </Section> */}
-
-        {/* EXAMPLE BAR METER */}
-        {/* <Section title="BAR METER">
-          <BarMeter className="relative flex h-[500px] w-full justify-between" />
-        </Section> */}
-
         {/* Utilisations */}
-        <Section title="Utilisations">
+        <Section title="Healthcare facility utilisation">
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
               <Donut className="h-[56px] w-[56px]" type="progress" />
@@ -172,28 +152,20 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           </div>
         </Section>
 
-        {/* How are COVID-19 key indicators trending */}
-        <Section title="How are COVID-19 key indicators trending?">
-          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
-            <BarLine title="Deaths by Date of Death" menu={<MenuDropdown />} />
-            <BarLine title="Patients Ventilated" menu={<MenuDropdown />} />
-            <BarLine title="Patients in ICU" menu={<MenuDropdown />} />
-            <BarLine title="Hospital Admissions" menu={<MenuDropdown />} />
-            <BarLine title="Confirmed Cases" menu={<MenuDropdown />} />
-            <BarLine title="Tests Conducted" menu={<MenuDropdown />} />
-          </div>
-        </Section>
-
         {/* What does the latest data show? */}
         <Section title="What does the latest data show?">
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-3">
             <div className="col-span-1 lg:col-span-2">
-              <Stages title="Active COVID-19 Cases" className="pt-10" menu={<MenuDropdown />} />
+              <Stages
+                title="Active COVID-19 Cases"
+                className="h-full pt-10"
+                menu={<MenuDropdown />}
+              />
             </div>
             <div className="col-span-1">
-              <ChartHeader title={BarTabsMenu[currentTab].title} menu={<MenuDropdown />} />
+              <ChartHeader title={BarTabsMenu[data.filter_state].title} menu={<MenuDropdown />} />
 
-              <Tabs onChange={selectTab}>
+              <Tabs onChange={value => setData("filter_state", value)}>
                 {BarTabsMenu.map((menu, index) => {
                   return (
                     <Panel key={index} name={menu.name}>
@@ -216,21 +188,17 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               </Tabs>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-            <Bar
-              title="Deaths by Vaccination Status"
-              className="h-[450px]"
-              mode="grouped"
-              keys={["y1", "y2"]}
-              enableGridX={false}
-            />
-            <Bar
-              title="Deaths per 100k by Vaccination Status"
-              className="h-[450px]"
-              mode="grouped"
-              keys={["y1", "y2"]}
-              enableGridX={false}
-            />
+        </Section>
+
+        {/* How are COVID-19 key indicators trending */}
+        <Section title="How are COVID-19 key indicators trending?">
+          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
+            <BarLine title="Deaths by Date of Death" menu={<MenuDropdown />} />
+            <BarLine title="Patients Ventilated" menu={<MenuDropdown />} />
+            <BarLine title="Patients in ICU" menu={<MenuDropdown />} />
+            <BarLine title="Hospital Admissions" menu={<MenuDropdown />} />
+            <BarLine title="Confirmed Cases" menu={<MenuDropdown />} />
+            <BarLine title="Tests Conducted" menu={<MenuDropdown />} />
           </div>
         </Section>
 
@@ -251,6 +219,29 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </Tabs>
           </div>
         </Section>
+
+        <Section
+          title="What is the mortality rate across vaccination groups?"
+          description="Some description here"
+        >
+          <Tabs
+            title={
+              data.filter_death === 0
+                ? "Deaths per 100k by Vaccination Status"
+                : "Deaths by Vaccination Status"
+            }
+            menu={<MenuDropdown />}
+            onChange={value => setData("filter_death", value)}
+          >
+            <Panel name="Per Capita">
+              <Bar className="h-[450px]" mode="grouped" keys={["y1", "y2"]} enableGridX={false} />
+            </Panel>
+            <Panel name="Absolute">
+              <Bar className="h-[450px]" mode="grouped" keys={["y1", "y2"]} enableGridX={false} />
+            </Panel>
+          </Tabs>
+        </Section>
+        <div className="grid grid-cols-1 gap-12 xl:grid-cols-2"></div>
       </Container>
     </>
   );

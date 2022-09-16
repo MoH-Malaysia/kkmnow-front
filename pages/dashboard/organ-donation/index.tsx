@@ -4,25 +4,21 @@ import {
   Tabs,
   Panel,
   MenuDropdown,
-  Dropdown,
   Slider,
   Section,
-  BarMeter,
   ChartHeader,
 } from "@components/index";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 import { useData } from "@hooks/useData";
-import { filterAgeOptions, filterDoseOptions } from "@lib/options";
+
 import { ORGAN_DONATION_COLOR, ORGAN_DONATION_SCHEMA } from "@lib/constants";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
-const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
+const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
-const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
-const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false });
 
 const OrganDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data, setData } = useData({
@@ -280,6 +276,14 @@ const OrganDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               </Tabs>
             </div>
           </div>
+        </Section>
+
+        {/* How is this data collected? */}
+        <Section
+          title="How is this data collected?"
+          description="Map showing locations of BBIS centres:"
+        >
+          <Choropleth className="h-[500px] w-full" enableScale={false} />
         </Section>
       </Container>
     </>
