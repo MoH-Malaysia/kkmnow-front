@@ -407,7 +407,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           title="How is this data collected?"
           description="Map showing locations of BBIS centres:"
         >
-          <Choropleth />
+          <Choropleth className="h-[500px] w-full" enableScale={false} />
         </Section>
       </Container>
     </>
