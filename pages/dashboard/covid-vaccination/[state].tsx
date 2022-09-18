@@ -1,11 +1,12 @@
 /**
  * Vaccination Page <State>
  */
-import { InferGetStaticPropsType, GetStaticProps } from "next";
+import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
+import { STATES } from "@lib/constants";
 import { get } from "@lib/api";
 
-const CovidVaccinationIndex = ({
+const CovidVaccinationState = ({
   waffle_data,
   timeseries_data,
   table_data,
@@ -23,8 +24,22 @@ const CovidVaccinationIndex = ({
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await get("/kkmnow", { dashboard: "covidvax", state: "mys" }); // fetch static data here
+export const getStaticPaths: GetStaticPaths = async ctx => {
+  const paths = STATES.map(state => {
+    return {
+      params: {
+        state: state.key,
+      },
+    };
+  });
+  return {
+    paths: paths,
+    fallback: false, // can also be true or 'blocking'
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { data } = await get("/kkmnow", { dashboard: "covidvax", state: params?.state }); // fetch static data here
 
   // data transformation stuff. to reformat in backend
   const table_data = Object.entries(data.snapshot_chart).map(([_, value]) => value);
@@ -53,4 +68,4 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-export default CovidVaccinationIndex;
+export default CovidVaccinationState;

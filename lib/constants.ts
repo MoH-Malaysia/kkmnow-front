@@ -16,7 +16,7 @@ export const MALAYSIA: Record<string, string> = {
   name: "Malaysia",
 };
 
-export const STATES: Array<Record<string, string>> = [
+export const STATES: Array<Record<string, any>> = [
   {
     key: "jhr",
     name: "Johor",

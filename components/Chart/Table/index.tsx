@@ -15,10 +15,16 @@ interface TableProps {
   title?: string;
   menu?: ReactElement;
   data?: any;
-  config?: Array<any>;
+  config?: Array<ColumnDef<Record<string, any>>>;
 }
 
-const Table: FunctionComponent<TableProps> = ({ className = "", title, menu, data = dummy }) => {
+const Table: FunctionComponent<TableProps> = ({
+  className = "",
+  title,
+  menu,
+  data = dummy,
+  config = dummyConfig,
+}) => {
   const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -102,7 +108,7 @@ const Table: FunctionComponent<TableProps> = ({ className = "", title, menu, dat
                   return (
                     <td
                       key={cell.id}
-                      className={`${cell.row.original.hightlight ? "bg-washed" : ""} ${
+                      className={`${cell.row.original.state === "mys" ? "bg-washed" : ""} ${
                         lastCellInGroup.id === cell.column.id ? "border-r-black" : ""
                       }`}
                     >
@@ -119,7 +125,7 @@ const Table: FunctionComponent<TableProps> = ({ className = "", title, menu, dat
   );
 };
 
-const config = [
+const dummyConfig = [
   {
     header: "",
     id: "state",
@@ -236,7 +242,7 @@ const dummy = Array(Object.keys(CountryAndStates).length)
         perc_1dose: Math.floor(Math.random() * 10) + 1,
         perc_2dose: Math.floor(Math.random() * 10) + 1,
       },
-      hightlight: state === "mys",
+      highlight: state === "mys",
     };
   });
 

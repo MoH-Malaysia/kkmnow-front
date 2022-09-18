@@ -4,7 +4,7 @@ import { Colors } from "@nivo/core";
 import { ChartHeader } from "@components/index";
 
 interface WaffleProps {
-  title?: string;
+  title?: string | ReactElement;
   menu?: ReactElement;
   controls?: ReactElement;
   className?: string;
@@ -15,6 +15,7 @@ interface WaffleProps {
   rows?: number;
   cols?: number;
   children?: ReactElement | ReactElement[];
+  interactive?: boolean;
 }
 
 const Waffle: FunctionComponent<WaffleProps> = ({
@@ -29,6 +30,7 @@ const Waffle: FunctionComponent<WaffleProps> = ({
   rows = 10,
   cols = 10,
   children,
+  interactive = false,
 }) => {
   return (
     <div>
@@ -44,6 +46,7 @@ const Waffle: FunctionComponent<WaffleProps> = ({
           margin={{ top: 10, right: 0, bottom: 10, left: -20 }}
           colors={color}
           animate={false}
+          isInteractive={interactive}
         />
       </div>
       {children}
