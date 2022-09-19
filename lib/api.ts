@@ -27,10 +27,10 @@ export const get = <T extends any>(
  * @param payload Body payload
  * @returns result
  */
-export const post = <T extends any>(route: string, payload?: any): Promise<T> => {
+export const post = <T extends any>(route: string, payload?: any): Promise<AxiosResponse> => {
   return new Promise((resolve, reject) => {
     API.post(route, payload)
-      .then(response => resolve(response.data))
+      .then((response: AxiosResponse) => resolve(response))
       .catch(err => reject(err));
   });
 };
