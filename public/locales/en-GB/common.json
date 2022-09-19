@@ -1,4 +1,18 @@
 {
+  "nav": {
+    "home": "Home",
+    "dashboards": "Dashboards",
+    "about": "About",
+    "moh": "Ministry of Health Malaysia",
+    "dosm": "Department of Statistics Malaysia",
+    "gov": "Government of Malaysia",
+    "open_source": "Open Source",
+    "frontend": "Frontend Repository",
+    "backend": "Backend Repository",
+    "open_data": "Open Data",
+    "github": "MoH GitHub",
+    "google_cloud": "MoH Google Cloud"
+  },
   "hero": {
     "h3": "🇲🇾 Malaysia's data at your fingertips!",
     "p": "A whole-of-government effort led by the Department of Statistics (DOSM) to democratise data, institutionalise transparency, and put Malaysia at the forefront of data-driven decision-making."

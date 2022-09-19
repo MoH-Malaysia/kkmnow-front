@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { CalendarIcon, HomeIcon, MenuAlt3Icon, NewspaperIcon, XIcon } from "@heroicons/react/solid";
+import { useTranslation } from "next-i18next";
+import { HomeIcon, MenuAlt3Icon, TemplateIcon, XIcon } from "@heroicons/react/solid";
 
 import { languages } from "@lib/options";
 
@@ -15,6 +16,7 @@ import Dropdown from "@components/Dropdown";
 import Container from "@components/Container";
 
 const Header = () => {
+  const { t } = useTranslation();
   const { language, onLanguageChange } = useLanguage();
 
   const width = useWindowWidth();
@@ -32,26 +34,21 @@ const Header = () => {
                 <div className="flex w-8 items-center justify-center">
                   <Image src="/static/images/logo.png" width={48} height={36} />
                 </div>
-                <h3>AKSARA</h3>
+                <h3>KKMNOW</h3>
               </div>
             </Link>
             <Nav isTablet={isTablet} isTabletNavOpen={isTabletNavOpen}>
-              <NavItem title="Home" link="/" icon={<HomeIcon className="h-5 w-5 text-black" />} />
               <NavItem
-                title="Articles"
-                link="/articles"
-                icon={<NewspaperIcon className="h-5 w-5 text-black" />}
+                title={t("nav.home")}
+                link="/"
+                icon={<HomeIcon className="h-5 w-5 text-black" />}
               />
               <NavItem
-                title="Data Catalogue"
+                title={t("nav.dashboards")}
                 link="/catalogue"
-                icon={<NewspaperIcon className="h-5 w-5 text-black" />}
+                icon={<TemplateIcon className="h-5 w-5 text-black" />}
               />
-              <NavItem
-                title="Data Release"
-                link="/releases"
-                icon={<CalendarIcon className="h-5 w-5 text-black" />}
-              />
+              <NavItem title={t("nav.about")} link="/about" />
             </Nav>
           </div>
           <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
