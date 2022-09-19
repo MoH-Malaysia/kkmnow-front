@@ -1,11 +1,3 @@
-/**
- * Covid Vaccination Dashboard.
- *
- * Used in pages:
- *  - /covid-vaccination
- *  - /covid-vaccination/[state]
- */
-
 import {
   Hero,
   Container,
@@ -25,6 +17,7 @@ import { VACCINE_TABLE_SCHEMA } from "@lib/schema/covid-vaccination";
 import { filterAgeOptions, filterDoseOptions, statesOptions } from "@lib/options";
 import { CountryAndStates } from "@lib/constants";
 import { useRouter } from "next/router";
+import StateDropdown from "@components/Dropdown/StateDropdown";
 
 const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
@@ -95,17 +88,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             </a>
           </p>
 
-          <div className="flex items-center gap-4">
-            <p className="text-sm font-bold text-dim">Zoom into</p>
-            <Dropdown
-              onChange={state => router.push(`/dashboard/covid-vaccination/${state.value}`)}
-              selected={statesOptions.find(state => state.value === currentState)}
-              options={statesOptions}
-              placeholder="Select state"
-              enableFlag
-              width="w-64"
-            />
-          </div>
+          <StateDropdown url="/dashboard/covid-vaccination" currentState={currentState} />
         </div>
       </Hero>
 
@@ -124,7 +107,6 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
           >
             <Panel name="Filter by Age group">
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-                {JSON.stringify(waffle_data[data.filter_dose])}
                 <Waffle
                   className="aspect-square w-full lg:h-[300px] lg:w-auto"
                   title={
@@ -288,6 +270,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               <BarMeter
                 data={barmeter_data[data.filter_dose.value]}
                 className="relative flex h-[500px] w-full justify-between"
+                indexBy="id"
               />
             </Panel>
           </Tabs>

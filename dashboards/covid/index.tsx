@@ -4,7 +4,7 @@ import {
   Tabs,
   Panel,
   MenuDropdown,
-  Dropdown,
+  StateDropdown,
   Tooltip,
   Section,
   ChartHeader,
@@ -16,17 +16,22 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 import { useData } from "@hooks/useData";
+import { useRouter } from "next/router";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
 const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
-const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter();
+  const currentState = (router.query.state as string) ?? "mys";
+
   const { data, setData } = useData({
     filter_death: 0,
     filter_state: 0,
   });
+
   const BarTabsMenu = [
     {
       name: "Deaths",
@@ -67,12 +72,12 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <Hero background="hero-light-4">
-        <div className="space-y-2 xl:w-1/2">
+        <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">covid-19</span>
           <h3 className="text-black">The latest data on the pandemic in Malaysia.</h3>
           <p className="text-dim">
-            Drawing from the Ministry of Health's excellent COVIDNOW dashboard, this page allows you
-            to track the evolution of the epidemic in Malaysia on a daily basis.
+            Drawing from the Ministry of Health's excellent CovidDashboard dashboard, this page
+            allows you to track the evolution of the epidemic in Malaysia on a daily basis.
           </p>
           <p className="text-dim">
             For a more general look at infectious diseases such as measles, chicken pox, and HFMD,
@@ -82,6 +87,8 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               Infectious Diseases Dashboard.
             </a>
           </p>
+
+          <StateDropdown url="/dashboard/covid" currentState={currentState} />
         </div>
       </Hero>
 
@@ -255,4 +262,4 @@ export const getStaticProps: GetStaticProps = async ctx => {
   };
 };
 
-export default CovidNow;
+export default CovidDashboard;
