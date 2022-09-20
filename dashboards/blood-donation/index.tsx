@@ -10,7 +10,6 @@ import {
   Slider,
   StateDropdown,
 } from "@components/index";
-import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useData } from "@hooks/useData";
 import {
   BLOOD_SUPPLY_SCHEMA,
@@ -19,14 +18,13 @@ import {
   BLOOD_DONATION_SCHEMA,
 } from "@lib/constants";
 import dynamic from "next/dynamic";
-import { post } from "@lib/api";
 import { useRouter } from "next/router";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Line = dynamic(() => import("@components/Chart/Line"), { ssr: false });
-const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
+const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
 const BloodDonationDashboard = () => {
   const router = useRouter();
@@ -150,7 +148,7 @@ const BloodDonationDashboard = () => {
         >
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
-              <BarLine title="Daily Donations" menu={<MenuDropdown />} stats={null} />
+              <Timeseries title="Daily Donations" menu={<MenuDropdown />} stats={null} />
               <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
               <span className="text-sm text-dim">
                 Use this time slider to zoom in specific time range

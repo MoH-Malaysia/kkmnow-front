@@ -11,16 +11,23 @@ import {
   LineElement,
   Tooltip as ChartTooltip,
   TimeScale,
+  TimeSeriesScale,
+  ChartData,
+  ChartTypeRegistry,
+  ChartOptions,
 } from "chart.js";
-import { Bar as BarCanvas } from "react-chartjs-2";
+import { Chart } from "react-chartjs-2";
+import { numFormat } from "@lib/helpers";
+import { DateTime } from "luxon";
+import "chartjs-adapter-luxon";
 
-interface BarProps {
+interface TimeseriesProps {
   className?: string;
   menu?: ReactElement;
   title?: string;
   controls?: ReactElement;
   layout?: "vertical" | "horizontal";
-  data?: any;
+  data?: ChartData<keyof ChartTypeRegistry, any[], string | number>;
   mode?: "grouped" | "stacked";
   unitX?: string;
   unitY?: string;
@@ -51,10 +58,11 @@ ChartJS.register(
   PointElement,
   LineElement,
   TimeScale,
+  TimeSeriesScale,
   ChartTooltip
 );
 
-const Bar: FunctionComponent<BarProps> = ({
+const Timeseries: FunctionComponent<TimeseriesProps> = ({
   className = "w-full h-full", // manage CSS here
   menu,
   title,
@@ -63,7 +71,8 @@ const Bar: FunctionComponent<BarProps> = ({
   unitY,
   mode = "stacked",
   layout = "vertical",
-  data = dummy,
+  data,
+  stats,
   interactive = true,
   animate = false,
   customTickX = undefined,
@@ -82,73 +91,85 @@ const Bar: FunctionComponent<BarProps> = ({
   lineKey = "line",
   colors = ["rgba(15, 23, 42, 1)"],
 }) => {
-  const options = {
+  const options: ChartOptions = {
     responsive: true,
     scales: {
       x: {
-        // type: "time",
-        // time: {
-        //   unit: "quarter",
-        // },
+        type: "timeseries",
+        time: {
+          parser: value => DateTime.fromFormat(value as string, "dd/MM/yyyy").toMillis(),
+          unit: "month",
+        },
         grid: {
           display: enableGridX,
+          borderWidth: 1,
+          borderDash: [5, 10],
+        },
+        ticks: {
+          major: {
+            enabled: true,
+          },
         },
         stacked: mode === "stacked",
       },
       y: {
         grid: {
           display: enableGridY,
+          borderWidth: 1,
+          borderDash: [5, 5],
+          drawTicks: false,
+          drawBorder: false,
+          offset: false,
+        },
+        ticks: {
+          padding: 6,
+          callback: (value: string | number) => {
+            return numFormat(value as number);
+          },
         },
         stacked: mode === "stacked",
       },
     },
   };
 
-  const formattedData = () => {
-    let _data = data;
-    _data.datasets = data.datasets.map((item: any, index: number) => {
-      return { ...item, backgroundColor: colors[index], borderColor: colors[index] };
-    });
-    console.log(_data);
-    return _data;
-  };
-
   return (
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} />
+      {stats && <Stats data={stats} className="py-4"></Stats>}
+
       <div className={className}>
-        <BarCanvas data={formattedData()} options={options} />
+        {data && <Chart data={data} options={options} type={"bar"} />}
       </div>
     </div>
   );
 };
 
-const dummy = {
-  labels: [], // x-values
-  datasets: [
-    // stacked y-values
-    {
-      type: "line",
-      label: "Moving Average (MA)",
-      data: [], // y-values
-    },
-    {
-      type: "bar",
-      label: "Primary",
-      data: [], // y-values
-    },
-    {
-      type: "bar",
-      label: "Booster 1",
-      data: [], // y-values
-    },
-    {
-      type: "bar",
-      label: "Booster 2",
-      data: [], // y-values
-    },
-  ],
-};
+// const dummy = {
+//   labels: [], // x-values
+//   datasets: [
+//     // stacked y-values
+//     {
+//       type: "line",
+//       label: "Moving Average (MA)",
+//       data: [], // y-values
+//     },
+//     {
+//       type: "bar",
+//       label: "Primary",
+//       data: [], // y-values
+//     },
+//     {
+//       type: "bar",
+//       label: "Booster 1",
+//       data: [], // y-values
+//     },
+//     {
+//       type: "bar",
+//       label: "Booster 2",
+//       data: [], // y-values
+//     },
+//   ],
+// };
 
 /**
  * Stats Component
@@ -194,4 +215,4 @@ const Stats: FunctionComponent<StatsProps> = ({ data, className }) => {
   );
 };
 
-export default Bar;
+export default Timeseries;

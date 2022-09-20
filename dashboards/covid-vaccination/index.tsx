@@ -9,17 +9,17 @@ import {
   Section,
   BarMeter,
   Tooltip,
+  StateDropdown,
 } from "@components/index";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { VACCINE_TABLE_SCHEMA } from "@lib/schema/covid-vaccination";
-import { filterAgeOptions, filterDoseOptions, statesOptions } from "@lib/options";
-import { CountryAndStates } from "@lib/constants";
+import { filterAgeOptions, filterDoseOptions } from "@lib/options";
+import { CountryAndStates, COVIDVAX_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
-import StateDropdown from "@components/Dropdown/StateDropdown";
 
-const BarLine = dynamic(() => import("@components/Chart/BarLine/chartjs"), { ssr: false });
+const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false });
 
@@ -27,26 +27,16 @@ interface CovidVaccinationProps {
   waffle_data: Array<any>;
   barmeter_data: Array<any>;
   table_data: Array<any>;
-  ts_stacked_data: Array<any>;
-  ts_adol_data: Array<any>;
-  ts_adult_data: Array<any>;
-  ts_booster_data: Array<any>;
-  ts_booster2_data: Array<any>;
-  ts_primary_data: Array<any>;
-  ts_child_data: Array<any>;
+  timeseries_data: any;
+  stats_data: Record<string, any>;
 }
 
 const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
   waffle_data,
   table_data,
   barmeter_data,
-  ts_stacked_data,
-  ts_adult_data,
-  ts_adol_data,
-  ts_child_data,
-  ts_booster_data,
-  ts_booster2_data,
-  ts_primary_data,
+  timeseries_data,
+  stats_data,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
@@ -54,7 +44,29 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
     vax_tab: 0,
     filter_dose: filterDoseOptions[0],
     filter_age: filterAgeOptions[0],
+    minmax: [0, timeseries_data.x.length - 1],
   });
+
+  const filterTimeline = () => {
+    return {
+      x: timeseries_data.x.slice(data.minmax[0], data.minmax[1]),
+      line_stacked: timeseries_data.line_stacked.slice(data.minmax[0], data.minmax[1]),
+      primary: timeseries_data.primary.slice(data.minmax[0], data.minmax[1]),
+      booster: timeseries_data.booster.slice(data.minmax[0], data.minmax[1]),
+      booster2: timeseries_data.booster2.slice(data.minmax[0], data.minmax[1]),
+      adult: timeseries_data.adult.slice(data.minmax[0], data.minmax[1]),
+      adol: timeseries_data.adol.slice(data.minmax[0], data.minmax[1]),
+      child: timeseries_data.child.slice(data.minmax[0], data.minmax[1]),
+      line_primary: timeseries_data.line_primary.slice(data.minmax[0], data.minmax[1]),
+      line_booster: timeseries_data.line_booster.slice(data.minmax[0], data.minmax[1]),
+      line_booster2: timeseries_data.line_booster2.slice(data.minmax[0], data.minmax[1]),
+      line_adult: timeseries_data.line_adult.slice(data.minmax[0], data.minmax[1]),
+      line_adol: timeseries_data.line_adol.slice(data.minmax[0], data.minmax[1]),
+      line_child: timeseries_data.line_child.slice(data.minmax[0], data.minmax[1]),
+    };
+  };
+
+  const filtered_timeline = useCallback(filterTimeline, data.minmax);
 
   const renderFilterOptions = () => {
     switch (data.vax_tab) {
@@ -109,7 +121,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
           <Tabs
             title={
               <p className="text-dim">
-                Data for {CountryAndStates[currentState]} | Total Population
+                Data for {CountryAndStates[currentState]} |{" "}
+                {data.vax_tab === 0 ? data.filter_age.label : data.filter_dose.label}
               </p>
             }
             menu={<MenuDropdown />}
@@ -287,15 +300,51 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         {/* What is the current state of the COVID-19 vaccination program? */}
         <Section title="What is the current state of the COVID-19 vaccination program?">
           <div className="space-y-4">
-            <BarLine
+            <Timeseries
+              className="w-full pt-6"
               title="Daily Vaccination"
               menu={<MenuDropdown />}
               stats={null}
-              data={ts_stacked_data}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: filtered_timeline().line_stacked,
+                    borderColor: "#000",
+                  },
+                  {
+                    type: "bar",
+                    label: "Primary",
+                    data: filtered_timeline().primary,
+                    backgroundColor: COVIDVAX_COLOR[200],
+                  },
+                  {
+                    type: "bar",
+                    label: "Booster 1",
+                    data: filtered_timeline().booster,
+                    backgroundColor: COVIDVAX_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Booster 2",
+                    data: filtered_timeline().booster2,
+                    backgroundColor: COVIDVAX_COLOR[400],
+                  },
+                ],
+              }}
               enableGridX={false}
-              colors={["#000", "#31C752", "#228F3A", "#135523"]}
             />
-            <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
+            <Slider
+              className="pt-7"
+              type="range"
+              data={timeseries_data.x}
+              onChange={(item: { min: number; max: number }) =>
+                setData("minmax", [item.min, item.max])
+              }
+            />
             <span className="text-sm text-dim">
               Use this time slider to zoom in specific time range
             </span>
@@ -305,87 +354,195 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         {/* How are COVID-19 key indicators trending */}
         <Section title="How are COVID-19 key indicators trending?">
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
-            <BarLine
+            <Timeseries
               title="Primary Doses (All Ages)"
               menu={<MenuDropdown />}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: filtered_timeline().line_primary,
+                    borderColor: COVIDVAX_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Primary",
+                    data: filtered_timeline().primary,
+                    backgroundColor: COVIDVAX_COLOR[100],
+                  },
+                ],
+              }}
               stats={[
                 {
                   title: "Daily",
-                  value: "+5,230",
+                  value: `+${stats_data.daily_primary.daily.toLocaleString()}`,
                 },
                 {
                   title: "Total",
-                  value: "4,613,998",
+                  value: `${stats_data.daily_primary.total.toLocaleString()}`,
                 },
               ]}
             />
-            <BarLine
+            <Timeseries
               title="1st Boosters (All Ages)"
               menu={<MenuDropdown />}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: filtered_timeline().line_booster,
+                    borderColor: COVIDVAX_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Booster",
+                    data: filtered_timeline().booster,
+                    backgroundColor: COVIDVAX_COLOR[100],
+                  },
+                ],
+              }}
               stats={[
                 {
                   title: "Daily",
-                  value: "+5,230",
+                  value: `+${stats_data.daily_booster.daily.toLocaleString()}`,
                 },
                 {
                   title: "Total",
-                  value: "4,613,998",
+                  value: `${stats_data.daily_booster.total.toLocaleString()}`,
                 },
               ]}
             />
-            <BarLine
+            <Timeseries
               title="2nd Boosters (All Ages)"
               menu={<MenuDropdown />}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: filtered_timeline().line_booster2,
+                    borderColor: COVIDVAX_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Booster 2",
+                    data: filtered_timeline().booster2,
+                    backgroundColor: COVIDVAX_COLOR[100],
+                  },
+                ],
+              }}
               stats={[
                 {
                   title: "Daily",
-                  value: "+5,230",
+                  value: `+${stats_data.daily_booster2.daily.toLocaleString()}`,
                 },
                 {
                   title: "Total",
-                  value: "4,613,998",
+                  value: `${stats_data.daily_booster2.total.toLocaleString()}`,
                 },
               ]}
             />
-            <BarLine
+            <Timeseries
               title="Adults (All Doses)"
               menu={<MenuDropdown />}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: filtered_timeline().line_adult,
+                    borderColor: COVIDVAX_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Adult",
+                    data: filtered_timeline().adult,
+                    backgroundColor: COVIDVAX_COLOR[100],
+                  },
+                ],
+              }}
               stats={[
                 {
                   title: "Daily",
-                  value: "+5,230",
+                  value: `+${stats_data.daily_adult.daily.toLocaleString()}`,
                 },
                 {
                   title: "Total",
-                  value: "4,613,998",
+                  value: `${stats_data.daily_adult.total.toLocaleString()}`,
                 },
               ]}
             />
-            <BarLine
+            <Timeseries
               title="Adolescents (All Doses)"
               menu={<MenuDropdown />}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: filtered_timeline().line_adol,
+                    borderColor: COVIDVAX_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Adolescent",
+                    data: filtered_timeline().adol,
+                    backgroundColor: COVIDVAX_COLOR[100],
+                  },
+                ],
+              }}
               stats={[
                 {
                   title: "Daily",
-                  value: "+5,230",
+                  value: `+${stats_data.daily_adol.daily.toLocaleString()}`,
                 },
                 {
                   title: "Total",
-                  value: "4,613,998",
+                  value: `${stats_data.daily_adol.total.toLocaleString()}`,
                 },
               ]}
             />
-            <BarLine
+            <Timeseries
               title="Children (All Doses)"
               menu={<MenuDropdown />}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: filtered_timeline().line_child,
+                    borderColor: COVIDVAX_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Primary",
+                    data: filtered_timeline().child,
+                    backgroundColor: COVIDVAX_COLOR[100],
+                  },
+                ],
+              }}
               stats={[
                 {
                   title: "Daily",
-                  value: "+5,230",
+                  value: `+${stats_data.daily_child.daily.toLocaleString()}`,
                 },
                 {
                   title: "Total",
-                  value: "4,613,998",
+                  value: `${stats_data.daily_child.total.toLocaleString()}`,
                 },
               ]}
             />

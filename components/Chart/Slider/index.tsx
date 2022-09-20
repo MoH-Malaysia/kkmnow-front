@@ -28,14 +28,6 @@ const Slider: FunctionComponent<SliderProps> = ({
     } else if (thumb === "right") {
       if (value > Number(min)) setMax(event.target.value);
     }
-
-    if (onChange) {
-      if (type === "range") onChange({ min: data ? data[min] : min, max: data ? data[max] : max });
-      else {
-        setMin(value);
-        onChange(data ? data[value] : value);
-      }
-    }
   };
 
   const position = (() => {
@@ -106,33 +98,23 @@ const Slider: FunctionComponent<SliderProps> = ({
                       left: position?.active.left,
                       right: position?.active.right,
                     }}
-                  ></div>
+                  />
 
                   {/* Thumb Left */}
                   <span
                     className=" absolute left-0 -top-1 h-4 w-4 cursor-pointer rounded-full border bg-white shadow-xl"
                     style={{ left: position?.thumb.left }}
-                  ></span>
+                  />
 
                   {/* Thumb Right */}
                   <span
                     className="absolute  -top-1 -ml-2 h-4 w-4 cursor-pointer rounded-full border bg-white shadow-xl"
                     style={{ right: position?.thumb.right }}
-                  ></span>
+                  />
 
-                  {/* Tip Left */}
-                  <div
-                    className="pointer-events-none absolute -top-8"
-                    style={{ left: position?.thumb.left }}
-                  >
+                  {/* Tip Left & Right */}
+                  <div className="pointer-events-none absolute -top-8 flex w-full justify-between">
                     <span className="text-sm">{data ? data[min] : min}</span>
-                  </div>
-
-                  {/* Tip Right */}
-                  <div
-                    className="pointer-events-none absolute -top-8"
-                    style={{ right: position?.thumb.right }}
-                  >
                     <span className="text-sm">{data ? data[max] : max}</span>
                   </div>
 
@@ -144,6 +126,8 @@ const Slider: FunctionComponent<SliderProps> = ({
                     value={min}
                     step={data ? 1 : step}
                     onChange={event => onRange(event, "left")}
+                    onMouseUp={() => onChange && onChange({ min: Number(min), max: Number(max) })}
+                    onTouchEnd={() => onChange && onChange({ min: Number(min), max: Number(max) })}
                   />
 
                   <input
@@ -154,6 +138,8 @@ const Slider: FunctionComponent<SliderProps> = ({
                     value={max}
                     step={data ? 1 : step}
                     onChange={event => onRange(event, "right")}
+                    onMouseUp={() => onChange && onChange({ min: Number(min), max: Number(max) })}
+                    onTouchEnd={() => onChange && onChange({ min: Number(min), max: Number(max) })}
                   />
                 </div>
               </div>
@@ -193,6 +179,7 @@ const Slider: FunctionComponent<SliderProps> = ({
                 min={data ? 0 : range[0]}
                 max={data ? data.length - 1 : range[1]}
                 onChange={onRange}
+                onMouseUp={onRange}
                 step={data ? 1 : step}
               />
             </div>

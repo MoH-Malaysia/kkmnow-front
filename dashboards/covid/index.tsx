@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
-const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
+const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
 const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -200,12 +200,12 @@ const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         {/* How are COVID-19 key indicators trending */}
         <Section title="How are COVID-19 key indicators trending?">
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
-            <BarLine title="Deaths by Date of Death" menu={<MenuDropdown />} />
-            <BarLine title="Patients Ventilated" menu={<MenuDropdown />} />
-            <BarLine title="Patients in ICU" menu={<MenuDropdown />} />
-            <BarLine title="Hospital Admissions" menu={<MenuDropdown />} />
-            <BarLine title="Confirmed Cases" menu={<MenuDropdown />} />
-            <BarLine title="Tests Conducted" menu={<MenuDropdown />} />
+            <Timeseries title="Deaths by Date of Death" menu={<MenuDropdown />} />
+            <Timeseries title="Patients Ventilated" menu={<MenuDropdown />} />
+            <Timeseries title="Patients in ICU" menu={<MenuDropdown />} />
+            <Timeseries title="Hospital Admissions" menu={<MenuDropdown />} />
+            <Timeseries title="Confirmed Cases" menu={<MenuDropdown />} />
+            <Timeseries title="Tests Conducted" menu={<MenuDropdown />} />
           </div>
         </Section>
 

@@ -10,7 +10,6 @@ import {
   StateDropdown,
 } from "@components/index";
 import dynamic from "next/dynamic";
-import { post } from "@lib/api";
 import { useData } from "@hooks/useData";
 
 import { ORGAN_DONATION_COLOR, ORGAN_DONATION_SCHEMA } from "@lib/constants";
@@ -19,7 +18,7 @@ import { useRouter } from "next/router";
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
-const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
+const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
 const OrganDonationDashboard = () => {
   const router = useRouter();
@@ -80,7 +79,7 @@ const OrganDonationDashboard = () => {
           }
         >
           <div className="space-y-4">
-            <BarLine title="Daily Pledges" menu={<MenuDropdown />} stats={null} />
+            <Timeseries title="Daily Pledges" menu={<MenuDropdown />} stats={null} />
             <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
             <span className="text-sm text-dim">
               Use this time slider to zoom in specific time range

@@ -21,6 +21,11 @@ export const minMax = (e: number) => {
   return Math.min(Math.max(e, 0), 100);
 };
 
+export const numFormat = (value: number): string => {
+  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+  return formatter.format(value);
+};
+
 export const handleSelectMultipleDropdown = (
   selectedOption: OptionType,
   options: OptionType[],

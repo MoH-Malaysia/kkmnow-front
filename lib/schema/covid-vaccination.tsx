@@ -12,9 +12,9 @@ export const VACCINE_TABLE_SCHEMA = [
         cell: (item: any) => {
           const state = item.getValue() as string;
           return (
-            <div className="flex items-center gap-3">
-              <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
-              <span>{CountryAndStates[state]}</span>
+            <div className="flex items-center gap-2">
+              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
         },
@@ -45,32 +45,32 @@ export const VACCINE_TABLE_SCHEMA = [
           },
         ],
       },
-      //   {
-      //     id: "adult",
-      //     header: "Adults",
-      //     columns: [
-      //       {
-      //         id: "adult.perc_dose1",
-      //         header: "% 1 Dose",
-      //         accessorFn: (item: any) => item.adult.perc_dose1,
-      //       },
-      //       {
-      //         id: "adult.perc_dose2",
-      //         header: "% 2 Doses",
-      //         accessorFn: (item: any) => item.adult.perc_dose2,
-      //       },
-      //       {
-      //         id: "adult.perc_booster1",
-      //         header: "% 1 Booster",
-      //         accessorFn: (item: any) => item.adult.perc_booster1,
-      //       },
-      //       {
-      //         id: "adult.perc_booster2",
-      //         header: "% 2 Booster",
-      //         accessorFn: (item: any) => item.adult.perc_booster2.toFixed(1),
-      //       },
-      //     ],
-      //   },
+      {
+        id: "adult",
+        header: "Adults",
+        columns: [
+          {
+            id: "adult.perc_dose1",
+            header: "% 1 Dose",
+            accessorFn: (item: any) => item.adult.perc_dose1.toFixed(1),
+          },
+          {
+            id: "adult.perc_dose2",
+            header: "% 2 Doses",
+            accessorFn: (item: any) => item.adult.perc_dose2.toFixed(1),
+          },
+          {
+            id: "adult.perc_booster1",
+            header: "% 1 Booster",
+            accessorFn: (item: any) => item.adult.perc_booster1.toFixed(1),
+          },
+          {
+            id: "adult.perc_booster2",
+            header: "% 2 Booster",
+            accessorFn: (item: any) => item.adult.perc_booster2.toFixed(1),
+          },
+        ],
+      },
       {
         id: "adolescent",
         header: "Adolescent",
@@ -136,9 +136,9 @@ export const VACCINE_TABLE_SCHEMA = [
         cell: (item: any) => {
           const state = item.getValue() as string;
           return (
-            <div className="flex items-center gap-3">
-              <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
-              <span>{CountryAndStates[state]}</span>
+            <div className="flex items-center gap-2">
+              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
         },
@@ -171,52 +171,52 @@ export const VACCINE_TABLE_SCHEMA = [
       },
     ],
   },
-  //     {
-  //       name: "Adults",
-  //       config: [
-  //         {
-  //           header: "",
-  //           id: "state",
-  //           accessorKey: "state",
-  //           enableSorting: false,
-  //           cell: (item: any) => {
-  //             const state = item.getValue() as string;
-  //             return (
-  //               <div className="flex items-center gap-3">
-  //                 <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
-  //                 <span>{CountryAndStates[state]}</span>
-  //               </div>
-  //             );
-  //           },
-  //         },
-  //         {
-  //           id: "adult",
-  //           header: "Adults",
-  //           columns: [
-  //             {
-  //               id: "adult.perc_dose1",
-  //               header: "% 1 Dose",
-  //               accessorFn: (item: any) => item.adult.perc_dose1,
-  //             },
-  //             {
-  //               id: "adult.perc_dose2",
-  //               header: "% 2 Doses",
-  //               accessorFn: (item: any) => item.adult.perc_dose2,
-  //             },
-  //             {
-  //               id: "adult.perc_booster1",
-  //               header: "% 1 Booster",
-  //               accessorFn: (item: any) => item.adult.perc_booster1,
-  //             },
-  //             {
-  //               id: "adult.perc_booster2",
-  //               header: "% 2 Booster",
-  //               accessorFn: (item: any) => item.adult.perc_booster2.toFixed(1),
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
+  {
+    name: "Adults",
+    config: [
+      {
+        header: "",
+        id: "state",
+        accessorKey: "state",
+        enableSorting: false,
+        cell: (item: any) => {
+          const state = item.getValue() as string;
+          return (
+            <div className="flex items-center gap-2">
+              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <span className="text-sm">{CountryAndStates[state]}</span>
+            </div>
+          );
+        },
+      },
+      {
+        id: "adult",
+        header: "Adults",
+        columns: [
+          {
+            id: "adult.perc_dose1",
+            header: "% 1 Dose",
+            accessorFn: (item: any) => item.adult.perc_dose1.toFixed(1),
+          },
+          {
+            id: "adult.perc_dose2",
+            header: "% 2 Doses",
+            accessorFn: (item: any) => item.adult.perc_dose2.toFixed(1),
+          },
+          {
+            id: "adult.perc_booster1",
+            header: "% 1 Booster",
+            accessorFn: (item: any) => item.adult.perc_booster1.toFixed(1),
+          },
+          {
+            id: "adult.perc_booster2",
+            header: "% 2 Booster",
+            accessorFn: (item: any) => item.adult.perc_booster2.toFixed(1),
+          },
+        ],
+      },
+    ],
+  },
   {
     name: "Adolescents",
     config: [
@@ -228,9 +228,9 @@ export const VACCINE_TABLE_SCHEMA = [
         cell: (item: any) => {
           const state = item.getValue() as string;
           return (
-            <div className="flex items-center gap-3">
-              <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
-              <span>{CountryAndStates[state]}</span>
+            <div className="flex items-center gap-2">
+              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
         },
@@ -238,7 +238,7 @@ export const VACCINE_TABLE_SCHEMA = [
 
       {
         id: "adolescent",
-        header: "Adolescent",
+        header: "Adolescents",
         columns: [
           {
             id: "adol.perc_dose1",
@@ -275,9 +275,9 @@ export const VACCINE_TABLE_SCHEMA = [
         cell: (item: any) => {
           const state = item.getValue() as string;
           return (
-            <div className="flex items-center gap-3">
-              <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
-              <span>{CountryAndStates[state]}</span>
+            <div className="flex items-center gap-2">
+              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
         },

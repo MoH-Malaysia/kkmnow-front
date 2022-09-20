@@ -256,3 +256,11 @@ export const ORGAN_DONATION_COLOR: Array<string> = [
   "#9FE8B1",
   "#CFF6D9",
 ];
+
+// COVIDVAX COLORS
+export const COVIDVAX_COLOR: Record<number, string> = {
+  100: "#9FE8B1",
+  200: "#31C752",
+  300: "#228F3A",
+  400: "#135523",
+};

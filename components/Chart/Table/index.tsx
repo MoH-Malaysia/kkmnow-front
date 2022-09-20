@@ -65,7 +65,7 @@ const Table: FunctionComponent<TableProps> = ({
                       <div
                         {...{
                           className: header.column.getCanSort()
-                            ? "cursor-pointer select-none flex gap-2 justify-center"
+                            ? "cursor-pointer select-none flex gap-1 text-sm justify-center "
                             : "text-black font-bold",
                           onClick: header.column.getToggleSortingHandler(),
                         }}
@@ -109,10 +109,12 @@ const Table: FunctionComponent<TableProps> = ({
                     <td
                       key={cell.id}
                       className={`${cell.row.original.state === "mys" ? "bg-washed" : ""} ${
-                        lastCellInGroup.id === cell.column.id ? "border-r-black" : ""
+                        lastCellInGroup.id === cell.column.id ? "text xs border-r-black" : ""
                       }`}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      <span className="text-sm lg:text-base">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </span>
                     </td>
                   );
                 })}
