@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { CalendarIcon, HomeIcon, MenuAlt3Icon, NewspaperIcon, XIcon } from "@heroicons/react/solid";
+import { useTranslation } from "next-i18next";
+import { HomeIcon, MenuAlt3Icon, NewspaperIcon, TemplateIcon, XIcon } from "@heroicons/react/solid";
 
 import { languages } from "@lib/options";
 
 import { BREAKPOINTS } from "@lib/constants";
+import { DASHBOARD_ROUTES } from "@lib/routes";
 import { useLanguage } from "@hooks/useLanguage";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 
@@ -13,14 +15,48 @@ import Nav from "@components/Nav";
 import NavItem from "@components/Nav/Item";
 import Dropdown from "@components/Dropdown";
 import Container from "@components/Container";
+import MegaMenu from "@components/Nav/MegaMenu";
 
 const Header = () => {
+  const { t } = useTranslation();
   const { language, onLanguageChange } = useLanguage();
 
   const width = useWindowWidth();
   const isTablet = width <= BREAKPOINTS.MD;
 
   const [isTabletNavOpen, setIsTabletNavOpen] = useState(false);
+
+  // TODO: build items from API
+  const megaMenuItems = [
+    {
+      title: t("nav.megamenu.categories.infectious_diseases"),
+      list: [
+        { title: t("nav.megamenu.dashboards.covid_19"), link: "/" },
+        { title: t("nav.megamenu.dashboards.covid_19_vax"), link: "/" },
+      ],
+    },
+    {
+      title: t("nav.megamenu.categories.healthcare_resources"),
+      list: [{ title: t("nav.megamenu.dashboards.healthcare_facilities"), link: "/" }],
+    },
+    {
+      title: t("nav.megamenu.categories.healthcare_programs"),
+      list: [
+        {
+          title: t("nav.megamenu.dashboards.blood_donation"),
+          link: DASHBOARD_ROUTES.BLOOD_DONATION,
+        },
+        { title: t("nav.megamenu.dashboards.organ_donation"), link: "/" },
+        { title: t("nav.megamenu.dashboards.peka_b40"), link: "/" },
+      ],
+    },
+    {
+      title: t("nav.megamenu.categories.misc"),
+      list: [
+        { title: t("nav.megamenu.dashboards.covidnow_data"), link: DASHBOARD_ROUTES.COVIDNOW },
+      ],
+    },
+  ];
 
   return (
     <div className="sticky top-0 left-0 z-20 w-full">
@@ -32,38 +68,58 @@ const Header = () => {
                 <div className="flex w-8 items-center justify-center">
                   <Image src="/static/images/logo.png" width={48} height={36} />
                 </div>
-                <h3>AKSARA</h3>
+                <h3>KKMNOW</h3>
               </div>
             </Link>
-            <Nav isTablet={isTablet} isTabletNavOpen={isTabletNavOpen}>
-              <NavItem title="Home" link="/" icon={<HomeIcon className="h-5 w-5 text-black" />} />
+            <Nav isTabletNavOpen={isTabletNavOpen}>
               <NavItem
-                title="Articles"
-                link="/articles"
-                icon={<NewspaperIcon className="h-5 w-5 text-black" />}
+                title={t("nav.home")}
+                link="/"
+                icon={<HomeIcon className="h-5 w-5 text-black" />}
               />
+              {/* DASHBOARD MEGA MENU */}
+              <MegaMenu
+                title={t("nav.dashboards")}
+                icon={<TemplateIcon className="h-5 w-5 text-black" />}
+              >
+                <Container className="relative grid gap-4 py-3 md:grid-cols-4 md:gap-6 md:py-6">
+                  {megaMenuItems.map((item, index) => (
+                    <div key={index} className="text-sm">
+                      <p className="mb-2 font-bold">{item.title}</p>
+                      <ul className="flex flex-col gap-2">
+                        {item.list.map((li, index) => (
+                          <li key={index} className="text-footer-link">
+                            <Link href={li.link}>{li.title}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </Container>
+              </MegaMenu>
               <NavItem
-                title="Data Catalogue"
-                link="/catalogue"
+                title={t("nav.about")}
+                link="/about"
                 icon={<NewspaperIcon className="h-5 w-5 text-black" />}
-              />
-              <NavItem
-                title="Data Release"
-                link="/releases"
-                icon={<CalendarIcon className="h-5 w-5 text-black" />}
               />
             </Nav>
           </div>
-          <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
-          {isTablet &&
-            (isTabletNavOpen ? (
-              <XIcon className="h-5 w-5 text-black" onClick={() => setIsTabletNavOpen(false)} />
+          <div className="flex items-center gap-4">
+            {/* LANGUAGE DROPDOWN */}
+            <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
+            {/* MOBILE NAV ICONS */}
+            {isTabletNavOpen ? (
+              <XIcon
+                className="block h-5 w-5 text-black md:hidden"
+                onClick={() => setIsTabletNavOpen(false)}
+              />
             ) : (
               <MenuAlt3Icon
-                className="h-5 w-5 text-black"
+                className="block h-5 w-5 text-black md:hidden"
                 onClick={() => setIsTabletNavOpen(true)}
               />
-            ))}
+            )}
+          </div>
         </div>
       </Container>
     </div>
