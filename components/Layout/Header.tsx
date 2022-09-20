@@ -71,7 +71,7 @@ const Header = () => {
                 <h3>KKMNOW</h3>
               </div>
             </Link>
-            <Nav isTablet={isTablet} isTabletNavOpen={isTabletNavOpen}>
+            <Nav isTabletNavOpen={isTabletNavOpen}>
               <NavItem
                 title={t("nav.home")}
                 link="/"
@@ -87,10 +87,10 @@ const Header = () => {
                     <div key={index} className="text-sm">
                       <p className="mb-2 font-bold">{item.title}</p>
                       <ul className="flex flex-col gap-2">
-                        {item.list.map(li => (
-                          <Link href={li.link}>
-                            <li className="text-footer-link">{li.title}</li>
-                          </Link>
+                        {item.list.map((li, index) => (
+                          <li key={index} className="text-footer-link">
+                            <Link href={li.link}>{li.title}</Link>
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -105,15 +105,17 @@ const Header = () => {
             </Nav>
           </div>
           <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
-          {isTablet &&
-            (isTabletNavOpen ? (
-              <XIcon className="h-5 w-5 text-black" onClick={() => setIsTabletNavOpen(false)} />
-            ) : (
-              <MenuAlt3Icon
-                className="h-5 w-5 text-black"
-                onClick={() => setIsTabletNavOpen(true)}
-              />
-            ))}
+          {isTabletNavOpen ? (
+            <XIcon
+              className="block h-5 w-5 text-black md:hidden"
+              onClick={() => setIsTabletNavOpen(false)}
+            />
+          ) : (
+            <MenuAlt3Icon
+              className="block h-5 w-5 text-black md:hidden"
+              onClick={() => setIsTabletNavOpen(true)}
+            />
+          )}
         </div>
       </Container>
     </div>
