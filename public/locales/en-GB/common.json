@@ -2,6 +2,23 @@
   "nav": {
     "home": "Home",
     "dashboards": "Dashboards",
+    "megamenu": {
+      "categories": {
+        "infectious_diseases": "Infectious Diseases",
+        "healthcare_resources": "Healthcare Resources",
+        "healthcare_programs": "Healthcare Programs",
+        "misc": "Miscellaneous"
+      },
+      "dashboards": {
+        "covid_19": "COVID-19",
+        "covid_19_vax": "COVID-19 caccincation",
+        "healthcare_facilities": "Healthcare facilities",
+        "blood_donation": "Blood donation",
+        "organ_donation": "Organ donation",
+        "peka_b40": "PeKa B40",
+        "covidnow_data": "Data on COVIDNOW"
+      }
+    },
     "about": "About",
     "moh": "Ministry of Health Malaysia",
     "dosm": "Department of Statistics Malaysia",
