@@ -104,18 +104,22 @@ const Header = () => {
               />
             </Nav>
           </div>
-          <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
-          {isTabletNavOpen ? (
-            <XIcon
-              className="block h-5 w-5 text-black md:hidden"
-              onClick={() => setIsTabletNavOpen(false)}
-            />
-          ) : (
-            <MenuAlt3Icon
-              className="block h-5 w-5 text-black md:hidden"
-              onClick={() => setIsTabletNavOpen(true)}
-            />
-          )}
+          <div className="flex items-center gap-4">
+            {/* LANGUAGE DROPDOWN */}
+            <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
+            {/* MOBILE NAV ICONS */}
+            {isTabletNavOpen ? (
+              <XIcon
+                className="block h-5 w-5 text-black md:hidden"
+                onClick={() => setIsTabletNavOpen(false)}
+              />
+            ) : (
+              <MenuAlt3Icon
+                className="block h-5 w-5 text-black md:hidden"
+                onClick={() => setIsTabletNavOpen(true)}
+              />
+            )}
+          </div>
         </div>
       </Container>
     </div>
