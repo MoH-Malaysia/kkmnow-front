@@ -12,7 +12,7 @@ export { default as Checkbox } from "./Checkbox";
 /** Chart */
 export { default as Line } from "./Chart/Line";
 export { default as Bar } from "./Chart/Bar";
-export { default as BarLine } from "./Chart/BarLine";
+export { default as BarLine } from "./Chart/BarLine/chartjs";
 export { default as BarMeter } from "./Chart/BarMeter";
 
 export { default as Donut } from "./Chart/Donut";

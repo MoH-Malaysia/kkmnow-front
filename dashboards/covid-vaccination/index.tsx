@@ -19,22 +19,34 @@ import { CountryAndStates } from "@lib/constants";
 import { useRouter } from "next/router";
 import StateDropdown from "@components/Dropdown/StateDropdown";
 
-const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
+const BarLine = dynamic(() => import("@components/Chart/BarLine/chartjs"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false });
 
 interface CovidVaccinationProps {
   waffle_data: Array<any>;
   barmeter_data: Array<any>;
-  timeseries_data: Array<any>;
   table_data: Array<any>;
+  ts_stacked_data: Array<any>;
+  ts_adol_data: Array<any>;
+  ts_adult_data: Array<any>;
+  ts_booster_data: Array<any>;
+  ts_booster2_data: Array<any>;
+  ts_primary_data: Array<any>;
+  ts_child_data: Array<any>;
 }
 
 const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
   waffle_data,
-  timeseries_data,
   table_data,
   barmeter_data,
+  ts_stacked_data,
+  ts_adult_data,
+  ts_adol_data,
+  ts_child_data,
+  ts_booster_data,
+  ts_booster2_data,
+  ts_primary_data,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
@@ -267,11 +279,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               </div>
             </Panel>
             <Panel name="Filter by Dose">
-              <BarMeter
-                data={barmeter_data[data.filter_dose.value]}
-                className="relative flex h-[500px] w-full justify-between"
-                indexBy="id"
-              />
+              <BarMeter data={barmeter_data[data.filter_dose.value]} indexBy="id" />
             </Panel>
           </Tabs>
         </Section>
@@ -279,7 +287,14 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         {/* What is the current state of the COVID-19 vaccination program? */}
         <Section title="What is the current state of the COVID-19 vaccination program?">
           <div className="space-y-4">
-            <BarLine title="Daily Vaccination" menu={<MenuDropdown />} stats={null} />
+            <BarLine
+              title="Daily Vaccination"
+              menu={<MenuDropdown />}
+              stats={null}
+              data={ts_stacked_data}
+              enableGridX={false}
+              colors={["#000", "#31C752", "#228F3A", "#135523"]}
+            />
             <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
             <span className="text-sm text-dim">
               Use this time slider to zoom in specific time range

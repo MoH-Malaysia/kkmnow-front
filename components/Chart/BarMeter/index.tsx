@@ -1,8 +1,12 @@
+import { ChartHeader } from "@components/index";
 import { minMax } from "@lib/helpers";
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactElement } from "react";
 
 interface BarMeterProps {
   className?: string;
+  title?: string | ReactElement;
+  menu?: ReactElement;
+  controls?: ReactElement;
   total?: number;
   data: Array<any>;
   indexBy?: string;
@@ -10,45 +14,97 @@ interface BarMeterProps {
   color?: string;
   unit?: string;
   reverse?: boolean;
+  layout?: "horizontal" | "vertical";
 }
 
 const BarMeter: FunctionComponent<BarMeterProps> = ({
-  className = "h-[500px] w-full",
+  className = "relative flex w-full flex-col justify-between gap-8 lg:h-[500px] lg:flex-row",
+  title,
+  menu,
+  controls,
   total = 100,
   color = "#0F172A",
   indexBy = "x",
   key = "y",
   data,
+  layout = "vertical",
   unit = "%",
+
   reverse = false,
 }) => {
-  const getHeight = (value: number): string => {
+  const percentFill = (value: number): string => {
     return `${minMax((value / total) * 100)}%`;
   };
 
-  const _data = reverse ? data.reverse() : data;
-  console.log(_data);
+  const renderBars = (item: any) => {
+    switch (layout) {
+      case "horizontal":
+        return (
+          <div className="space-y-2" key={item[indexBy]}>
+            <div className="flex justify-between">
+              <p>{item[indexBy]}</p>
+              <p className="text-dim">{(item[key] as number).toFixed(1) + unit}</p>
+            </div>
 
-  return (
-    <div className={className}>
-      {_data.length &&
-        _data.map(item => {
-          return (
-            <div className="flex flex-col items-center space-y-2" key={item[indexBy]}>
+            <div className="flex h-2.5 w-full overflow-x-hidden bg-outline">
+              <div
+                className="h-full items-center overflow-hidden"
+                style={{
+                  backgroundColor: color,
+                  width: percentFill(item[key]),
+                }}
+              />
+            </div>
+          </div>
+        );
+
+      default:
+        return (
+          <>
+            <div className="hidden flex-col items-center space-y-2 lg:flex" key={item[indexBy]}>
               <p>{(item[key] as number).toFixed(1) + unit}</p>
               <div className="relative flex h-[80%] w-8 overflow-x-hidden bg-outline">
                 <div
                   className="absolute bottom-0 w-full items-center overflow-hidden"
                   style={{
                     backgroundColor: color,
-                    height: getHeight(item[key]),
+                    height: percentFill(item[key]),
                   }}
                 />
               </div>
               <p>{item[indexBy]}</p>
             </div>
-          );
-        })}
+            <div className="block space-y-2 lg:hidden" key={item[indexBy]}>
+              <div className="flex justify-between">
+                <p>{item[indexBy]}</p>
+                <p className="text-dim">{(item[key] as number).toFixed(1) + unit}</p>
+              </div>
+
+              <div className="flex h-2.5 w-full overflow-x-hidden bg-outline">
+                <div
+                  className="h-full items-center overflow-hidden"
+                  style={{
+                    backgroundColor: color,
+                    width: percentFill(item[key]),
+                  }}
+                />
+              </div>
+            </div>
+          </>
+        );
+    }
+  };
+
+  const _data = reverse ? data.reverse() : data;
+  return (
+    <div>
+      <ChartHeader title={title} menu={menu} controls={controls} />
+      <div className={className}>
+        {_data.length &&
+          _data.map(item => {
+            return <>{renderBars(item)}</>;
+          })}
+      </div>
     </div>
   );
 };

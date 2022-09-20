@@ -33,6 +33,7 @@ interface BarProps {
   interactive?: boolean;
   animate?: boolean;
   lineKey?: string;
+  colors?: Array<string>;
 }
 
 const LineLayer =
@@ -81,6 +82,7 @@ const Bar: FunctionComponent<BarProps> = ({
   minY = "auto",
   maxY = "auto",
   lineKey = "line",
+  colors = ["rgba(15, 23, 42, 1)"],
 }) => {
   return (
     <div>
@@ -101,14 +103,14 @@ const Bar: FunctionComponent<BarProps> = ({
               },
             },
           }}
-          colors={["rgba(15, 23, 42, 1)", "rgba(241, 245, 249, 1)"]}
+          colors={colors}
           groupMode={mode}
           minValue={minY}
           maxValue={maxY}
           enableLabel={enableLabel}
           label={({ id, formattedValue }) => {
             if (hideLabelKeys?.includes(id.toString())) return "";
-            return formattedValue;
+            return `${formattedValue}`;
           }}
           valueFormat={(d: number) => {
             return (
@@ -147,12 +149,12 @@ const Bar: FunctionComponent<BarProps> = ({
                 }
               : null
           }
-          padding={0.4}
+          padding={0.3}
           margin={{
             top: layout === "vertical" ? 40 : 0,
             right: 5,
             bottom: layout === "vertical" ? 40 : 10,
-            left: layout === "vertical" ? 30 : 180,
+            left: layout === "vertical" ? 60 : 180,
           }}
           gridXValues={gridXValues}
           gridYValues={gridYValues}

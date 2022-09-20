@@ -1,7 +1,8 @@
 import { FunctionComponent, ReactElement } from "react";
 import { Tooltip } from "@components/index";
 import { maxBy } from "@lib/helpers";
-import { Bar } from "@components/index";
+import { BarCanvasLayer, BarDatum, canvasDefaultProps, ResponsiveBarCanvas } from "@nivo/bar";
+import { line, curveMonotoneX } from "d3-shape";
 
 /**
  * BarLine Component
@@ -13,6 +14,9 @@ interface BarLineProps {
   data?: Array<any>;
   menu?: ReactElement;
   stats?: Array<StatProps> | null;
+  colors?: Array<string>;
+  enableLine?: boolean;
+  lineKey?: string;
 }
 
 const BarLine: FunctionComponent<BarLineProps> = ({
@@ -22,7 +26,28 @@ const BarLine: FunctionComponent<BarLineProps> = ({
   data = dummyBar,
   stats = dummyStats,
   menu,
+  colors,
+  enableLine = true,
+  lineKey = "line",
 }) => {
+  //   const LineLayer =
+  //     (key: string) =>
+  //     ( (ctx, props) JSX.Element => {
+  //     //   const lineGenerator = line()
+  //     //     .curve(curveMonotoneX)
+  //     //     .x((d: any) => xScale(d.data.indexValue) + d.width / 2)
+  //     //     .y((d: any) => yScale(d.data.data[key]));
+
+  //     //   return (
+  //     //     <path
+  //     //       d={lineGenerator(bars as Iterable<[number, number]>)!}
+  //     //       fill="none"
+  //     //       stroke="#2563EB"
+  //     //       strokeWidth="2px"
+  //     //     />
+  //     //   );
+  //     };
+
   const generateXTicks = (data: any, key: string, count: number) => {
     let ticks: Array<any> = [];
     const interval = Math.floor(data.length / count);
@@ -53,18 +78,48 @@ const BarLine: FunctionComponent<BarLineProps> = ({
         {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
       </div>
       {stats && <Stats data={stats} className="py-4"></Stats>}
-      <Bar
-        className="h-[370px] w-full"
-        data={data}
-        indexBy={indexBy}
-        keys={keys}
-        gridXValues={generateXTicks(data, indexBy, 5)}
-        gridYValues={generateYTicks(data, "y", 5)}
-        enableGridX={false}
-        enableGridY={true}
-        enableLine={true}
-        maxY={Math.floor(1.25 * maxBy(data, "y").y)}
-      />
+      <div className="h-[500px] w-full">
+        <ResponsiveBarCanvas
+          data={data}
+          indexBy={indexBy}
+          margin={{
+            left: 60,
+            right: 60,
+            top: 20,
+            bottom: 40,
+          }}
+          keys={keys}
+          gridXValues={generateXTicks(data, indexBy, 5)}
+          gridYValues={generateYTicks(data, keys[0], 5)}
+          enableGridX={false}
+          enableGridY={true}
+          enableLabel={false}
+          colors={colors}
+          layers={[
+            "grid",
+            "axes",
+            "bars",
+            (ctx, props) => {
+              console.log(ctx);
+              console.log(props);
+              const total = props.bars
+                .reduce((acc, bar) => acc + bar.data.value, 0)
+                .toLocaleString();
+
+              ctx.save();
+
+              ctx.textAlign = "right";
+              ctx.font = "bold 20px san-serif";
+              ctx.fillStyle = "#2a2a2a";
+
+              ctx.fillText(`Grand Total: ${total}`, props.width - 100, -10);
+
+              ctx.restore();
+            },
+            "legends",
+          ]}
+        />
+      </div>
     </div>
   );
 };

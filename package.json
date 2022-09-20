@@ -24,10 +24,12 @@
     "@nivo/waffle": "^0.80.0",
     "@tanstack/react-table": "^8.5.2",
     "axios": "^0.27.2",
+    "chart.js": "^3.9.1",
     "next": "latest",
     "next-i18next": "^11.0.0",
     "prop-types": "^15.8.1",
     "react": "18.1.0",
+    "react-chartjs-2": "^4.3.1",
     "react-dom": "18.1.0"
   },
   "devDependencies": {
