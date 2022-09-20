@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
-import { HomeIcon, MenuAlt3Icon, TemplateIcon, XIcon } from "@heroicons/react/solid";
+import { HomeIcon, MenuAlt3Icon, NewspaperIcon, TemplateIcon, XIcon } from "@heroicons/react/solid";
 
 import { languages } from "@lib/options";
 
@@ -77,12 +77,31 @@ const Header = () => {
                 link="/"
                 icon={<HomeIcon className="h-5 w-5 text-black" />}
               />
+              {/* DASHBOARD MEGA MENU */}
               <MegaMenu
                 title={t("nav.dashboards")}
                 icon={<TemplateIcon className="h-5 w-5 text-black" />}
-                items={megaMenuItems}
+              >
+                <Container className="relative grid gap-4 py-3 md:grid-cols-4 md:gap-6 md:py-6">
+                  {megaMenuItems.map((item, index) => (
+                    <div key={index} className="text-sm">
+                      <p className="mb-2 font-bold">{item.title}</p>
+                      <ul className="flex flex-col gap-2">
+                        {item.list.map(li => (
+                          <Link href={li.link}>
+                            <li className="text-footer-link">{li.title}</li>
+                          </Link>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </Container>
+              </MegaMenu>
+              <NavItem
+                title={t("nav.about")}
+                link="/about"
+                icon={<NewspaperIcon className="h-5 w-5 text-black" />}
               />
-              <NavItem title={t("nav.about")} link="/about" />
             </Nav>
           </div>
           <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
