@@ -2,6 +2,23 @@
   "nav": {
     "home": "Home",
     "dashboards": "Dashboards",
+    "megamenu": {
+      "categories": {
+        "infectious_diseases": "Infectious Diseases",
+        "healthcare_resources": "Healthcare Resources",
+        "healthcare_programs": "Healthcare Programs",
+        "misc": "Miscellaneous"
+      },
+      "dashboards": {
+        "covid_19": "COVID-19",
+        "covid_19_vax": "COVID-19 caccincation",
+        "healthcare_facilities": "Healthcare facilities",
+        "blood_donation": "Blood donation",
+        "organ_donation": "Organ donation",
+        "peka_b40": "PeKa B40",
+        "covidnow_data": "Data on COVIDNOW"
+      }
+    },
     "about": "About",
     "moh": "Ministry of Health Malaysia",
     "dosm": "Department of Statistics Malaysia",
@@ -12,10 +29,6 @@
     "open_data": "Open Data",
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
-  },
-  "hero": {
-    "h3": "🇲🇾 Malaysia's data at your fingertips!",
-    "p": "A whole-of-government effort led by the Department of Statistics (DOSM) to democratise data, institutionalise transparency, and put Malaysia at the forefront of data-driven decision-making."
   },
   "about": {
     "title": "Meet the team behind KKMNOW",

@@ -7,6 +7,7 @@ import { HomeIcon, MenuAlt3Icon, TemplateIcon, XIcon } from "@heroicons/react/so
 import { languages } from "@lib/options";
 
 import { BREAKPOINTS } from "@lib/constants";
+import { DASHBOARD_ROUTES } from "@lib/routes";
 import { useLanguage } from "@hooks/useLanguage";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 
@@ -14,6 +15,7 @@ import Nav from "@components/Nav";
 import NavItem from "@components/Nav/Item";
 import Dropdown from "@components/Dropdown";
 import Container from "@components/Container";
+import MegaMenu from "@components/Nav/MegaMenu";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -23,6 +25,38 @@ const Header = () => {
   const isTablet = width <= BREAKPOINTS.MD;
 
   const [isTabletNavOpen, setIsTabletNavOpen] = useState(false);
+
+  // TODO: build items from API
+  const megaMenuItems = [
+    {
+      title: t("nav.megamenu.categories.infectious_diseases"),
+      list: [
+        { title: t("nav.megamenu.dashboards.covid_19"), link: "/" },
+        { title: t("nav.megamenu.dashboards.covid_19_vax"), link: "/" },
+      ],
+    },
+    {
+      title: t("nav.megamenu.categories.healthcare_resources"),
+      list: [{ title: t("nav.megamenu.dashboards.healthcare_facilities"), link: "/" }],
+    },
+    {
+      title: t("nav.megamenu.categories.healthcare_programs"),
+      list: [
+        {
+          title: t("nav.megamenu.dashboards.blood_donation"),
+          link: DASHBOARD_ROUTES.BLOOD_DONATION,
+        },
+        { title: t("nav.megamenu.dashboards.organ_donation"), link: "/" },
+        { title: t("nav.megamenu.dashboards.peka_b40"), link: "/" },
+      ],
+    },
+    {
+      title: t("nav.megamenu.categories.misc"),
+      list: [
+        { title: t("nav.megamenu.dashboards.covidnow_data"), link: DASHBOARD_ROUTES.COVIDNOW },
+      ],
+    },
+  ];
 
   return (
     <div className="sticky top-0 left-0 z-20 w-full">
@@ -43,10 +77,10 @@ const Header = () => {
                 link="/"
                 icon={<HomeIcon className="h-5 w-5 text-black" />}
               />
-              <NavItem
+              <MegaMenu
                 title={t("nav.dashboards")}
-                link="/catalogue"
                 icon={<TemplateIcon className="h-5 w-5 text-black" />}
+                items={megaMenuItems}
               />
               <NavItem title={t("nav.about")} link="/about" />
             </Nav>
