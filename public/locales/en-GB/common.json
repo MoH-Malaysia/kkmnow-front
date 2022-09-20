@@ -13,9 +13,39 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-  "hero": {
-    "h3": "🇲🇾 Malaysia's data at your fingertips!",
-    "p": "A whole-of-government effort led by the Department of Statistics (DOSM) to democratise data, institutionalise transparency, and put Malaysia at the forefront of data-driven decision-making."
+  "home": {
+    "title": "A new chapter for transparency in government",
+    "description": "KKMNOW is a collaboration between the Ministry of Health and the Department of Statistics to  institutionalise transparency, democratise decision-making, and make data accessible for all.",
+    "timeline": {
+      "title": "Our journey to KKMNOW",
+      "events": [
+        {
+          "date": "30 Jun 2021",
+          "title": "CITF GitHub",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        },
+        {
+          "date": "26 Jul 2021",
+          "title": "MOH GitHub",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        },
+        {
+          "date": "9 Sep 2021",
+          "title": "COVIDNOW Launched 🎉",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        },
+        {
+          "date": "1 Apr 2022",
+          "title": "Transition to Endemicity",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        },
+        {
+          "date": "5 Oct 2021",
+          "title": "KKMNOW Launched 🎉",
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        }
+      ]
+    }
   },
   "about": {
     "title": "Meet the team behind KKMNOW",
