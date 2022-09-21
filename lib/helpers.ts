@@ -1,6 +1,7 @@
 import { SetStateAction } from "react";
 import { OptionType } from "@components/types";
 import { TFunction } from "next-i18next";
+import uniqueId from "lodash/uniqueId";
 
 export const isObjEqual = (obj1: any, obj2: any) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -20,6 +21,8 @@ export const minMax = (e: number) => {
   if (!e) return 0;
   return Math.min(Math.max(e, 0), 100);
 };
+
+export const uuid = () => uniqueId();
 
 export const numFormat = (value: number): string => {
   const formatter = Intl.NumberFormat("en", { notation: "compact" });

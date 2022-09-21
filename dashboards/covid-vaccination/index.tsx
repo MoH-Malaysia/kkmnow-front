@@ -301,7 +301,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         <Section title="What is the current state of the COVID-19 vaccination program?">
           <div className="space-y-4">
             <Timeseries
-              className="w-full pt-6"
+              className="h-[400px] w-full pt-6 lg:h-[750px]"
               title="Daily Vaccination"
               menu={<MenuDropdown />}
               stats={null}
@@ -320,18 +320,21 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     label: "Primary",
                     data: filtered_timeline().primary,
                     backgroundColor: COVIDVAX_COLOR[200],
+                    stack: "same",
                   },
                   {
                     type: "bar",
                     label: "Booster 1",
                     data: filtered_timeline().booster,
                     backgroundColor: COVIDVAX_COLOR[300],
+                    stack: "same",
                   },
                   {
                     type: "bar",
                     label: "Booster 2",
                     data: filtered_timeline().booster2,
                     backgroundColor: COVIDVAX_COLOR[400],
+                    stack: "same",
                   },
                 ],
               }}
@@ -357,6 +360,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="Primary Doses (All Ages)"
               menu={<MenuDropdown />}
+              className="max-h-[250px] w-full"
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -389,6 +393,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="1st Boosters (All Ages)"
               menu={<MenuDropdown />}
+              className="max-h-[250px] w-full"
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -421,6 +426,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="2nd Boosters (All Ages)"
               menu={<MenuDropdown />}
+              className="max-h-[250px] w-full"
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -453,6 +459,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="Adults (All Doses)"
               menu={<MenuDropdown />}
+              className="max-h-[250px] w-full"
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -485,6 +492,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="Adolescents (All Doses)"
               menu={<MenuDropdown />}
+              className="max-h-[250px] w-full"
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -517,6 +525,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="Children (All Doses)"
               menu={<MenuDropdown />}
+              className="max-h-[250px] w-full"
               data={{
                 labels: filtered_timeline().x,
                 datasets: [

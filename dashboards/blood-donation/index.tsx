@@ -83,53 +83,16 @@ const BloodDonationDashboard = () => {
                 menu={<MenuDropdown />}
               >
                 <Panel name="Type A">
-                  <Line
-                    className="h-[500px] w-full"
-                    lineWidth={1}
-                    maxY={75}
-                    colorScheme="blood-red"
-                    enableArea={true}
-                    enableGridX={false}
-                    enablePoint={false}
-                    enablePointLabel={false}
-                    enableLabel={false}
-                  />
+                  <Line className="h-[500px] w-full" enableGridX={false} />
                 </Panel>
                 <Panel name="Type B">
-                  <Line
-                    className="h-[500px] w-full"
-                    lineWidth={0}
-                    enableArea={true}
-                    colorScheme="blood-red"
-                    enableGridX={false}
-                    enablePoint={false}
-                    enablePointLabel={false}
-                    enableLabel={false}
-                  />
+                  <Line className="h-[500px] w-full" enableGridX={false} />
                 </Panel>
                 <Panel name="Type AB">
-                  <Line
-                    className="h-[500px] w-full"
-                    lineWidth={0}
-                    enableArea={true}
-                    colorScheme="blood-red"
-                    enableGridX={false}
-                    enablePoint={false}
-                    enablePointLabel={false}
-                    enableLabel={false}
-                  />
+                  <Line className="h-[500px] w-full" enableGridX={false} />
                 </Panel>
                 <Panel name="Type O">
-                  <Line
-                    className="h-[500px] w-full"
-                    lineWidth={0}
-                    enableArea={true}
-                    colorScheme="blood-red"
-                    enableGridX={false}
-                    enablePoint={false}
-                    enablePointLabel={false}
-                    enableLabel={false}
-                  />
+                  <Line className="h-[500px] w-full" enableGridX={false} />
                 </Panel>
               </Tabs>
             </div>
@@ -169,10 +132,7 @@ const BloodDonationDashboard = () => {
                     Relative
                   </Checkbox>
                 }
-                enableArea
                 enableGridX={false}
-                enablePoint={false}
-                legends="right"
               />
               <Line
                 className="h-[500px] w-full"
@@ -187,10 +147,7 @@ const BloodDonationDashboard = () => {
                     Relative
                   </Checkbox>
                 }
-                enableArea
                 enableGridX={false}
-                enablePoint={false}
-                legends="right"
               />
               <Line
                 className="h-[500px] w-full"
@@ -205,10 +162,7 @@ const BloodDonationDashboard = () => {
                     Relative
                   </Checkbox>
                 }
-                enableArea
                 enableGridX={false}
-                enablePoint={false}
-                legends="right"
               />
               <Line
                 className="h-[500px] w-full"
@@ -223,10 +177,7 @@ const BloodDonationDashboard = () => {
                     Relative
                   </Checkbox>
                 }
-                enableArea
                 enableGridX={false}
-                enablePoint={false}
-                legends="right"
               />
             </div>
           </div>

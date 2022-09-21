@@ -9,7 +9,6 @@ import {
   Section,
   ChartHeader,
   Stages,
-  BarMeter,
 } from "@components/index";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useState } from "react";
@@ -17,8 +16,10 @@ import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
+import { CountryAndStates } from "@lib/constants";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
+const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
 const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
@@ -176,7 +177,14 @@ const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                 {BarTabsMenu.map((menu, index) => {
                   return (
                     <Panel key={index} name={menu.name}>
-                      <Bar
+                      <BarMeter
+                        className="block space-y-2"
+                        data={dummy}
+                        yKey="y1"
+                        xKey="state"
+                        layout="state-horizontal"
+                      />
+                      {/* <Bar
                         className="h-[550px] w-full"
                         keys={["y1", "y2"]}
                         interactive={false}
@@ -188,7 +196,7 @@ const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                         enableGridX={false}
                         enableGridY={false}
                         layout="horizontal"
-                      />
+                      /> */}
                     </Panel>
                   );
                 })}
@@ -228,7 +236,7 @@ const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         </Section>
 
         <Section
-          title="What is the mortality rate across vaccination groups?"
+          title="How is vaccination influencing key epidemic indicators?"
           description="Some description here"
         >
           <Tabs
@@ -241,10 +249,10 @@ const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             onChange={value => setData("filter_death", value)}
           >
             <Panel name="Per Capita">
-              <Bar className="h-[450px]" mode="grouped" keys={["y1", "y2"]} enableGridX={false} />
+              <Bar className="h-[450px]" enableGridX={false} />
             </Panel>
             <Panel name="Absolute">
-              <Bar className="h-[450px]" mode="grouped" keys={["y1", "y2"]} enableGridX={false} />
+              <Bar className="h-[450px]" enableGridX={false} />
             </Panel>
           </Tabs>
         </Section>
@@ -263,3 +271,22 @@ export const getStaticProps: GetStaticProps = async ctx => {
 };
 
 export default CovidDashboard;
+
+const dummy = Array(Object.keys(CountryAndStates).length)
+  .fill(0)
+  .map((_, index) => {
+    let date = new Date();
+    date.setDate(date.getDate() - index);
+
+    const y1 = () => Math.floor(Math.random() * 98 + 2);
+    const y2 = 100 - y1();
+
+    return {
+      x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+      y1: y1(),
+      y2: y2,
+      line: y1(),
+      state: Object.keys(CountryAndStates)[index],
+    };
+  })
+  .reverse();

@@ -1,6 +1,5 @@
 import { FunctionComponent, ReactElement } from "react";
-import { ChartHeader, StateTick, Tooltip } from "@components/index";
-import { CountryAndStates } from "@lib/constants";
+import { ChartHeader, Tooltip } from "@components/index";
 
 import {
   Chart as ChartJS,
@@ -25,6 +24,7 @@ interface TimeseriesProps {
   className?: string;
   menu?: ReactElement;
   title?: string;
+  type?: keyof ChartTypeRegistry;
   controls?: ReactElement;
   layout?: "vertical" | "horizontal";
   data?: ChartData<keyof ChartTypeRegistry, any[], string | number>;
@@ -75,7 +75,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   stats,
   interactive = true,
   animate = false,
-  customTickX = undefined,
+  type = "bar",
   enableGridX = true,
   enableGridY = true,
   enableAxisX = true,
@@ -84,15 +84,10 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   gridXValues = undefined,
   gridYValues = undefined,
   enableLabel = false,
-  hideLabelKeys,
-  reverse = false,
-  minY = "auto",
-  maxY = "auto",
-  lineKey = "line",
-  colors = ["rgba(15, 23, 42, 1)"],
 }) => {
   const options: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         type: "timeseries",
@@ -137,39 +132,37 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
       <ChartHeader title={title} menu={menu} controls={controls} />
       {stats && <Stats data={stats} className="py-4"></Stats>}
 
-      <div className={className}>
-        {data && <Chart data={data} options={options} type={"bar"} />}
-      </div>
+      <div className={className}>{data && <Chart data={data} options={options} type={type} />}</div>
     </div>
   );
 };
 
-// const dummy = {
-//   labels: [], // x-values
-//   datasets: [
-//     // stacked y-values
-//     {
-//       type: "line",
-//       label: "Moving Average (MA)",
-//       data: [], // y-values
-//     },
-//     {
-//       type: "bar",
-//       label: "Primary",
-//       data: [], // y-values
-//     },
-//     {
-//       type: "bar",
-//       label: "Booster 1",
-//       data: [], // y-values
-//     },
-//     {
-//       type: "bar",
-//       label: "Booster 2",
-//       data: [], // y-values
-//     },
-//   ],
-// };
+const dummy = {
+  labels: [], // x-values
+  datasets: [
+    // stacked y-values
+    {
+      type: "line",
+      label: "Moving Average (MA)",
+      data: [], // y-values
+    },
+    {
+      type: "bar",
+      label: "Primary",
+      data: [], // y-values
+    },
+    {
+      type: "bar",
+      label: "Booster 1",
+      data: [], // y-values
+    },
+    {
+      type: "bar",
+      label: "Booster 2",
+      data: [], // y-values
+    },
+  ],
+};
 
 /**
  * Stats Component
