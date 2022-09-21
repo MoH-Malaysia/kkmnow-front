@@ -28,9 +28,9 @@ const Stages: FunctionComponent<StagesProps> = ({ title, className = "", menu, c
           </div>
         </div>
         {/* Grid */}
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-3">
+        <div className="mt-6 grid h-full grid-cols-1 lg:grid-cols-3">
           {/* Col-1 */}
-          <ul className="m-auto space-y-4">
+          <ul className="m-auto space-y-10">
             <li>
               <Stats
                 name="Local Cases"
@@ -53,7 +53,7 @@ const Stages: FunctionComponent<StagesProps> = ({ title, className = "", menu, c
               }
             />
             <div className="w-full lg:flex-grow">
-              <ul className="flex flex-row flex-wrap justify-evenly gap-12 py-7 lg:mx-auto lg:block lg:w-fit lg:gap-0 lg:space-y-4 lg:py-0">
+              <ul className="flex flex-row flex-wrap justify-evenly gap-12 py-7 lg:mx-auto lg:block lg:w-fit lg:gap-0 lg:space-y-10 lg:py-0">
                 <li>
                   <Stats
                     name="Home Quarantine"
@@ -112,7 +112,7 @@ const Stages: FunctionComponent<StagesProps> = ({ title, className = "", menu, c
             />
           </div>
           {/* Col-3 */}
-          <ul className="m-auto space-y-4">
+          <ul className="m-auto space-y-10">
             <li>
               <Stats
                 name="Recovered"

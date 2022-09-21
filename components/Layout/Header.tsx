@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { HomeIcon, MenuAlt3Icon, NewspaperIcon, TemplateIcon, XIcon } from "@heroicons/react/solid";
 
 import { languages } from "@lib/options";
 
 import { BREAKPOINTS } from "@lib/constants";
-import { DASHBOARD_ROUTES } from "@lib/routes";
+import { routes } from "@lib/routes";
 import { useLanguage } from "@hooks/useLanguage";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 
@@ -18,7 +18,7 @@ import Container from "@components/Container";
 import MegaMenu from "@components/Nav/MegaMenu";
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const { language, onLanguageChange } = useLanguage();
 
   const width = useWindowWidth();
@@ -31,35 +31,35 @@ const Header = () => {
     {
       title: t("nav.megamenu.categories.infectious_diseases"),
       list: [
-        { title: t("nav.megamenu.dashboards.covid_19"), link: "/" },
-        { title: t("nav.megamenu.dashboards.covid_19_vax"), link: "/" },
+        { title: t("nav.megamenu.dashboards.covid_19"), link: routes.COVID },
+        { title: t("nav.megamenu.dashboards.covid_19_vax"), link: routes.COVID_VAX },
       ],
     },
     {
       title: t("nav.megamenu.categories.healthcare_resources"),
-      list: [{ title: t("nav.megamenu.dashboards.healthcare_facilities"), link: "/" }],
+      list: [
+        { title: t("nav.megamenu.dashboards.healthcare_facilities"), link: routes.HEALTHCARE },
+      ],
     },
     {
       title: t("nav.megamenu.categories.healthcare_programs"),
       list: [
         {
           title: t("nav.megamenu.dashboards.blood_donation"),
-          link: DASHBOARD_ROUTES.BLOOD_DONATION,
+          link: routes.BLOOD_DONATION,
         },
-        { title: t("nav.megamenu.dashboards.organ_donation"), link: "/" },
-        { title: t("nav.megamenu.dashboards.peka_b40"), link: "/" },
+        { title: t("nav.megamenu.dashboards.organ_donation"), link: routes.ORGAN_DONATION },
+        { title: t("nav.megamenu.dashboards.peka_b40"), link: routes.PEKA_B40 },
       ],
     },
     {
       title: t("nav.megamenu.categories.misc"),
-      list: [
-        { title: t("nav.megamenu.dashboards.covidnow_data"), link: DASHBOARD_ROUTES.COVIDNOW },
-      ],
+      list: [{ title: t("nav.megamenu.dashboards.covidnow_data"), link: routes.COVIDNOW_STATS }],
     },
   ];
 
   return (
-    <div className="sticky top-0 left-0 z-20 w-full">
+    <div className="fixed top-0 left-0 z-20 w-full">
       <Container background="bg-white" className="flex items-center gap-4 border-b py-[11px]">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-4">
@@ -84,11 +84,11 @@ const Header = () => {
               >
                 <Container className="relative grid gap-4 py-3 md:grid-cols-4 md:gap-6 md:py-6">
                   {megaMenuItems.map((item, index) => (
-                    <div key={index} className="text-sm">
+                    <div key={item.title} className="text-sm">
                       <p className="mb-2 font-bold">{item.title}</p>
                       <ul className="flex flex-col gap-2">
                         {item.list.map((li, index) => (
-                          <li key={index} className="text-footer-link">
+                          <li key={item.title} className="text-footer-link">
                             <Link href={li.link}>{li.title}</Link>
                           </li>
                         ))}

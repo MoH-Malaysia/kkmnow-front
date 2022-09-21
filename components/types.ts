@@ -1,4 +1,6 @@
-export type OptionType<L = string, V = string> = {
+import { ReactElement } from "react";
+
+export type OptionType<L = ReactElement | string, V = string> = {
   label: L;
   value: V;
 };

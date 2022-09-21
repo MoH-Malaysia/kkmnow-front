@@ -4,226 +4,90 @@ import {
   Tabs,
   Panel,
   MenuDropdown,
-  Checkbox,
-  Tooltip,
-  Section,
   Slider,
+  Section,
+  ChartHeader,
+  StateDropdown,
 } from "@components/index";
-import { InferGetStaticPropsType, GetStaticProps } from "next";
-import { useData } from "@hooks/useData";
-import {
-  BLOOD_SUPPLY_SCHEMA,
-  BLOOD_SUPPLY_COLOR,
-  BLOOD_DONATION_COLOR,
-  BLOOD_DONATION_SCHEMA,
-} from "@lib/constants";
 import dynamic from "next/dynamic";
-import { post } from "@lib/api";
+import { useData } from "@hooks/useData";
+
+import { ORGAN_DONATION_COLOR, ORGAN_DONATION_SCHEMA } from "@lib/constants";
+import { useRouter } from "next/router";
+import { FunctionComponent } from "react";
+import { routes } from "@lib/routes";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
-const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
-const Line = dynamic(() => import("@components/Chart/Line"), { ssr: false });
-const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
+const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
+const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
-const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+interface OrganDonationDashboardProps {}
+
+const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = () => {
+  const router = useRouter();
+  const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
-    relative_donation_type: false,
-    relative_blood_group: false,
-    relative_donor_type: false,
-    relative_location: false,
+    filter_by: 0,
   });
+
+  const TableTabsMenu = [
+    {
+      name: "Show All",
+    },
+    {
+      name: "Total",
+    },
+    {
+      name: "Adults",
+    },
+    {
+      name: "Adolescents",
+    },
+    {
+      name: "Children",
+    },
+  ];
+
   return (
     <>
-      <Hero background="hero-light-1">
-        <div className="space-y-2 xl:w-1/2">
+      <Hero background="hero-light-4">
+        <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
-          <h3 className="text-black">Blood Donation</h3>
+          <h3 className="text-black">Organ Donation</h3>
           <p className="text-dim">
             A stable and high supply of blood is critical for a well-functioning public healthcare
-            system. This dashboard, which gives you near real-time updates on key indicators related
+            system. This dashboard, which gives you near-real-time updates on key indicators related
             to blood transfusion services, is brought to you by the{" "}
             <a href="#" className="font-semibold text-blue-600">
+              {" "}
               National Blood Centre (PDN).
             </a>
           </p>
+          <StateDropdown url={routes.ORGAN_DONATION} currentState={currentState} />
         </div>
       </Hero>
+
       <Container className="min-h-screen">
-        {/* Is {{ area }}'s current blood supply sufficient? */}
-        <Section title="Is Klang Valley's current blood supply sufficient?">
-          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
-            <Heatmap
-              className="h-[500px]"
-              title="Blood Supply by States"
-              hoverTarget="row"
-              axisLeft="state"
-              schema={BLOOD_SUPPLY_SCHEMA}
-              color={BLOOD_SUPPLY_COLOR}
-              menu={<MenuDropdown />}
-            />
-            <div>
-              <Tabs
-                title={
-                  <Tooltip
-                    trigger={
-                      <span className="text-lg font-bold underline decoration-dashed underline-offset-4">
-                        Blood supply over time
-                      </span>
-                    }
-                  >
-                    Tooltip for Blood supply over time
-                  </Tooltip>
-                }
-                menu={<MenuDropdown />}
-              >
-                <Panel name="Type A">
-                  <Line
-                    className="h-[500px] w-full"
-                    lineWidth={1}
-                    maxY={75}
-                    colorScheme="blood-red"
-                    enableArea={true}
-                    enableGridX={false}
-                    enablePoint={false}
-                    enablePointLabel={false}
-                    enableLabel={false}
-                  />
-                </Panel>
-                <Panel name="Type B">
-                  <Line
-                    className="h-[500px] w-full"
-                    lineWidth={0}
-                    enableArea={true}
-                    colorScheme="blood-red"
-                    enableGridX={false}
-                    enablePoint={false}
-                    enablePointLabel={false}
-                    enableLabel={false}
-                  />
-                </Panel>
-                <Panel name="Type AB">
-                  <Line
-                    className="h-[500px] w-full"
-                    lineWidth={0}
-                    enableArea={true}
-                    colorScheme="blood-red"
-                    enableGridX={false}
-                    enablePoint={false}
-                    enablePointLabel={false}
-                    enableLabel={false}
-                  />
-                </Panel>
-                <Panel name="Type O">
-                  <Line
-                    className="h-[500px] w-full"
-                    lineWidth={0}
-                    enableArea={true}
-                    colorScheme="blood-red"
-                    enableGridX={false}
-                    enablePoint={false}
-                    enablePointLabel={false}
-                    enableLabel={false}
-                  />
-                </Panel>
-              </Tabs>
-            </div>
-          </div>
-        </Section>
-
-        {/* What are the latest blood donation trends in {{ area }}? */}
         <Section
-          title="What are the latest blood donation trends in Klang Valley?"
-          description="Blood compromises 3 components - red blood cells, platelets, and plasma. Although
+          title="What are the latest organ pledger trends in Klang Valley?"
+          description={
+            <p className="pt-2 text-dim">
+              Blood compromises 3 components - red blood cells, platelets, and plasma. Although
               plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35
-              days, and plasma only for up to 5 days. Therefore, it is vital to maintain a high and
-              stable level of blood donations; when blood donation activity is low or volatile,
-              healthcare services that depend upon blood transfusions may start to come under
-              stress."
+              days, and plasma only for up to 5 days. Therefore, it is{" "}
+              <strong>vital to maintain a high and stable level of blood donations</strong>; when
+              blood donation activity is low or volatile, healthcare services that depend upon blood
+              transfusions may start to come under stress.
+            </p>
+          }
         >
-          <div className="flex w-full flex-col gap-12">
-            <div className="space-y-4">
-              <BarLine title="Daily Donations" menu={<MenuDropdown />} stats={null} />
-              <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
-              <span className="text-sm text-dim">
-                Use this time slider to zoom in specific time range
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-              <Line
-                className="h-[500px] w-full"
-                title="Donation by donation type"
-                menu={<MenuDropdown />}
-                subheader={
-                  <Checkbox
-                    name="donation_type"
-                    value={data.relative_donation_type}
-                    onChange={e => setData("relative_donation_type", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                enableArea
-                enableGridX={false}
-                enablePoint={false}
-                legends="right"
-              />
-              <Line
-                className="h-[500px] w-full"
-                title="Donation by blood group (phenotype)"
-                menu={<MenuDropdown />}
-                subheader={
-                  <Checkbox
-                    name="blood_group"
-                    value={data.relative_blood_group}
-                    onChange={e => setData("relative_blood_group", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                enableArea
-                enableGridX={false}
-                enablePoint={false}
-                legends="right"
-              />
-              <Line
-                className="h-[500px] w-full"
-                title="Donation by donor type"
-                menu={<MenuDropdown />}
-                subheader={
-                  <Checkbox
-                    name="donor_type"
-                    value={data.relative_donor_type}
-                    onChange={e => setData("relative_donor_type", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                enableArea
-                enableGridX={false}
-                enablePoint={false}
-                legends="right"
-              />
-              <Line
-                className="h-[500px] w-full"
-                title="Donation by location"
-                menu={<MenuDropdown />}
-                subheader={
-                  <Checkbox
-                    name="location"
-                    value={data.relative_location}
-                    onChange={e => setData("relative_location", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                enableArea
-                enableGridX={false}
-                enablePoint={false}
-                legends="right"
-              />
-            </div>
+          <div className="space-y-4">
+            <Timeseries title="Daily Pledges" menu={<MenuDropdown />} stats={null} />
+            <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
+            <span className="text-sm text-dim">
+              Use this time slider to zoom in specific time range
+            </span>
           </div>
         </Section>
 
@@ -231,7 +95,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         <Section
           title="How strong is the new donor recruitment in Klang Valley?"
           description="Recruitment of new donors is vital to replace donors who reach their golden years and
-            stop donating, as well as to support a growing population."
+              stop donating, as well as to support a growing population."
         >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
@@ -261,7 +125,7 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         <Section
           title="What proportion of the population in Klang Valley donates blood?"
           description="To ensure a stable and high supply of blood, we need 10% of the eliglble population to
-            donate at least 1 time per year."
+              donate at least 1 time per year."
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full space-y-4">
@@ -274,8 +138,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       subdata={dummyOneColTwoRowHeatmap}
                       axisLeft="default"
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
 
                     <Heatmap
@@ -286,8 +150,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
 
                     <Heatmap
@@ -298,8 +162,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
                   </>
                 </Panel>
@@ -311,8 +175,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       subdata={dummyOneColTwoRowHeatmap}
                       axisLeft="default"
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
 
                     <Heatmap
@@ -323,8 +187,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
 
                     <Heatmap
@@ -335,8 +199,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
                   </>
                 </Panel>
@@ -348,8 +212,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       subdata={dummyOneColTwoRowHeatmap}
                       axisLeft="default"
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
 
                     <Heatmap
@@ -360,8 +224,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
 
                     <Heatmap
@@ -372,33 +236,38 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      schema={ORGAN_DONATION_SCHEMA}
+                      color={ORGAN_DONATION_COLOR}
                     />
                   </>
                 </Panel>
               </Tabs>
             </div>
 
-            <Heatmap
-              className="flex h-[690px] overflow-auto pt-7 lg:overflow-hidden"
-              title="Donor retention: How well do we retain donors?"
-              menu={<MenuDropdown />}
-              data={dummyDiagonal}
-              axisLeft={{
-                ticksPosition: "before",
-                tickSize: 0,
-                tickPadding: 10,
-                tickRotation: 0,
-              }}
-              legend={{
-                top: "Donated after N years",
-                left: "Donated in",
-              }}
-              interactive={false}
-              schema={BLOOD_DONATION_SCHEMA}
-              color={BLOOD_DONATION_COLOR}
-            />
+            <div>
+              <ChartHeader
+                title="Motivation: Why do people pledge to donate organs?"
+                menu={<MenuDropdown />}
+              />
+              <Tabs className="pt-9" title="Number of new donors" menu={<MenuDropdown />}>
+                <Panel name="Annual">
+                  <Bar
+                    className="h-[650px] w-full"
+                    enableGridX={false}
+                    enableGridY={false}
+                    layout="horizontal"
+                  />
+                </Panel>
+                <Panel name="Monthly">
+                  <Bar
+                    className="h-[650px] w-full"
+                    enableGridX={false}
+                    enableGridY={false}
+                    layout="horizontal"
+                  />
+                </Panel>
+              </Tabs>
+            </div>
           </div>
         </Section>
 
@@ -413,6 +282,8 @@ const BloodDonation = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
     </>
   );
 };
+
+export default OrganDonationDashboard;
 
 const dummyOneColTwoRowHeatmap = [
   {
@@ -886,13 +757,3 @@ const dummyDiagonal = [
     ],
   },
 ];
-
-export const getStaticProps: GetStaticProps = async ctx => {
-  // const { data } = await post("") // fetch static data here
-
-  return {
-    props: {},
-  };
-};
-
-export default BloodDonation;

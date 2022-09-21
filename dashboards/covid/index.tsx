@@ -4,26 +4,36 @@ import {
   Tabs,
   Panel,
   MenuDropdown,
-  Dropdown,
+  StateDropdown,
   Tooltip,
   Section,
   ChartHeader,
   Stages,
-  BarMeter,
 } from "@components/index";
-import { InferGetStaticPropsType, GetStaticProps } from "next";
-import { useState } from "react";
+import { FunctionComponent } from "react";
 import dynamic from "next/dynamic";
-import { post } from "@lib/api";
+import { useData } from "@hooks/useData";
+import { useRouter } from "next/router";
+import { CountryAndStates } from "@lib/constants";
+import { routes } from "@lib/routes";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
+const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
 const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
-const BarLine = dynamic(() => import("@components/Chart/BarLine"), { ssr: false });
+const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
-const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false });
 
-const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [currentTab, selectTab] = useState(0);
+interface CovidDashboardProps {}
+
+const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
+  const router = useRouter();
+  const currentState = (router.query.state as string) ?? "mys";
+
+  const { data, setData } = useData({
+    filter_death: 0,
+    filter_state: 0,
+  });
+
   const BarTabsMenu = [
     {
       name: "Deaths",
@@ -48,31 +58,28 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   ];
   const TableTabsMenu = [
     {
+      name: "Deaths",
+    },
+    {
+      name: "Hosp.",
+    },
+    {
+      name: "Cases",
+    },
+    {
       name: "Show All",
-    },
-    {
-      name: "Total",
-    },
-    {
-      name: "Adults",
-    },
-    {
-      name: "Adolescents",
-    },
-    {
-      name: "Children",
     },
   ];
 
   return (
     <>
       <Hero background="hero-light-4">
-        <div className="space-y-2 xl:w-1/2">
+        <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">covid-19</span>
           <h3 className="text-black">The latest data on the pandemic in Malaysia.</h3>
           <p className="text-dim">
-            Drawing from the Ministry of Health's excellent COVIDNOW dashboard, this page allows you
-            to track the evolution of the epidemic in Malaysia on a daily basis.
+            Drawing from the Ministry of Health's excellent CovidDashboard dashboard, this page
+            allows you to track the evolution of the epidemic in Malaysia on a daily basis.
           </p>
           <p className="text-dim">
             For a more general look at infectious diseases such as measles, chicken pox, and HFMD,
@@ -82,32 +89,14 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               Infectious Diseases Dashboard.
             </a>
           </p>
+
+          <StateDropdown url={routes.COVID} currentState={currentState} />
         </div>
       </Hero>
 
       <Container className="min-h-screen">
-        {/* EXAMPLE WAFFLE */}
-        {/* <Section title="EXAMPLE WAFFLE">
-          <div className="grid grid-cols-4 gap-6">
-            <Waffle className="h-[220px] w-[220px]" title="1st Dose">
-              <div>
-                <p>Total - 16,228,368</p>
-                <p>Daily - 1,026</p>
-              </div>
-            </Waffle>
-            <Waffle className="h-[220px] w-[220px]" title="2nd Dose" />
-            <Waffle className="h-[220px] w-[220px]" title="1st Booster" />
-            <Waffle className="h-[220px] w-[220px]" title="2nd Booster" />
-          </div>
-        </Section> */}
-
-        {/* EXAMPLE BAR METER */}
-        {/* <Section title="BAR METER">
-          <BarMeter className="relative flex h-[500px] w-full justify-between" />
-        </Section> */}
-
         {/* Utilisations */}
-        <Section title="Utilisations">
+        <Section title="Healthcare facility utilisation">
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
               <Donut className="h-[56px] w-[56px]" type="progress" />
@@ -172,32 +161,31 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
           </div>
         </Section>
 
-        {/* How are COVID-19 key indicators trending */}
-        <Section title="How are COVID-19 key indicators trending?">
-          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
-            <BarLine title="Deaths by Date of Death" menu={<MenuDropdown />} />
-            <BarLine title="Patients Ventilated" menu={<MenuDropdown />} />
-            <BarLine title="Patients in ICU" menu={<MenuDropdown />} />
-            <BarLine title="Hospital Admissions" menu={<MenuDropdown />} />
-            <BarLine title="Confirmed Cases" menu={<MenuDropdown />} />
-            <BarLine title="Tests Conducted" menu={<MenuDropdown />} />
-          </div>
-        </Section>
-
         {/* What does the latest data show? */}
         <Section title="What does the latest data show?">
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-3">
             <div className="col-span-1 lg:col-span-2">
-              <Stages title="Active COVID-19 Cases" className="pt-10" menu={<MenuDropdown />} />
+              <Stages
+                title="Active COVID-19 Cases"
+                className="h-full pt-10"
+                menu={<MenuDropdown />}
+              />
             </div>
             <div className="col-span-1">
-              <ChartHeader title={BarTabsMenu[currentTab].title} menu={<MenuDropdown />} />
+              <ChartHeader title={BarTabsMenu[data.filter_state].title} menu={<MenuDropdown />} />
 
-              <Tabs onChange={selectTab}>
+              <Tabs onChange={value => setData("filter_state", value)}>
                 {BarTabsMenu.map((menu, index) => {
                   return (
                     <Panel key={index} name={menu.name}>
-                      <Bar
+                      <BarMeter
+                        className="block space-y-2"
+                        data={dummy}
+                        yKey="y1"
+                        xKey="state"
+                        layout="state-horizontal"
+                      />
+                      {/* <Bar
                         className="h-[550px] w-full"
                         keys={["y1", "y2"]}
                         interactive={false}
@@ -209,28 +197,24 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                         enableGridX={false}
                         enableGridY={false}
                         layout="horizontal"
-                      />
+                      /> */}
                     </Panel>
                   );
                 })}
               </Tabs>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-            <Bar
-              title="Deaths by Vaccination Status"
-              className="h-[450px]"
-              mode="grouped"
-              keys={["y1", "y2"]}
-              enableGridX={false}
-            />
-            <Bar
-              title="Deaths per 100k by Vaccination Status"
-              className="h-[450px]"
-              mode="grouped"
-              keys={["y1", "y2"]}
-              enableGridX={false}
-            />
+        </Section>
+
+        {/* How are COVID-19 key indicators trending */}
+        <Section title="How are COVID-19 key indicators trending?">
+          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
+            <Timeseries title="Deaths by Date of Death" menu={<MenuDropdown />} />
+            <Timeseries title="Patients Ventilated" menu={<MenuDropdown />} />
+            <Timeseries title="Patients in ICU" menu={<MenuDropdown />} />
+            <Timeseries title="Hospital Admissions" menu={<MenuDropdown />} />
+            <Timeseries title="Confirmed Cases" menu={<MenuDropdown />} />
+            <Timeseries title="Tests Conducted" menu={<MenuDropdown />} />
           </div>
         </Section>
 
@@ -251,17 +235,51 @@ const CovidNow = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </Tabs>
           </div>
         </Section>
+
+        <Section
+          title="How is vaccination influencing key epidemic indicators?"
+          description="Some description here"
+        >
+          <Tabs
+            title={
+              data.filter_death === 0
+                ? "Deaths per 100k by Vaccination Status"
+                : "Deaths by Vaccination Status"
+            }
+            menu={<MenuDropdown />}
+            onChange={value => setData("filter_death", value)}
+          >
+            <Panel name="Per Capita">
+              <Bar className="h-[450px]" enableGridX={false} />
+            </Panel>
+            <Panel name="Absolute">
+              <Bar className="h-[450px]" enableGridX={false} />
+            </Panel>
+          </Tabs>
+        </Section>
+        <div className="grid grid-cols-1 gap-12 xl:grid-cols-2"></div>
       </Container>
     </>
   );
 };
 
-export const getStaticProps: GetStaticProps = async ctx => {
-  // const { data } = await post("") // fetch static data here
+export default CovidDashboard;
 
-  return {
-    props: {},
-  };
-};
+const dummy = Array(Object.keys(CountryAndStates).length)
+  .fill(0)
+  .map((_, index) => {
+    let date = new Date();
+    date.setDate(date.getDate() - index);
 
-export default CovidNow;
+    const y1 = () => Math.floor(Math.random() * 98 + 2);
+    const y2 = 100 - y1();
+
+    return {
+      x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+      y1: y1(),
+      y2: y2,
+      line: y1(),
+      state: Object.keys(CountryAndStates)[index],
+    };
+  })
+  .reverse();

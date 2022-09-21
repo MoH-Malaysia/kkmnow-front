@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, ReactElement } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon, XIcon } from "@heroicons/react/solid";
 
@@ -13,6 +13,7 @@ type CommonProps<L, V> = {
   description?: string;
   onChange: (selected: OptionType<L, V>) => void;
   width?: string;
+  enableFlag?: boolean;
 };
 
 type ConditionalProps<L, V> =
@@ -33,7 +34,7 @@ type ConditionalProps<L, V> =
 
 type DropdownProps<L, V> = CommonProps<L, V> & ConditionalProps<L, V>;
 
-const Dropdown = <L extends string | number = string, V = string>({
+const Dropdown = <L extends string | number | ReactElement = string, V = string>({
   disabled = false,
   multiple = false,
   options,
@@ -43,7 +44,8 @@ const Dropdown = <L extends string | number = string, V = string>({
   title,
   description,
   placeholder,
-  width,
+  width = "w-fit",
+  enableFlag = false,
 }: DropdownProps<L, V>) => {
   return (
     <Listbox
@@ -61,11 +63,19 @@ const Dropdown = <L extends string | number = string, V = string>({
                 ? "pointer-events-none bg-outline text-dim"
                 : "hover:border-outlineHover focus:bg-washed focus:outline-none focus-visible:ring-0"
             }
+            ${width}
           `}
         >
+          {enableFlag && selected && (
+            <img
+              src={`/static/images/states/${(selected as OptionType<L, V>).value}.jpeg`}
+              className="aspect-auto h-3"
+            />
+          )}
           <span className="block truncate">
             {multiple ? title : (selected as OptionType<L, V>)?.label || placeholder || "Select"}
           </span>
+
           {/* NUMBER OF OPTIONS SELECTED (MULTIPLE = TRUE) */}
           {multiple && (selected as OptionType<L, V>[])?.length > 0 && (
             <span className="rounded-md bg-dim px-1 py-0.5 text-xs text-white">
@@ -102,6 +112,12 @@ const Dropdown = <L extends string | number = string, V = string>({
                 onClick={() => (multiple ? onChange(option) : null)}
                 value={option}
               >
+                {enableFlag && (
+                  <img
+                    src={`/static/images/states/${option.value}.jpeg`}
+                    className="aspect-auto h-3"
+                  />
+                )}
                 <span
                   className={`block truncate ${
                     option === selected ? "font-medium" : "font-normal"
