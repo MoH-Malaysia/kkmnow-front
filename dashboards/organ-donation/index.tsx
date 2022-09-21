@@ -14,13 +14,17 @@ import { useData } from "@hooks/useData";
 
 import { ORGAN_DONATION_COLOR, ORGAN_DONATION_SCHEMA } from "@lib/constants";
 import { useRouter } from "next/router";
+import { FunctionComponent } from "react";
+import { routes } from "@lib/routes";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
-const OrganDonationDashboard = () => {
+interface OrganDonationDashboardProps {}
+
+const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = () => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
@@ -60,7 +64,7 @@ const OrganDonationDashboard = () => {
               National Blood Centre (PDN).
             </a>
           </p>
-          <StateDropdown url="/dashboard/covid-vaccination" currentState={currentState} />
+          <StateDropdown url={routes.ORGAN_DONATION} currentState={currentState} />
         </div>
       </Hero>
 
@@ -249,13 +253,6 @@ const OrganDonationDashboard = () => {
                 <Panel name="Annual">
                   <Bar
                     className="h-[650px] w-full"
-                    keys={["y1"]}
-                    interactive={false}
-                    indexBy="state"
-                    hideLabelKeys={["y2"]}
-                    customTickX="state"
-                    enableLabel={true}
-                    enableAxisX={false}
                     enableGridX={false}
                     enableGridY={false}
                     layout="horizontal"
@@ -264,13 +261,6 @@ const OrganDonationDashboard = () => {
                 <Panel name="Monthly">
                   <Bar
                     className="h-[650px] w-full"
-                    keys={["y1"]}
-                    interactive={false}
-                    indexBy="state"
-                    hideLabelKeys={["y2"]}
-                    customTickX="state"
-                    enableLabel={true}
-                    enableAxisX={false}
                     enableGridX={false}
                     enableGridY={false}
                     layout="horizontal"

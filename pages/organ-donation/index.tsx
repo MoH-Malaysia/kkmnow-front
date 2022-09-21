@@ -3,6 +3,7 @@
  */
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import OrganDonationDashboard from "@dashboards/organ-donation";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const OrganDonationIndex = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -12,11 +13,15 @@ const OrganDonationIndex = ({}: InferGetStaticPropsType<typeof getStaticProps>) 
   );
 };
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const i18n = await serverSideTranslations(locale!, ["common"]);
+
   // const { data } = await post("") // fetch static data here
 
   return {
-    props: {},
+    props: {
+      ...i18n,
+    },
   };
 };
 

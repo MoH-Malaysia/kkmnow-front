@@ -15,6 +15,7 @@ import { useData } from "@hooks/useData";
 
 import { ORGAN_DONATION_COLOR, ORGAN_DONATION_SCHEMA } from "@lib/constants";
 import { Page } from "@lib/types";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -251,13 +252,6 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                 <Panel name="Annual">
                   <Bar
                     className="h-[650px] w-full"
-                    keys={["y1"]}
-                    interactive={false}
-                    indexBy="state"
-                    hideLabelKeys={["y2"]}
-                    customTickX="state"
-                    enableLabel={true}
-                    enableAxisX={false}
                     enableGridX={false}
                     enableGridY={false}
                     layout="horizontal"
@@ -266,13 +260,6 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                 <Panel name="Monthly">
                   <Bar
                     className="h-[650px] w-full"
-                    keys={["y1"]}
-                    interactive={false}
-                    indexBy="state"
-                    hideLabelKeys={["y2"]}
-                    customTickX="state"
-                    enableLabel={true}
-                    enableAxisX={false}
                     enableGridX={false}
                     enableGridY={false}
                     layout="horizontal"
@@ -295,11 +282,15 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const i18n = await serverSideTranslations(locale!, ["common"]);
+
   // const { data } = await post("") // fetch static data here
 
   return {
-    props: {},
+    props: {
+      ...i18n,
+    },
   };
 };
 

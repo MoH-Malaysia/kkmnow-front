@@ -2,9 +2,11 @@
  * Blood Donation Page <Index>
  */
 import BloodDonationDashboard from "@dashboards/blood-donation";
+import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const BloodDonationIndex = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const BloodDonationIndex: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <BloodDonationDashboard></BloodDonationDashboard>
@@ -12,11 +14,15 @@ const BloodDonationIndex = ({}: InferGetStaticPropsType<typeof getStaticProps>) 
   );
 };
 
-export const getStaticProps: GetStaticProps = async ctx => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const i18n = await serverSideTranslations(locale!, ["common"]);
+
   // const { data } = await post("") // fetch static data here
 
   return {
-    props: {},
+    props: {
+      ...i18n,
+    },
   };
 };
 

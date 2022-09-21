@@ -10,13 +10,12 @@ import {
   ChartHeader,
   Stages,
 } from "@components/index";
-import { InferGetStaticPropsType, GetStaticProps } from "next";
-import { useState } from "react";
+import { FunctionComponent } from "react";
 import dynamic from "next/dynamic";
-import { post } from "@lib/api";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
 import { CountryAndStates } from "@lib/constants";
+import { routes } from "@lib/routes";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
@@ -24,7 +23,9 @@ const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
-const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+interface CovidDashboardProps {}
+
+const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
 
@@ -89,7 +90,7 @@ const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </a>
           </p>
 
-          <StateDropdown url="/dashboard/covid" currentState={currentState} />
+          <StateDropdown url={routes.COVID} currentState={currentState} />
         </div>
       </Hero>
 
@@ -260,14 +261,6 @@ const CovidDashboard = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Container>
     </>
   );
-};
-
-export const getStaticProps: GetStaticProps = async ctx => {
-  // const { data } = await post("") // fetch static data here
-
-  return {
-    props: {},
-  };
 };
 
 export default CovidDashboard;

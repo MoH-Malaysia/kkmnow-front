@@ -1,15 +1,16 @@
 /**
- * Covid Page <State>
+ * Blood Donation Page <State>
  */
-import CovidDashboard from "@dashboards/covid";
+import BloodDonationDashboard from "@dashboards/blood-donation";
 import { STATES } from "@lib/constants";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const CovidState: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const BloodDonationState: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <CovidDashboard></CovidDashboard>
+      <BloodDonationDashboard></BloodDonationDashboard>
     </>
   );
 };
@@ -28,12 +29,16 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  const i18n = await serverSideTranslations(locale!, ["common"]);
+
   // const { data } = await post("") // fetch static data here
 
   return {
-    props: {},
+    props: {
+      ...i18n,
+    },
   };
 };
 
-export default CovidState;
+export default BloodDonationState;

@@ -5,6 +5,7 @@ import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
 import { STATES } from "@lib/constants";
 import { get } from "@lib/api";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const CovidVaccinationState = ({
   waffle_data,
@@ -40,7 +41,9 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  const i18n = await serverSideTranslations(locale!, ["common"]);
+
   const { data } = await get("/kkmnow", { dashboard: "covidvax", state: params?.state }); // fetch static data here
 
   return {
@@ -50,6 +53,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       table_data: data.snapshot_chart,
       timeseries_data: data.timeseries_chart,
       stats_data: data.stats_chart,
+      ...i18n,
     },
   };
 };

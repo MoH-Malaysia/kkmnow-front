@@ -63,7 +63,7 @@ ChartJS.register(
 );
 
 const Timeseries: FunctionComponent<TimeseriesProps> = ({
-  className = "w-full h-full", // manage CSS here
+  className = "w-full h-[750px]", // manage CSS here
   menu,
   title,
   controls,
@@ -71,12 +71,12 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   unitY,
   mode = "stacked",
   layout = "vertical",
-  data,
+  data = dummy,
   stats,
   interactive = true,
   animate = false,
   type = "bar",
-  enableGridX = true,
+  enableGridX = false,
   enableGridY = true,
   enableAxisX = true,
   enableAxisY = true,
@@ -137,29 +137,33 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   );
 };
 
-const dummy = {
-  labels: [], // x-values
+const dummy: ChartData = {
+  labels: ["11/01/2020", "11/02/2020", "11/03/2020"], // x-values
   datasets: [
     // stacked y-values
     {
       type: "line",
       label: "Moving Average (MA)",
-      data: [], // y-values
+      data: [1, 2, 3], // y-values
+      borderColor: "red",
     },
     {
       type: "bar",
       label: "Primary",
-      data: [], // y-values
+      data: [4, 5, 6], // y-values
+      backgroundColor: "blue",
     },
     {
       type: "bar",
       label: "Booster 1",
-      data: [], // y-values
+      data: [1, 2, 3], // y-values
+      backgroundColor: "teal",
     },
     {
       type: "bar",
       label: "Booster 2",
-      data: [], // y-values
+      data: [10, 11, 12], // y-values
+      backgroundColor: "green",
     },
   ],
 };

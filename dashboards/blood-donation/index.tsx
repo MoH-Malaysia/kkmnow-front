@@ -17,6 +17,7 @@ import {
   BLOOD_DONATION_COLOR,
   BLOOD_DONATION_SCHEMA,
 } from "@lib/constants";
+import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
@@ -51,7 +52,7 @@ const BloodDonationDashboard = () => {
             </a>
           </p>
 
-          <StateDropdown url="/dashboard/blood-donation" currentState={currentState} />
+          <StateDropdown url={routes.BLOOD_DONATION} currentState={currentState} />
         </div>
       </Hero>
       <Container className="min-h-screen">

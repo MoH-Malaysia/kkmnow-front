@@ -18,6 +18,7 @@ import { VACCINE_TABLE_SCHEMA } from "@lib/schema/covid-vaccination";
 import { filterAgeOptions, filterDoseOptions } from "@lib/options";
 import { CountryAndStates, COVIDVAX_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
+import { routes } from "@lib/routes";
 
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
@@ -112,7 +113,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             </a>
           </p>
 
-          <StateDropdown url="/dashboard/covid-vaccination" currentState={currentState} />
+          <StateDropdown url={routes.COVID_VAX} currentState={currentState} />
         </div>
       </Hero>
 
@@ -292,7 +293,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               </div>
             </Panel>
             <Panel name="Filter by Dose">
-              <BarMeter data={barmeter_data[data.filter_dose.value]} indexBy="id" />
+              <BarMeter data={barmeter_data[data.filter_dose.value]} xKey="id" />
             </Panel>
           </Tabs>
         </Section>
@@ -360,7 +361,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="Primary Doses (All Ages)"
               menu={<MenuDropdown />}
-              className="max-h-[250px] w-full"
+              className="h-full max-h-[250px] w-full"
+              enableGridX={false}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -393,7 +395,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="1st Boosters (All Ages)"
               menu={<MenuDropdown />}
-              className="max-h-[250px] w-full"
+              className="h-full max-h-[250px] w-full"
+              enableGridX={false}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -426,7 +429,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="2nd Boosters (All Ages)"
               menu={<MenuDropdown />}
-              className="max-h-[250px] w-full"
+              className="h-full max-h-[250px] w-full"
+              enableGridX={false}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -459,7 +463,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="Adults (All Doses)"
               menu={<MenuDropdown />}
-              className="max-h-[250px] w-full"
+              className="h-full max-h-[250px] w-full"
+              enableGridX={false}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -492,7 +497,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="Adolescents (All Doses)"
               menu={<MenuDropdown />}
-              className="max-h-[250px] w-full"
+              className="h-full max-h-[250px] w-full"
+              enableGridX={false}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -525,7 +531,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               title="Children (All Doses)"
               menu={<MenuDropdown />}
-              className="max-h-[250px] w-full"
+              className="h-full max-h-[250px] w-full"
+              enableGridX={false}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
