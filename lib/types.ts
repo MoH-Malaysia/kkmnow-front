@@ -1,4 +1,3 @@
-import { BarDatum } from "@nivo/bar";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import type { ReactElement } from "react";
@@ -20,19 +19,3 @@ export interface IChart {
   data: any;
   [key: string]: any;
 }
-
-// BAR CHART
-export interface IBarChartData extends IChart {
-  data: BarDatum[];
-}
-
-// PYRAMID CHART
-interface PyramidChartInterface extends IChart {
-  data: { [key: string]: number }[];
-}
-
-type PyramidChartType = {
-  data: { id: string }[];
-};
-
-export type IPyramidChartData = PyramidChartInterface & PyramidChartType;
