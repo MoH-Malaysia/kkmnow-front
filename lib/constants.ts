@@ -35,7 +35,7 @@ export const STATES: Array<Record<string, any>> = [
   },
   {
     key: "kul",
-    name: "Kuala Lumpur",
+    name: "W.P. Kuala Lumpur",
   },
   {
     key: "lbn",
@@ -47,7 +47,7 @@ export const STATES: Array<Record<string, any>> = [
   },
   {
     key: "nsn",
-    name: "N.Sembilan",
+    name: "Negeri Sembilan",
   },
   {
     key: "phg",
@@ -63,7 +63,7 @@ export const STATES: Array<Record<string, any>> = [
   },
   {
     key: "png",
-    name: "P.Pinang",
+    name: "Pulau Pinang",
   },
   {
     key: "pjy",
@@ -154,84 +154,6 @@ export const CHOROPLETH_RED_PURPLE_SCALE = [
   "#49006A",
 ];
 
-// HEATMAP SCHEMAS
-export type HeatmapSchema = {
-  label?: string;
-  labelColor?: string;
-  max: number;
-};
-
-export const BLOOD_SUPPLY_SCHEMA: HeatmapSchema[] = [
-  {
-    label: "Low",
-    labelColor: "#FFF",
-    max: 25,
-  },
-  {
-    label: "Mid",
-    labelColor: "#000",
-    max: 50,
-  },
-  {
-    label: "Safe",
-    labelColor: "#000",
-    max: 80,
-  },
-  {
-    label: "High",
-    labelColor: "#000",
-    max: Infinity,
-  },
-];
-export const BLOOD_DONATION_SCHEMA: HeatmapSchema[] = [
-  {
-    labelColor: "#000",
-    max: 0,
-  },
-  {
-    labelColor: "#000",
-    max: 5000,
-  },
-  {
-    labelColor: "#FFF",
-    max: 20000,
-  },
-  {
-    labelColor: "#FFF",
-    max: 50000,
-  },
-  {
-    labelColor: "#FFF",
-    max: Infinity,
-  },
-];
-export const ORGAN_DONATION_SCHEMA: HeatmapSchema[] = [
-  {
-    labelColor: "#FFF",
-    max: 0,
-  },
-  {
-    labelColor: "#FFF",
-    max: 5000,
-  },
-  {
-    labelColor: "#000",
-    max: 20000,
-  },
-  {
-    labelColor: "#000",
-    max: 40000,
-  },
-  {
-    labelColor: "#000",
-    max: 50000,
-  },
-  {
-    labelColor: "#000",
-    max: Infinity,
-  },
-];
-
 // HEATMAP COLORS
 export const BLOOD_SUPPLY_COLOR: Array<string> = [
   "rgba(255, 78, 78, 1)",
@@ -263,4 +185,17 @@ export const COVIDVAX_COLOR: Record<number, string> = {
   200: "#31C752",
   300: "#228F3A",
   400: "#135523",
+};
+
+// BLOOD DONATION COLORS
+export const BLOOD_COLOR: Record<number, string> = {
+  100: "#FFC0C0",
+  200: "#FF6F70",
+  300: "#FF4E4E",
+  400: "#FF0001",
+};
+
+export const GRAYBAR_COLOR: Record<number, string> = {
+  100: "#D1D5DB",
+  200: "#94A3B8",
 };

@@ -2,6 +2,7 @@ import { SetStateAction } from "react";
 import { OptionType } from "@components/types";
 import { TFunction } from "next-i18next";
 import uniqueId from "lodash/uniqueId";
+import { DateTime } from "luxon";
 
 export const isObjEqual = (obj1: any, obj2: any) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -28,6 +29,8 @@ export const numFormat = (value: number): string => {
   const formatter = Intl.NumberFormat("en", { notation: "compact" });
   return formatter.format(value);
 };
+
+export const toDate = (millis: number) => DateTime.fromMillis(millis).toFormat("dd MMM yyyy");
 
 export const handleSelectMultipleDropdown = (
   selectedOption: OptionType,

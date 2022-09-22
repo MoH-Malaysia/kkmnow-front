@@ -1,4 +1,6 @@
-import { ChangeEventHandler, FunctionComponent, ReactElement, useState } from "react";
+import { FunctionComponent, useState } from "react";
+import { DateTime } from "luxon";
+import { toDate } from "@lib/helpers";
 
 interface SliderProps {
   className?: string;
@@ -7,6 +9,7 @@ interface SliderProps {
   range?: [number, number]; // [min, max]
   step?: number;
   data?: Array<any>;
+  parseAsDate?: boolean;
 }
 
 const Slider: FunctionComponent<SliderProps> = ({
@@ -16,6 +19,7 @@ const Slider: FunctionComponent<SliderProps> = ({
   range = [2008, 2022],
   step = 1,
   data = dummy,
+  parseAsDate = true,
 }) => {
   const [min, setMin] = useState(data ? 0 : range[0]);
   const [max, setMax] = useState(data ? data.length - 1 : range[1]);
@@ -114,8 +118,16 @@ const Slider: FunctionComponent<SliderProps> = ({
 
                   {/* Tip Left & Right */}
                   <div className="pointer-events-none absolute -top-8 flex w-full justify-between">
-                    <span className="text-sm">{data ? data[min] : min}</span>
-                    <span className="text-sm">{data ? data[max] : max}</span>
+                    {data && (
+                      <>
+                        <span className="text-sm">
+                          {parseAsDate ? toDate(data[min]) : data[min]}
+                        </span>
+                        <span className="text-sm">
+                          {parseAsDate ? toDate(data[max]) : data[max]}
+                        </span>
+                      </>
+                    )}
                   </div>
 
                   <input

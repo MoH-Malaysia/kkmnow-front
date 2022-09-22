@@ -7,7 +7,9 @@ const StateTick = (tick: AxisTickProps<string>) => {
       <image
         x={-28}
         y={-6}
-        href={`/static/images/states/${tick.value}.jpeg`}
+        href={`/static/images/states/${Object.keys(CountryAndStates).find(
+          o => CountryAndStates[o] === tick.value
+        )}.jpeg`}
         style={{ width: "18px" }}
       ></image>
       <text
@@ -18,7 +20,7 @@ const StateTick = (tick: AxisTickProps<string>) => {
           textAlign: "left",
         }}
       >
-        {CountryAndStates[tick.value]}
+        {tick.value}
       </text>
     </g>
   );

@@ -1,17 +1,19 @@
-import { FunctionComponent, ReactElement } from "react";
-import { ComputedCell, ResponsiveHeatMap } from "@nivo/heatmap";
+import { FunctionComponent, ReactElement, useMemo } from "react";
+import { ResponsiveHeatMap } from "@nivo/heatmap";
 import { ColorInterpolatorId, ContinuousColorScaleConfig } from "@nivo/colors";
 import { AxisProps } from "@nivo/axes";
 import { ChartHeader, StateTick, DefaultTick } from "@components/index";
-import { CountryAndStates, HeatmapSchema } from "@lib/constants";
-import { CHOROPLETH_RED_SCALE } from "@lib/constants";
+import { CountryAndStates } from "@lib/constants";
+import { HeatmapSchema } from "@lib/schema/blood-donation";
+import { ValueFormat } from "@nivo/core";
 interface HeatmapProps {
   className?: string;
   data?: any;
-  subdata?: any;
+  subdata?: boolean;
   title?: string | ReactElement;
   menu?: ReactElement;
   key?: string;
+  valueFormat?: ValueFormat<number>;
   controls?: ReactElement;
   schema?: Array<HeatmapSchema>;
   color?: ColorInterpolatorId | Array<string>;
@@ -34,14 +36,13 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
   className,
   title,
   data = dummy,
-  subdata,
+  subdata = false,
   schema,
   color,
   menu,
   key = "y",
+  valueFormat = ">-.2f",
   controls,
-  minY = 0,
-  maxY = 100,
   forceSquare = false,
   interactive = true,
   hoverTarget,
@@ -54,10 +55,10 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
     _key: keyof HeatmapSchema
   ) => {
     if (!schema) return;
-    let { id, serieId, data, formattedValue, color } = props;
+    let { data, formattedValue } = props;
 
     for (const scheme of schema) {
-      if (data[key] < scheme.max) {
+      if (data[key] <= scheme.max) {
         if (!scheme[_key]) return formattedValue;
         return scheme[_key];
       }
@@ -106,6 +107,23 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
     return undefined;
   };
 
+  const formatted = useMemo(() => {
+    let _data: Array<any> = data;
+    let _subdata: Array<any> = [];
+
+    if (subdata) {
+      _data = data.map((set: any) => {
+        _subdata.push({ ...set, data: [set.data[set.data.length - 1]] });
+        return { ...set, data: set.data.slice(0, -1) };
+      });
+    }
+
+    return {
+      data: _data,
+      subdata: _subdata,
+    };
+  }, []);
+
   return (
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} />
@@ -120,15 +138,15 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
           {legend?.top && <span className="block text-center font-medium">{legend.top}</span>}
 
           <ResponsiveHeatMap
-            data={data}
+            data={formatted.data}
             margin={{
               top: axisTop !== null ? 30 : 0,
               right: 0,
-              bottom: 10,
-              left: axisLeft === "state" ? 180 : axisLeft === "default" ? 140 : 80,
+              bottom: 30,
+              left: axisLeft === "state" ? 180 : axisLeft === "default" ? 120 : 80,
             }}
             hoverTarget={hoverTarget}
-            valueFormat=">-.2s"
+            valueFormat={valueFormat}
             axisTop={
               axisTop !== undefined
                 ? axisTop
@@ -141,6 +159,16 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
             }
             label={schema ? props => get(props, "label") : undefined}
             labelTextColor={schema ? props => get(props, "labelColor") : undefined}
+            tooltip={({ cell }) => {
+              return (
+                <div className="flex gap-2 rounded bg-white p-3 shadow-md">
+                  <span>{cell.serieId}:</span>
+                  <span>
+                    <strong>{cell.data.x}</strong> - <strong>{cell.label}</strong>
+                  </span>
+                </div>
+              );
+            }}
             axisLeft={getAxisLeft()}
             isInteractive={interactive}
             forceSquare={forceSquare}
@@ -164,15 +192,15 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
         {subdata && (
           <div className="aspect-auto h-full w-[12.5%]">
             <ResponsiveHeatMap
-              data={subdata}
+              data={formatted.subdata}
               margin={{
                 top: axisTop !== null ? 30 : 0,
                 right: 20,
-                bottom: 10,
+                bottom: 30,
                 left: 0,
               }}
               hoverTarget={hoverTarget}
-              valueFormat=">-.2s"
+              valueFormat={valueFormat}
               axisTop={
                 axisTop !== undefined
                   ? axisTop

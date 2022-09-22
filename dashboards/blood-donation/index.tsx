@@ -12,31 +12,83 @@ import {
 } from "@components/index";
 import { useData } from "@hooks/useData";
 import {
-  BLOOD_SUPPLY_SCHEMA,
   BLOOD_SUPPLY_COLOR,
   BLOOD_DONATION_COLOR,
-  BLOOD_DONATION_SCHEMA,
+  BLOOD_COLOR,
+  GRAYBAR_COLOR,
 } from "@lib/constants";
+import { BLOOD_SUPPLY_SCHEMA, BLOOD_DONATION_SCHEMA } from "@lib/schema/blood-donation";
 import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { FunctionComponent, useCallback, useState } from "react";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
-const Line = dynamic(() => import("@components/Chart/Line"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
-const BloodDonationDashboard = () => {
+interface BloodDonationDashboardProps {
+  timeseries_all: any;
+  timeseries_bloodstock: any;
+  timeseries_facility: any;
+  heatmap_bloodstock: any;
+  heatmap_donorrate: any;
+  heatmap_retention: any;
+  barchart_age: any;
+  barchart_time: any;
+}
+
+const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
+  timeseries_all,
+  timeseries_bloodstock,
+  timeseries_facility,
+  heatmap_bloodstock,
+  heatmap_donorrate,
+  heatmap_retention,
+  barchart_age,
+  barchart_time,
+}) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
-
+  const [limit, setLimit] = useState([0, timeseries_all.x.length - 1]);
   const { data, setData } = useData({
     relative_donation_type: false,
     relative_blood_group: false,
     relative_donor_type: false,
     relative_location: false,
   });
+
+  const filterTimeline = () => {
+    return {
+      x: timeseries_all.x.slice(limit[0], limit[1]),
+      daily: timeseries_all.daily.slice(limit[0], limit[1]),
+      line_daily: timeseries_all.line_daily.slice(limit[0], limit[1]),
+      apheresis: timeseries_all.apheresis_abs.slice(limit[0], limit[1]),
+      apheresis_rel: timeseries_all.apheresis_pct.slice(limit[0], limit[1]),
+      wholeblood: timeseries_all.wholeblood_abs.slice(limit[0], limit[1]),
+      wholeblood_rel: timeseries_all.wholeblood_pct.slice(limit[0], limit[1]),
+      o: timeseries_all.blood_o_abs.slice(limit[0], limit[1]),
+      o_rel: timeseries_all.blood_o_pct.slice(limit[0], limit[1]),
+      a: timeseries_all.blood_a_abs.slice(limit[0], limit[1]),
+      a_rel: timeseries_all.blood_a_pct.slice(limit[0], limit[1]),
+      b: timeseries_all.blood_b_abs.slice(limit[0], limit[1]),
+      b_rel: timeseries_all.blood_b_pct.slice(limit[0], limit[1]),
+      ab: timeseries_all.blood_ab_abs.slice(limit[0], limit[1]),
+      ab_rel: timeseries_all.blood_ab_pct.slice(limit[0], limit[1]),
+      newdon: timeseries_all.donor_new_abs.slice(limit[0], limit[1]),
+      newdon_rel: timeseries_all.donor_new_pct.slice(limit[0], limit[1]),
+      recurdon: timeseries_all.donor_recurring_abs.slice(limit[0], limit[1]),
+      recurdon_rel: timeseries_all.donor_recurring_pct.slice(limit[0], limit[1]),
+      center: timeseries_all.location_centre_abs.slice(limit[0], limit[1]),
+      center_rel: timeseries_all.location_centre_pct.slice(limit[0], limit[1]),
+      outreach: timeseries_all.location_mobile_abs.slice(limit[0], limit[1]),
+      outreach_rel: timeseries_all.location_mobile_pct.slice(limit[0], limit[1]),
+    };
+  };
+
+  const filtered_timeline = useCallback(filterTimeline, limit);
+
   return (
     <>
       <Hero background="hero-light-1">
@@ -63,6 +115,7 @@ const BloodDonationDashboard = () => {
               className="h-[500px]"
               title="Blood Supply by States"
               hoverTarget="row"
+              data={heatmap_bloodstock}
               axisLeft="state"
               schema={BLOOD_SUPPLY_SCHEMA}
               color={BLOOD_SUPPLY_COLOR}
@@ -84,16 +137,92 @@ const BloodDonationDashboard = () => {
                 menu={<MenuDropdown />}
               >
                 <Panel name="Type A">
-                  <Line className="h-[500px] w-full" enableGridX={false} />
+                  <Timeseries
+                    className="h-[500px] w-full"
+                    interval="month"
+                    animate={false}
+                    data={{
+                      labels: timeseries_bloodstock.x,
+                      datasets: [
+                        {
+                          type: "line",
+                          label: "Type A",
+                          pointRadius: 0,
+                          data: timeseries_bloodstock.type_a,
+                          backgroundColor: BLOOD_COLOR[100],
+                          fill: true,
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
                 <Panel name="Type B">
-                  <Line className="h-[500px] w-full" enableGridX={false} />
+                  <Timeseries
+                    className="h-[500px] w-full"
+                    interval="month"
+                    animate={false}
+                    data={{
+                      labels: timeseries_bloodstock.x,
+                      datasets: [
+                        {
+                          type: "line",
+                          label: "Type B",
+                          pointRadius: 0,
+                          data: timeseries_bloodstock.type_b,
+                          backgroundColor: BLOOD_COLOR[200],
+                          fill: true,
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
                 <Panel name="Type AB">
-                  <Line className="h-[500px] w-full" enableGridX={false} />
+                  <Timeseries
+                    className="h-[500px] w-full"
+                    interval="month"
+                    animate={false}
+                    data={{
+                      labels: timeseries_bloodstock.x,
+                      datasets: [
+                        {
+                          type: "line",
+                          label: "Type AB",
+                          pointRadius: 0,
+                          data: timeseries_bloodstock.type_ab,
+                          backgroundColor: BLOOD_COLOR[300],
+                          fill: true,
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
                 <Panel name="Type O">
-                  <Line className="h-[500px] w-full" enableGridX={false} />
+                  <Timeseries
+                    className="h-[500px] w-full"
+                    interval="month"
+                    animate={false}
+                    data={{
+                      labels: timeseries_bloodstock.x,
+                      datasets: [
+                        {
+                          type: "line",
+                          label: "Type O",
+                          pointRadius: 0,
+                          data: timeseries_bloodstock.type_o,
+                          backgroundColor: BLOOD_COLOR[400],
+                          fill: true,
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
               </Tabs>
             </div>
@@ -112,17 +241,53 @@ const BloodDonationDashboard = () => {
         >
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
-              <Timeseries title="Daily Donations" menu={<MenuDropdown />} stats={null} />
-              <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
+              <Timeseries
+                className="h-[400px] w-full pt-6 lg:h-[750px]"
+                title="Daily Donations"
+                interval="year"
+                menu={<MenuDropdown />}
+                round="week"
+                stats={null}
+                data={{
+                  labels: filtered_timeline().x,
+                  datasets: [
+                    {
+                      type: "line",
+                      label: "Moving Average (MA)",
+                      pointRadius: 0,
+                      data: filtered_timeline().line_daily,
+                      borderColor: "red",
+                    },
+                    {
+                      type: "bar",
+                      label: "Primary",
+                      data: filtered_timeline().daily,
+                      backgroundColor: "#FF4E4E",
+                    },
+                  ],
+                }}
+                enableGridX={false}
+              />
+              <Slider
+                className="pt-7"
+                type="range"
+                data={timeseries_all.x}
+                onChange={(item: any) => setLimit([item.min, item.max])}
+              />
               <span className="text-sm text-dim">
                 Use this time slider to zoom in specific time range
               </span>
             </div>
 
             <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-              <Line
+              <Timeseries
                 className="h-[500px] w-full"
                 title="Donation by donation type"
+                interval="year"
+                round="year"
+                maxY={data.relative_donation_type ? 100 : undefined}
+                animate={false}
+                unitY={data.relative_donation_type ? "%" : undefined}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -133,11 +298,42 @@ const BloodDonationDashboard = () => {
                     Relative
                   </Checkbox>
                 }
+                data={{
+                  labels: filtered_timeline().x,
+                  datasets: [
+                    {
+                      type: "line",
+                      label: "Apherisis",
+                      pointRadius: 0,
+                      data: !data.relative_donation_type
+                        ? filtered_timeline().apheresis
+                        : filtered_timeline().apheresis_rel,
+                      backgroundColor: BLOOD_COLOR[400],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                    {
+                      type: "line",
+                      label: "Whole blood",
+                      data: !data.relative_donation_type
+                        ? filtered_timeline().wholeblood
+                        : filtered_timeline().wholeblood_rel,
+                      backgroundColor: BLOOD_COLOR[300],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                  ],
+                }}
                 enableGridX={false}
               />
-              <Line
+              <Timeseries
                 className="h-[500px] w-full"
                 title="Donation by blood group (phenotype)"
+                interval="year"
+                round="year"
+                unitY={data.relative_blood_group ? "%" : undefined}
+                maxY={data.relative_blood_group ? 100 : undefined}
+                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -148,11 +344,62 @@ const BloodDonationDashboard = () => {
                     Relative
                   </Checkbox>
                 }
+                data={{
+                  labels: filtered_timeline().x,
+                  datasets: [
+                    {
+                      type: "line",
+                      label: "AB",
+                      data: !data.relative_blood_group
+                        ? filtered_timeline().ab
+                        : filtered_timeline().ab_rel,
+                      backgroundColor: BLOOD_COLOR[400],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                    {
+                      type: "line",
+                      label: "B",
+                      data: !data.relative_blood_group
+                        ? filtered_timeline().b
+                        : filtered_timeline().b_rel,
+                      backgroundColor: BLOOD_COLOR[300],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                    {
+                      type: "line",
+                      label: "A",
+                      data: !data.relative_blood_group
+                        ? filtered_timeline().a
+                        : filtered_timeline().a_rel,
+                      backgroundColor: BLOOD_COLOR[200],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+
+                    {
+                      type: "line",
+                      label: "O",
+                      data: !data.relative_blood_group
+                        ? filtered_timeline().o
+                        : filtered_timeline().o_rel,
+                      backgroundColor: BLOOD_COLOR[100],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                  ],
+                }}
                 enableGridX={false}
               />
-              <Line
+              <Timeseries
                 className="h-[500px] w-full"
                 title="Donation by donor type"
+                unitY={data.relative_donor_type ? "%" : undefined}
+                maxY={data.relative_donor_type ? 100 : undefined}
+                interval="year"
+                round="year"
+                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -163,11 +410,41 @@ const BloodDonationDashboard = () => {
                     Relative
                   </Checkbox>
                 }
+                data={{
+                  labels: filtered_timeline().x,
+                  datasets: [
+                    {
+                      type: "line",
+                      label: "Recurring",
+                      data: !data.relative_donor_type
+                        ? filtered_timeline().recurdon
+                        : filtered_timeline().recurdon_rel,
+                      backgroundColor: BLOOD_COLOR[400],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                    {
+                      type: "line",
+                      label: "New",
+                      data: !data.relative_donor_type
+                        ? filtered_timeline().newdon
+                        : filtered_timeline().newdon_rel,
+                      backgroundColor: BLOOD_COLOR[300],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                  ],
+                }}
                 enableGridX={false}
               />
-              <Line
+              <Timeseries
                 className="h-[500px] w-full"
                 title="Donation by location"
+                interval="year"
+                round="year"
+                unitY={data.relative_location ? "%" : undefined}
+                maxY={data.relative_location ? 100 : undefined}
+                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -178,6 +455,31 @@ const BloodDonationDashboard = () => {
                     Relative
                   </Checkbox>
                 }
+                data={{
+                  labels: filtered_timeline().x,
+                  datasets: [
+                    {
+                      type: "line",
+                      label: "Donation Center",
+                      data: !data.relative_location
+                        ? filtered_timeline().center
+                        : filtered_timeline().center_rel,
+                      backgroundColor: BLOOD_COLOR[400],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                    {
+                      type: "line",
+                      label: "Outreach",
+                      data: !data.relative_location
+                        ? filtered_timeline().outreach
+                        : filtered_timeline().outreach_rel,
+                      backgroundColor: BLOOD_COLOR[300],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                  ],
+                }}
                 enableGridX={false}
               />
             </div>
@@ -194,20 +496,76 @@ const BloodDonationDashboard = () => {
             <div>
               <Tabs title="Number of new donors" menu={<MenuDropdown />}>
                 <Panel name="Annual">
-                  <Bar className="h-[300px]" enableGridX={false} />
+                  <Bar
+                    className="h-[300px]"
+                    data={{
+                      labels: barchart_time.annual.x,
+                      datasets: [
+                        {
+                          label: "New Donors",
+                          data: barchart_time.annual.y,
+                          backgroundColor: GRAYBAR_COLOR[200],
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
                 <Panel name="Monthly">
-                  <Bar className="h-[300px]" enableGridX={false} />
+                  <Bar
+                    className="h-[300px]"
+                    data={{
+                      labels: barchart_time.monthly.x,
+                      datasets: [
+                        {
+                          label: "New Donors",
+                          data: barchart_time.monthly.y,
+                          backgroundColor: GRAYBAR_COLOR[100],
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
               </Tabs>
             </div>
             <div>
               <Tabs title="New donors by age group" menu={<MenuDropdown />}>
                 <Panel name="Past 1 year">
-                  <Bar className="h-[300px]" enableGridX={false} />
+                  <Bar
+                    className="h-[300px]"
+                    data={{
+                      labels: barchart_age.past_year.x,
+                      datasets: [
+                        {
+                          label: "New Donors",
+                          data: barchart_age.past_year.y,
+                          backgroundColor: GRAYBAR_COLOR[200],
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
                 <Panel name="Past 1 month">
-                  <Bar className="h-[300px]" enableGridX={false} />
+                  <Bar
+                    className="h-[300px]"
+                    data={{
+                      labels: barchart_age.past_month.x,
+                      datasets: [
+                        {
+                          label: "New Donors",
+                          data: barchart_age.past_month.y,
+                          backgroundColor: GRAYBAR_COLOR[100],
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
               </Tabs>
             </div>
@@ -226,9 +584,9 @@ const BloodDonationDashboard = () => {
                 <Panel name="Per Capita">
                   <>
                     <Heatmap
-                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      className="flex h-[150px] gap-4 overflow-auto lg:overflow-hidden"
+                      data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
+                      subdata
                       axisLeft="default"
                       interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
@@ -238,8 +596,13 @@ const BloodDonationDashboard = () => {
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
-                      data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.capita.male_chinese,
+                        heatmap_donorrate.capita.male_indian,
+                        heatmap_donorrate.capita.male_bumi,
+                        heatmap_donorrate.capita.male_other,
+                      ]}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -250,8 +613,13 @@ const BloodDonationDashboard = () => {
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
-                      data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.capita.female_chinese,
+                        heatmap_donorrate.capita.female_indian,
+                        heatmap_donorrate.capita.female_bumi,
+                        heatmap_donorrate.capita.female_other,
+                      ]}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -264,8 +632,8 @@ const BloodDonationDashboard = () => {
                   <>
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
+                      subdata
                       axisLeft="default"
                       interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
@@ -275,8 +643,13 @@ const BloodDonationDashboard = () => {
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
-                      data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.perc.male_chinese,
+                        heatmap_donorrate.perc.male_indian,
+                        heatmap_donorrate.perc.male_bumi,
+                        heatmap_donorrate.perc.male_other,
+                      ]}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -287,8 +660,13 @@ const BloodDonationDashboard = () => {
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
-                      data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.perc.female_chinese,
+                        heatmap_donorrate.perc.female_indian,
+                        heatmap_donorrate.perc.female_bumi,
+                        heatmap_donorrate.perc.female_other,
+                      ]}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -301,9 +679,10 @@ const BloodDonationDashboard = () => {
                   <>
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
+                      subdata
                       axisLeft="default"
+                      valueFormat="< ,.2~s"
                       interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
@@ -312,8 +691,14 @@ const BloodDonationDashboard = () => {
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
-                      data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.abs.male_chinese,
+                        heatmap_donorrate.abs.male_indian,
+                        heatmap_donorrate.abs.male_bumi,
+                        heatmap_donorrate.abs.male_other,
+                      ]}
+                      subdata
+                      valueFormat="< ,.2~s"
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -324,8 +709,14 @@ const BloodDonationDashboard = () => {
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
-                      data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.abs.female_chinese,
+                        heatmap_donorrate.abs.female_indian,
+                        heatmap_donorrate.abs.female_bumi,
+                        heatmap_donorrate.abs.female_other,
+                      ]}
+                      subdata
+                      valueFormat="< ,.2~s"
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -338,10 +729,10 @@ const BloodDonationDashboard = () => {
             </div>
 
             <Heatmap
-              className="flex h-[690px] overflow-auto pt-7 lg:overflow-hidden"
+              className="flex h-[700px] overflow-auto pt-7 lg:overflow-hidden"
               title="Donor retention: How well do we retain donors?"
               menu={<MenuDropdown />}
-              data={dummyDiagonal}
+              data={heatmap_retention}
               axisLeft={{
                 ticksPosition: "before",
                 tickSize: 0,
@@ -370,478 +761,5 @@ const BloodDonationDashboard = () => {
     </>
   );
 };
-
-const dummyOneColTwoRowHeatmap = [
-  {
-    id: "Male",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-  {
-    id: "Female",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-];
-const dummyOneColFourRowHeatmap = [
-  {
-    id: "Chinese",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-  {
-    id: "Indian",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-  {
-    id: "Bumiputera",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-  {
-    id: "Other",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-];
-
-const dummyTwoRowHeatmap = [
-  {
-    id: "Male",
-    data: [
-      {
-        x: "Train",
-        y: -13623,
-      },
-      {
-        x: "Subway",
-        y: 49382,
-      },
-      {
-        x: "Bus",
-        y: -49785,
-      },
-      {
-        x: "Car",
-        y: 38066,
-      },
-      {
-        x: "Boat",
-        y: -70988,
-      },
-      {
-        x: "Moto",
-        y: 60325,
-      },
-      {
-        x: "Moped",
-        y: -25685,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "Female",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-];
-const dummyFourRowHeatmap = [
-  {
-    id: "Chinese",
-    data: [
-      {
-        x: "Train",
-        y: -13623,
-      },
-      {
-        x: "Subway",
-        y: 49382,
-      },
-      {
-        x: "Bus",
-        y: -49785,
-      },
-      {
-        x: "Car",
-        y: 38066,
-      },
-      {
-        x: "Boat",
-        y: -70988,
-      },
-      {
-        x: "Moto",
-        y: 60325,
-      },
-      {
-        x: "Moped",
-        y: -25685,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "Indian",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "Bumiputera",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "Other",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-];
-
-const dummyDiagonal = [
-  {
-    id: "Japan",
-    data: [
-      {
-        x: "Train",
-        y: -13623,
-      },
-      {
-        x: "Subway",
-        y: 49382,
-      },
-      {
-        x: "Bus",
-        y: -49785,
-      },
-      {
-        x: "Car",
-        y: 38066,
-      },
-      {
-        x: "Boat",
-        y: -70988,
-      },
-      {
-        x: "Moto",
-        y: 60325,
-      },
-      {
-        x: "Moped",
-        y: -25685,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "France",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-    ],
-  },
-  {
-    id: "US",
-    data: [
-      {
-        x: "Train",
-        y: 55769,
-      },
-      {
-        x: "Subway",
-        y: -6430,
-      },
-      {
-        x: "Bus",
-        y: 95228,
-      },
-      {
-        x: "Car",
-        y: 38713,
-      },
-      {
-        x: "Boat",
-        y: -20260,
-      },
-      {
-        x: "Moto",
-        y: 15754,
-      },
-    ],
-  },
-  {
-    id: "Germany",
-    data: [
-      {
-        x: "Train",
-        y: 99572,
-      },
-      {
-        x: "Subway",
-        y: -42981,
-      },
-      {
-        x: "Bus",
-        y: -17820,
-      },
-      {
-        x: "Car",
-        y: 80488,
-      },
-      {
-        x: "Boat",
-        y: -68851,
-      },
-    ],
-  },
-  {
-    id: "Norway",
-    data: [
-      {
-        x: "Train",
-        y: 58659,
-      },
-      {
-        x: "Subway",
-        y: -54633,
-      },
-      {
-        x: "Bus",
-        y: -91166,
-      },
-      {
-        x: "Car",
-        y: 86125,
-      },
-    ],
-  },
-  {
-    id: "Iceland",
-    data: [
-      {
-        x: "Train",
-        y: -72165,
-      },
-      {
-        x: "Subway",
-        y: 5633,
-      },
-      {
-        x: "Bus",
-        y: 81015,
-      },
-    ],
-  },
-  {
-    id: "UK",
-    data: [
-      {
-        x: "Train",
-        y: -51205,
-      },
-      {
-        x: "Subway",
-        y: 18326,
-      },
-    ],
-  },
-  {
-    id: "Vietnam",
-    data: [
-      {
-        x: "Train",
-        y: -20267,
-      },
-    ],
-  },
-];
 
 export default BloodDonationDashboard;
