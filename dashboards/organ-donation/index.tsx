@@ -12,10 +12,11 @@ import {
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 
-import { ORGAN_DONATION_COLOR, ORGAN_DONATION_SCHEMA } from "@lib/constants";
+import { ORGAN_DONATION_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
 import { FunctionComponent } from "react";
 import { routes } from "@lib/routes";
+import { ORGAN_DONATION_SCHEMA } from "@lib/schema/organ-donation";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -64,7 +65,10 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               National Blood Centre (PDN).
             </a>
           </p>
-          <StateDropdown url={routes.ORGAN_DONATION} currentState={currentState} />
+          <div className="flex w-full items-center gap-4">
+            <p className="text-sm font-bold text-dim">Zoom into</p>
+            <StateDropdown url={routes.ORGAN_DONATION} currentState={currentState} />
+          </div>
         </div>
       </Hero>
 
@@ -135,7 +139,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
                       data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      subdata
                       axisLeft="default"
                       interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
@@ -146,7 +150,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -158,7 +162,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -172,7 +176,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
                       data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      subdata
                       axisLeft="default"
                       interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
@@ -183,7 +187,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -195,7 +199,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -209,7 +213,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
                       data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      subdata
                       axisLeft="default"
                       interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
@@ -220,7 +224,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -232,7 +236,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}

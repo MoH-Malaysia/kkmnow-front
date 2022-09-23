@@ -11,7 +11,7 @@ import {
   Tooltip,
   StateDropdown,
 } from "@components/index";
-import { FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { VACCINE_TABLE_SCHEMA } from "@lib/schema/covid-vaccination";
@@ -67,7 +67,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, data.minmax);
+  const filtered_timeline = useMemo(filterTimeline, data.minmax);
 
   const renderFilterOptions = () => {
     switch (data.vax_tab) {
@@ -113,7 +113,10 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             </a>
           </p>
 
-          <StateDropdown url={routes.COVID_VAX} currentState={currentState} />
+          <div className="flex w-full items-center gap-4">
+            <p className="text-sm font-bold text-dim">Zoom into</p>
+            <StateDropdown url={routes.COVID_VAX} currentState={currentState} />
+          </div>
         </div>
       </Hero>
 
@@ -307,33 +310,33 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               menu={<MenuDropdown />}
               stats={null}
               data={{
-                labels: filtered_timeline().x,
+                labels: filtered_timeline.x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline().line_stacked,
+                    data: filtered_timeline.line_stacked,
                     borderColor: "#000",
                   },
                   {
                     type: "bar",
                     label: "Primary",
-                    data: filtered_timeline().primary,
+                    data: filtered_timeline.primary,
                     backgroundColor: COVIDVAX_COLOR[200],
                     stack: "same",
                   },
                   {
                     type: "bar",
                     label: "Booster 1",
-                    data: filtered_timeline().booster,
+                    data: filtered_timeline.booster,
                     backgroundColor: COVIDVAX_COLOR[300],
                     stack: "same",
                   },
                   {
                     type: "bar",
                     label: "Booster 2",
-                    data: filtered_timeline().booster2,
+                    data: filtered_timeline.booster2,
                     backgroundColor: COVIDVAX_COLOR[400],
                     stack: "same",
                   },
@@ -364,19 +367,19 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline().x,
+                labels: filtered_timeline.x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline().line_primary,
+                    data: filtered_timeline.line_primary,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Primary",
-                    data: filtered_timeline().primary,
+                    data: filtered_timeline.primary,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -398,19 +401,19 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline().x,
+                labels: filtered_timeline.x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline().line_booster,
+                    data: filtered_timeline.line_booster,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Booster",
-                    data: filtered_timeline().booster,
+                    data: filtered_timeline.booster,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -432,19 +435,19 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline().x,
+                labels: filtered_timeline.x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline().line_booster2,
+                    data: filtered_timeline.line_booster2,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Booster 2",
-                    data: filtered_timeline().booster2,
+                    data: filtered_timeline.booster2,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -466,19 +469,19 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline().x,
+                labels: filtered_timeline.x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline().line_adult,
+                    data: filtered_timeline.line_adult,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Adult",
-                    data: filtered_timeline().adult,
+                    data: filtered_timeline.adult,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -500,19 +503,19 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline().x,
+                labels: filtered_timeline.x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline().line_adol,
+                    data: filtered_timeline.line_adol,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Adolescent",
-                    data: filtered_timeline().adol,
+                    data: filtered_timeline.adol,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -534,19 +537,19 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline().x,
+                labels: filtered_timeline.x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline().line_child,
+                    data: filtered_timeline.line_child,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Primary",
-                    data: filtered_timeline().child,
+                    data: filtered_timeline.child,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],

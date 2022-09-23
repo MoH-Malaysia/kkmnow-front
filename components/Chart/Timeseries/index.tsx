@@ -5,6 +5,7 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  LineController,
   BarElement,
   PointElement,
   LineElement,
@@ -17,7 +18,6 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
-import { DateTime } from "luxon";
 import "chartjs-adapter-luxon";
 
 interface TimeseriesProps {
@@ -29,26 +29,42 @@ interface TimeseriesProps {
   layout?: "vertical" | "horizontal";
   data?: ChartData<keyof ChartTypeRegistry, any[], string | number>;
   mode?: "grouped" | "stacked";
+  subheader?: ReactElement;
+  interval?:
+    | false
+    | "millisecond"
+    | "second"
+    | "minute"
+    | "hour"
+    | "day"
+    | "week"
+    | "month"
+    | "quarter"
+    | "year";
+  round?:
+    | false
+    | "millisecond"
+    | "second"
+    | "minute"
+    | "hour"
+    | "day"
+    | "week"
+    | "month"
+    | "quarter"
+    | "year";
   unitX?: string;
   unitY?: string;
   gridXValues?: Array<number> | undefined;
   gridYValues?: Array<number> | undefined;
-  minY?: number | "auto";
-  maxY?: number | "auto";
+  minY?: number;
+  maxY?: number;
   enableLabel?: boolean;
   hideLabelKeys?: string[];
   enableLine?: boolean;
   enableGridX?: boolean;
   enableGridY?: boolean;
-  enableAxisX?: boolean;
   stats?: Array<StatProps> | null;
-  enableAxisY?: boolean;
-  reverse?: boolean;
-  customTickX?: "state" | undefined;
-  interactive?: boolean;
-  animate?: boolean;
-  lineKey?: string;
-  colors?: Array<string>;
+  animate?: false;
 }
 
 ChartJS.register(
@@ -57,6 +73,7 @@ ChartJS.register(
   BarElement,
   PointElement,
   LineElement,
+  LineController,
   TimeScale,
   TimeSeriesScale,
   ChartTooltip
@@ -67,33 +84,38 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   menu,
   title,
   controls,
+  interval = "month",
   unitX,
   unitY,
+  round,
   mode = "stacked",
   layout = "vertical",
   data = dummy,
   stats,
-  interactive = true,
-  animate = false,
+  subheader,
+  animate,
   type = "bar",
   enableGridX = false,
   enableGridY = true,
-  enableAxisX = true,
-  enableAxisY = true,
-  enableLine = false,
-  gridXValues = undefined,
-  gridYValues = undefined,
-  enableLabel = false,
+  maxY,
 }) => {
   const options: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    normalized: true,
+    elements: {
+      point: {
+        borderWidth: 0,
+        radius: 0,
+        hoverRadius: 2,
+      },
+    },
     scales: {
       x: {
-        type: "timeseries",
+        type: "time",
         time: {
-          parser: value => DateTime.fromFormat(value as string, "dd/MM/yyyy").toMillis(),
-          unit: "month",
+          unit: interval,
+          round: round,
         },
         grid: {
           display: enableGridX,
@@ -104,6 +126,8 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           major: {
             enabled: true,
           },
+          minRotation: 0,
+          maxRotation: 50,
         },
         stacked: mode === "stacked",
       },
@@ -119,9 +143,10 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
         ticks: {
           padding: 6,
           callback: (value: string | number) => {
-            return numFormat(value as number);
+            return numFormat(value as number).concat(unitY ?? "");
           },
         },
+        max: maxY,
         stacked: mode === "stacked",
       },
     },
@@ -131,6 +156,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} />
       {stats && <Stats data={stats} className="py-4"></Stats>}
+      {subheader && <div className="py-4">{subheader}</div>}
 
       <div className={className}>{data && <Chart data={data} options={options} type={type} />}</div>
     </div>

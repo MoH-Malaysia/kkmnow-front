@@ -8,6 +8,7 @@ export { default as Tabs, Panel } from "./Tabs";
 export { default as MenuDropdown } from "./MenuDropdown";
 export { default as Section } from "./Section";
 export { default as Checkbox } from "./Checkbox";
+export { default as MapEmbed } from "./MapEmbed";
 
 /** Chart */
 export { default as Line } from "./Chart/Line";
