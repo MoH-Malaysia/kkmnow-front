@@ -13,7 +13,8 @@ import dynamic from "next/dynamic";
 import { post } from "@lib/api";
 import { useData } from "@hooks/useData";
 
-import { ORGAN_DONATION_COLOR, ORGAN_DONATION_SCHEMA } from "@lib/constants";
+import { ORGAN_DONATION_COLOR } from "@lib/constants";
+import { ORGAN_DONATION_SCHEMA } from "@lib/schema/organ-donation";
 import { Page } from "@lib/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -134,7 +135,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
                       data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      subdata
                       axisLeft="default"
                       interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
@@ -145,7 +146,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -157,7 +158,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -171,7 +172,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
                       data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      subdata
                       axisLeft="default"
                       interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
@@ -182,7 +183,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -194,7 +195,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -208,7 +209,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
                       data={dummyTwoRowHeatmap}
-                      subdata={dummyOneColTwoRowHeatmap}
+                      subdata
                       axisLeft="default"
                       interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
@@ -219,7 +220,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Male"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
@@ -231,7 +232,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
                       title="Female"
                       data={dummyFourRowHeatmap}
-                      subdata={dummyOneColFourRowHeatmap}
+                      subdata
                       axisLeft="default"
                       axisTop={null}
                       interactive={false}
