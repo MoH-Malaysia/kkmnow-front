@@ -8,24 +8,24 @@ import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const BloodDonationIndex: Page = ({
-  timeseries_all,
-  timeseries_bloodstock,
   heatmap_bloodstock,
   heatmap_donorrate,
   heatmap_retention,
   barchart_age,
   barchart_time,
+  timeseries_chart,
+  heatmap_chart,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <CovidNowDashboard
-        timeseries_all={timeseries_all}
-        timeseries_bloodstock={timeseries_bloodstock}
         heatmap_bloodstock={heatmap_bloodstock}
         heatmap_donorrate={heatmap_donorrate}
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
+        timeseries_chart={timeseries_chart}
+        heatmap_chart={heatmap_chart}
       />
     </>
   );
@@ -35,7 +35,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
   const { data } = await get("/kkmnow", { dashboard: "blood_donation", state: "mys" }); // fetch static data here
   const data2 = await get("/kkmnow", { dashboard: "covid_now" }); // fetch static data here
-
+  console.log(data);
   console.log(data2);
   // transfrom:
   Object.values(data.heatmap_retention).forEach((item: any) => {
@@ -45,7 +45,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...i18n,
-
+      timeseries_chart: data2.data.timeseries_chart,
+      heatmap_chart: data2.data.heatmap_chart,
       timeseries_all: data.timeseries_all,
       timeseries_bloodstock: data.timeseries_bloodstock,
       heatmap_donorrate: data.heatmap_donorrate,

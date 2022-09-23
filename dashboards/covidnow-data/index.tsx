@@ -32,27 +32,23 @@ const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: 
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
 
 interface BloodDonationDashboardProps {
-  timeseries_all: any;
-  timeseries_bloodstock: any;
   heatmap_bloodstock: any;
   heatmap_donorrate: any;
   heatmap_retention: any;
   barchart_age: any;
   barchart_time: any;
+  timeseries_chart: any;
+  heatmap_chart: any;
 }
 
 const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
-  timeseries_all,
-  timeseries_bloodstock,
-  heatmap_bloodstock,
-  heatmap_donorrate,
+  timeseries_chart,
   heatmap_retention,
-  barchart_age,
-  barchart_time,
+  heatmap_chart,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
-  const [limit, setLimit] = useState([0, timeseries_all.x.length - 1]);
+  const [limit, setLimit] = useState([0, timeseries_chart.x.length - 1]);
   const { data, setData } = useData({
     relative_donation_type: false,
     relative_blood_group: false,
@@ -61,32 +57,13 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
     zoom_state: currentState === "mys" ? undefined : currentState,
     zoom_facility: undefined,
   });
-
+  console.log(heatmap_chart);
+  console.log(heatmap_retention);
   const filterTimeline = () => {
     return {
-      x: timeseries_all.x.slice(limit[0], limit[1]),
-      daily: timeseries_all.daily.slice(limit[0], limit[1]),
-      line_daily: timeseries_all.line_daily.slice(limit[0], limit[1]),
-      apheresis: timeseries_all.apheresis_abs.slice(limit[0], limit[1]),
-      apheresis_rel: timeseries_all.apheresis_pct.slice(limit[0], limit[1]),
-      wholeblood: timeseries_all.wholeblood_abs.slice(limit[0], limit[1]),
-      wholeblood_rel: timeseries_all.wholeblood_pct.slice(limit[0], limit[1]),
-      o: timeseries_all.blood_o_abs.slice(limit[0], limit[1]),
-      o_rel: timeseries_all.blood_o_pct.slice(limit[0], limit[1]),
-      a: timeseries_all.blood_a_abs.slice(limit[0], limit[1]),
-      a_rel: timeseries_all.blood_a_pct.slice(limit[0], limit[1]),
-      b: timeseries_all.blood_b_abs.slice(limit[0], limit[1]),
-      b_rel: timeseries_all.blood_b_pct.slice(limit[0], limit[1]),
-      ab: timeseries_all.blood_ab_abs.slice(limit[0], limit[1]),
-      ab_rel: timeseries_all.blood_ab_pct.slice(limit[0], limit[1]),
-      newdon: timeseries_all.donor_new_abs.slice(limit[0], limit[1]),
-      newdon_rel: timeseries_all.donor_new_pct.slice(limit[0], limit[1]),
-      recurdon: timeseries_all.donor_recurring_abs.slice(limit[0], limit[1]),
-      recurdon_rel: timeseries_all.donor_recurring_pct.slice(limit[0], limit[1]),
-      center: timeseries_all.location_centre_abs.slice(limit[0], limit[1]),
-      center_rel: timeseries_all.location_centre_pct.slice(limit[0], limit[1]),
-      outreach: timeseries_all.location_mobile_abs.slice(limit[0], limit[1]),
-      outreach_rel: timeseries_all.location_mobile_pct.slice(limit[0], limit[1]),
+      x: timeseries_chart.x.slice(limit[0], limit[1]),
+      y: timeseries_chart.y.slice(limit[0], limit[1]),
+      line: timeseries_chart.line.slice(limit[0], limit[1]),
     };
   };
 
@@ -124,26 +101,26 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
             <div className="space-y-4">
               <Timeseries
                 className="h-[400px] w-full pt-6 lg:h-[750px]"
-                title="Daily Donations"
-                interval="year"
+                title="Daily views on COVIDNOW"
+                interval="month"
                 menu={<MenuDropdown />}
-                round="week"
+                round="day"
                 stats={null}
                 data={{
-                  labels: filtered_timeline().x,
+                  labels: filterTimeline().x,
                   datasets: [
                     {
                       type: "line",
                       label: "Moving Average (MA)",
                       pointRadius: 0,
-                      data: filtered_timeline().line_daily,
-                      borderColor: "red",
+                      data: filterTimeline().line,
+                      borderColor: "#2563EB",
                     },
                     {
                       type: "bar",
                       label: "Primary",
-                      data: filtered_timeline().daily,
-                      backgroundColor: "#FF4E4E",
+                      data: filterTimeline().y,
+                      backgroundColor: "#D1D5DB",
                     },
                   ],
                 }}
@@ -152,7 +129,7 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
               <Slider
                 className="pt-7"
                 type="range"
-                data={timeseries_all.x}
+                data={timeseries_chart.x}
                 onChange={(item: any) => setLimit([item.min, item.max])}
               />
               <span className="text-sm text-dim">
