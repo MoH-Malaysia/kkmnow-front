@@ -54,7 +54,7 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
       multiple={multiple}
       disabled={disabled}
     >
-      <div className={`relative text-sm ${disabled ? "cursor-not-allowed" : ""}`}>
+      <div className={`relative w-full text-sm ${disabled ? "cursor-not-allowed" : ""}`}>
         <Listbox.Button
           className={`
             relative flex w-full items-center gap-[6px] rounded-md border border-outline bg-white py-[6px] pl-3 pr-8 text-left shadow-sm 

@@ -2,6 +2,7 @@ import { FunctionComponent, ReactElement } from "react";
 import { ResponsiveRadialBar } from "@nivo/radial-bar";
 import { ChartHeader } from "@components/index";
 import type { OrdinalColorScaleConfigScheme } from "@nivo/colors";
+
 interface DonutProps {
   className?: string;
   data?: any;

@@ -9,6 +9,8 @@ import {
   Section,
   Slider,
   StateDropdown,
+  Dropdown,
+  MapEmbed,
 } from "@components/index";
 import { useData } from "@hooks/useData";
 import {
@@ -21,10 +23,9 @@ import { BLOOD_SUPPLY_SCHEMA, BLOOD_DONATION_SCHEMA } from "@lib/schema/blood-do
 import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { FunctionComponent, useCallback, useState } from "react";
+import { FunctionComponent, useCallback, useState, useEffect } from "react";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
-const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
@@ -37,6 +38,7 @@ interface BloodDonationDashboardProps {
   heatmap_retention: any;
   barchart_age: any;
   barchart_time: any;
+  map_facility: any;
 }
 
 const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
@@ -48,6 +50,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   heatmap_retention,
   barchart_age,
   barchart_time,
+  map_facility,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
@@ -57,6 +60,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
     relative_blood_group: false,
     relative_donor_type: false,
     relative_location: false,
+    // zoom_state: currentState === "mys" ? undefined : currentState,
+    zoom_facility: undefined,
   });
 
   const filterTimeline = () => {
@@ -88,6 +93,10 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   };
 
   const filtered_timeline = useCallback(filterTimeline, limit);
+
+  useEffect(() => {
+    setData("zoom_facility", undefined);
+  }, [data.zoom_state]);
 
   return (
     <>
@@ -755,7 +764,70 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           title="How is this data collected?"
           description="Map showing locations of BBIS centres:"
         >
-          <Choropleth className="h-[500px] w-full" enableScale={false} />
+          {/* <Choropleth className="h-[500px] w-full" enableScale={false} /> */}
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <div className="w-full space-y-3">
+              <StateDropdown
+                currentState={data.zoom_state}
+                onChange={selected => setData("zoom_state", selected.value)}
+                exclude={["kvy", "lbn", "pls", "pjy"]}
+                disableText
+                width="w-full"
+              />
+              <Dropdown
+                placeholder="Select facility"
+                onChange={item => setData("zoom_facility", item)}
+                selected={data.zoom_facility}
+                disabled={!data.zoom_state}
+                options={
+                  data.zoom_state !== undefined
+                    ? Object.keys(map_facility?.[data?.zoom_state]).map((facility, index) => {
+                        return {
+                          label: facility,
+                          value: index,
+                        };
+                      })
+                    : []
+                }
+                width="w-full"
+              />
+
+              {timeseries_facility?.[data.zoom_state!]?.[data?.zoom_facility?.label] && (
+                <div className="w-full pt-7">
+                  <Timeseries
+                    className="h-[300px] w-full pt-4"
+                    title="Daily Donations"
+                    menu={<MenuDropdown />}
+                    data={{
+                      labels: timeseries_facility[data.zoom_state!][data.zoom_facility.label].x,
+                      datasets: [
+                        {
+                          type: "line",
+                          label: "Donation Center",
+                          data: timeseries_facility[data.zoom_state!][data.zoom_facility.label]
+                            .line,
+                          borderColor: BLOOD_COLOR[400],
+                        },
+                        {
+                          type: "bar",
+                          label: "Outreach",
+                          data: timeseries_facility[data.zoom_state!][data.zoom_facility.label]
+                            .daily,
+                          backgroundColor: BLOOD_COLOR[300],
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
+                </div>
+              )}
+            </div>
+            <div className="w-full">
+              {data.zoom_state && data.zoom_facility && (
+                <MapEmbed className="h-[420px] w-full" place={data.zoom_facility.label} />
+              )}
+            </div>
+          </div>
         </Section>
       </Container>
     </>

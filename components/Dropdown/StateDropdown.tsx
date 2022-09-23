@@ -6,24 +6,34 @@ import Dropdown from ".";
 
 interface StateDropdownProps {
   url?: string;
-  currentState: string;
-  onChange?: (selected: OptionType) => OptionType<any, any>;
+  currentState?: string;
+  onChange?: (selected: OptionType) => void;
+  exclude?: string[];
+  disableText?: boolean;
+  width?: string;
 }
 
-const StateDropdown: FunctionComponent<StateDropdownProps> = ({ url, currentState, onChange }) => {
+const StateDropdown: FunctionComponent<StateDropdownProps> = ({
+  url,
+  currentState,
+  onChange,
+  exclude,
+  disableText = false,
+  width = "w-64",
+}) => {
   const router = useRouter();
   return (
     <div className="flex items-center gap-4">
-      <p className="text-sm font-bold text-dim">Zoom into</p>
+      {!disableText && <p className="text-sm font-bold text-dim">Zoom into</p>}
       <Dropdown
         onChange={selected =>
           onChange ? onChange(selected) : router.push(`${url}/${selected.value}`)
         }
         selected={statesOptions.find(state => state.value === currentState)}
-        options={statesOptions}
+        options={statesOptions.filter(option => !exclude?.includes(option.value))}
         placeholder="Select state"
         enableFlag
-        width="w-64"
+        width={width}
       />
     </div>
   );
