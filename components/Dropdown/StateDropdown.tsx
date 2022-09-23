@@ -18,24 +18,20 @@ const StateDropdown: FunctionComponent<StateDropdownProps> = ({
   currentState,
   onChange,
   exclude,
-  disableText = false,
   width = "w-64",
 }) => {
   const router = useRouter();
   return (
-    <div className="flex items-center gap-4">
-      {!disableText && <p className="text-sm font-bold text-dim">Zoom into</p>}
-      <Dropdown
-        onChange={selected =>
-          onChange ? onChange(selected) : router.push(`${url}/${selected.value}`)
-        }
-        selected={statesOptions.find(state => state.value === currentState)}
-        options={statesOptions.filter(option => !exclude?.includes(option.value))}
-        placeholder="Select state"
-        enableFlag
-        width={width}
-      />
-    </div>
+    <Dropdown
+      onChange={selected =>
+        onChange ? onChange(selected) : router.push(`${url}/${selected.value}`)
+      }
+      selected={statesOptions.find(state => state.value === currentState)}
+      options={statesOptions.filter(option => !exclude?.includes(option.value))}
+      placeholder="Select state"
+      enableFlag
+      width={width}
+    />
   );
 };
 

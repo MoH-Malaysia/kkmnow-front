@@ -60,7 +60,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
     relative_blood_group: false,
     relative_donor_type: false,
     relative_location: false,
-    // zoom_state: currentState === "mys" ? undefined : currentState,
+    zoom_state: currentState === "mys" ? undefined : currentState,
     zoom_facility: undefined,
   });
 
@@ -113,7 +113,10 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             </a>
           </p>
 
-          <StateDropdown url={routes.BLOOD_DONATION} currentState={currentState} />
+          <div className="flex w-full items-center gap-4">
+            <p className="text-sm font-bold text-dim">Zoom into</p>
+            <StateDropdown url={routes.BLOOD_DONATION} currentState={currentState} />
+          </div>
         </div>
       </Hero>
       <Container className="min-h-screen">
@@ -764,7 +767,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           title="How is this data collected?"
           description="Map showing locations of BBIS centres:"
         >
-          {/* <Choropleth className="h-[500px] w-full" enableScale={false} /> */}
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
             <div className="w-full space-y-3">
               <StateDropdown
@@ -781,7 +783,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 disabled={!data.zoom_state}
                 options={
                   data.zoom_state !== undefined
-                    ? Object.keys(map_facility?.[data?.zoom_state]).map((facility, index) => {
+                    ? Object.keys(map_facility[data.zoom_state]).map((facility, index) => {
                         return {
                           label: facility,
                           value: index,

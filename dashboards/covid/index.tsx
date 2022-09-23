@@ -90,7 +90,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
             </a>
           </p>
 
-          <StateDropdown url={routes.COVID} currentState={currentState} />
+          <div className="flex w-full items-center gap-4">
+            <p className="text-sm font-bold text-dim">Zoom into</p>
+            <StateDropdown url={routes.COVID} currentState={currentState} />
+          </div>
         </div>
       </Hero>
 
