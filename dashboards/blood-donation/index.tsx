@@ -118,7 +118,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             <StateDropdown
               url={routes.BLOOD_DONATION}
               currentState={currentState}
-              exclude={["pjy", "pls", "lbn"]}
+              exclude={["pjy", "pls", "lbn", "kvy"]}
             />
           </div>
         </div>
