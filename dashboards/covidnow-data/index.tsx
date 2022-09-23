@@ -163,20 +163,17 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
           <div className="grid grid-cols-1 gap-12">
             <Heatmap
               className="flex h-[700px] overflow-auto pt-7 lg:overflow-hidden"
-              title="Donor retention: How well do we retain donors?"
+              title="% of Views by Time of Day"
               menu={<MenuDropdown />}
-              data={heatmap_retention}
+              data={heatmap_chart}
               axisLeft={{
                 ticksPosition: "before",
                 tickSize: 0,
                 tickPadding: 10,
                 tickRotation: 0,
               }}
-              legend={{
-                top: "Donated after N years",
-                left: "Donated in",
-              }}
-              interactive={false}
+              valueFormat=" >-.2s"
+              interactive={true}
               schema={BLOOD_DONATION_SCHEMA}
               color={BLOOD_DONATION_COLOR}
             />
