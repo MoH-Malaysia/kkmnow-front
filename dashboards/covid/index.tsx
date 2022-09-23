@@ -103,7 +103,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
         <Section title="Healthcare facility utilisation">
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" type="progress" />
+              <DonutMeter />
               <div>
                 <p className="text-dim">Ventilators</p>
                 <Tooltip
@@ -134,7 +134,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" type="progress" />
+              <DonutMeter />
               <div>
                 <p className="text-dim">Hospital Beds</p>
                 <Tooltip
@@ -149,7 +149,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" type="progress" />
+              <DonutMeter />
               <div>
                 <p className="text-dim">PKRC</p>
                 <Tooltip
@@ -190,19 +190,6 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
                         xKey="state"
                         layout="state-horizontal"
                       />
-                      {/* <Bar
-                        className="h-[550px] w-full"
-                        keys={["y1", "y2"]}
-                        interactive={false}
-                        indexBy="state"
-                        hideLabelKeys={["y2"]}
-                        customTickX="state"
-                        enableLabel={true}
-                        enableAxisX={false}
-                        enableGridX={false}
-                        enableGridY={false}
-                        layout="horizontal"
-                      /> */}
                     </Panel>
                   );
                 })}
