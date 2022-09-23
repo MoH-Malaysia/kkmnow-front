@@ -115,7 +115,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
 
           <div className="flex w-full items-center gap-4">
             <p className="text-sm font-bold text-dim">Zoom into</p>
-            <StateDropdown url={routes.BLOOD_DONATION} currentState={currentState} />
+            <StateDropdown
+              url={routes.BLOOD_DONATION}
+              currentState={currentState}
+              exclude={["pjy", "pls", "lbn"]}
+            />
           </div>
         </div>
       </Hero>
