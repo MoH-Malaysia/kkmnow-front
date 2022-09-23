@@ -10,26 +10,22 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const BloodDonationIndex: Page = ({
   timeseries_all,
   timeseries_bloodstock,
-  timeseries_facility,
   heatmap_bloodstock,
   heatmap_donorrate,
   heatmap_retention,
   barchart_age,
   barchart_time,
-  map_facility,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <CovidNowDashboard
         timeseries_all={timeseries_all}
         timeseries_bloodstock={timeseries_bloodstock}
-        timeseries_facility={timeseries_facility}
         heatmap_bloodstock={heatmap_bloodstock}
         heatmap_donorrate={heatmap_donorrate}
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
-        map_facility={map_facility}
       />
     </>
   );
@@ -52,13 +48,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
       timeseries_all: data.timeseries_all,
       timeseries_bloodstock: data.timeseries_bloodstock,
-      timeseries_facility: data.timeseries_facility,
       heatmap_donorrate: data.heatmap_donorrate,
       heatmap_bloodstock: Object.values(data.heatmap_bloodstock),
       heatmap_retention: Object.values(data.heatmap_retention),
       barchart_age: data.barchart_age,
       barchart_time: data.barchart_time,
-      map_facility: data.map_facility,
     },
   };
 };

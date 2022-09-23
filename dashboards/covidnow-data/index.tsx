@@ -34,25 +34,21 @@ const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: fals
 interface BloodDonationDashboardProps {
   timeseries_all: any;
   timeseries_bloodstock: any;
-  timeseries_facility: any;
   heatmap_bloodstock: any;
   heatmap_donorrate: any;
   heatmap_retention: any;
   barchart_age: any;
   barchart_time: any;
-  map_facility: any;
 }
 
 const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
   timeseries_all,
   timeseries_bloodstock,
-  timeseries_facility,
   heatmap_bloodstock,
   heatmap_donorrate,
   heatmap_retention,
   barchart_age,
   barchart_time,
-  map_facility,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
@@ -166,368 +162,28 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
           </div>
         </Section>
 
-        {/* Is {{ area }}'s current blood supply sufficient? */}
-        <Section title="Is Klang Valley's current blood supply sufficient?">
-          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
-            <Heatmap
-              className="h-[500px]"
-              title="Blood Supply by States"
-              hoverTarget="row"
-              data={heatmap_bloodstock}
-              axisLeft="state"
-              schema={BLOOD_SUPPLY_SCHEMA}
-              color={BLOOD_SUPPLY_COLOR}
-              menu={<MenuDropdown />}
-            />
-            <div>
-              <Tabs
-                title={
-                  <Tooltip
-                    trigger={
-                      <span className="text-lg font-bold underline decoration-dashed underline-offset-4">
-                        Blood supply over time
-                      </span>
-                    }
-                  >
-                    Tooltip for Blood supply over time
-                  </Tooltip>
-                }
-                menu={<MenuDropdown />}
-              >
-                <Panel name="Type A">
-                  <Timeseries
-                    className="h-[500px] w-full"
-                    interval="month"
-                    animate={false}
-                    data={{
-                      labels: timeseries_bloodstock.x,
-                      datasets: [
-                        {
-                          type: "line",
-                          label: "Type A",
-                          pointRadius: 0,
-                          data: timeseries_bloodstock.type_a,
-                          backgroundColor: BLOOD_COLOR[100],
-                          fill: true,
-                          borderWidth: 0,
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </Panel>
-                <Panel name="Type B">
-                  <Timeseries
-                    className="h-[500px] w-full"
-                    interval="month"
-                    animate={false}
-                    data={{
-                      labels: timeseries_bloodstock.x,
-                      datasets: [
-                        {
-                          type: "line",
-                          label: "Type B",
-                          pointRadius: 0,
-                          data: timeseries_bloodstock.type_b,
-                          backgroundColor: BLOOD_COLOR[200],
-                          fill: true,
-                          borderWidth: 0,
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </Panel>
-                <Panel name="Type AB">
-                  <Timeseries
-                    className="h-[500px] w-full"
-                    interval="month"
-                    animate={false}
-                    data={{
-                      labels: timeseries_bloodstock.x,
-                      datasets: [
-                        {
-                          type: "line",
-                          label: "Type AB",
-                          pointRadius: 0,
-                          data: timeseries_bloodstock.type_ab,
-                          backgroundColor: BLOOD_COLOR[300],
-                          fill: true,
-                          borderWidth: 0,
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </Panel>
-                <Panel name="Type O">
-                  <Timeseries
-                    className="h-[500px] w-full"
-                    interval="month"
-                    animate={false}
-                    data={{
-                      labels: timeseries_bloodstock.x,
-                      datasets: [
-                        {
-                          type: "line",
-                          label: "Type O",
-                          pointRadius: 0,
-                          data: timeseries_bloodstock.type_o,
-                          backgroundColor: BLOOD_COLOR[400],
-                          fill: true,
-                          borderWidth: 0,
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </Panel>
-              </Tabs>
-            </div>
-          </div>
-        </Section>
-
-        {/* How strong is the new donor recruitment in {{ area }}? */}
+        {/* World Map */}
         <Section
-          title="How strong is the new donor recruitment in Klang Valley?"
-          description="Recruitment of new donors is vital to replace donors who reach their golden years and
-                stop donating, as well as to support a growing population."
+          title="Globally, COVIDNOW was accessed from every country in the world...except Niger and North Korea"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
         >
-          <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
-            <div>
-              <Tabs title="Number of new donors" menu={<MenuDropdown />}>
-                <Panel name="Annual">
-                  <Bar
-                    className="h-[300px]"
-                    data={{
-                      labels: barchart_time.annual.x,
-                      datasets: [
-                        {
-                          label: "New Donors",
-                          data: barchart_time.annual.y,
-                          backgroundColor: GRAYBAR_COLOR[200],
-                          borderWidth: 0,
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </Panel>
-                <Panel name="Monthly">
-                  <Bar
-                    className="h-[300px]"
-                    data={{
-                      labels: barchart_time.monthly.x,
-                      datasets: [
-                        {
-                          label: "New Donors",
-                          data: barchart_time.monthly.y,
-                          backgroundColor: GRAYBAR_COLOR[100],
-                          borderWidth: 0,
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </Panel>
-              </Tabs>
-            </div>
-            <div>
-              <Tabs title="New donors by age group" menu={<MenuDropdown />}>
-                <Panel name="Past 1 year">
-                  <Bar
-                    className="h-[300px]"
-                    data={{
-                      labels: barchart_age.past_year.x,
-                      datasets: [
-                        {
-                          label: "New Donors",
-                          data: barchart_age.past_year.y,
-                          backgroundColor: GRAYBAR_COLOR[200],
-                          borderWidth: 0,
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </Panel>
-                <Panel name="Past 1 month">
-                  <Bar
-                    className="h-[300px]"
-                    data={{
-                      labels: barchart_age.past_month.x,
-                      datasets: [
-                        {
-                          label: "New Donors",
-                          data: barchart_age.past_month.y,
-                          backgroundColor: GRAYBAR_COLOR[100],
-                          borderWidth: 0,
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </Panel>
-              </Tabs>
-            </div>
-          </div>
+          <div className="grid grid-cols-1 gap-12"></div>
         </Section>
 
-        {/* What proportion of the population in {{ area }} donates blood? */}
+        {/* Malaysia Map */}
+        <Section
+          title="Within Malaysia, views disproportionately came from the Klang Valley and urban centres"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+        >
+          <div className="grid grid-cols-1 gap-12"></div>
+        </Section>
+
+        {/* Malaysia Map */}
         <Section
           title="In general, users checked COVIDNOW when they woke up - likely due to updates being pushed overnight"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
         >
-          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-            <div className="w-full space-y-4">
-              <Tabs title="Donor rates across key demographics" menu={<MenuDropdown />}>
-                <Panel name="Per Capita">
-                  <>
-                    <Heatmap
-                      className="flex h-[150px] gap-4 overflow-auto lg:overflow-hidden"
-                      data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
-                      subdata
-                      axisLeft="default"
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-
-                    <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Male"
-                      data={[
-                        heatmap_donorrate.capita.male_chinese,
-                        heatmap_donorrate.capita.male_indian,
-                        heatmap_donorrate.capita.male_bumi,
-                        heatmap_donorrate.capita.male_other,
-                      ]}
-                      subdata
-                      axisLeft="default"
-                      axisTop={null}
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-
-                    <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Female"
-                      data={[
-                        heatmap_donorrate.capita.female_chinese,
-                        heatmap_donorrate.capita.female_indian,
-                        heatmap_donorrate.capita.female_bumi,
-                        heatmap_donorrate.capita.female_other,
-                      ]}
-                      subdata
-                      axisLeft="default"
-                      axisTop={null}
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-                  </>
-                </Panel>
-                <Panel name="% of Donations">
-                  <>
-                    <Heatmap
-                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
-                      subdata
-                      axisLeft="default"
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-
-                    <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Male"
-                      data={[
-                        heatmap_donorrate.perc.male_chinese,
-                        heatmap_donorrate.perc.male_indian,
-                        heatmap_donorrate.perc.male_bumi,
-                        heatmap_donorrate.perc.male_other,
-                      ]}
-                      subdata
-                      axisLeft="default"
-                      axisTop={null}
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-
-                    <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Female"
-                      data={[
-                        heatmap_donorrate.perc.female_chinese,
-                        heatmap_donorrate.perc.female_indian,
-                        heatmap_donorrate.perc.female_bumi,
-                        heatmap_donorrate.perc.female_other,
-                      ]}
-                      subdata
-                      axisLeft="default"
-                      axisTop={null}
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-                  </>
-                </Panel>
-                <Panel name="Absolute">
-                  <>
-                    <Heatmap
-                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
-                      subdata
-                      axisLeft="default"
-                      valueFormat="< ,.2~s"
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-
-                    <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Male"
-                      data={[
-                        heatmap_donorrate.abs.male_chinese,
-                        heatmap_donorrate.abs.male_indian,
-                        heatmap_donorrate.abs.male_bumi,
-                        heatmap_donorrate.abs.male_other,
-                      ]}
-                      subdata
-                      valueFormat="< ,.2~s"
-                      axisLeft="default"
-                      axisTop={null}
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-
-                    <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Female"
-                      data={[
-                        heatmap_donorrate.abs.female_chinese,
-                        heatmap_donorrate.abs.female_indian,
-                        heatmap_donorrate.abs.female_bumi,
-                        heatmap_donorrate.abs.female_other,
-                      ]}
-                      subdata
-                      valueFormat="< ,.2~s"
-                      axisLeft="default"
-                      axisTop={null}
-                      interactive={false}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
-                    />
-                  </>
-                </Panel>
-              </Tabs>
-            </div>
-
+          <div className="grid grid-cols-1 gap-12">
             <Heatmap
               className="flex h-[700px] overflow-auto pt-7 lg:overflow-hidden"
               title="Donor retention: How well do we retain donors?"
