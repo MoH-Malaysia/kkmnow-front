@@ -1,7 +1,7 @@
 /**
  * Blood Donation Page <Index>
  */
-import BloodDonationDashboard from "@dashboards/blood-donation";
+import CovidNowDashboard from "@dashboards/covidnow-data";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
@@ -20,7 +20,7 @@ const BloodDonationIndex: Page = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <BloodDonationDashboard
+      <CovidNowDashboard
         timeseries_all={timeseries_all}
         timeseries_bloodstock={timeseries_bloodstock}
         timeseries_facility={timeseries_facility}
