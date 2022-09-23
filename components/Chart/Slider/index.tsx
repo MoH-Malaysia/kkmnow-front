@@ -5,7 +5,7 @@ import { toDate } from "@lib/helpers";
 interface SliderProps {
   className?: string;
   type?: "default" | "range";
-  onChange?: Function;
+  onChange?: ({ min, max }: { min: number; max: number }) => void;
   range?: [number, number]; // [min, max]
   step?: number;
   data?: Array<any>;
@@ -202,6 +202,6 @@ const Slider: FunctionComponent<SliderProps> = ({
   );
 };
 
-const dummy = ["Saab", "Volvo", "BMW", "Proton", "Perodua", "Mercedes", "Toyota", "Honda"];
+const dummy = [1658620800000, 1658707200000, 1659484800000, 1659571200000];
 
 export default Slider;
