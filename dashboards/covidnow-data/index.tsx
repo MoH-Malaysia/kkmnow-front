@@ -25,6 +25,7 @@ import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
+import { COVIDNOW_COLOR_SCHEME } from "@lib/schema/covid-now";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -32,19 +33,15 @@ const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: 
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
 
 interface BloodDonationDashboardProps {
-  heatmap_bloodstock: any;
-  heatmap_donorrate: any;
-  heatmap_retention: any;
-  barchart_age: any;
-  barchart_time: any;
+  barmeter_chart: any;
   timeseries_chart: any;
   heatmap_chart: any;
 }
 
 const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
   timeseries_chart,
-  heatmap_retention,
   heatmap_chart,
+  barmeter_chart,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
@@ -57,8 +54,9 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
     zoom_state: currentState === "mys" ? undefined : currentState,
     zoom_facility: undefined,
   });
-  console.log(heatmap_chart);
-  console.log(heatmap_retention);
+  console.log(barmeter_chart);
+  console.log(dummy);
+
   const filterTimeline = () => {
     return {
       x: timeseries_chart.x.slice(limit[0], limit[1]),
@@ -174,7 +172,7 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
               }}
               valueFormat=" >-.2s"
               interactive={true}
-              schema={BLOOD_DONATION_SCHEMA}
+              schema={COVIDNOW_COLOR_SCHEME}
               color={BLOOD_DONATION_COLOR}
             />
           </div>
@@ -185,14 +183,68 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
           title="For developers: A breakdown of views by key user demographics"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         >
-          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-12 xl:grid-cols-3">
             <div className="w-full space-y-4">
               <BarMeter
                 className="block space-y-2"
-                data={dummy}
-                yKey="y1"
-                xKey="state"
-                layout="state-horizontal"
+                data={barmeter_chart.device_type}
+                yKey="y"
+                xKey="x"
+                title="Device Type"
+                layout="horizontal"
+              />
+            </div>
+            <div className="w-full space-y-4">
+              <BarMeter
+                className="block space-y-2"
+                data={barmeter_chart.device_language}
+                yKey="y"
+                xKey="x"
+                title="Language on Device"
+                layout="horizontal"
+              />
+            </div>
+
+            <div className="w-full space-y-4">
+              <BarMeter
+                className="block space-y-2"
+                data={barmeter_chart.browser}
+                yKey="y"
+                xKey="x"
+                title="Browser"
+                layout="horizontal"
+              />
+            </div>
+          </div>
+          <div className="mt-8 grid grid-cols-1 gap-12 xl:grid-cols-3">
+            <div className="w-full space-y-4">
+              <BarMeter
+                className="block space-y-2"
+                data={barmeter_chart.os}
+                yKey="y"
+                xKey="x"
+                title="Operating System (all)"
+                layout="horizontal"
+              />
+            </div>
+            <div className="w-full space-y-4">
+              <BarMeter
+                className="block space-y-2"
+                data={barmeter_chart.os_mobile}
+                yKey="y"
+                xKey="x"
+                title="Operating System (mobile only)"
+                layout="horizontal"
+              />
+            </div>
+            <div className="w-full space-y-4">
+              <BarMeter
+                className="block space-y-2"
+                data={barmeter_chart.mobile_screensize}
+                yKey="y"
+                title="Screen Resolution (mobile only)"
+                xKey="x"
+                layout="horizontal"
               />
             </div>
           </div>
