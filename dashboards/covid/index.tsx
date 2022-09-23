@@ -9,6 +9,7 @@ import {
   Section,
   ChartHeader,
   Stages,
+  DonutMeter,
 } from "@components/index";
 import { FunctionComponent } from "react";
 import dynamic from "next/dynamic";
@@ -117,7 +118,8 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" type="progress" />
+              <DonutMeter />
+              {/* <Donut className="h-[56px] w-[56px]" type="progress" /> */}
               <div>
                 <p className="text-dim">ICUs</p>
                 <Tooltip

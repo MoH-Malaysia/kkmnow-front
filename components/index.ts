@@ -17,6 +17,7 @@ export { default as Timeseries } from "./Chart/Timeseries";
 export { default as BarMeter } from "./Chart/BarMeter";
 
 export { default as Donut } from "./Chart/Donut";
+export { default as DonutMeter } from "./Chart/DonutMeter";
 export { default as Stages } from "./Chart/Stages";
 export { default as Choropleth } from "./Chart/Choropleth";
 export { default as Table } from "./Chart/Table";
