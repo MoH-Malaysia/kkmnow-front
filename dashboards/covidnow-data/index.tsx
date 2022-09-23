@@ -18,6 +18,7 @@ import {
   BLOOD_DONATION_COLOR,
   BLOOD_COLOR,
   GRAYBAR_COLOR,
+  CountryAndStates,
 } from "@lib/constants";
 import { BLOOD_SUPPLY_SCHEMA, BLOOD_DONATION_SCHEMA } from "@lib/schema/blood-donation";
 import { routes } from "@lib/routes";
@@ -28,6 +29,7 @@ import { FunctionComponent, useCallback, useState, useEffect } from "react";
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
+const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
 
 interface BloodDonationDashboardProps {
   timeseries_all: any;
@@ -117,6 +119,53 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
         </div>
       </Hero>
       <Container className="min-h-screen">
+        {/* Daily views on COVIDNOW */}
+        <Section
+          title="COVIDNOW always received a steady stream of traffic, but saw huge spikes driven by shock value"
+          description="The largest two spikes in traffic were due to the launch announcement (2 mil views over its first 2 days), and Malaysia hitting the “90% of adults fully vaccinated milestone” (2 mil views in a single day). The former was likely due to massive traction on social media, while the latter was due to 90% being used as the trigger to allow interstate travel."
+        >
+          <div className="flex w-full flex-col gap-12">
+            <div className="space-y-4">
+              <Timeseries
+                className="h-[400px] w-full pt-6 lg:h-[750px]"
+                title="Daily Donations"
+                interval="year"
+                menu={<MenuDropdown />}
+                round="week"
+                stats={null}
+                data={{
+                  labels: filtered_timeline().x,
+                  datasets: [
+                    {
+                      type: "line",
+                      label: "Moving Average (MA)",
+                      pointRadius: 0,
+                      data: filtered_timeline().line_daily,
+                      borderColor: "red",
+                    },
+                    {
+                      type: "bar",
+                      label: "Primary",
+                      data: filtered_timeline().daily,
+                      backgroundColor: "#FF4E4E",
+                    },
+                  ],
+                }}
+                enableGridX={false}
+              />
+              <Slider
+                className="pt-7"
+                type="range"
+                data={timeseries_all.x}
+                onChange={(item: any) => setLimit([item.min, item.max])}
+              />
+              <span className="text-sm text-dim">
+                Use this time slider to zoom in specific time range
+              </span>
+            </div>
+          </div>
+        </Section>
+
         {/* Is {{ area }}'s current blood supply sufficient? */}
         <Section title="Is Klang Valley's current blood supply sufficient?">
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
@@ -238,263 +287,6 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
           </div>
         </Section>
 
-        {/* What are the latest blood donation trends in {{ area }}? */}
-        <Section
-          title="What are the latest blood donation trends in Klang Valley?"
-          description="Blood compromises 3 components - red blood cells, platelets, and plasma. Although
-                  plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35
-                  days, and plasma only for up to 5 days. Therefore, it is vital to maintain a high and
-                  stable level of blood donations; when blood donation activity is low or volatile,
-                  healthcare services that depend upon blood transfusions may start to come under
-                  stress."
-        >
-          <div className="flex w-full flex-col gap-12">
-            <div className="space-y-4">
-              <Timeseries
-                className="h-[400px] w-full pt-6 lg:h-[750px]"
-                title="Daily Donations"
-                interval="year"
-                menu={<MenuDropdown />}
-                round="week"
-                stats={null}
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "Moving Average (MA)",
-                      pointRadius: 0,
-                      data: filtered_timeline().line_daily,
-                      borderColor: "red",
-                    },
-                    {
-                      type: "bar",
-                      label: "Primary",
-                      data: filtered_timeline().daily,
-                      backgroundColor: "#FF4E4E",
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Slider
-                className="pt-7"
-                type="range"
-                data={timeseries_all.x}
-                onChange={(item: any) => setLimit([item.min, item.max])}
-              />
-              <span className="text-sm text-dim">
-                Use this time slider to zoom in specific time range
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-              <Timeseries
-                className="h-[500px] w-full"
-                title="Donation by donation type"
-                interval="year"
-                round="year"
-                maxY={data.relative_donation_type ? 100 : undefined}
-                animate={false}
-                unitY={data.relative_donation_type ? "%" : undefined}
-                menu={<MenuDropdown />}
-                subheader={
-                  <Checkbox
-                    name="donation_type"
-                    value={data.relative_donation_type}
-                    onChange={e => setData("relative_donation_type", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "Apherisis",
-                      pointRadius: 0,
-                      data: !data.relative_donation_type
-                        ? filtered_timeline().apheresis
-                        : filtered_timeline().apheresis_rel,
-                      backgroundColor: BLOOD_COLOR[400],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "Whole blood",
-                      data: !data.relative_donation_type
-                        ? filtered_timeline().wholeblood
-                        : filtered_timeline().wholeblood_rel,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Timeseries
-                className="h-[500px] w-full"
-                title="Donation by blood group (phenotype)"
-                interval="year"
-                round="year"
-                unitY={data.relative_blood_group ? "%" : undefined}
-                maxY={data.relative_blood_group ? 100 : undefined}
-                animate={false}
-                menu={<MenuDropdown />}
-                subheader={
-                  <Checkbox
-                    name="blood_group"
-                    value={data.relative_blood_group}
-                    onChange={e => setData("relative_blood_group", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "AB",
-                      data: !data.relative_blood_group
-                        ? filtered_timeline().ab
-                        : filtered_timeline().ab_rel,
-                      backgroundColor: BLOOD_COLOR[400],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "B",
-                      data: !data.relative_blood_group
-                        ? filtered_timeline().b
-                        : filtered_timeline().b_rel,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "A",
-                      data: !data.relative_blood_group
-                        ? filtered_timeline().a
-                        : filtered_timeline().a_rel,
-                      backgroundColor: BLOOD_COLOR[200],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-
-                    {
-                      type: "line",
-                      label: "O",
-                      data: !data.relative_blood_group
-                        ? filtered_timeline().o
-                        : filtered_timeline().o_rel,
-                      backgroundColor: BLOOD_COLOR[100],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Timeseries
-                className="h-[500px] w-full"
-                title="Donation by donor type"
-                unitY={data.relative_donor_type ? "%" : undefined}
-                maxY={data.relative_donor_type ? 100 : undefined}
-                interval="year"
-                round="year"
-                animate={false}
-                menu={<MenuDropdown />}
-                subheader={
-                  <Checkbox
-                    name="donor_type"
-                    value={data.relative_donor_type}
-                    onChange={e => setData("relative_donor_type", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "Recurring",
-                      data: !data.relative_donor_type
-                        ? filtered_timeline().recurdon
-                        : filtered_timeline().recurdon_rel,
-                      backgroundColor: BLOOD_COLOR[400],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "New",
-                      data: !data.relative_donor_type
-                        ? filtered_timeline().newdon
-                        : filtered_timeline().newdon_rel,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Timeseries
-                className="h-[500px] w-full"
-                title="Donation by location"
-                interval="year"
-                round="year"
-                unitY={data.relative_location ? "%" : undefined}
-                maxY={data.relative_location ? 100 : undefined}
-                animate={false}
-                menu={<MenuDropdown />}
-                subheader={
-                  <Checkbox
-                    name="location"
-                    value={data.relative_location}
-                    onChange={e => setData("relative_location", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "Donation Center",
-                      data: !data.relative_location
-                        ? filtered_timeline().center
-                        : filtered_timeline().center_rel,
-                      backgroundColor: BLOOD_COLOR[400],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "Outreach",
-                      data: !data.relative_location
-                        ? filtered_timeline().outreach
-                        : filtered_timeline().outreach_rel,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-            </div>
-          </div>
-        </Section>
-
         {/* How strong is the new donor recruitment in {{ area }}? */}
         <Section
           title="How strong is the new donor recruitment in Klang Valley?"
@@ -583,9 +375,8 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
 
         {/* What proportion of the population in {{ area }} donates blood? */}
         <Section
-          title="What proportion of the population in Klang Valley donates blood?"
-          description="To ensure a stable and high supply of blood, we need 10% of the eliglble population to
-                donate at least 1 time per year."
+          title="In general, users checked COVIDNOW when they woke up - likely due to updates being pushed overnight"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full space-y-4">
@@ -759,72 +550,20 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
           </div>
         </Section>
 
-        {/* How is this data collected? */}
+        {/* covidnow user demographic */}
         <Section
-          title="How is this data collected?"
-          description="Map showing locations of BBIS centres:"
+          title="For developers: A breakdown of views by key user demographics"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         >
-          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <div className="w-full space-y-3">
-              <StateDropdown
-                currentState={data.zoom_state}
-                onChange={selected => setData("zoom_state", selected.value)}
-                exclude={["kvy", "lbn", "pls", "pjy"]}
-                disableText
-                width="w-full"
+          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
+            <div className="w-full space-y-4">
+              <BarMeter
+                className="block space-y-2"
+                data={dummy}
+                yKey="y1"
+                xKey="state"
+                layout="state-horizontal"
               />
-              <Dropdown
-                placeholder="Select facility"
-                onChange={item => setData("zoom_facility", item)}
-                selected={data.zoom_facility}
-                disabled={!data.zoom_state}
-                options={
-                  data.zoom_state !== undefined
-                    ? Object.keys(map_facility[data.zoom_state]).map((facility, index) => {
-                        return {
-                          label: facility,
-                          value: index,
-                        };
-                      })
-                    : []
-                }
-                width="w-full"
-              />
-
-              {timeseries_facility?.[data.zoom_state!]?.[data?.zoom_facility?.label] && (
-                <div className="w-full pt-7">
-                  <Timeseries
-                    className="h-[300px] w-full pt-4"
-                    title="Daily Donations"
-                    menu={<MenuDropdown />}
-                    data={{
-                      labels: timeseries_facility[data.zoom_state!][data.zoom_facility.label].x,
-                      datasets: [
-                        {
-                          type: "line",
-                          label: "Donation Center",
-                          data: timeseries_facility[data.zoom_state!][data.zoom_facility.label]
-                            .line,
-                          borderColor: BLOOD_COLOR[400],
-                        },
-                        {
-                          type: "bar",
-                          label: "Outreach",
-                          data: timeseries_facility[data.zoom_state!][data.zoom_facility.label]
-                            .daily,
-                          backgroundColor: BLOOD_COLOR[300],
-                        },
-                      ],
-                    }}
-                    enableGridX={false}
-                  />
-                </div>
-              )}
-            </div>
-            <div className="w-full">
-              {data.zoom_state && data.zoom_facility && (
-                <MapEmbed className="h-[420px] w-full" place={data.zoom_facility.label} />
-              )}
             </div>
           </div>
         </Section>
@@ -832,5 +571,24 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
     </>
   );
 };
+
+const dummy = Array(Object.keys(CountryAndStates).length)
+  .fill(0)
+  .map((_, index) => {
+    let date = new Date();
+    date.setDate(date.getDate() - index);
+
+    const y1 = () => Math.floor(Math.random() * 98 + 2);
+    const y2 = 100 - y1();
+
+    return {
+      x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+      y1: y1(),
+      y2: y2,
+      line: y1(),
+      state: Object.keys(CountryAndStates)[index],
+    };
+  })
+  .reverse();
 
 export default CovidNowDashboard;
