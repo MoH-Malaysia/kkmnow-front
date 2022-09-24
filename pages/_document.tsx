@@ -8,9 +8,7 @@ import Document, {
 } from "next/document";
 
 class MyDocument extends Document {
-  static async getInitialProps(
-    ctx: DocumentContext
-  ): Promise<DocumentInitialProps> {
+  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
 
     return initialProps;
@@ -25,6 +23,12 @@ class MyDocument extends Document {
           <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
+          />
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
+            integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+            crossOrigin=""
           />
         </Head>
         <body>

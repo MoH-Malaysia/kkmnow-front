@@ -33,6 +33,7 @@ const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: fals
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const ChoroplethWorld = dynamic(() => import("@components/Chart/ChoroplethWorld"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
+const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
 interface CovidNOWDashboardProps {
   barmeter_chart: any;
@@ -208,7 +209,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
             </div>
           </div>
         </Section>
-
         {/* World Map */}
         <Section
           title="Globally, COVIDNOW was accessed from every country in the world...except Niger and North Korea"
@@ -219,14 +219,15 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
             <Tabs className="flex flex-wrap justify-end gap-2 pb-4" title="World Views Statistics">
               <Panel key={0} name={"Map"}>
                 <div className="grid grid-cols-1 gap-12">
-                  <ChoroplethWorld
+                  {/* <ChoroplethWorld
                     className="h-[500px] w-full"
                     enableScale={true}
                     data={choropleth_world.map((item: any) => ({
                       id: item.iso3,
                       value: item.data.views,
                     }))}
-                  />
+                  /> */}
+                  <OSMapWrapper LatLng={[3, 102]} />
                 </div>
               </Panel>
               <Panel key={1} name={"Table"}>
