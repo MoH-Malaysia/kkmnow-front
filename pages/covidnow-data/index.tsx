@@ -11,6 +11,8 @@ const BloodDonationIndex: Page = ({
   timeseries_chart,
   heatmap_chart,
   barmeter_chart,
+  choropleth_malaysia,
+  choropleth_world,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
@@ -18,6 +20,8 @@ const BloodDonationIndex: Page = ({
         timeseries_chart={timeseries_chart}
         heatmap_chart={heatmap_chart}
         barmeter_chart={barmeter_chart}
+        choropleth_malaysia={choropleth_malaysia}
+        choropleth_world={choropleth_world}
       />
     </>
   );
@@ -34,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   });
   // TODO: Toogle between table for choropleth map
   // TODO: pending array sorting for monday to sunday
-  console.log(data2);
+  // console.log(data2);
 
   return {
     props: {
@@ -42,6 +46,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       timeseries_chart: data2.data.timeseries_chart,
       heatmap_chart: Object.values(data2.data.heatmap_chart),
       barmeter_chart: data2.data.bar_chart,
+      choropleth_malaysia: data2.data.choropleth_malaysia,
+      choropleth_world: data2.data.choropleth_world,
     },
   };
 };

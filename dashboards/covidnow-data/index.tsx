@@ -34,12 +34,16 @@ interface CovidNOWDashboardProps {
   barmeter_chart: any;
   timeseries_chart: any;
   heatmap_chart: any;
+  choropleth_world: any;
+  choropleth_malaysia: any;
 }
 
 const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   timeseries_chart,
   heatmap_chart,
   barmeter_chart,
+  choropleth_world,
+  choropleth_malaysia,
 }) => {
   const [limit, setLimit] = useState([0, timeseries_chart.x.length - 1]);
 
@@ -52,7 +56,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       line: timeseries_chart.line.slice(limit[0], limit[1]),
     };
   };
-
+  console.log(choropleth_world.map((item: any) => ({ id: item.iso3, value: item.data.views })));
   //   const filtered_timeline = useCallback(filterTimeline, limit);
 
   return (
@@ -129,7 +133,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           date={"Data as of " + dateEnd}
         >
           <div className="grid grid-cols-1 gap-12">
-            <ChoroplethWorld className="h-[500px] w-full" enableScale={false} />
+            <ChoroplethWorld
+              className="h-[500px] w-full"
+              enableScale={true}
+              data={choropleth_world.map((item: any) => ({
+                id: item.iso3,
+                value: item.data.views,
+              }))}
+            />
           </div>
         </Section>
 

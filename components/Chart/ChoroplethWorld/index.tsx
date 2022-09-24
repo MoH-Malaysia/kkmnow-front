@@ -2,9 +2,9 @@ import { ResponsiveChoropleth } from "@nivo/geo";
 import { FunctionComponent, ReactElement, useState } from "react";
 import { ChartHeader } from "@components/index";
 import {
-  CHOROPLETH_RED_SCALE,
+  // CHOROPLETH_RED_SCALE,
   //   CHOROPLETH_GREEN_SCALE,
-  //   CHOROPLETH_BLUE_SCALE,
+  CHOROPLETH_BLUE_SCALE,
   //   CHOROPLETH_RED_PURPLE_SCALE,
   //   CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
 } from "@lib/constants";
@@ -35,7 +35,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
 }) => {
   const [feature, setState] = useState(WorldDesktop.features);
   const config = {
-    colors: CHOROPLETH_RED_SCALE,
+    colors: CHOROPLETH_BLUE_SCALE,
     projectionScale: 125,
     projectionTranslation: [0.5, 0.75] as [number, number],
     borderWidth: 0.25,
@@ -49,7 +49,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           data={data}
           features={feature}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-          colors={config.colors}
+          colors={CHOROPLETH_BLUE_SCALE}
           domain={[0, 100]}
           unknownColor="#fff"
           projectionType="mercator"
@@ -63,7 +63,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           // }}
         />
       </div>
-      {enableScale && <ChoroplethScale colors={config.colors}></ChoroplethScale>}
+      {enableScale && <ChoroplethScale data={data} colors={config.colors}></ChoroplethScale>}
     </div>
   );
 };
@@ -73,10 +73,12 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
  */
 interface ChoroplethScaleProps {
   colors: string[];
+  data: any;
 }
-const ChoroplethScale: FunctionComponent<ChoroplethScaleProps> = ({ colors }) => {
+const ChoroplethScale: FunctionComponent<ChoroplethScaleProps> = ({ colors, data }) => {
   const [min, max] = [colors[0], colors[colors.length - 1]];
 
+  // console.log(data.map((item:any) => item.value).min())
   return (
     <div>
       <div
@@ -84,8 +86,18 @@ const ChoroplethScale: FunctionComponent<ChoroplethScaleProps> = ({ colors }) =>
         style={{ backgroundImage: `linear-gradient(to right, ${min}, ${max})` }}
       ></div>
       <div className="flex w-full justify-between lg:ml-auto lg:max-w-[280px]">
-        <small>Minimum</small>
-        <small>Maximum</small>
+        <small>
+          {Math.min.apply(
+            Math,
+            data.map((item: any) => item.value)
+          )}
+        </small>
+        <small>
+          {Math.max.apply(
+            Math,
+            data.map((item: any) => item.value)
+          )}
+        </small>
       </div>
     </div>
   );
