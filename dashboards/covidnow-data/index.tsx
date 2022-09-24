@@ -71,7 +71,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   //       value: item.data.views,
   //     }))
   //   );
-  console.log(choropleth_malaysia);
+  console.log(choropleth_world);
 
   const malaysiaMapConfig = [
     {
@@ -116,6 +116,46 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       ],
     },
   ];
+
+  const worldMapConfig = [
+    {
+      header: "",
+      id: "state",
+      accessorKey: "state",
+      enableSorting: false,
+      //   cell: (item: any) => {
+      //     const state = item.getValue() as string;
+      //     return (
+      //       <div className="flex items-center gap-3">
+      //         <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
+      //         <span>{CountryAndStates[state]}</span>
+      //       </div>
+      //     );
+      //   },
+    },
+    {
+      id: "data",
+      header: "Statistics",
+      columns: [
+        {
+          id: "data.Country",
+          header: "Country",
+          accessorFn: (item: any) => item.data.country,
+        },
+        {
+          id: "data.views",
+          header: "Views",
+          accessorFn: (item: any) => item.data.views,
+        },
+        {
+          id: "data.views_perc",
+          header: "% of Views",
+          accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
+        },
+      ],
+    },
+  ];
+
   return (
     <>
       <Hero background="bg-slate-200">
@@ -204,7 +244,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 </div>
               </Panel>
               <Panel key={1} name={"Table"}>
-                <Table />
+                <Table data={choropleth_world} config={worldMapConfig} />
               </Panel>
             </Tabs>
           </div>
