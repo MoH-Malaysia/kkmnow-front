@@ -6,9 +6,11 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import { SwitchVerticalIcon, ArrowSmUpIcon, ArrowSmDownIcon } from "@heroicons/react/solid";
 import { CountryAndStates } from "@lib/constants";
+import { useEffect } from "react";
 
 interface TableProps {
   className?: string;
@@ -16,6 +18,7 @@ interface TableProps {
   menu?: ReactElement;
   data?: any;
   config?: Array<ColumnDef<Record<string, any>>>;
+  isPagination?: boolean;
 }
 
 const Table: FunctionComponent<TableProps> = ({
@@ -24,6 +27,7 @@ const Table: FunctionComponent<TableProps> = ({
   menu,
   data = dummy,
   config = dummyConfig,
+  isPagination = false,
 }) => {
   const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -36,7 +40,7 @@ const Table: FunctionComponent<TableProps> = ({
     return undefined;
   };
 
-  const table = useReactTable({
+  const ReactTableProps: any = {
     data,
     columns,
     state: {
@@ -45,8 +49,19 @@ const Table: FunctionComponent<TableProps> = ({
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
     debugTable: false,
-  });
+  };
+
+  !isPagination
+    ? ReactTableProps.getPaginationRowModel == null
+    : (ReactTableProps.getPaginationRowModel = getPaginationRowModel());
+
+  const table = useReactTable(ReactTableProps);
+
+  useEffect(() => {
+    isPagination ? table.setPageSize(10) : null;
+  }, []);
 
   return (
     <div className="table-responsive">
@@ -101,7 +116,7 @@ const Table: FunctionComponent<TableProps> = ({
           {table.getRowModel().rows.map(row => {
             return (
               <tr key={row.id}>
-                {row.getVisibleCells().map(cell => {
+                {row.getVisibleCells().map((cell: any) => {
                   const lastCellInGroup = cell.column.parent
                     ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
                     : cell.column;
@@ -123,6 +138,71 @@ const Table: FunctionComponent<TableProps> = ({
           })}
         </tbody>
       </table>
+      {isPagination ? (
+        <>
+          <div className="h-2" />
+          <div className="flex items-center gap-2">
+            <button
+              className="rounded border p-1"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<<"}
+            </button>
+            <button
+              className="rounded border p-1"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<"}
+            </button>
+            <button
+              className="rounded border p-1"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {">"}
+            </button>
+            <button
+              className="rounded border p-1"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              {">>"}
+            </button>
+            <span className="flex items-center gap-1">
+              <div>Page</div>
+              <strong>
+                {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+              </strong>
+            </span>
+            <span className="flex items-center gap-1">
+              | Go to page:
+              <input
+                type="number"
+                defaultValue={table.getState().pagination.pageIndex + 1}
+                onChange={e => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  table.setPageIndex(page);
+                }}
+                className="w-16 rounded border p-1"
+              />
+            </span>
+            <select
+              value={table.getState().pagination.pageSize}
+              onChange={e => {
+                table.setPageSize(Number(e.target.value));
+              }}
+            >
+              {[10, 20, 30, 40, 50].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

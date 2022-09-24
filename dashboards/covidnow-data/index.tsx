@@ -120,28 +120,22 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   const worldMapConfig = [
     {
       header: "",
-      id: "state",
-      accessorKey: "state",
+      id: "iso3",
+      accessorKey: "data",
       enableSorting: false,
-      //   cell: (item: any) => {
-      //     const state = item.getValue() as string;
-      //     return (
-      //       <div className="flex items-center gap-3">
-      //         <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
-      //         <span>{CountryAndStates[state]}</span>
-      //       </div>
-      //     );
-      //   },
+      cell: (item: any) => {
+        const state = item.getValue() as any;
+        return (
+          <div className="flex items-center gap-3">
+            <span>{state.country}</span>
+          </div>
+        );
+      },
     },
     {
       id: "data",
       header: "Statistics",
       columns: [
-        {
-          id: "data.Country",
-          header: "Country",
-          accessorFn: (item: any) => item.data.country,
-        },
         {
           id: "data.views",
           header: "Views",
@@ -244,7 +238,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 </div>
               </Panel>
               <Panel key={1} name={"Table"}>
-                <Table data={choropleth_world} config={worldMapConfig} />
+                <Table data={choropleth_world} config={worldMapConfig} isPagination={true} />
               </Panel>
             </Tabs>
           </div>
