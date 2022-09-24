@@ -232,7 +232,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     {
                       name: "Hospitalised",
                       value: snapshot_graphic.hosp,
-                      delta: snapshot_graphic.pkrc_annot,
+                      delta: snapshot_graphic.hosp_annot,
                       unit: "%",
                     },
                     {
@@ -258,11 +258,13 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       name: "Death (Including BID)",
                       value: snapshot_graphic.deaths,
                       delta: snapshot_graphic.deaths_annot,
+                      inverse: true,
                     },
                     {
                       name: "Brought in Dead",
                       value: snapshot_graphic.deaths_bid,
                       delta: snapshot_graphic.deaths_bid_annot,
+                      inverse: true,
                     },
                   ],
                 }}
@@ -675,7 +677,6 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             </Panel>
           </Tabs>
         </Section>
-        <div className="grid grid-cols-1 gap-12 xl:grid-cols-2"></div>
       </Container>
     </>
   );

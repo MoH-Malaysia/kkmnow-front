@@ -33,9 +33,9 @@ const Stages: FunctionComponent<StagesProps> = ({
       <div className={className}>
         {/* Header */}
         {data?.header && (
-          <div className="m-auto w-fit rounded bg-washed py-1.5 px-3 text-center">
+          <div className="m-auto w-fit min-w-[200px] rounded bg-washed py-1.5 px-3 text-center">
             <span className="text-xs text-dim">{data.header.name}</span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center gap-2">
               <span className="text-xl">{data.header.value.toLocaleString()}</span>
 
               <small
