@@ -20,42 +20,29 @@ import {
   GRAYBAR_COLOR,
   CountryAndStates,
 } from "@lib/constants";
-import { BLOOD_SUPPLY_SCHEMA, BLOOD_DONATION_SCHEMA } from "@lib/schema/blood-donation";
-import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { COVIDNOW_COLOR_SCHEME } from "@lib/schema/covid-now";
 
-const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
+const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
-interface BloodDonationDashboardProps {
+interface CovidNOWDashboardProps {
   barmeter_chart: any;
   timeseries_chart: any;
   heatmap_chart: any;
 }
 
-const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
+const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   timeseries_chart,
   heatmap_chart,
   barmeter_chart,
 }) => {
-  const router = useRouter();
-  const currentState = (router.query.state as string) ?? "mys";
   const [limit, setLimit] = useState([0, timeseries_chart.x.length - 1]);
-  const { data, setData } = useData({
-    relative_donation_type: false,
-    relative_blood_group: false,
-    relative_donor_type: false,
-    relative_location: false,
-    zoom_state: currentState === "mys" ? undefined : currentState,
-    zoom_facility: undefined,
-  });
-  console.log(barmeter_chart);
-  console.log(dummy);
+
+  const dateEnd = new Date("2022-09-24").toDateString();
 
   const filterTimeline = () => {
     return {
@@ -65,11 +52,7 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, limit);
-
-  useEffect(() => {
-    setData("zoom_facility", undefined);
-  }, [data.zoom_state]);
+  //   const filtered_timeline = useCallback(filterTimeline, limit);
 
   return (
     <>
@@ -94,6 +77,7 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
         <Section
           title="COVIDNOW always received a steady stream of traffic, but saw huge spikes driven by shock value"
           description="The largest two spikes in traffic were due to the launch announcement (2 mil views over its first 2 days), and Malaysia hitting the “90% of adults fully vaccinated milestone” (2 mil views in a single day). The former was likely due to massive traction on social media, while the latter was due to 90% being used as the trigger to allow interstate travel."
+          date={"Data as of " + dateEnd}
         >
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
@@ -141,6 +125,7 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
         <Section
           title="Globally, COVIDNOW was accessed from every country in the world...except Niger and North Korea"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+          date={"Data as of " + dateEnd}
         >
           <div className="grid grid-cols-1 gap-12"></div>
         </Section>
@@ -150,13 +135,16 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
           title="Within Malaysia, views disproportionately came from the Klang Valley and urban centres"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
         >
-          <div className="grid grid-cols-1 gap-12"></div>
+          <div className="grid grid-cols-1 gap-12">
+            <Choropleth className="h-[500px] w-full" enableScale={false} />
+          </div>
         </Section>
 
-        {/* Malaysia Map */}
+        {/* Heatmap */}
         <Section
           title="In general, users checked COVIDNOW when they woke up - likely due to updates being pushed overnight"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+          date={"Data as of " + dateEnd}
         >
           <div className="grid grid-cols-1 gap-12">
             <Heatmap
@@ -182,6 +170,7 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
         <Section
           title="For developers: A breakdown of views by key user demographics"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          date={"Data as of " + dateEnd}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-3">
             <div className="w-full space-y-4">
@@ -253,24 +242,5 @@ const CovidNowDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
     </>
   );
 };
-
-const dummy = Array(Object.keys(CountryAndStates).length)
-  .fill(0)
-  .map((_, index) => {
-    let date = new Date();
-    date.setDate(date.getDate() - index);
-
-    const y1 = () => Math.floor(Math.random() * 98 + 2);
-    const y2 = 100 - y1();
-
-    return {
-      x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
-      y1: y1(),
-      y2: y2,
-      line: y1(),
-      state: Object.keys(CountryAndStates)[index],
-    };
-  })
-  .reverse();
 
 export default CovidNowDashboard;
