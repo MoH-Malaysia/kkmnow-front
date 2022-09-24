@@ -88,7 +88,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title="COVIDNOW always received a steady stream of traffic, but saw huge spikes driven by shock value"
           description="The largest two spikes in traffic were due to the launch announcement (2 mil views over its first 2 days), and Malaysia hitting the “90% of adults fully vaccinated milestone” (2 mil views in a single day). The former was likely due to massive traction on social media, while the latter was due to 90% being used as the trigger to allow interstate travel."
-          date={"Data as of " + dateEnd}
+          date={dateEnd}
         >
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
@@ -136,7 +136,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title="Globally, COVIDNOW was accessed from every country in the world...except Niger and North Korea"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-          date={"Data as of " + dateEnd}
+          date={dateEnd}
         >
           <div className="grid grid-cols-1 gap-12">
             <ChoroplethWorld
@@ -174,7 +174,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title="In general, users checked COVIDNOW when they woke up - likely due to updates being pushed overnight"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-          date={"Data as of " + dateEnd}
+          date={dateEnd}
         >
           <div className="grid grid-cols-1 gap-12">
             <Heatmap
@@ -200,7 +200,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title="For developers: A breakdown of views by key user demographics"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-          date={"Data as of " + dateEnd}
+          date={dateEnd}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-3">
             <div className="w-full space-y-4">
