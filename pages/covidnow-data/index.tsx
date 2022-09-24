@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   });
 
   const sortingArr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const heatmap_chart = Object.values(data2.data.heatmap_chart).sort(function (a: any, b: any) {
+  const heatmap_chart = Object.values(data2.data.heatmap_chart).sort((a: any, b: any) => {
     return sortingArr.indexOf(a.id) - sortingArr.indexOf(b.id);
   });
 
