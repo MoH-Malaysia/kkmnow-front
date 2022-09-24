@@ -47,3 +47,8 @@ export const statesOptions = STATES.map(state => ({
   label: state.name,
   value: state.key,
 }));
+
+export const filterCaseDeath = [
+  { label: "Cases", value: "cases" },
+  { label: "Deaths", value: "deaths" },
+];
