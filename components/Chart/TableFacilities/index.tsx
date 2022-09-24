@@ -26,7 +26,6 @@ interface TableFacilitiesProps {
   config?: Array<ColumnDef<Record<string, any>>>;
   filter?: boolean;
   pagination?: boolean;
-  pageSize?: any;
   currentState?: string;
 }
 
@@ -51,7 +50,6 @@ const TableFacilities: FunctionComponent<TableFacilitiesProps> = ({
   config = dummyConfig,
   filter = false,
   pagination = false,
-  pageSize = 10,
   currentState = "",
 }) => {
   const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
@@ -112,16 +110,18 @@ const TableFacilities: FunctionComponent<TableFacilitiesProps> = ({
         <div className="flex flex-row items-center gap-2">
           <StateDropdown
             currentState={stateFilter}
+            label="State"
             onChange={selected => {
               setStateFilter(selected.value);
               setColumnFilters(columnFilters.concat({ id: "state", value: selected.value }));
             }}
             exclude={["kvy"]}
           />
-          <Dropdown placeholder="District" options={[]} onChange={selected => {}} />
+          <Dropdown placeholder="All" label="District" options={[]} onChange={selected => {}} />
           <Dropdown
             selected={typeFilter}
-            placeholder="Type"
+            placeholder="All"
+            label="Type"
             options={facilityTypeOptions}
             onChange={selected => {
               setTypeFilter(selected);

@@ -26,9 +26,9 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     table_filter: "",
   });
 
-  useEffect(() => {
-    setData("zoom_facility", undefined);
-  }, [data.zoom_state]);
+  //   useEffect(() => {
+  //     setData("zoom_facility", undefined);
+  //   }, [data.zoom_state]);
 
   return (
     <>
@@ -57,7 +57,6 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
               config={FACILTIES_TABLE_SCHEMA.config}
               filter={true}
               pagination={true}
-              pageSize={20}
               currentState={currentState}
             />
           </div>
