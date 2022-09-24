@@ -71,7 +71,8 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   //       value: item.data.views,
   //     }))
   //   );
-  console.log(choropleth_world);
+
+  console.log(heatmap_chart);
 
   const malaysiaMapConfig = [
     {

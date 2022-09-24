@@ -36,15 +36,17 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   Object.values(data2.data.heatmap_chart).forEach((item: any) => {
     item.data = item.data.filter((_item: any) => _item.y !== null);
   });
-  // TODO: Toogle between table for choropleth map
-  // TODO: pending array sorting for monday to sunday
-  // console.log(data2);
+
+  const sortingArr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const heatmap_chart = Object.values(data2.data.heatmap_chart).sort(function (a: any, b: any) {
+    return sortingArr.indexOf(a.id) - sortingArr.indexOf(b.id);
+  });
 
   return {
     props: {
       ...i18n,
       timeseries_chart: data2.data.timeseries_chart,
-      heatmap_chart: Object.values(data2.data.heatmap_chart),
+      heatmap_chart: heatmap_chart,
       barmeter_chart: data2.data.bar_chart,
       choropleth_malaysia: data2.data.choropleth_malaysia,
       choropleth_world: data2.data.choropleth_world,
