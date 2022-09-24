@@ -450,6 +450,13 @@
   resolved "https://registry.yarnpkg.com/@tailwindcss/line-clamp/-/line-clamp-0.4.0.tgz#03353e31e77636b785f2336e8c978502cec1de81"
   integrity sha512-HQZo6gfx1D0+DU3nWlNLD5iA6Ef4JAXh0LeD8lOGrJwEDBwwJNKQza6WoXhhY1uQrxOuU8ROxV7CqiQV4CoiLw==
 
+"@tanstack/match-sorter-utils@^8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/match-sorter-utils/-/match-sorter-utils-8.1.1.tgz#895f407813254a46082a6bbafad9b39b943dc834"
+  integrity sha512-IdmEekEYxQsoLOR0XQyw3jD1GujBpRRYaGJYQUw1eOT1eUugWxdc7jomh1VQ1EKHcdwDLpLaCz/8y4KraU4T9A==
+  dependencies:
+    remove-accents "0.4.2"
+
 "@tanstack/react-table@^8.5.2":
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.5.2.tgz#1e547649b8f057eddbe769b04612914a2efa5d09"
@@ -1837,6 +1844,11 @@ regenerator-runtime@^0.13.4:
   version "0.13.9"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
   integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==
+
+remove-accents@0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/remove-accents/-/remove-accents-0.4.2.tgz#0a43d3aaae1e80db919e07ae254b285d9e1c7bb5"
+  integrity sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==
 
 resolve@^1.1.7, resolve@^1.22.0:
   version "1.22.1"

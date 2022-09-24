@@ -1,13 +1,4 @@
-import {
-  Hero,
-  Container,
-  Bar,
-  Search,
-  Section,
-  StateDropdown,
-  Table,
-  Dropdown,
-} from "@components/index";
+import { Hero, Container, Bar, Search, Section, StateDropdown, Dropdown } from "@components/index";
 import { GlobeAltIcon } from "@heroicons/react/solid";
 import { useData } from "@hooks/useData";
 import { CountryAndStates } from "@lib/constants";
@@ -17,12 +8,14 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 
+const TableFacilities = dynamic(() => import("@components/Chart/TableFacilities"), { ssr: false });
+
 interface HealthcareFacilitiesDashboardProps {
-  facilities_list: any;
+  facility_table: any;
 }
 
 const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashboardProps> = ({
-  facilities_list,
+  facility_table,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
@@ -30,6 +23,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     zoom_type: undefined,
     zoom_state: currentState === "mys" ? undefined : currentState,
     zoom_district: undefined,
+    table_filter: "",
   });
 
   useEffect(() => {
@@ -57,32 +51,15 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       </Hero>
       <Container className="min-h-screen">
         <Section title="Find A Healthcare Facility">
-          <div className="flex flex-row items-center gap-2">
-            <Dropdown
-              placeholder="Type"
-              options={[
-                { label: "Hospital", value: "hospital" },
-                { label: "Clinic", value: "clinic" },
-              ]}
-              onChange={selected => setData("zoom_type", selected.label)}
-            />
-            <StateDropdown
-              currentState={data.zoom_state}
-              onChange={selected => setData("zoom_state", selected.value)}
-              width="w-32"
-            />
-            <Dropdown placeholder="District" options={[]} onChange={selected => {}} />
-            <div className="ml-auto text-right">
-              <Search
-                query=""
-                onChange={function (query?: string | undefined): void {
-                  throw new Error("Function not implemented.");
-                }}
-              ></Search>
-            </div>
-          </div>
           <div className="mt-2">
-            <Table data={facilities_list} config={FACILTIES_TABLE_SCHEMA.config} />
+            <TableFacilities
+              data={facility_table}
+              config={FACILTIES_TABLE_SCHEMA.config}
+              filter={true}
+              pagination={true}
+              pageSize={20}
+              currentState={currentState}
+            />
           </div>
         </Section>
         <Section title="How does proximity to healthcare vary nationally?">
@@ -105,21 +82,14 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 Zoom into my area
               </h4>
 
-              <Dropdown
-                placeholder="Select Facilty Type"
-                onChange={item => setData("zoom_type", item)}
-                selected={data.zoom_type}
-                options={[
-                  { label: "Hospital", value: 0 },
-                  { label: "Clinic", value: 1 },
-                ]}
-                width="w-full"
-              />
               <StateDropdown
                 url={routes.HEALTHCARE}
                 currentState={data.zoom_state}
-                onChange={selected => setData("zoom_state", selected.value)}
-                exclude={["kvy", "lbn", "pls", "pjy"]}
+                onChange={selected => {
+                  setData("zoom_state", selected.value);
+                  router.push(`${routes.HEALTHCARE}/${selected.value}`);
+                }}
+                exclude={["kvy"]}
                 disableText
                 width="w-full"
               />
@@ -129,6 +99,17 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 selected={data.zoom_district}
                 disabled={!data.zoom_state}
                 options={[]}
+                width="w-full"
+              />
+              <Dropdown
+                placeholder="Select Facilty Type"
+                onChange={item => setData("zoom_type", item)}
+                selected={data.zoom_type}
+                disabled={!data.zoom_district}
+                options={[
+                  { label: "Hospital", value: 0 },
+                  { label: "Clinic", value: 1 },
+                ]}
                 width="w-full"
               />
             </div>

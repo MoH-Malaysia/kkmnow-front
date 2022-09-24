@@ -8,31 +8,23 @@ import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const HealthcareFacilitiesIndex: Page = ({
-  facilities_list,
+  facility_table,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <HealthcareFacilitiesDashboard facilities_list={facilities_list} />
+      <HealthcareFacilitiesDashboard facility_table={facility_table} />
     </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
-  //   const { data } = await get("/kkmnow", { dashboard: "blood_donation", state: "mys" }); // fetch static data here
-  const data = {
-    facilities: [
-      {
-        state: "jhr",
-        district: "muar",
-        sector: "Government",
-      },
-    ],
-  };
+  const { data } = await get("/kkmnow", { dashboard: "facilities" }); // fetch static data here
+
   return {
     props: {
       ...i18n,
-      facilities_list: data.facilities,
+      facility_table: data.facility_table,
     },
   };
 };
