@@ -29,6 +29,7 @@ interface ChoroplethProps {
   colorScale?: any;
   borderWidth?: any;
   borderColor?: any;
+  projectionTranslation?: any;
 }
 
 const Choropleth: FunctionComponent<ChoroplethProps> = ({
@@ -42,6 +43,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   colorScale = "CHOROPLETH_RED_SCALE",
   borderWidth = 0.25,
   borderColor = "#13293d",
+  projectionTranslation = [0.65, 0.9] as [number, number],
 }) => {
   const graphChoices: any = {
     ParliamentDesktop: ParliamentDesktop,
@@ -81,7 +83,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
           unknownColor="#fff"
           projectionType="mercator"
           projectionScale={config.projectionScale}
-          projectionTranslation={config.projectionTranslation}
+          projectionTranslation={projectionTranslation}
           projectionRotation={[-114, 0, 0]}
           borderWidth={config.borderWidth}
           borderColor={config.borderColor}

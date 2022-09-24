@@ -30,11 +30,6 @@ export const numFormat = (value: number, type?: any): string => {
   return formatter.format(value);
 };
 
-// export const numFormatV2 = (value: number, type?:any): string => {
-//   const formatter = Intl.NumberFormat("en", { notation: type? type : "compact" });
-//   return formatter.format(value);
-// };
-
 export const toDate = (millis: number) => DateTime.fromMillis(millis).toFormat("dd MMM yyyy");
 
 export const handleSelectMultipleDropdown = (

@@ -62,15 +62,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       line: timeseries_chart.line.slice(limit[0], limit[1]),
     };
   };
-  //   console.log(choropleth_world.map((item: any) => ({ id: item.iso3, value: item.data.views })));
-  //   console.log(
-  //     choropleth_malaysia.map((item: any) => ({
-  //       id: CountryAndStates[item.state],
-  //       oriState: item.state,
-
-  //       value: item.data.views,
-  //     }))
-  //   );
 
   console.log(heatmap_chart);
 
@@ -262,10 +253,10 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     enableScale={false}
                     colorScale="CHOROPLETH_BLUE_SCALE"
                     borderColor="#fff"
+                    projectionTranslation={[0.65, 1.0]}
                     data={choropleth_malaysia.map((item: any) => ({
                       id: CountryAndStates[item.state],
                       state: CountryAndStates[item.state],
-
                       value: item.data.views,
                     }))}
                     graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
