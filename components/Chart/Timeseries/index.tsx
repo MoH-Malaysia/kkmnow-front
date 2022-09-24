@@ -5,6 +5,7 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  LineController,
   BarElement,
   PointElement,
   LineElement,
@@ -17,7 +18,6 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
-import { DateTime } from "luxon";
 import "chartjs-adapter-luxon";
 
 interface TimeseriesProps {
@@ -73,6 +73,7 @@ ChartJS.register(
   BarElement,
   PointElement,
   LineElement,
+  LineController,
   TimeScale,
   TimeSeriesScale,
   ChartTooltip

@@ -37,13 +37,15 @@ const BloodDonationState: Page = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  const paths = STATES.filter(item => !["pjy", "pls", "lbn"].includes(item.key)).map(state => {
-    return {
-      params: {
-        state: state.key,
-      },
-    };
-  });
+  const paths = STATES.filter(item => !["pjy", "pls", "lbn", "kvy"].includes(item.key)).map(
+    state => {
+      return {
+        params: {
+          state: state.key,
+        },
+      };
+    }
+  );
   return {
     paths: paths,
     fallback: false, // can also be true or 'blocking'
