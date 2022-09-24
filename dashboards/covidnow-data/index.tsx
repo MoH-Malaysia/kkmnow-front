@@ -19,6 +19,7 @@ import {
   BLOOD_COLOR,
   GRAYBAR_COLOR,
   CountryAndStates,
+  STATES,
 } from "@lib/constants";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
@@ -56,8 +57,13 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       line: timeseries_chart.line.slice(limit[0], limit[1]),
     };
   };
-  console.log(choropleth_world.map((item: any) => ({ id: item.iso3, value: item.data.views })));
-  //   const filtered_timeline = useCallback(filterTimeline, limit);
+  //   console.log(choropleth_world.map((item: any) => ({ id: item.iso3, value: item.data.views })));
+  console.log(
+    choropleth_malaysia.map((item: any) => ({
+      id: CountryAndStates[item.state],
+      value: item.data.views,
+    }))
+  );
 
   return (
     <>
@@ -150,7 +156,17 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
         >
           <div className="grid grid-cols-1 gap-12">
-            <Choropleth className="h-[500px] w-full" enableScale={false} />
+            <Choropleth
+              className="h-[500px] w-full"
+              enableScale={false}
+              data={choropleth_malaysia.map((item: any) => ({
+                id: CountryAndStates[item.state],
+                state: CountryAndStates[item.state],
+
+                value: item.data.views,
+              }))}
+              graphChoice="StateDesktop"
+            />
           </div>
         </Section>
 

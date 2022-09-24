@@ -9,13 +9,15 @@ import {
   //   CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
 } from "@lib/constants";
 import ParliamentDesktop from "@lib/geojson/parlimen_desktop.json";
-// import { features as ParliamentMobile } from "@lib/geojson/parlimen_mobile.json";
-// import { features as DunDesktop } from "@lib/geojson/dun_desktop.json";
-// import { features as DunMobile } from "@lib/geojson/dun_mobile.json";
-
+import ParliamentMobile from "@lib/geojson/parlimen_mobile.json";
+import DunDesktop from "@lib/geojson/dun_desktop.json";
+import DunMobile from "@lib/geojson/dun_mobile.json";
+import StateDesktop from "@lib/geojson/state_desktop.json";
+import StateMobile from "@lib/geojson/state_mobile.json";
 /**
  * Choropleth component
  */
+
 interface ChoroplethProps {
   className?: string;
   menu?: ReactElement;
@@ -23,6 +25,7 @@ interface ChoroplethProps {
   controls?: ReactElement;
   data?: any;
   enableScale?: boolean;
+  graphChoice?: any;
 }
 
 const Choropleth: FunctionComponent<ChoroplethProps> = ({
@@ -32,8 +35,18 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   title,
   data = dummyData,
   enableScale = true,
+  graphChoice = "ParliamentDesktop",
 }) => {
-  const [feature, setState] = useState(ParliamentDesktop.features);
+  const graphChoices: any = {
+    ParliamentDesktop: ParliamentDesktop,
+    ParliamentMobile: ParliamentMobile,
+    DunDesktop: DunDesktop,
+    DunMobile: DunMobile,
+    StateDesktop: StateDesktop,
+    StateMobile: StateMobile,
+  };
+
+  const [feature, setState] = useState(graphChoices[graphChoice].features);
   const config = {
     colors: CHOROPLETH_RED_SCALE,
     projectionScale: 3500,
