@@ -11,26 +11,30 @@ import {
 import { GlobeAltIcon } from "@heroicons/react/solid";
 import { useData } from "@hooks/useData";
 import { CountryAndStates } from "@lib/constants";
+import { FACILTIES_TABLE_SCHEMA } from "@lib/schema/healthcare-facilities";
 import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 
-interface HealthcareFacilitiesDashboardProps {}
+interface HealthcareFacilitiesDashboardProps {
+  facilities_list: any;
+}
 
-const HealthcareFacilitiesDashboard: FunctionComponent<
-  HealthcareFacilitiesDashboardProps
-> = ({}) => {
+const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashboardProps> = ({
+  facilities_list,
+}) => {
   const router = useRouter();
+  const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
     zoom_type: undefined,
-    zoom_state: undefined,
+    zoom_state: currentState === "mys" ? undefined : currentState,
     zoom_district: undefined,
   });
 
-  //   useEffect(() => {
-  //     setData("zoom_facility", undefined);
-  //   }, [data.zoom_state]);
+  useEffect(() => {
+    setData("zoom_facility", undefined);
+  }, [data.zoom_state]);
 
   return (
     <>
@@ -62,11 +66,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<
               ]}
               onChange={selected => setData("zoom_type", selected.label)}
             />
-            <Dropdown
-              placeholder="State"
-              options={[]}
-              onChange={selected => setData("zoom_type", selected.label)}
-            />
+            <Dropdown placeholder="State" options={[]} onChange={selected => {}} />
             <Dropdown placeholder="District" options={[]} onChange={selected => {}} />
             <div className="ml-auto text-right">
               <Search
@@ -78,7 +78,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<
             </div>
           </div>
           <div className="mt-2">
-            <Table />
+            <Table data={facilities_list} config={FACILTIES_TABLE_SCHEMA.config} />
           </div>
         </Section>
         <Section title="How does proximity to healthcare vary nationally?">
