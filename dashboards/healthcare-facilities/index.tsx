@@ -66,7 +66,11 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
               ]}
               onChange={selected => setData("zoom_type", selected.label)}
             />
-            <Dropdown placeholder="State" options={[]} onChange={selected => {}} />
+            <StateDropdown
+              currentState={data.zoom_state}
+              onChange={selected => setData("zoom_state", selected.value)}
+              width="w-32"
+            />
             <Dropdown placeholder="District" options={[]} onChange={selected => {}} />
             <div className="ml-auto text-right">
               <Search
@@ -112,6 +116,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 width="w-full"
               />
               <StateDropdown
+                url={routes.HEALTHCARE}
                 currentState={data.zoom_state}
                 onChange={selected => setData("zoom_state", selected.value)}
                 exclude={["kvy", "lbn", "pls", "pjy"]}
@@ -128,7 +133,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
               />
             </div>
             <div className="w-full">
-              <h4>Hospitals in Petaling, Selangor</h4>
+              <h4>Hospitals in {CountryAndStates[data.zoom_state]}</h4>
             </div>
           </div>
           <div className="mt-10 grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
