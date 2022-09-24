@@ -32,6 +32,7 @@ const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: 
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const ChoroplethWorld = dynamic(() => import("@components/Chart/ChoroplethWorld"), { ssr: false });
+const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
 interface CovidNOWDashboardProps {
   barmeter_chart: any;
@@ -144,15 +145,24 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
           date={dateEnd}
         >
-          <div className="grid grid-cols-1 gap-12">
-            <ChoroplethWorld
-              className="h-[500px] w-full"
-              enableScale={true}
-              data={choropleth_world.map((item: any) => ({
-                id: item.iso3,
-                value: item.data.views,
-              }))}
-            />
+          <div>
+            <Tabs className="flex flex-wrap justify-end gap-2 pb-4" title="World Views Statistics">
+              <Panel key={0} name={"Map"}>
+                <div className="grid grid-cols-1 gap-12">
+                  <ChoroplethWorld
+                    className="h-[500px] w-full"
+                    enableScale={true}
+                    data={choropleth_world.map((item: any) => ({
+                      id: item.iso3,
+                      value: item.data.views,
+                    }))}
+                  />
+                </div>
+              </Panel>
+              <Panel key={1} name={"Table"}>
+                <Table />
+              </Panel>
+            </Tabs>
           </div>
         </Section>
 
@@ -161,20 +171,32 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           title="Within Malaysia, views disproportionately came from the Klang Valley and urban centres"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
         >
-          <div className="grid grid-cols-1 gap-12">
-            <Choropleth
-              className="h-[500px] w-full"
-              enableScale={false}
-              colorScale="CHOROPLETH_BLUE_SCALE"
-              borderColor="#fff"
-              data={choropleth_malaysia.map((item: any) => ({
-                id: CountryAndStates[item.state],
-                state: CountryAndStates[item.state],
+          <div>
+            <Tabs
+              className="flex flex-wrap justify-end gap-2 pb-4"
+              title="Malaysia Views Statistics"
+            >
+              <Panel key={0} name={"Map"}>
+                <div className="grid grid-cols-1 gap-12">
+                  <Choropleth
+                    className="h-[500px] w-full"
+                    enableScale={false}
+                    colorScale="CHOROPLETH_BLUE_SCALE"
+                    borderColor="#fff"
+                    data={choropleth_malaysia.map((item: any) => ({
+                      id: CountryAndStates[item.state],
+                      state: CountryAndStates[item.state],
 
-                value: item.data.views,
-              }))}
-              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
-            />
+                      value: item.data.views,
+                    }))}
+                    graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+                  />
+                </div>
+              </Panel>
+              <Panel key={1} name={"Table"}>
+                <Table />
+              </Panel>
+            </Tabs>
           </div>
         </Section>
 
