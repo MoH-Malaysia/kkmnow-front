@@ -61,6 +61,8 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   console.log(
     choropleth_malaysia.map((item: any) => ({
       id: CountryAndStates[item.state],
+      oriState: item.state,
+
       value: item.data.views,
     }))
   );
@@ -159,6 +161,8 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
             <Choropleth
               className="h-[500px] w-full"
               enableScale={false}
+              colorScale="CHOROPLETH_BLUE_SCALE"
+              borderColor="#fff"
               data={choropleth_malaysia.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],

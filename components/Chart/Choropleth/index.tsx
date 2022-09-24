@@ -3,10 +3,10 @@ import { FunctionComponent, ReactElement, useState } from "react";
 import { ChartHeader } from "@components/index";
 import {
   CHOROPLETH_RED_SCALE,
-  //   CHOROPLETH_GREEN_SCALE,
-  //   CHOROPLETH_BLUE_SCALE,
-  //   CHOROPLETH_RED_PURPLE_SCALE,
-  //   CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
+  CHOROPLETH_GREEN_SCALE,
+  CHOROPLETH_BLUE_SCALE,
+  CHOROPLETH_RED_PURPLE_SCALE,
+  CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
 } from "@lib/constants";
 import ParliamentDesktop from "@lib/geojson/parlimen_desktop.json";
 import ParliamentMobile from "@lib/geojson/parlimen_mobile.json";
@@ -26,6 +26,9 @@ interface ChoroplethProps {
   data?: any;
   enableScale?: boolean;
   graphChoice?: any;
+  colorScale?: any;
+  borderWidth?: any;
+  borderColor?: any;
 }
 
 const Choropleth: FunctionComponent<ChoroplethProps> = ({
@@ -36,6 +39,9 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   data = dummyData,
   enableScale = true,
   graphChoice = "ParliamentDesktop",
+  colorScale = "CHOROPLETH_RED_SCALE",
+  borderWidth = 0.25,
+  borderColor = "#13293d",
 }) => {
   const graphChoices: any = {
     ParliamentDesktop: ParliamentDesktop,
@@ -46,13 +52,21 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
     StateMobile: StateMobile,
   };
 
+  const colorScales: any = {
+    CHOROPLETH_RED_SCALE: CHOROPLETH_RED_SCALE,
+    CHOROPLETH_GREEN_SCALE: CHOROPLETH_GREEN_SCALE,
+    CHOROPLETH_BLUE_SCALE: CHOROPLETH_BLUE_SCALE,
+    CHOROPLETH_RED_PURPLE_SCALE: CHOROPLETH_RED_PURPLE_SCALE,
+    CHOROPLETH_YELLOW_GREEN_BLUE_SCALE: CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
+  };
+
   const [feature, setState] = useState(graphChoices[graphChoice].features);
   const config = {
-    colors: CHOROPLETH_RED_SCALE,
+    colors: colorScales[colorScale],
     projectionScale: 3500,
     projectionTranslation: [0.65, 0.9] as [number, number],
-    borderWidth: 0.25,
-    borderColor: "#13293d",
+    borderWidth: borderWidth,
+    borderColor: borderColor,
   };
   return (
     <div>
