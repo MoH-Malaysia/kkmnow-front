@@ -63,15 +63,59 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
     };
   };
   //   console.log(choropleth_world.map((item: any) => ({ id: item.iso3, value: item.data.views })));
-  console.log(
-    choropleth_malaysia.map((item: any) => ({
-      id: CountryAndStates[item.state],
-      oriState: item.state,
+  //   console.log(
+  //     choropleth_malaysia.map((item: any) => ({
+  //       id: CountryAndStates[item.state],
+  //       oriState: item.state,
 
-      value: item.data.views,
-    }))
-  );
+  //       value: item.data.views,
+  //     }))
+  //   );
+  console.log(choropleth_malaysia);
 
+  const malaysiaMapConfig = [
+    {
+      header: "",
+      id: "state",
+      accessorKey: "state",
+      enableSorting: false,
+      cell: (item: any) => {
+        const state = item.getValue() as string;
+        return (
+          <div className="flex items-center gap-3">
+            <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
+            <span>{CountryAndStates[state]}</span>
+          </div>
+        );
+      },
+    },
+    {
+      id: "data",
+      header: "Statistics",
+      columns: [
+        {
+          id: "data.total_user",
+          header: "Users",
+          accessorFn: (item: any) => Math.round(Math.random() * 100),
+        },
+        {
+          id: "data.views",
+          header: "Views",
+          accessorFn: (item: any) => item.data.views,
+        },
+        {
+          id: "data.views_perc",
+          header: "% of Views",
+          accessorFn: (item: any) => Math.round(item.data.views_perc * 100) / 100 + "%",
+        },
+        {
+          id: "data.pop_perc",
+          header: "% of Population",
+          accessorFn: (item: any) => Math.round(item.data.pop_perc * 100) / 100 + "%",
+        },
+      ],
+    },
+  ];
   return (
     <>
       <Hero background="bg-slate-200">
@@ -194,7 +238,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 </div>
               </Panel>
               <Panel key={1} name={"Table"}>
-                <Table />
+                <Table data={choropleth_malaysia} config={malaysiaMapConfig} />
               </Panel>
             </Tabs>
           </div>
