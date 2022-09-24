@@ -20,7 +20,9 @@ import {
   GRAYBAR_COLOR,
   CountryAndStates,
   STATES,
+  BREAKPOINTS,
 } from "@lib/constants";
+import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { COVIDNOW_COLOR_SCHEME } from "@lib/schema/covid-now";
@@ -49,6 +51,8 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   const [limit, setLimit] = useState([0, timeseries_chart.x.length - 1]);
 
   const dateEnd = new Date("2022-09-24").toDateString();
+  const windowWidth = useWindowWidth();
+  const isMobile = windowWidth < BREAKPOINTS.MD;
 
   const filterTimeline = () => {
     return {
@@ -169,7 +173,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
 
                 value: item.data.views,
               }))}
-              graphChoice="StateDesktop"
+              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
             />
           </div>
         </Section>

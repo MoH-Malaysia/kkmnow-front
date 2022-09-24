@@ -9,9 +9,6 @@ import {
   //   CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
 } from "@lib/constants";
 import WorldDesktop from "@lib/geojson/world_desktop.json";
-// import { features as ParliamentMobile } from "@lib/geojson/parlimen_mobile.json";
-// import { features as DunDesktop } from "@lib/geojson/dun_desktop.json";
-// import { features as DunMobile } from "@lib/geojson/dun_mobile.json";
 
 /**
  * Choropleth component
