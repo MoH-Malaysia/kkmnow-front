@@ -10,38 +10,67 @@ interface StagesProps {
   title?: string;
   menu?: ReactElement;
   controls?: ReactElement;
+  data?: StageData;
 }
 
-const Stages: FunctionComponent<StagesProps> = ({ title, className = "", menu, controls }) => {
+type StageData = {
+  header: StatsProps;
+  col_1: StatsProps[];
+  col_2: StatsProps[];
+  col_3: StatsProps[];
+};
+
+const Stages: FunctionComponent<StagesProps> = ({
+  title,
+  className = "",
+  menu,
+  controls,
+  data,
+}) => {
   return (
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} />
       <div className={className}>
-        {/* Active Cases */}
-        <div className="m-auto w-fit rounded bg-washed py-1.5 px-3 text-center">
-          <span className="text-xs text-dim">Active Cases</span>
-          <div className="flex items-center gap-2">
-            <span className="text-xl">4,497,078</span>
-            <small className="inline-block rounded bg-green-400 bg-opacity-20 px-1.5 text-green-500">
-              -405
-            </small>
+        {/* Header */}
+        {data?.header && (
+          <div className="m-auto w-fit rounded bg-washed py-1.5 px-3 text-center">
+            <span className="text-xs text-dim">{data.header.name}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xl">{data.header.value.toLocaleString()}</span>
+
+              <small
+                className={`inline-block rounded bg-opacity-20 px-1.5 ${badgeColor(
+                  data.header.delta,
+                  data.header.inverse
+                )}`}
+              >
+                {appendPlusMinus(data.header.delta)}
+                {data.header.delta}
+              </small>
+            </div>
           </div>
-        </div>
+        )}
+
         {/* Grid */}
         <div className="mt-6 grid h-full grid-cols-1 lg:grid-cols-3">
           {/* Col-1 */}
           <ul className="m-auto space-y-10">
-            <li>
-              <Stats
-                name="Local Cases"
-                value="4,522,829"
-                delta="+2,005"
-                icon={<ArrowRightIcon className="h-5 w-5" />}
-              />
-            </li>
-            <li>
-              <Stats name="Imported Cases" value="4,522,829" delta="+2,005" />
-            </li>
+            {data?.col_1.map(({ name, icon, value, delta, unit, inverse }: StatsProps) => {
+              return (
+                value && (
+                  <li>
+                    <Stats
+                      name={name}
+                      value={value}
+                      delta={delta}
+                      icon={icon}
+                      unit={unit}
+                      inverse={inverse}
+                    />
+                  </li>
+                )
+              );
+            })}
           </ul>
           {/* Col-2 */}
           <div className="flex flex-col justify-center lg:flex-row">
@@ -54,51 +83,23 @@ const Stages: FunctionComponent<StagesProps> = ({ title, className = "", menu, c
             />
             <div className="w-full lg:flex-grow">
               <ul className="flex flex-row flex-wrap justify-evenly gap-12 py-7 lg:mx-auto lg:block lg:w-fit lg:gap-0 lg:space-y-10 lg:py-0">
-                <li>
-                  <Stats
-                    name="Home Quarantine"
-                    value="26,541"
-                    delta="+2,005"
-                    iconPlacement="left"
-                    icon={<ArrowRightIcon className="h-5 w-5" />}
-                  />
-                </li>
-                <li>
-                  <Stats
-                    name="PKRC"
-                    value="14"
-                    delta="+2,005"
-                    iconPlacement="left"
-                    icon={<ArrowRightIcon className="h-5 w-5" />}
-                  />
-                </li>
-                <li>
-                  <Stats
-                    name="Hospitalised"
-                    value="1,155"
-                    delta="+2,005"
-                    iconPlacement="left"
-                    icon={<ArrowRightIcon className="h-5 w-5" />}
-                  />
-                </li>
-                <li>
-                  <Stats
-                    name="ICU (Unventilated)"
-                    value="18"
-                    delta="+2,005"
-                    iconPlacement="left"
-                    icon={<ArrowRightIcon className="h-5 w-5" />}
-                  />
-                </li>
-                <li>
-                  <Stats
-                    name="ICU (Ventilated)"
-                    value="19"
-                    delta="+2,005"
-                    iconPlacement="left"
-                    icon={<ArrowRightIcon className="h-5 w-5" />}
-                  />
-                </li>
+                {data?.col_2.map(({ name, icon, value, delta, unit, inverse }: StatsProps) => {
+                  return (
+                    value !== null && (
+                      <li>
+                        <Stats
+                          name={name}
+                          value={value}
+                          delta={delta}
+                          icon={icon}
+                          unit={unit}
+                          iconPlacement="left"
+                          inverse={inverse}
+                        />
+                      </li>
+                    )
+                  );
+                })}
               </ul>
             </div>
             <Bracket
@@ -113,25 +114,22 @@ const Stages: FunctionComponent<StagesProps> = ({ title, className = "", menu, c
           </div>
           {/* Col-3 */}
           <ul className="m-auto space-y-10">
-            <li>
-              <Stats
-                name="Recovered"
-                value="4,522,829"
-                delta="+2,005"
-                icon={<ArrowRightIcon className="h-5 w-5" />}
-              />
-            </li>
-            <li>
-              <Stats
-                name="Death (Including BID)"
-                value="4,522,829"
-                delta="+2,005"
-                icon={<ArrowRightIcon className="h-5 w-5" />}
-              />
-            </li>
-            <li>
-              <Stats name="BID" value="4,522,829" delta="+2,005" />
-            </li>
+            {data?.col_3.map(({ name, icon, value, delta, unit, inverse }: StatsProps) => {
+              return (
+                value && (
+                  <li>
+                    <Stats
+                      name={name}
+                      value={value}
+                      delta={delta}
+                      icon={icon}
+                      unit={unit}
+                      inverse={inverse}
+                    />
+                  </li>
+                )
+              );
+            })}
           </ul>
         </div>
       </div>
@@ -148,8 +146,10 @@ interface StatsProps {
   name: string;
   icon?: ReactNode;
   iconPlacement?: "top" | "left";
-  value: string;
-  delta: string;
+  value: number;
+  delta: number;
+  unit?: string;
+  inverse?: boolean;
 }
 
 const Stats: FunctionComponent<StatsProps> = ({
@@ -158,7 +158,9 @@ const Stats: FunctionComponent<StatsProps> = ({
   icon,
   iconPlacement = "top",
   value,
-  delta = "",
+  delta = 0,
+  unit = undefined,
+  inverse = false,
 }) => {
   return (
     <div
@@ -176,14 +178,34 @@ const Stats: FunctionComponent<StatsProps> = ({
       >
         <span className="text-xs text-dim">{name}</span>
         <div className="flex items-center gap-2">
-          <span className="text-xl">{value}</span>
-          <small className="inline-block rounded bg-green-400 bg-opacity-20 px-1.5 text-green-500">
-            {delta}
+          <span className="text-xl">{value && value.toLocaleString()}</span>
+          <small
+            className={`inline-block rounded px-1.5 ${
+              !unit
+                ? badgeColor(delta, inverse).concat(" bg-opacity-20")
+                : "bg-washed text-gray-500"
+            }`}
+          >
+            {!unit && appendPlusMinus(delta)}
+            {delta && delta.toFixed(1)}
+            {unit}
           </small>
         </div>
       </div>
     </div>
   );
+};
+
+const appendPlusMinus = (delta: number) => {
+  return delta > 0 ? "+" : "-";
+};
+
+const badgeColor = (delta: number, inverse: boolean = false) => {
+  if (inverse) {
+    return delta > 0 ? "bg-red-400 text-red-500" : "bg-green-400 text-green-500";
+  }
+
+  return delta > 0 ? "bg-green-400 text-green-500" : "bg-red-400 text-red-500";
 };
 
 /**

@@ -115,6 +115,10 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
         time: {
           unit: interval,
           round: round,
+          displayFormats: {
+            quarter: "MMM",
+            month: "MMM yyyy",
+          },
         },
         grid: {
           display: enableGridX,
@@ -163,7 +167,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
 };
 
 const dummy: ChartData = {
-  labels: ["11/01/2020", "11/02/2020", "11/03/2020"], // x-values
+  labels: [], // x-values - must be epoch millis eg. [168231311000, 16856172321, ...] etc
   datasets: [
     // stacked y-values
     {
