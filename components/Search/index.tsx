@@ -25,7 +25,7 @@ const Search: FunctionComponent<SearchProps> = ({ query, onChange }) => {
   }, []);
 
   return (
-    <div className="items-cente relative flex w-full">
+    <div className="relative flex w-full items-center">
       <input
         ref={searchRef}
         id="search"

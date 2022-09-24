@@ -87,7 +87,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 currentState={data.zoom_state}
                 onChange={selected => {
                   setData("zoom_state", selected.value);
-                  router.push(`${routes.HEALTHCARE}/${selected.value}`);
+                  //   router.push(`${routes.HEALTHCARE}/${selected.value}`);
                 }}
                 exclude={["kvy"]}
                 disableText
