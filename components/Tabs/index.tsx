@@ -64,7 +64,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
 
 interface PanelProps {
   name: string | ReactElement;
-  children?: ReactElement | string;
+  children?: ReactElement | string | any;
 }
 
 const Panel: FunctionComponent<PanelProps> = ({ children, name }) => {

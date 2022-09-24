@@ -150,6 +150,7 @@ const dummyConfig = [
       {
         id: "total.perc_1dose",
         header: "% 1 Dose",
+        subHeaders: "hello",
         accessorFn: (item: any) => item.total.perc_1dose,
       },
       {

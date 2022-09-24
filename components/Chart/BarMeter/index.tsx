@@ -63,13 +63,13 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
       case "state-horizontal":
         return (
           <div className="flex w-full items-center" key={item[xKey].concat(`_${index}`)}>
-            <div className="flex w-[40%] items-center gap-2 lg:w-[30%]">
+            <div className="flex w-[40%] items-center gap-2 lg:w-[35%]">
               <img src={`/static/images/states/${item[xKey]}.jpeg`} className="h-3 w-5" />
               <p className="text-sm text-dim">{CountryAndStates[item[xKey]]}</p>
             </div>
 
             <div className="flex flex-grow items-center gap-2">
-              <p className="w-[20px] text-sm text-dim">{item[yKey]}</p>
+              <p className="w-[40px] text-sm text-dim">{(item[yKey] as number).toFixed(1)}</p>
               <div className="h-2.5 flex-grow overflow-x-hidden bg-outline">
                 <div
                   className="h-full items-center overflow-hidden"

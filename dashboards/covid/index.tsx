@@ -9,13 +9,17 @@ import {
   Section,
   ChartHeader,
   Stages,
+  DonutMeter,
+  Dropdown,
 } from "@components/index";
 import { FunctionComponent } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
-import { CountryAndStates } from "@lib/constants";
+import { COVID_COLOR } from "@lib/constants";
 import { routes } from "@lib/routes";
+import { COVID_TABLE_SCHEMA } from "@lib/schema/covid";
+import { filterCaseDeath } from "@lib/options";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
@@ -23,51 +27,68 @@ const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
-interface CovidDashboardProps {}
+interface CovidDashboardProps {
+  bar_chart: any;
+  snapshot_bar: any;
+  snapshot_graphic: any;
+  snapshot_table: any;
+  timeseries_admitted: any;
+  timeseries_cases: any;
+  timeseries_deaths: any;
+  timeseries_icu: any;
+  timeseries_tests: any;
+  timeseries_vents: any;
+  util_chart: any;
+}
 
-const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
+const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
+  bar_chart,
+  snapshot_bar,
+  snapshot_graphic,
+  snapshot_table,
+  timeseries_admitted,
+  timeseries_cases,
+  timeseries_deaths,
+  timeseries_icu,
+  timeseries_tests,
+  timeseries_vents,
+  util_chart,
+}) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
 
   const { data, setData } = useData({
+    show_indicator: filterCaseDeath[0],
     filter_death: 0,
     filter_state: 0,
+    filter_cases: 0,
   });
 
   const BarTabsMenu = [
     {
       name: "Deaths",
       title: "Deaths per 100K",
+      data: snapshot_bar.deaths,
     },
     {
       name: "Vent.",
       title: "Ventilator per 100K",
+      data: snapshot_bar.util_vent,
     },
     {
       name: "ICU",
       title: "ICU per 100K",
+      data: snapshot_bar.util_icu,
     },
     {
       name: "Hosp.",
       title: "Hospital per 100K",
+      data: snapshot_bar.util_hosp,
     },
     {
       name: "Cases",
       title: "Cases per 100K",
-    },
-  ];
-  const TableTabsMenu = [
-    {
-      name: "Deaths",
-    },
-    {
-      name: "Hosp.",
-    },
-    {
-      name: "Cases",
-    },
-    {
-      name: "Show All",
+      data: snapshot_bar.cases,
     },
   ];
 
@@ -102,13 +123,13 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
         <Section title="Healthcare facility utilisation">
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" type="progress" />
+              <DonutMeter value={util_chart.util_vent} />
               <div>
                 <p className="text-dim">Ventilators</p>
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
-                      74.3%
+                      {util_chart.util_vent.toFixed(1)}%
                     </span>
                   }
                 >
@@ -117,13 +138,13 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" type="progress" />
+              <DonutMeter value={util_chart.util_icu} />
               <div>
                 <p className="text-dim">ICUs</p>
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
-                      74.3%
+                      {util_chart.util_icu.toFixed(1)}%
                     </span>
                   }
                 >
@@ -132,13 +153,13 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" type="progress" />
+              <DonutMeter value={util_chart.util_hosp} />
               <div>
                 <p className="text-dim">Hospital Beds</p>
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
-                      74.3%
+                      {util_chart.util_hosp.toFixed(1)}%
                     </span>
                   }
                 >
@@ -146,21 +167,23 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
                 </Tooltip>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <Donut className="h-[56px] w-[56px]" type="progress" />
-              <div>
-                <p className="text-dim">PKRC</p>
-                <Tooltip
-                  trigger={
-                    <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
-                      74.3%
-                    </span>
-                  }
-                >
-                  Tooltip for PKRC
-                </Tooltip>
+            {util_chart.util_pkrc && (
+              <div className="flex items-center gap-3">
+                <DonutMeter value={util_chart.util_pkrc} />
+                <div>
+                  <p className="text-dim">PKRC</p>
+                  <Tooltip
+                    trigger={
+                      <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                        {util_chart.util_pkrc && util_chart.util_pkrc.toFixed(1)}%
+                      </span>
+                    }
+                  >
+                    Tooltip for PKRC
+                  </Tooltip>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </Section>
 
@@ -172,35 +195,95 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
                 title="Active COVID-19 Cases"
                 className="h-full pt-10"
                 menu={<MenuDropdown />}
+                data={{
+                  header: {
+                    name: "Active Cases",
+                    value: snapshot_graphic.cases_active,
+                    delta: snapshot_graphic.cases_active_annot,
+                    inverse: true,
+                  },
+                  col_1: [
+                    {
+                      name: "Local Cases",
+                      value: snapshot_graphic.cases_local,
+                      delta: snapshot_graphic.cases_local_annot,
+                      inverse: true,
+                    },
+                    {
+                      name: "Imported Cases",
+                      value: snapshot_graphic.cases_import,
+                      delta: snapshot_graphic.cases_import_annot,
+                      inverse: true,
+                    },
+                  ],
+                  col_2: [
+                    {
+                      name: "Home Quarantine",
+                      value: snapshot_graphic.home,
+                      delta: snapshot_graphic.home_annot,
+                      unit: "%",
+                    },
+                    {
+                      name: "PKRC",
+                      value: snapshot_graphic.pkrc,
+                      delta: snapshot_graphic.pkrc_annot,
+                      unit: "%",
+                    },
+                    {
+                      name: "Hospitalised",
+                      value: snapshot_graphic.hosp,
+                      delta: snapshot_graphic.hosp_annot,
+                      unit: "%",
+                    },
+                    {
+                      name: "ICU (Unventilated)",
+                      value: snapshot_graphic.icu,
+                      delta: snapshot_graphic.icu_annot,
+                      unit: "%",
+                    },
+                    {
+                      name: "ICU (Ventilated)",
+                      value: snapshot_graphic.vent,
+                      delta: snapshot_graphic.vent_annot,
+                      unit: "%",
+                    },
+                  ],
+                  col_3: [
+                    {
+                      name: "Recovered",
+                      value: snapshot_graphic.cases_recovered,
+                      delta: snapshot_graphic.cases_recovered_annot,
+                    },
+                    {
+                      name: "Death (Including BID)",
+                      value: snapshot_graphic.deaths,
+                      delta: snapshot_graphic.deaths_annot,
+                      inverse: true,
+                    },
+                    {
+                      name: "Brought in Dead",
+                      value: snapshot_graphic.deaths_bid,
+                      delta: snapshot_graphic.deaths_bid_annot,
+                      inverse: true,
+                    },
+                  ],
+                }}
               />
             </div>
             <div className="col-span-1">
               <ChartHeader title={BarTabsMenu[data.filter_state].title} menu={<MenuDropdown />} />
 
               <Tabs onChange={value => setData("filter_state", value)}>
-                {BarTabsMenu.map((menu, index) => {
+                {BarTabsMenu.map(({ name, data }, index) => {
                   return (
-                    <Panel key={index} name={menu.name}>
+                    <Panel key={index} name={name}>
                       <BarMeter
                         className="block space-y-2"
-                        data={dummy}
-                        yKey="y1"
-                        xKey="state"
+                        data={data}
+                        yKey="y"
+                        xKey="x"
                         layout="state-horizontal"
                       />
-                      {/* <Bar
-                        className="h-[550px] w-full"
-                        keys={["y1", "y2"]}
-                        interactive={false}
-                        indexBy="state"
-                        hideLabelKeys={["y2"]}
-                        customTickX="state"
-                        enableLabel={true}
-                        enableAxisX={false}
-                        enableGridX={false}
-                        enableGridY={false}
-                        layout="horizontal"
-                      /> */}
                     </Panel>
                   );
                 })}
@@ -212,12 +295,182 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
         {/* How are COVID-19 key indicators trending */}
         <Section title="How are COVID-19 key indicators trending?">
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
-            <Timeseries title="Deaths by Date of Death" menu={<MenuDropdown />} />
-            <Timeseries title="Patients Ventilated" menu={<MenuDropdown />} />
-            <Timeseries title="Patients in ICU" menu={<MenuDropdown />} />
-            <Timeseries title="Hospital Admissions" menu={<MenuDropdown />} />
-            <Timeseries title="Confirmed Cases" menu={<MenuDropdown />} />
-            <Timeseries title="Tests Conducted" menu={<MenuDropdown />} />
+            <Timeseries
+              className="h-[300px] w-full"
+              title="Deaths by Date of Death"
+              menu={<MenuDropdown />}
+              interval="quarter"
+              stats={null}
+              data={{
+                labels: timeseries_deaths.x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: timeseries_deaths.line,
+                    borderColor: COVID_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "In-patient",
+                    data: timeseries_deaths.deaths_inpatient,
+                    backgroundColor: COVID_COLOR[200],
+                    stack: "same",
+                  },
+                  {
+                    type: "bar",
+                    label: "Brought in dead",
+                    data: timeseries_deaths.deaths_brought_in,
+                    backgroundColor: COVID_COLOR[100],
+                    stack: "same",
+                  },
+                ],
+              }}
+              enableGridX={false}
+            />
+            <Timeseries
+              className="h-[300px] w-full"
+              title="Patients Ventilated"
+              menu={<MenuDropdown />}
+              stats={null}
+              interval="quarter"
+              data={{
+                labels: timeseries_vents.x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: timeseries_vents.line,
+                    borderColor: COVID_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Patients ventilated",
+                    data: timeseries_vents.vent,
+                    backgroundColor: COVID_COLOR[100],
+                    stack: "same",
+                  },
+                ],
+              }}
+              enableGridX={false}
+            />
+            <Timeseries
+              className="h-[300px] w-full"
+              title="Patients in ICU"
+              menu={<MenuDropdown />}
+              interval="quarter"
+              stats={null}
+              data={{
+                labels: timeseries_icu.x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: timeseries_icu.line,
+                    borderColor: COVID_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "ICU admitted",
+                    data: timeseries_icu.icu,
+                    backgroundColor: COVID_COLOR[100],
+                    stack: "same",
+                  },
+                ],
+              }}
+              enableGridX={false}
+            />
+            <Timeseries
+              className="h-[300px] w-full"
+              title="Hospital Admissions"
+              menu={<MenuDropdown />}
+              interval="quarter"
+              stats={null}
+              data={{
+                labels: timeseries_admitted.x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: timeseries_admitted.line,
+                    borderColor: COVID_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Patients admitted",
+                    data: timeseries_admitted.admitted,
+                    backgroundColor: COVID_COLOR[100],
+                    stack: "same",
+                  },
+                ],
+              }}
+              enableGridX={false}
+            />
+            <Timeseries
+              className="h-[300px] w-full"
+              title="Confirmed Cases"
+              menu={<MenuDropdown />}
+              interval="quarter"
+              stats={null}
+              data={{
+                labels: timeseries_cases.x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: timeseries_cases.line,
+                    borderColor: COVID_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "Cases",
+                    data: timeseries_cases.cases,
+                    backgroundColor: COVID_COLOR[100],
+                    stack: "same",
+                  },
+                ],
+              }}
+              enableGridX={false}
+            />
+            <Timeseries
+              className="h-[300px] w-full"
+              title="Tests Conducted"
+              menu={<MenuDropdown />}
+              interval="quarter"
+              stats={null}
+              data={{
+                labels: timeseries_tests.x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Tooltip?",
+                    pointRadius: 0,
+                    data: timeseries_tests.tooltip,
+                    borderColor: COVID_COLOR[300],
+                  },
+                  {
+                    type: "bar",
+                    label: "RTK",
+                    data: timeseries_tests.tests_rtk,
+                    backgroundColor: COVID_COLOR[200],
+                    stack: "same",
+                  },
+                  {
+                    type: "bar",
+                    label: "PCR",
+                    data: timeseries_tests.tests_pcr,
+                    backgroundColor: COVID_COLOR[100],
+                    stack: "same",
+                  },
+                ],
+              }}
+              enableGridX={false}
+            />
           </div>
         </Section>
 
@@ -228,10 +481,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
               className="flex flex-wrap justify-end gap-2 pb-4"
               title="Vaccination Progress by State"
             >
-              {TableTabsMenu.map((menu, index) => {
+              {COVID_TABLE_SCHEMA.map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
-                    <Table />
+                    <Table data={snapshot_table} config={menu.config} />
                   </Panel>
                 );
               })}
@@ -245,44 +498,188 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({}) => {
         >
           <Tabs
             title={
-              data.filter_death === 0
-                ? "Deaths per 100k by Vaccination Status"
-                : "Deaths by Vaccination Status"
+              {
+                cases:
+                  data.filter_cases === 0
+                    ? "Cases per 100k by Vaccination Status"
+                    : "Cases by Vaccination Status",
+                deaths:
+                  data.filter_deaths === 0
+                    ? "Deaths per 100k by Vaccination Status"
+                    : "Deaths by Vaccination Status",
+              }[data.show_indicator.value as string]
             }
             menu={<MenuDropdown />}
+            controls={
+              <Dropdown
+                options={filterCaseDeath}
+                selected={data.show_indicator}
+                onChange={e => setData("show_indicator", e)}
+              />
+            }
             onChange={value => setData("filter_death", value)}
           >
             <Panel name="Per Capita">
-              <Bar className="h-[450px]" enableGridX={false} />
+              <>
+                {
+                  {
+                    cases: (
+                      <Bar
+                        className="h-[450px]"
+                        data={{
+                          labels: bar_chart.cases.capita.x,
+                          datasets: [
+                            {
+                              label: "Unvaccinated",
+                              data: bar_chart.cases.capita.unvax,
+                              backgroundColor: COVID_COLOR[100],
+                              stack: "1",
+                            },
+                            {
+                              label: "Partially Vaccinated",
+                              data: bar_chart.cases.capita.partialvax,
+                              backgroundColor: COVID_COLOR[200],
+                              stack: "2",
+                            },
+                            {
+                              label: "Fully Vaccinated",
+                              data: bar_chart.cases.capita.fullvax,
+                              backgroundColor: COVID_COLOR[300],
+                              stack: "3",
+                            },
+                            {
+                              label: "Boosted",
+                              data: bar_chart.cases.capita.boosted,
+                              backgroundColor: COVID_COLOR[300],
+                              stack: "4",
+                            },
+                          ],
+                        }}
+                        enableGridX={false}
+                      />
+                    ),
+                    deaths: (
+                      <Bar
+                        className="h-[450px]"
+                        data={{
+                          labels: bar_chart.deaths.capita.x,
+                          datasets: [
+                            {
+                              label: "Unvaccinated",
+                              data: bar_chart.deaths.capita.unvax,
+                              backgroundColor: COVID_COLOR[100],
+                              stack: "1",
+                            },
+                            {
+                              label: "Partially Vaccinated",
+                              data: bar_chart.deaths.capita.partialvax,
+                              backgroundColor: COVID_COLOR[200],
+                              stack: "2",
+                            },
+                            {
+                              label: "Fully Vaccinated",
+                              data: bar_chart.deaths.capita.fullvax,
+                              backgroundColor: COVID_COLOR[300],
+                              stack: "3",
+                            },
+                            {
+                              label: "Boosted",
+                              data: bar_chart.deaths.capita.boosted,
+                              backgroundColor: COVID_COLOR[300],
+                              stack: "4",
+                            },
+                          ],
+                        }}
+                        enableGridX={false}
+                      />
+                    ),
+                  }[data.show_indicator.value as string]
+                }
+              </>
             </Panel>
             <Panel name="Absolute">
-              <Bar className="h-[450px]" enableGridX={false} />
+              <>
+                {
+                  {
+                    cases: (
+                      <Bar
+                        className="h-[450px]"
+                        data={{
+                          labels: bar_chart.cases.abs.x,
+                          datasets: [
+                            {
+                              label: "Unvaccinated",
+                              data: bar_chart.cases.abs.unvax,
+                              backgroundColor: COVID_COLOR[100],
+                              stack: "1",
+                            },
+                            {
+                              label: "Partially Vaccinated",
+                              data: bar_chart.cases.abs.partialvax,
+                              backgroundColor: COVID_COLOR[200],
+                              stack: "2",
+                            },
+                            {
+                              label: "Fully Vaccinated",
+                              data: bar_chart.cases.abs.fullvax,
+                              backgroundColor: COVID_COLOR[300],
+                              stack: "3",
+                            },
+                            {
+                              label: "Boosted",
+                              data: bar_chart.cases.abs.boosted,
+                              backgroundColor: COVID_COLOR[300],
+                              stack: "4",
+                            },
+                          ],
+                        }}
+                        enableGridX={false}
+                      />
+                    ),
+                    deaths: (
+                      <Bar
+                        className="h-[450px]"
+                        data={{
+                          labels: bar_chart.deaths.abs.x,
+                          datasets: [
+                            {
+                              label: "Unvaccinated",
+                              data: bar_chart.deaths.abs.unvax,
+                              backgroundColor: COVID_COLOR[100],
+                              stack: "1",
+                            },
+                            {
+                              label: "Partially Vaccinated",
+                              data: bar_chart.deaths.abs.partialvax,
+                              backgroundColor: COVID_COLOR[200],
+                              stack: "2",
+                            },
+                            {
+                              label: "Fully Vaccinated",
+                              data: bar_chart.deaths.abs.fullvax,
+                              backgroundColor: COVID_COLOR[300],
+                              stack: "3",
+                            },
+                            {
+                              label: "Boosted",
+                              data: bar_chart.deaths.abs.boosted,
+                              backgroundColor: COVID_COLOR[300],
+                              stack: "4",
+                            },
+                          ],
+                        }}
+                        enableGridX={false}
+                      />
+                    ),
+                  }[data.show_indicator.value as string]
+                }
+              </>
             </Panel>
           </Tabs>
         </Section>
-        <div className="grid grid-cols-1 gap-12 xl:grid-cols-2"></div>
       </Container>
     </>
   );
 };
 
 export default CovidDashboard;
-
-const dummy = Array(Object.keys(CountryAndStates).length)
-  .fill(0)
-  .map((_, index) => {
-    let date = new Date();
-    date.setDate(date.getDate() - index);
-
-    const y1 = () => Math.floor(Math.random() * 98 + 2);
-    const y2 = 100 - y1();
-
-    return {
-      x: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
-      y1: y1(),
-      y2: y2,
-      line: y1(),
-      state: Object.keys(CountryAndStates)[index],
-    };
-  })
-  .reverse();
