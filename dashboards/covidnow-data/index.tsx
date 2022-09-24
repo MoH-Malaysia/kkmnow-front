@@ -26,7 +26,7 @@ import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { COVIDNOW_COLOR_SCHEME } from "@lib/schema/covid-now";
-
+import { numFormat } from "@lib/helpers";
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
@@ -101,7 +101,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         {
           id: "data.views",
           header: "Views",
-          accessorFn: (item: any) => item.data.views,
+          accessorFn: (item: any) => numFormat(item.data.views, "standard"),
         },
         {
           id: "data.views_perc",
@@ -139,7 +139,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         {
           id: "data.views",
           header: "Views",
-          accessorFn: (item: any) => item.data.views,
+          accessorFn: (item: any) => numFormat(item.data.views, "standard"),
         },
         {
           id: "data.views_perc",
