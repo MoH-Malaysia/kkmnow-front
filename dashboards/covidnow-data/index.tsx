@@ -28,6 +28,7 @@ const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false 
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
+const ChoroplethWorld = dynamic(() => import("@components/Chart/ChoroplethWorld"), { ssr: false });
 
 interface CovidNOWDashboardProps {
   barmeter_chart: any;
@@ -127,7 +128,9 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
           date={"Data as of " + dateEnd}
         >
-          <div className="grid grid-cols-1 gap-12"></div>
+          <div className="grid grid-cols-1 gap-12">
+            <ChoroplethWorld className="h-[500px] w-full" enableScale={false} />
+          </div>
         </Section>
 
         {/* Malaysia Map */}
