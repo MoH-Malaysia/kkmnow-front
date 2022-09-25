@@ -39,7 +39,7 @@ const Table: FunctionComponent<TableProps> = ({
 
     return undefined;
   };
-
+  console.log(dummy);
   const ReactTableProps: any = {
     data,
     columns,
@@ -123,7 +123,7 @@ const Table: FunctionComponent<TableProps> = ({
                   return (
                     <td
                       key={cell.id}
-                      className={`${cell.row.original.state === "mys" ? "bg-washed" : ""} ${
+                      className={`${cell.row.original.highlight ? "bg-washed" : ""} ${
                         lastCellInGroup.id === cell.column.id ? "text xs border-r-black" : ""
                       }`}
                     >

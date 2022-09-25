@@ -228,7 +228,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 </div>
               </Panel>
               <Panel key={1} name={"Table"}>
-                <Table data={choropleth_world} config={worldMapConfig} isPagination={true} />
+                <Table
+                  data={choropleth_world.map((items: any) => ({
+                    ...items,
+                    highlight: items.iso3 == "MYS" ? true : false,
+                  }))}
+                  config={worldMapConfig}
+                  isPagination={true}
+                />
               </Panel>
             </Tabs>
           </div>
