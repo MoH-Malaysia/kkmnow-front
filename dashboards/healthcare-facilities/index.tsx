@@ -8,28 +8,33 @@ import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
+import { OptionType } from "@components/types";
 
 const TableFacilities = dynamic(() => import("@components/Chart/TableFacilities"), { ssr: false });
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
 interface HealthcareFacilitiesDashboardProps {
   facility_table: any;
+  state_district_mapping: any;
+  facility_types: any;
 }
 
 const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashboardProps> = ({
   facility_table,
+  state_district_mapping,
+  facility_types,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
-    zoom_type: undefined,
-    zoom_state: currentState === "mys" ? undefined : currentState,
-    zoom_district: undefined,
+    zoom_type: "",
+    zoom_state: currentState,
+    zoom_district: "",
     table_filter: "",
   });
 
   const isZoomEmpty = () => {
-    return typeof data.zoom_type != "undefined" || typeof data.zoom_district != "undefined";
+    return data.zoom_district != "" && data.zoom_state != "";
   };
 
   //   useEffect(() => {
@@ -64,6 +69,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
               filter={true}
               pagination={true}
               currentState={currentState}
+              facility_types={facility_types}
+              state_district_mapping={state_district_mapping}
             />
           </div>
         </Section>
@@ -94,6 +101,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 currentState={data.zoom_state}
                 onChange={selected => {
                   setData("zoom_state", selected.value);
+                  setData("zoom_district", "");
+                  setData("zoom_type", "");
                   //   router.push(`${routes.HEALTHCARE}/${selected.value}`);
                 }}
                 exclude={["kvy"]}
@@ -105,7 +114,13 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 onChange={item => setData("zoom_district", item)}
                 selected={data.zoom_district}
                 disabled={!data.zoom_state}
-                options={[]}
+                options={
+                  data.zoom_state != "mys"
+                    ? state_district_mapping[data.zoom_state].map((district: any) => {
+                        return { label: district, value: district } as OptionType<string, string>;
+                      })
+                    : []
+                }
                 width="w-full"
               />
               <Dropdown
@@ -113,17 +128,16 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 onChange={item => setData("zoom_type", item)}
                 selected={data.zoom_type}
                 disabled={!data.zoom_district}
-                options={[
-                  { label: "Hospital", value: 0 },
-                  { label: "Clinic", value: 1 },
-                ]}
+                options={facility_types.map((fac: any) => {
+                  return { label: fac, value: fac } as OptionType<string, string>;
+                })}
                 width="w-full"
               />
             </div>
             <div className="w-full lg:w-2/3">
               <div className="flex flex-row items-center">
                 <h4 className="mb-5">
-                  Hospitals in {data.zoom_district ? data.zoom_district + ", " : ""}{" "}
+                  Hospitals in {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
                   {CountryAndStates[data.zoom_state]}
                 </h4>
                 <div
@@ -145,6 +159,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                   title={
                     <div className="flex self-center text-base font-bold">
                       Distance to Nearest {data.zoom_type ? data.zoom_type.label : ""} within{" "}
+                      {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
                       {CountryAndStates[data.zoom_state]}
                     </div>
                   }
@@ -154,7 +169,13 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
               </div>
               <div>
                 <Bar
-                  title="Area relative to other area type"
+                  title={
+                    <div className="flex self-center text-base font-bold">
+                      {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
+                      {CountryAndStates[data.zoom_state]} relative to other{" "}
+                      {data.zoom_district === "" ? "States" : "Districts"}
+                    </div>
+                  }
                   className="h-[300px]"
                   enableGridX={false}
                 />
