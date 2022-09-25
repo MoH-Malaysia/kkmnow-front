@@ -11,11 +11,11 @@ export { default as Checkbox } from "./Checkbox";
 export { default as MapEmbed } from "./MapEmbed";
 
 /** Chart */
+export { default as Empty } from "./Chart/Empty";
 export { default as Line } from "./Chart/Line";
 export { default as Bar } from "./Chart/Bar";
 export { default as Timeseries } from "./Chart/Timeseries";
 export { default as BarMeter } from "./Chart/BarMeter";
-
 export { default as Donut } from "./Chart/Donut";
 export { default as DonutMeter } from "./Chart/DonutMeter";
 export { default as Stages } from "./Chart/Stages";

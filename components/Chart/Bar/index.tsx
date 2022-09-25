@@ -68,19 +68,7 @@ const Bar: FunctionComponent<BarProps> = ({
           family: "Inter",
         },
       },
-      crosshair: {
-        line: {
-          width: 0,
-          color: "#000",
-          dashPattern: [6, 4],
-        },
-        zoom: {
-          enabled: false,
-        },
-        sync: {
-          enabled: false,
-        },
-      },
+      crosshair: false,
     },
     scales: {
       x: {

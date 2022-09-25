@@ -23,52 +23,22 @@ export interface IChart {
 
 export type ChartCrosshairOption = ChartOptions & {
   plugins: {
-    crosshair: {
-      line: {
-        width?: number;
-        color?: string;
-        dashPattern?: [number, number];
-      };
-      zoom: {
-        enabled: boolean;
-      };
-      sync: {
-        enabled: boolean;
-      };
-    };
+    crosshair?:
+      | {
+          line: {
+            width?: number;
+            color?: string;
+            dashPattern?: [number, number];
+          };
+          zoom: {
+            enabled: boolean;
+          };
+          sync: {
+            enabled: boolean;
+          };
+        }
+      | false;
   };
 };
-export type BarCrosshairOption = ChartOptions<"bar"> & {
-  plugins: {
-    crosshair: {
-      line: {
-        width?: number;
-        color?: string;
-        dashPattern?: [number, number];
-      };
-      zoom: {
-        enabled: boolean;
-      };
-      sync: {
-        enabled: boolean;
-      };
-    };
-  };
-};
-export type LineCrosshairOption = ChartOptions<"line"> & {
-  plugins: {
-    crosshair: {
-      line: {
-        width?: number;
-        color?: string;
-        dashPattern?: [number, number];
-      };
-      zoom: {
-        enabled: boolean;
-      };
-      sync: {
-        enabled: boolean;
-      };
-    };
-  };
-};
+export type BarCrosshairOption = ChartOptions<"bar"> & ChartCrosshairOption;
+export type LineCrosshairOption = ChartOptions<"line"> & ChartCrosshairOption;

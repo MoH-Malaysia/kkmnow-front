@@ -58,29 +58,12 @@ interface TimeseriesProps {
   gridYValues?: Array<number> | undefined;
   minY?: number;
   maxY?: number;
+  enableCrosshair?: boolean;
   enableLegend?: boolean;
   enableGridX?: boolean;
   enableGridY?: boolean;
   stats?: Array<StatProps> | null;
 }
-
-// type TimeseriesOption = ChartOptions & {
-//   plugins: {
-//     crosshair: {
-//       line: {
-//         enabled?: boolean;
-//         color?: string;
-//         dashPattern?: [number, number];
-//       };
-//       zoom: {
-//         enabled: boolean;
-//       };
-//       sync: {
-//         enabled: boolean;
-//       };
-//     };
-//   };
-// };
 
 const Timeseries: FunctionComponent<TimeseriesProps> = ({
   className = "w-full h-[750px]", // manage CSS here
@@ -95,6 +78,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   stats,
   subheader,
   type = "bar",
+  enableCrosshair = true,
   enableLegend = false,
   enableGridX = false,
   enableGridY = true,
@@ -144,19 +128,21 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           },
         },
       },
-      crosshair: {
-        line: {
-          width: 0,
-          color: "#000",
-          dashPattern: [6, 4],
-        },
-        zoom: {
-          enabled: false,
-        },
-        sync: {
-          enabled: false,
-        },
-      },
+      crosshair: enableCrosshair
+        ? {
+            line: {
+              width: 0,
+              color: "#000",
+              dashPattern: [6, 4],
+            },
+            zoom: {
+              enabled: false,
+            },
+            sync: {
+              enabled: false,
+            },
+          }
+        : false,
     },
     scales: {
       x: {
