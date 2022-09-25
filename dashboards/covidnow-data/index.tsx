@@ -262,6 +262,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                       id: CountryAndStates[item.state],
                       state: CountryAndStates[item.state],
                       value: item.data.views_log,
+                      value_real: item.data.views,
                     }))}
                     graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
                   />

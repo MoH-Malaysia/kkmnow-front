@@ -14,6 +14,8 @@ import DunDesktop from "@lib/geojson/dun_desktop.json";
 import DunMobile from "@lib/geojson/dun_mobile.json";
 import StateDesktop from "@lib/geojson/state_desktop.json";
 import StateMobile from "@lib/geojson/state_mobile.json";
+import { numFormat } from "@lib/helpers";
+
 /**
  * Choropleth component
  */
@@ -98,9 +100,18 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
           projectionRotation={[-114, 0, 0]}
           borderWidth={config.borderWidth}
           borderColor={config.borderColor}
-          // tooltip={({ feature: { data } }) => {
-          //   return data?.id ? <div className="nivo-tooltip">{data.id}</div> : <></>;
-          // }}
+          tooltip={({ feature: { data } }) => {
+            return data?.id ? (
+              <div className="nivo-tooltip">
+                {data.id}:{" "}
+                {data.value_real
+                  ? numFormat(data.value_real, "standard")
+                  : numFormat(data.value, "standard")}
+              </div>
+            ) : (
+              <></>
+            );
+          }}
         />
       </div>
       {enableScale && <ChoroplethScale colors={config.colors}></ChoroplethScale>}

@@ -70,7 +70,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           tooltip={({ feature: { data } }) => {
             return data?.id ? (
               <div className="nivo-tooltip">
-                {data.id} - {numFormat(data.value_real, "standard")}
+                {data.id}: {numFormat(data.value_real, "standard")}
               </div>
             ) : (
               <></>
