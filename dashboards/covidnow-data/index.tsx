@@ -55,7 +55,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
     };
   };
 
-  console.log(choropleth_world);
+  console.log(choropleth_malaysia);
 
   const worldMapConfig = [
     {
@@ -118,7 +118,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         {
           id: "data.total_user",
           header: "Users",
-          accessorFn: (item: any) => Math.round(Math.random() * 100),
+          accessorFn: (item: any) => numFormat(item.data.users, "standard"),
         },
         {
           id: "data.views",
@@ -212,13 +212,13 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           date={dateEnd}
         >
           <div>
-            <Tabs className="flex flex-wrap justify-end gap-2 pb-4" title="World Views Statistics">
+            <Tabs className="flex flex-wrap justify-end gap-2" title="World Views Statistics">
               <Panel key={0} name={"Heatmap"}>
-                <div className="grid grid-cols-1 gap-12 ">
+                <div className="grid grid-cols-1 ">
                   <ChoroplethWorld
-                    className="h-[500px] w-full"
-                    enableScale={true}
-                    projectionScaleSetting={isMobile ? 65 : 125}
+                    className={isMobile ? "h-[300px] w-full" : "h-[500px] w-full"}
+                    enableScale={false}
+                    projectionScaleSetting={isMobile ? 75 : 125}
                     data={choropleth_world.map((item: any) => ({
                       id: item.iso3,
                       value_real: item.data.views,
@@ -240,22 +240,21 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
         >
           <div>
-            <Tabs
-              className="flex flex-wrap justify-end gap-2 pb-4"
-              title="Malaysia Views Statistics"
-            >
+            <Tabs className="flex flex-wrap justify-end gap-2" title="Malaysia Views Statistics">
               <Panel key={0} name={"Heatmap"}>
-                <div className="grid grid-cols-1 gap-12">
+                <div className="grid grid-cols-1 ">
                   <Choropleth
                     className="h-[500px] w-full"
                     enableScale={false}
                     colorScale="CHOROPLETH_BLUE_SCALE"
-                    borderColor="#fff"
-                    projectionTranslation={[0.65, 1.0]}
+                    borderColor="#000"
+                    borderWidth={0.5}
+                    projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
+                    projectionScaleSetting={isMobile ? 2500 : 3500}
                     data={choropleth_malaysia.map((item: any) => ({
                       id: CountryAndStates[item.state],
                       state: CountryAndStates[item.state],
-                      value: item.data.views,
+                      value: item.data.views_log,
                     }))}
                     graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
                   />

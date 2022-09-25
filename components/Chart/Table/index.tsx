@@ -140,35 +140,13 @@ const Table: FunctionComponent<TableProps> = ({
       </table>
       {isPagination ? (
         <>
-          <div className="h-2" />
-          <div className="flex items-center gap-2">
+          <div className="my-4 flex w-full items-center justify-center gap-2">
             <button
-              className="rounded border p-1"
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
-            >
-              {"<<"}
-            </button>
-            <button
-              className="rounded border p-1"
+              className="rounded border p-1 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              {"<"}
-            </button>
-            <button
-              className="rounded border p-1"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              {">"}
-            </button>
-            <button
-              className="rounded border p-1"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
-            >
-              {">>"}
+              {"<- Previous"}
             </button>
             <span className="flex items-center gap-1">
               <div>Page</div>
@@ -176,7 +154,15 @@ const Table: FunctionComponent<TableProps> = ({
                 {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
               </strong>
             </span>
-            <span className="flex items-center gap-1">
+            <button
+              className="rounded border p-1 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {"Next ->"}
+            </button>
+
+            {/* <span className="flex items-center gap-1">
               | Go to page:
               <input
                 type="number"
@@ -187,8 +173,8 @@ const Table: FunctionComponent<TableProps> = ({
                 }}
                 className="w-16 rounded border p-1"
               />
-            </span>
-            <select
+            </span> */}
+            {/* <select
               value={table.getState().pagination.pageSize}
               onChange={e => {
                 table.setPageSize(Number(e.target.value));
@@ -199,7 +185,7 @@ const Table: FunctionComponent<TableProps> = ({
                   Show {pageSize}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
         </>
       ) : null}
