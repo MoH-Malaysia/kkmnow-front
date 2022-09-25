@@ -295,7 +295,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               </div>
             </Panel>
             <Panel name="Filter by Dose">
-              <BarMeter data={barmeter_data[data.filter_dose.value]} xKey="id" />
+              <BarMeter data={barmeter_data[data.filter_dose.value]} xKey="id" unit="%" />
             </Panel>
           </Tabs>
         </Section>

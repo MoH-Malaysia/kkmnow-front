@@ -201,8 +201,11 @@ export const COVID_TABLE_SCHEMA = [
             ),
             accessorFn: (item: any) =>
               item.deaths.deaths_trend !== null
-                ? item.deaths.deaths_trend.toFixed(1)
+                ? +item.deaths.deaths_trend.toFixed(1)
                 : item.deaths.deaths_trend,
+            relative: true,
+            inverse: true,
+            unit: "%",
           },
         ],
       },
@@ -260,8 +263,11 @@ export const COVID_TABLE_SCHEMA = [
             ),
             accessorFn: (item: any) =>
               item.admitted.admitted_trend !== null
-                ? item.admitted.admitted_trend.toFixed(1)
+                ? +item.admitted.admitted_trend.toFixed(1)
                 : item.admitted.admitted_trend,
+            relative: true,
+            inverse: true,
+            unit: "%",
           },
         ],
       },
@@ -287,7 +293,6 @@ export const COVID_TABLE_SCHEMA = [
       },
       {
         id: "cases",
-
         columns: [
           {
             id: "cases.cases",
@@ -310,16 +315,6 @@ export const COVID_TABLE_SCHEMA = [
             accessorFn: (item: any) => item.cases.cases_100k.toFixed(1),
           },
           {
-            id: "cases.cases_trend",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Cases Trend</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.cases.cases_trend.toFixed(1),
-          },
-          {
             id: "cases.cases_posrate",
             header: () => (
               <div>
@@ -327,6 +322,19 @@ export const COVID_TABLE_SCHEMA = [
               </div>
             ),
             accessorFn: (item: any) => item.cases.cases_posrate.toFixed(1),
+          },
+          {
+            id: "cases.cases_trend",
+            header: () => (
+              <div>
+                <p className="font-medium text-black">Cases Trend</p>
+                <p>Past 14d</p>
+              </div>
+            ),
+            accessorFn: (item: any) => +item.cases.cases_trend.toFixed(1),
+            relative: true,
+            inverse: true,
+            unit: "%",
           },
         ],
       },
