@@ -1,5 +1,6 @@
 import { Hero, Container, Bar, Search, Section, StateDropdown, Dropdown } from "@components/index";
 import { GlobeAltIcon } from "@heroicons/react/solid";
+import { MapIcon } from "@heroicons/react/outline";
 import { useData } from "@hooks/useData";
 import { CountryAndStates } from "@lib/constants";
 import { FACILTIES_TABLE_SCHEMA } from "@lib/schema/healthcare-facilities";
@@ -66,9 +67,11 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
             />
           </div>
         </Section>
-        <Section title="How does proximity to healthcare vary nationally?">
-          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-            <div className="w-full space-y-4">
+        <Section title="">
+          {/* <div className="grid grid-cols-1 gap-12 xl:grid-cols-2"> */}
+          <div className="flex w-full flex-col gap-12 lg:flex-row">
+            <div className="w-full space-y-4 lg:w-1/3">
+              <h3>How does proximity to healthcare vary nationally?</h3>
               <p>
                 Distance to the nearest healthcare facility is not the only measure of access to
                 healthcare. There is a modern and growing body of research demonstrating the tough
@@ -117,16 +120,26 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 width="w-full"
               />
             </div>
-            <div className="w-full">
-              <h4 className="mb-5">
-                Hospitals in {data.zoom_district ? data.zoom_district + ", " : ""}{" "}
-                {CountryAndStates[data.zoom_state]}
-              </h4>
-              <OSMapWrapper mapHeight={350} LatLng={[3, 102]} borderRadius={10} />
+            <div className="w-full lg:w-2/3">
+              <div className="flex flex-row items-center">
+                <h4 className="mb-5">
+                  Hospitals in {data.zoom_district ? data.zoom_district + ", " : ""}{" "}
+                  {CountryAndStates[data.zoom_state]}
+                </h4>
+                <div
+                  className="ml-auto flex cursor-pointer flex-row items-center gap-2 text-right text-blue-500"
+                  onClick={() => {}}
+                >
+                  <MapIcon className="h-5 w-5" />
+                  Navigate to location
+                </div>
+              </div>
+
+              <OSMapWrapper mapHeight={510} LatLng={[3, 102]} borderRadius={10} />
             </div>
           </div>
           {isZoomEmpty() && (
-            <div className="mt-10 grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
+            <div className="mt-16 grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
               <div>
                 <Bar
                   title={
