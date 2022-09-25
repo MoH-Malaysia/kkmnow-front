@@ -7,6 +7,7 @@ type GoogleMapWrapperProps = {
   mapWidth?: any;
   LatLng?: any;
   MarketArrays?: any;
+  borderRadius?: number;
 };
 
 const OSMapWrapper: FunctionComponent<GoogleMapWrapperProps> = ({
@@ -14,6 +15,7 @@ const OSMapWrapper: FunctionComponent<GoogleMapWrapperProps> = ({
   mapWidth = "100%",
   LatLng = [51.505, -0.09],
   MarketArrays = dummy,
+  borderRadius = 50,
 }) => {
   const position: LatLngExpression = LatLng;
 
@@ -21,7 +23,7 @@ const OSMapWrapper: FunctionComponent<GoogleMapWrapperProps> = ({
     <>
       <div>
         <MapContainer
-          style={{ height: mapHeight, borderRadius: 50, width: mapWidth }}
+          style={{ height: mapHeight, borderRadius: borderRadius, width: mapWidth }}
           center={position}
           zoom={10}
           scrollWheelZoom={true}

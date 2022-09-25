@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 
 const TableFacilities = dynamic(() => import("@components/Chart/TableFacilities"), { ssr: false });
+const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
 interface HealthcareFacilitiesDashboardProps {
   facility_table: any;
@@ -25,6 +26,10 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     zoom_district: undefined,
     table_filter: "",
   });
+
+  const isZoomEmpty = () => {
+    return typeof data.zoom_type != "undefined" || typeof data.zoom_district != "undefined";
+  };
 
   //   useEffect(() => {
   //     setData("zoom_facility", undefined);
@@ -62,8 +67,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
           </div>
         </Section>
         <Section title="How does proximity to healthcare vary nationally?">
-          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-            <div className="w-full space-y-3">
+          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
+            <div className="w-full space-y-4">
               <p>
                 Distance to the nearest healthcare facility is not the only measure of access to
                 healthcare. There is a modern and growing body of research demonstrating the tough
@@ -113,30 +118,36 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
               />
             </div>
             <div className="w-full">
-              <h4>Hospitals in {CountryAndStates[data.zoom_state]}</h4>
+              <h4 className="mb-5">
+                Hospitals in {data.zoom_district ? data.zoom_district + ", " : ""}{" "}
+                {CountryAndStates[data.zoom_state]}
+              </h4>
+              <OSMapWrapper mapHeight={350} LatLng={[3, 102]} borderRadius={10} />
             </div>
           </div>
-          <div className="mt-10 grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
-            <div>
-              <Bar
-                title={
-                  <div className="flex self-center text-base font-bold">
-                    Distance to Nearest {data.zoom_type ? data.zoom_type.label : ""} within{" "}
-                    {CountryAndStates[data.zoom_state]}
-                  </div>
-                }
-                className="h-[300px]"
-                enableGridX={false}
-              />
+          {isZoomEmpty() && (
+            <div className="mt-10 grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
+              <div>
+                <Bar
+                  title={
+                    <div className="flex self-center text-base font-bold">
+                      Distance to Nearest {data.zoom_type ? data.zoom_type.label : ""} within{" "}
+                      {CountryAndStates[data.zoom_state]}
+                    </div>
+                  }
+                  className="h-[300px]"
+                  enableGridX={false}
+                />
+              </div>
+              <div>
+                <Bar
+                  title="Area relative to other area type"
+                  className="h-[300px]"
+                  enableGridX={false}
+                />
+              </div>
             </div>
-            <div>
-              <Bar
-                title="Area relative to other area type"
-                className="h-[300px]"
-                enableGridX={false}
-              />
-            </div>
-          </div>
+          )}
         </Section>
       </Container>
     </>
