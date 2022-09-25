@@ -127,7 +127,7 @@ const TableFacilities: FunctionComponent<TableFacilitiesProps> = ({
             placeholder="All"
             label="District"
             options={
-              stateFilter != "mys"
+              stateFilter && stateFilter != "mys"
                 ? state_district_mapping[stateFilter].map((district: any) => {
                     return { label: district, value: district } as OptionType<string, string>;
                   })
@@ -176,12 +176,12 @@ const TableFacilities: FunctionComponent<TableFacilitiesProps> = ({
               Clear filters
             </div>
           )}
-          {/* <div className="ml-auto text-right">
+          <div className="ml-auto text-right">
             <Search
               query={globalFilter ?? ""}
               onChange={value => setGlobalFilter(String(value))}
             ></Search>
-          </div> */}
+          </div>
         </div>
       )}
       <div className="table-responsive">
