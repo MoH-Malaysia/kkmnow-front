@@ -187,7 +187,7 @@ const Stats: FunctionComponent<StatsProps> = ({
             }`}
           >
             {!unit && appendPlusMinus(delta)}
-            {delta && delta.toFixed(1)}
+            {delta && (+delta.toFixed(1)).toLocaleString()}
             {unit}
           </small>
         </div>

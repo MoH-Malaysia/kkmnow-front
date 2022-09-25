@@ -80,6 +80,7 @@ export const COVID_TABLE_SCHEMA = [
               </div>
             ),
             accessorFn: (item: any) => item.admitted.util_hosp.toFixed(1),
+            unit: "%",
           },
           {
             id: "admitted.admitted_trend",
@@ -129,7 +130,8 @@ export const COVID_TABLE_SCHEMA = [
                 <p className="font-medium text-black">Positivity Rate</p>
               </div>
             ),
-            accessorFn: (item: any) => item.cases.cases_posrate.toFixed(1),
+            accessorFn: (item: any) => +item.cases.cases_posrate.toFixed(1),
+            unit: "%",
           },
           {
             id: "cases.cases_trend",
@@ -245,7 +247,8 @@ export const COVID_TABLE_SCHEMA = [
                 <p className="font-medium text-black">Hospital Bed Utilisation</p>
               </div>
             ),
-            accessorFn: (item: any) => item.admitted.util_hosp.toFixed(1),
+            accessorFn: (item: any) => +item.admitted.util_hosp.toFixed(1),
+            unit: "%",
           },
           {
             id: "admitted.admitted_trend",

@@ -129,7 +129,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
-                      {util_chart.util_vent.toFixed(1)}%
+                      {+util_chart.util_vent.toFixed(1)}%
                     </span>
                   }
                 >
@@ -144,7 +144,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
-                      {util_chart.util_icu.toFixed(1)}%
+                      {+util_chart.util_icu.toFixed(1)}%
                     </span>
                   }
                 >
@@ -159,7 +159,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
-                      {util_chart.util_hosp.toFixed(1)}%
+                      {+util_chart.util_hosp.toFixed(1)}%
                     </span>
                   }
                 >
@@ -175,7 +175,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                   <Tooltip
                     trigger={
                       <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
-                        {util_chart.util_pkrc && util_chart.util_pkrc.toFixed(1)}%
+                        {util_chart.util_pkrc && +util_chart.util_pkrc.toFixed(1)}%
                       </span>
                     }
                   >

@@ -22,9 +22,9 @@ interface TableProps {
 
 const badgeColor = (delta: number, inverse: boolean = false) => {
   const COLOR = {
-    DEFAULT: "bg-dim",
-    GREEN: "bg-green-400 text-green-500",
-    RED: "bg-red-400 text-red-500",
+    DEFAULT: "bg-outline",
+    GREEN: "bg-green-400 text-green-600",
+    RED: "bg-red-400 text-red-600",
   };
   if (inverse) return delta > 1 ? COLOR.RED : delta < 0 ? COLOR.GREEN : COLOR.DEFAULT;
   else return delta > 1 ? COLOR.GREEN : delta < 0 ? COLOR.RED : COLOR.DEFAULT;
@@ -127,7 +127,7 @@ const Table: FunctionComponent<TableProps> = ({
                           "bg-opacity-20",
                         ]
                       : []),
-                    ...(cell.getValue() === null ? ["bg-dim"] : []),
+                    ...(cell.getValue() === null ? ["bg-outline"] : []),
                   ].join(" ");
 
                   const unit = cell.column.columnDef.unit ?? undefined;
