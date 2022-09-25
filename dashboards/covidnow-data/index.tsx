@@ -55,7 +55,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
     };
   };
 
-  console.log(choropleth_malaysia);
+  console.log(choropleth_world);
 
   const worldMapConfig = [
     {
