@@ -21,13 +21,12 @@ export const COVID_TABLE_SCHEMA = [
       },
       {
         id: "deaths",
-        header: "Deaths",
         columns: [
           {
             id: "deaths.deaths",
             header: () => (
               <div>
-                <p>Deaths</p>
+                <p className="font-medium text-black">Deaths</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -37,7 +36,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths_100k",
             header: () => (
               <div>
-                <p>Per 100k</p>
+                <p className="font-medium text-black">Per 100k</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -47,26 +46,26 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths_trend",
             header: () => (
               <div>
-                <p>Deaths Trend</p>
+                <p className="font-medium text-black">Deaths Trend</p>
                 <p>Past 14d</p>
               </div>
             ),
             accessorFn: (item: any) =>
-              item.deaths.deaths_trend !== null
-                ? item.deaths.deaths_trend.toFixed(1)
-                : item.deaths.deaths_trend,
+              item.deaths.deaths_trend && +item.deaths.deaths_trend.toFixed(1),
+            relative: true,
+            inverse: true,
+            unit: "%",
           },
         ],
       },
       {
         id: "admitted",
-        header: "Hospital Admissions",
         columns: [
           {
             id: "admitted.admitted",
             header: () => (
               <div>
-                <p>Hospital Admission</p>
+                <p className="font-medium text-black">Hospital Admission</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -77,7 +76,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "admitted.util_hosp",
             header: () => (
               <div>
-                <p>Hospital Bed Utilisation</p>
+                <p className="font-medium text-black">Hospital Bed Utilisation</p>
               </div>
             ),
             accessorFn: (item: any) => item.admitted.util_hosp.toFixed(1),
@@ -86,26 +85,28 @@ export const COVID_TABLE_SCHEMA = [
             id: "admitted.admitted_trend",
             header: () => (
               <div>
-                <p>Admissions Trend</p>
+                <p className="font-medium text-black">Admissions Trend</p>
                 <p>Past 14d</p>
               </div>
             ),
             accessorFn: (item: any) =>
               item.admitted.admitted_trend !== null
-                ? item.admitted.admitted_trend.toFixed(1)
+                ? +item.admitted.admitted_trend.toFixed(1)
                 : item.admitted.admitted_trend,
+            relative: true,
+            inverse: true,
+            unit: "%",
           },
         ],
       },
       {
         id: "cases",
-        header: "Cases",
         columns: [
           {
             id: "cases.cases",
             header: () => (
               <div>
-                <p>Cases</p>
+                <p className="font-medium text-black">Cases</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -115,30 +116,33 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases_100k",
             header: () => (
               <div>
-                <p>Per 100k</p>
+                <p className="font-medium text-black">Per 100k</p>
                 <p>Past 14d</p>
               </div>
             ),
             accessorFn: (item: any) => item.cases.cases_100k.toFixed(1),
           },
           {
-            id: "cases.cases_trend",
-            header: () => (
-              <div>
-                <p>Cases Trend</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.cases.cases_trend.toFixed(1),
-          },
-          {
             id: "cases.cases_posrate",
             header: () => (
               <div>
-                <p>Positivity Rate</p>
+                <p className="font-medium text-black">Positivity Rate</p>
               </div>
             ),
             accessorFn: (item: any) => item.cases.cases_posrate.toFixed(1),
+          },
+          {
+            id: "cases.cases_trend",
+            header: () => (
+              <div>
+                <p className="font-medium text-black">Cases Trend</p>
+                <p>Past 14d</p>
+              </div>
+            ),
+            accessorFn: (item: any) => +item.cases.cases_trend.toFixed(1),
+            relative: true,
+            inverse: true,
+            unit: "%",
           },
         ],
       },
@@ -164,13 +168,12 @@ export const COVID_TABLE_SCHEMA = [
       },
       {
         id: "deaths",
-        header: "Deaths",
         columns: [
           {
             id: "deaths.deaths",
             header: () => (
               <div>
-                <p>Deaths</p>
+                <p className="font-medium text-black">Deaths</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -180,7 +183,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths_100k",
             header: () => (
               <div>
-                <p>Per 100k</p>
+                <p className="font-medium text-black">Per 100k</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -190,7 +193,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths_trend",
             header: () => (
               <div>
-                <p>Deaths Trend</p>
+                <p className="font-medium text-black">Deaths Trend</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -223,13 +226,12 @@ export const COVID_TABLE_SCHEMA = [
       },
       {
         id: "admitted",
-        header: "Hospital Admissions",
         columns: [
           {
             id: "admitted.admitted",
             header: () => (
               <div>
-                <p>Hospital Admission</p>
+                <p className="font-medium text-black">Hospital Admission</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -240,7 +242,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "admitted.util_hosp",
             header: () => (
               <div>
-                <p>Hospital Bed Utilisation</p>
+                <p className="font-medium text-black">Hospital Bed Utilisation</p>
               </div>
             ),
             accessorFn: (item: any) => item.admitted.util_hosp.toFixed(1),
@@ -249,7 +251,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "admitted.admitted_trend",
             header: () => (
               <div>
-                <p>Admissions Trend</p>
+                <p className="font-medium text-black">Admissions Trend</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -282,13 +284,13 @@ export const COVID_TABLE_SCHEMA = [
       },
       {
         id: "cases",
-        header: "Cases",
+
         columns: [
           {
             id: "cases.cases",
             header: () => (
               <div>
-                <p>Cases</p>
+                <p className="font-medium text-black">Cases</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -298,7 +300,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases_100k",
             header: () => (
               <div>
-                <p>Per 100k</p>
+                <p className="font-medium text-black">Per 100k</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -308,7 +310,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases_trend",
             header: () => (
               <div>
-                <p>Cases Trend</p>
+                <p className="font-medium text-black">Cases Trend</p>
                 <p>Past 14d</p>
               </div>
             ),
@@ -318,7 +320,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases_posrate",
             header: () => (
               <div>
-                <p>Positivity Rate</p>
+                <p className="font-medium text-black">Positivity Rate</p>
               </div>
             ),
             accessorFn: (item: any) => item.cases.cases_posrate.toFixed(1),

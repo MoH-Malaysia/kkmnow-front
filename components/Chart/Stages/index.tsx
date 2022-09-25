@@ -197,7 +197,7 @@ const Stats: FunctionComponent<StatsProps> = ({
 };
 
 const appendPlusMinus = (delta: number) => {
-  return delta > 0 ? "+" : "-";
+  return delta > 0 ? "+" : "";
 };
 
 const badgeColor = (delta: number, inverse: boolean = false) => {

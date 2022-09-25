@@ -156,7 +156,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   <Timeseries
                     className="h-[500px] w-full"
                     interval="month"
-                    animate={false}
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -178,7 +177,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   <Timeseries
                     className="h-[500px] w-full"
                     interval="month"
-                    animate={false}
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -200,7 +198,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   <Timeseries
                     className="h-[500px] w-full"
                     interval="month"
-                    animate={false}
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -222,7 +219,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   <Timeseries
                     className="h-[500px] w-full"
                     interval="month"
-                    animate={false}
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -302,7 +298,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 interval="year"
                 round="year"
                 maxY={data.relative_donation_type ? 100 : undefined}
-                animate={false}
                 unitY={data.relative_donation_type ? "%" : undefined}
                 menu={<MenuDropdown />}
                 subheader={
@@ -349,7 +344,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 round="year"
                 unitY={data.relative_blood_group ? "%" : undefined}
                 maxY={data.relative_blood_group ? 100 : undefined}
-                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -415,7 +409,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 maxY={data.relative_donor_type ? 100 : undefined}
                 interval="year"
                 round="year"
-                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -460,7 +453,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 round="year"
                 unitY={data.relative_location ? "%" : undefined}
                 maxY={data.relative_location ? 100 : undefined}
-                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox

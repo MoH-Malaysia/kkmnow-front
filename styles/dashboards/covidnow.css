@@ -1,5 +1,5 @@
 .table {
-  @apply relative w-full max-w-full;
+  @apply relative w-full max-w-full border-collapse border-spacing-0;
 }
 
 .table-responsive {
@@ -22,7 +22,11 @@
 }
 
 .table td {
-  @apply border-r-[0.5px] py-1 px-2;
+  @apply border-r-[0.5px] p-0;
+}
+
+.table td > div {
+  @apply px-2 py-1 text-sm lg:text-base;
 }
 
 .table td:not(:first-child) {

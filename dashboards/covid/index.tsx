@@ -208,6 +208,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       value: snapshot_graphic.cases_local,
                       delta: snapshot_graphic.cases_local_annot,
                       inverse: true,
+                      icon: <img src="/static/images/stages/virus.svg" className="h-8 w-8" />,
                     },
                     {
                       name: "Imported Cases",
@@ -222,30 +223,43 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       value: snapshot_graphic.home,
                       delta: snapshot_graphic.home_annot,
                       unit: "%",
+                      icon: (
+                        <img src="/static/images/stages/home-quarantine.svg" className="h-8 w-8" />
+                      ),
                     },
                     {
                       name: "PKRC",
                       value: snapshot_graphic.pkrc,
                       delta: snapshot_graphic.pkrc_annot,
                       unit: "%",
+                      icon: <img src="/static/images/stages/pkrc.svg" className="h-8 w-8" />,
                     },
                     {
                       name: "Hospitalised",
                       value: snapshot_graphic.hosp,
                       delta: snapshot_graphic.hosp_annot,
                       unit: "%",
+                      icon: (
+                        <img src="/static/images/stages/hospitalised.svg" className="h-8 w-8" />
+                      ),
                     },
                     {
                       name: "ICU (Unventilated)",
                       value: snapshot_graphic.icu,
                       delta: snapshot_graphic.icu_annot,
                       unit: "%",
+                      icon: (
+                        <img src="/static/images/stages/icu-unventilated.svg" className="h-8 w-8" />
+                      ),
                     },
                     {
                       name: "ICU (Ventilated)",
                       value: snapshot_graphic.vent,
                       delta: snapshot_graphic.vent_annot,
                       unit: "%",
+                      icon: (
+                        <img src="/static/images/stages/icu-ventilated.svg" className="h-8 w-8" />
+                      ),
                     },
                   ],
                   col_3: [
@@ -253,12 +267,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       name: "Recovered",
                       value: snapshot_graphic.cases_recovered,
                       delta: snapshot_graphic.cases_recovered_annot,
+                      icon: <img src="/static/images/stages/recovered.svg" className="h-8 w-8" />,
                     },
                     {
                       name: "Death (Including BID)",
                       value: snapshot_graphic.deaths,
                       delta: snapshot_graphic.deaths_annot,
                       inverse: true,
+                      icon: <img src="/static/images/stages/death.svg" className="h-8 w-8" />,
                     },
                     {
                       name: "Brought in Dead",
@@ -448,10 +464,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 datasets: [
                   {
                     type: "line",
-                    label: "Tooltip?",
+                    label: "Positivity Rate (%)",
                     pointRadius: 0,
                     data: timeseries_tests.tooltip,
-                    borderColor: COVID_COLOR[300],
+                    borderWidth: 0,
                   },
                   {
                     type: "bar",
@@ -509,7 +525,6 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     : "Deaths by Vaccination Status",
               }[data.show_indicator.value as string]
             }
-            menu={<MenuDropdown />}
             controls={
               <Dropdown
                 options={filterCaseDeath}
@@ -555,6 +570,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
+                        enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -590,6 +606,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
+                        enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -633,6 +650,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
+                        enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -668,6 +686,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
+                        enableLegend
                         enableGridX={false}
                       />
                     ),

@@ -10,6 +10,8 @@ import {
 import { SwitchVerticalIcon, ArrowSmUpIcon, ArrowSmDownIcon } from "@heroicons/react/solid";
 import { CountryAndStates } from "@lib/constants";
 
+// * TODO: resolve the additional typings later (relative, inverse, unit)
+
 interface TableProps {
   className?: string;
   title?: string;
@@ -17,6 +19,16 @@ interface TableProps {
   data?: any;
   config?: Array<ColumnDef<Record<string, any>>>;
 }
+
+const badgeColor = (delta: number, inverse: boolean = false) => {
+  const COLOR = {
+    DEFAULT: "bg-dim",
+    GREEN: "bg-green-400 text-green-500",
+    RED: "bg-red-400 text-red-500",
+  };
+  if (inverse) return delta > 1 ? COLOR.RED : delta < 0 ? COLOR.GREEN : COLOR.DEFAULT;
+  else return delta > 1 ? COLOR.GREEN : delta < 0 ? COLOR.RED : COLOR.DEFAULT;
+};
 
 const Table: FunctionComponent<TableProps> = ({
   className = "",
@@ -65,8 +77,8 @@ const Table: FunctionComponent<TableProps> = ({
                       <div
                         {...{
                           className: header.column.getCanSort()
-                            ? "cursor-pointer select-none flex gap-1 text-sm justify-center "
-                            : "text-black font-bold",
+                            ? "cursor-pointer select-none flex gap-1 text-sm justify-end text-right pr-1"
+                            : "hidden",
                           onClick: header.column.getToggleSortingHandler(),
                         }}
                       >
@@ -105,16 +117,27 @@ const Table: FunctionComponent<TableProps> = ({
                   const lastCellInGroup = cell.column.parent
                     ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
                     : cell.column;
+
+                  const classNames = [
+                    ...(cell.row.original.state === "mys" ? ["bg-outline"] : []),
+                    ...(lastCellInGroup.id === cell.column.id ? ["text xs border-r-black"] : []),
+                    ...(cell.column.columnDef.relative
+                      ? [
+                          badgeColor(cell.getValue() as number, cell.column.columnDef.inverse),
+                          "bg-opacity-20",
+                        ]
+                      : []),
+                    ...(cell.getValue() === null ? ["bg-dim"] : []),
+                  ].join(" ");
+
+                  const unit = cell.column.columnDef.unit ?? undefined;
+
                   return (
-                    <td
-                      key={cell.id}
-                      className={`${cell.row.original.state === "mys" ? "bg-washed" : ""} ${
-                        lastCellInGroup.id === cell.column.id ? "text xs border-r-black" : ""
-                      }`}
-                    >
-                      <span className="text-sm lg:text-base">
+                    <td key={cell.id} className={classNames}>
+                      <div>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </span>
+                        {cell.getValue() !== null ? unit : "-"}
+                      </div>
                     </td>
                   );
                 })}

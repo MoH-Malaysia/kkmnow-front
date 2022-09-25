@@ -15,6 +15,7 @@ import {
 
 import { Line as LineCanvas } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
+import { LineCrosshairOption } from "@lib/types";
 
 ChartJS.register(
   CategoryScale,
@@ -58,9 +59,24 @@ const Line: FunctionComponent<LineProps> = ({
   minY,
   maxY,
 }) => {
-  const options: ChartOptions<"line"> = {
+  const options: LineCrosshairOption = {
     maintainAspectRatio: false,
     responsive: true,
+    plugins: {
+      crosshair: {
+        line: {
+          width: 0,
+          color: "#000",
+          dashPattern: [6, 4],
+        },
+        zoom: {
+          enabled: false,
+        },
+        sync: {
+          enabled: false,
+        },
+      },
+    },
     scales: {
       x: {
         type: type,
@@ -70,6 +86,9 @@ const Line: FunctionComponent<LineProps> = ({
           borderDash: [5, 10],
         },
         ticks: {
+          font: {
+            family: "Inter",
+          },
           padding: 6,
           callback: function (value: string | number) {
             return this.getLabelForValue(value as number).concat(unitX ?? "");
@@ -86,6 +105,9 @@ const Line: FunctionComponent<LineProps> = ({
           offset: false,
         },
         ticks: {
+          font: {
+            family: "Inter",
+          },
           padding: 6,
           callback: function (value: string | number) {
             return numFormat(value as number).concat(unitY ?? "");
