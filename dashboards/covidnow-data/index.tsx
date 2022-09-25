@@ -12,16 +12,7 @@ import {
   Dropdown,
   MapEmbed,
 } from "@components/index";
-import { useData } from "@hooks/useData";
-import {
-  BLOOD_SUPPLY_COLOR,
-  BLOOD_DONATION_COLOR,
-  BLOOD_COLOR,
-  GRAYBAR_COLOR,
-  CountryAndStates,
-  STATES,
-  BREAKPOINTS,
-} from "@lib/constants";
+import { BLOOD_DONATION_COLOR, CountryAndStates, STATES, BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
@@ -64,7 +55,45 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
     };
   };
 
-  console.log(heatmap_chart);
+  console.log(choropleth_world);
+
+  const worldMapConfig = [
+    {
+      header: "",
+      id: "iso3",
+      accessorKey: "data",
+      enableSorting: false,
+      cell: (item: any) => {
+        const state = item.getValue() as any;
+        return (
+          <div className="flex items-center gap-3">
+            <span>{state.country}</span>
+          </div>
+        );
+      },
+    },
+    {
+      id: "data",
+      header: "Statistics",
+      columns: [
+        {
+          id: "data.users",
+          header: "Users",
+          accessorFn: (item: any) => numFormat(item.data.users, "standard"),
+        },
+        {
+          id: "data.views",
+          header: "Views",
+          accessorFn: (item: any) => numFormat(item.data.views, "standard"),
+        },
+        {
+          id: "data.views_perc",
+          header: "% of Views",
+          accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
+        },
+      ],
+    },
+  ];
 
   const malaysiaMapConfig = [
     {
@@ -105,39 +134,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           id: "data.pop_perc",
           header: "% of Population",
           accessorFn: (item: any) => Math.round(item.data.pop_perc * 100) / 100 + "%",
-        },
-      ],
-    },
-  ];
-
-  const worldMapConfig = [
-    {
-      header: "",
-      id: "iso3",
-      accessorKey: "data",
-      enableSorting: false,
-      cell: (item: any) => {
-        const state = item.getValue() as any;
-        return (
-          <div className="flex items-center gap-3">
-            <span>{state.country}</span>
-          </div>
-        );
-      },
-    },
-    {
-      id: "data",
-      header: "Statistics",
-      columns: [
-        {
-          id: "data.views",
-          header: "Views",
-          accessorFn: (item: any) => numFormat(item.data.views, "standard"),
-        },
-        {
-          id: "data.views_perc",
-          header: "% of Views",
-          accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
         },
       ],
     },
@@ -217,14 +213,16 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         >
           <div>
             <Tabs className="flex flex-wrap justify-end gap-2 pb-4" title="World Views Statistics">
-              <Panel key={0} name={"Map"}>
+              <Panel key={0} name={"Heatmap"}>
                 <div className="grid grid-cols-1 gap-12 ">
                   <ChoroplethWorld
                     className="h-[500px] w-full"
                     enableScale={true}
+                    projectionScaleSetting={isMobile ? 65 : 125}
                     data={choropleth_world.map((item: any) => ({
                       id: item.iso3,
-                      value: item.data.views,
+                      value_real: item.data.views,
+                      value: item.data.views_log ? item.data.views_log : 0,
                     }))}
                   />
                 </div>
@@ -246,7 +244,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               className="flex flex-wrap justify-end gap-2 pb-4"
               title="Malaysia Views Statistics"
             >
-              <Panel key={0} name={"Map"}>
+              <Panel key={0} name={"Heatmap"}>
                 <div className="grid grid-cols-1 gap-12">
                   <Choropleth
                     className="h-[500px] w-full"

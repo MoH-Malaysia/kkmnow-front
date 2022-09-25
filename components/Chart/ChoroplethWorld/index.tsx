@@ -9,6 +9,7 @@ import {
   //   CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
 } from "@lib/constants";
 import WorldDesktop from "@lib/geojson/world_desktop.json";
+import { numFormat } from "@lib/helpers";
 
 /**
  * Choropleth component
@@ -20,6 +21,7 @@ interface ChoroplethProps {
   controls?: ReactElement;
   data?: any;
   enableScale?: boolean;
+  projectionScaleSetting?: number;
 }
 
 const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
@@ -29,11 +31,12 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
   title,
   data = dummyData,
   enableScale = true,
+  projectionScaleSetting = 125,
 }) => {
   const [feature, setState] = useState(WorldDesktop.features);
   const config = {
     colors: CHOROPLETH_BLUE_SCALE,
-    projectionScale: 125,
+    projectionScale: projectionScaleSetting,
     projectionTranslation: [0.5, 0.75] as [number, number],
     borderWidth: 0.25,
     borderColor: "#13293d",
@@ -47,7 +50,16 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           features={feature}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           colors={CHOROPLETH_BLUE_SCALE}
-          domain={[0, 100]}
+          domain={[
+            Math.min.apply(
+              Math,
+              data.map((item: any) => item.value)
+            ),
+            Math.max.apply(
+              Math,
+              data.map((item: any) => item.value)
+            ),
+          ]}
           unknownColor="#fff"
           projectionType="mercator"
           projectionScale={config.projectionScale}
@@ -55,9 +67,15 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           projectionRotation={[0, 0, 0]}
           borderWidth={config.borderWidth}
           borderColor={config.borderColor}
-          // tooltip={({ feature: { data } }) => {
-          //   return data?.id ? <div className="nivo-tooltip">{data.id}</div> : <></>;
-          // }}
+          tooltip={({ feature: { data } }) => {
+            return data?.id ? (
+              <div className="nivo-tooltip">
+                {data.id} - {numFormat(data.value_real, "standard")}
+              </div>
+            ) : (
+              <></>
+            );
+          }}
         />
       </div>
       {enableScale && <ChoroplethScale data={data} colors={config.colors}></ChoroplethScale>}
@@ -86,13 +104,13 @@ const ChoroplethScale: FunctionComponent<ChoroplethScaleProps> = ({ colors, data
         <small>
           {Math.min.apply(
             Math,
-            data.map((item: any) => item.value)
+            data.map((item: any) => item.value_real)
           )}
         </small>
         <small>
           {Math.max.apply(
             Math,
-            data.map((item: any) => item.value)
+            data.map((item: any) => item.value_real)
           )}
         </small>
       </div>
