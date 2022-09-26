@@ -11,6 +11,7 @@ interface StateDropdownProps {
   exclude?: string[];
   disableText?: boolean;
   width?: string;
+  label?: string;
 }
 
 const StateDropdown: FunctionComponent<StateDropdownProps> = ({
@@ -19,6 +20,7 @@ const StateDropdown: FunctionComponent<StateDropdownProps> = ({
   onChange,
   exclude,
   width = "w-64",
+  label,
 }) => {
   const router = useRouter();
   return (
@@ -31,6 +33,7 @@ const StateDropdown: FunctionComponent<StateDropdownProps> = ({
       placeholder="Select state"
       enableFlag
       width={width}
+      label={label}
     />
   );
 };

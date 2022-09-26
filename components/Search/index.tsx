@@ -25,13 +25,13 @@ const Search: FunctionComponent<SearchProps> = ({ query, onChange }) => {
   }, []);
 
   return (
-    <div className="items-cente relative flex w-full">
+    <div className="relative flex w-full items-center">
       <input
         ref={searchRef}
         id="search"
         name="search"
         type="text"
-        placeholder="Search all datasets (Shortcut: Press the “/” key)"
+        placeholder="Search"
         value={query}
         onChange={e => onChange(e.target.value)}
         className="block w-full border-0 pl-8 text-dim focus:ring-0"

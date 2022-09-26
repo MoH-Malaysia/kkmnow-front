@@ -14,6 +14,7 @@ type CommonProps<L, V> = {
   onChange: (selected: OptionType<L, V>) => void;
   width?: string;
   enableFlag?: boolean;
+  label?: string;
 };
 
 type ConditionalProps<L, V> =
@@ -46,6 +47,7 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
   placeholder,
   width = "w-fit",
   enableFlag = false,
+  label,
 }: DropdownProps<L, V>) => {
   return (
     <Listbox
@@ -66,16 +68,16 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
             ${width}
           `}
         >
+          {label && <span className="">{label}:</span>}
           {enableFlag && selected && (
             <img
               src={`/static/images/states/${(selected as OptionType<L, V>).value}.jpeg`}
               className="aspect-auto h-3"
             />
           )}
-          <span className="block truncate">
+          <span className={`block truncate ${label ? "font-bold" : ""}`}>
             {multiple ? title : (selected as OptionType<L, V>)?.label || placeholder || "Select"}
           </span>
-
           {/* NUMBER OF OPTIONS SELECTED (MULTIPLE = TRUE) */}
           {multiple && (selected as OptionType<L, V>[])?.length > 0 && (
             <span className="rounded-md bg-dim px-1 py-0.5 text-xs text-white">

@@ -1,0 +1,58 @@
+import { FunctionComponent } from "react";
+import { LatLngExpression } from "leaflet";
+import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+
+type GoogleMapWrapperProps = {
+  mapHeight?: number;
+  mapWidth?: any;
+  LatLng?: any;
+  MarketArrays?: any;
+  borderRadius?: number;
+};
+
+const OSMapWrapper: FunctionComponent<GoogleMapWrapperProps> = ({
+  mapHeight = 300,
+  mapWidth = "100%",
+  LatLng = [51.505, -0.09],
+  MarketArrays = dummy,
+  borderRadius = 50,
+}) => {
+  const position: LatLngExpression = LatLng;
+
+  return (
+    <>
+      <div>
+        <MapContainer
+          style={{ height: mapHeight, borderRadius: borderRadius, width: mapWidth }}
+          center={position}
+          zoom={10}
+          scrollWheelZoom={true}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url={`https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
+            // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {MarketArrays.map((item: any) => (
+            <Marker position={item.position}>
+              <Popup>{item.name}</Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      </div>
+    </>
+  );
+};
+
+const dummy: any = [
+  {
+    position: [51.505, -0.09],
+    name: "A pretty CSS3 popup. <br> Easily customizable.",
+  },
+  {
+    position: [51.51, -0.1],
+    name: "Another pretty CSS3 popup. <br> Easily customizable.",
+  },
+];
+
+export default OSMapWrapper;
