@@ -7,8 +7,9 @@ import {
   StateDropdown,
   Dropdown,
   Table,
+  Button,
 } from "@components/index";
-import { GlobeAltIcon } from "@heroicons/react/24/solid";
+import { ArrowPathIcon, GlobeAltIcon } from "@heroicons/react/24/solid";
 import { MapIcon } from "@heroicons/react/24/outline";
 import { useData } from "@hooks/useData";
 import { CountryAndStates } from "@lib/constants";
@@ -112,17 +113,32 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                     onChange={selected => {
                       setData("table_facility_type", selected);
                       setColumnFilters(state =>
-                        state.concat({ id: "type", value: selected.label })
+                        state.concat({ id: "type", value: selected.value })
                       );
                     }}
                     width="w-full"
                   />
+                  <Button
+                    onClick={() => {
+                      setData("table_state", undefined);
+                      setData("table_district", undefined);
+                      setData("table_facility_type", undefined);
+                      setColumnFilters([]);
+                    }}
+                    disabled={
+                      !data.table_state && !data.table_district && !data.table_facility_type
+                    }
+                    icon={<ArrowPathIcon className="h-4 w-4" />}
+                  >
+                    Clear Selection
+                  </Button>
                 </>
               )}
               search={setGlobalFilter => (
                 <Search onChange={query => setGlobalFilter(query ?? "")} />
               )}
               enablePagination
+              cellClass="text-left"
             />
           </div>
         </Section>

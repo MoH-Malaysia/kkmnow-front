@@ -35,6 +35,7 @@ interface TableProps {
     setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>
   ) => ReactElement | ReactElement[];
   search?: (setGlobalFilter: Dispatch<SetStateAction<string>>) => ReactElement | ReactElement[];
+  cellClass?: string;
   data?: any;
   config?: Array<ColumnDef<Record<string, any>>>;
   enablePagination?: boolean;
@@ -71,6 +72,7 @@ const Table: FunctionComponent<TableProps> = ({
   controls,
   search,
   enablePagination = false,
+  cellClass = "text-right",
 }) => {
   const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -127,15 +129,18 @@ const Table: FunctionComponent<TableProps> = ({
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => {
+                console.log(header);
                 return (
                   <th key={header.id} colSpan={header.colSpan}>
                     {header.isPlaceholder ? null : (
                       <div
                         {...{
                           className: [
-                            header.column.getSize() > 1
+                            header.subHeaders.length < 1
                               ? "select-none flex gap-1 text-sm justify-end text-right pr-1"
-                              : "hidden",
+                              : !header.column.columnDef.header
+                              ? "hidden"
+                              : "text-end pr-2",
                             header.column.getCanSort() ? "cursor-pointer" : "",
                           ].join(" "),
                           onClick: header.column.getCanSort()
@@ -147,21 +152,28 @@ const Table: FunctionComponent<TableProps> = ({
                           <p className="font-medium text-black">
                             {flexRender(header.column.columnDef.header, header.getContext())}
                           </p>
-                        </div>
-                        <span
-                          className="inline-block"
-                          title={sortTooltip(header.column.getIsSorted())}
-                        >
-                          {{
-                            asc: <ArrowUpIcon className="inline-block h-4 w-auto text-black" />,
-                            desc: <ArrowDownIcon className="inline-block h-4 w-auto text-black" />,
-                          }[header.column.getIsSorted() as string] ?? null}
-                          {header.column.getCanSort() && !header.column.getIsSorted() ? (
-                            <ArrowsUpDownIcon className="inline-block h-4 w-auto text-dim" />
-                          ) : (
-                            ""
+                          {header.column.columnDef?.subheader && (
+                            <p className="text-dim">{header.column.columnDef?.subheader}</p>
                           )}
-                        </span>
+                        </div>
+                        {header.subHeaders.length < 1 && (
+                          <span
+                            className="inline-block"
+                            title={sortTooltip(header.column.getIsSorted())}
+                          >
+                            {{
+                              asc: <ArrowUpIcon className="inline-block h-4 w-auto text-black" />,
+                              desc: (
+                                <ArrowDownIcon className="inline-block h-4 w-auto text-black" />
+                              ),
+                            }[header.column.getIsSorted() as string] ?? null}
+                            {header.column.getCanSort() && !header.column.getIsSorted() ? (
+                              <ArrowsUpDownIcon className="inline-block h-4 w-auto text-dim" />
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                        )}
                       </div>
                     )}
                   </th>
@@ -189,6 +201,7 @@ const Table: FunctionComponent<TableProps> = ({
                         ]
                       : []),
                     ...(cell.getValue() === null ? ["bg-outline"] : []),
+                    cellClass,
                   ].join(" ");
 
                   const unit = cell.column.columnDef.unit ?? undefined;
@@ -220,7 +233,8 @@ const Table: FunctionComponent<TableProps> = ({
 
           <span className="flex items-center gap-1 text-sm">
             <div>Page</div>
-            <strong>{table.getState().pagination.pageIndex + 1}</strong> of {table.getPageCount()}
+            <span className="font-medium">{table.getState().pagination.pageIndex + 1}</span> of{" "}
+            {table.getPageCount()}
           </span>
           <button
             className="flex flex-row gap-2 rounded border py-1 px-2 disabled:bg-slate-100 disabled:opacity-50"
