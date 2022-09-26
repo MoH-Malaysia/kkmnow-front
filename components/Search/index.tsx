@@ -1,4 +1,4 @@
-import { SearchIcon } from "@heroicons/react/solid";
+import { MagnifyingGlassIcon as SearchIcon } from "@heroicons/react/24/solid";
 import { FunctionComponent, useEffect, useRef } from "react";
 
 type SearchProps = {

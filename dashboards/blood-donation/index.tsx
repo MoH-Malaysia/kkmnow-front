@@ -11,6 +11,7 @@ import {
   StateDropdown,
   Dropdown,
   MapEmbed,
+  Button,
 } from "@components/index";
 import { useData } from "@hooks/useData";
 import {
@@ -18,13 +19,14 @@ import {
   BLOOD_DONATION_COLOR,
   BLOOD_COLOR,
   GRAYBAR_COLOR,
+  CountryAndStates,
 } from "@lib/constants";
 import { BLOOD_SUPPLY_SCHEMA, BLOOD_DONATION_SCHEMA } from "@lib/schema/blood-donation";
 import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect, useMemo } from "react";
-import { MapPinIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/24/solid";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Empty = dynamic(() => import("@components/Chart/Empty"), { ssr: false });
@@ -119,6 +121,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
     [filtered_timeline().x]
   );
 
+  const handleClearSelection = () => {
+    setData("zoom_state", undefined);
+    setData("zoom_facility", undefined);
+  };
+
   useEffect(() => {
     setData("zoom_facility", undefined);
   }, [data.zoom_state]);
@@ -180,7 +187,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name="Type A">
                   <Timeseries
                     className="h-[500px] w-full"
-                    interval="month"
+                    interval="week"
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -201,7 +208,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name="Type B">
                   <Timeseries
                     className="h-[500px] w-full"
-                    interval="month"
+                    interval="week"
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -222,7 +229,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name="Type AB">
                   <Timeseries
                     className="h-[500px] w-full"
-                    interval="month"
+                    interval="week"
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -243,7 +250,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name="Type O">
                   <Timeseries
                     className="h-[500px] w-full"
-                    interval="month"
+                    interval="week"
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -793,10 +800,20 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           title="How is this data collected?"
           description="Map showing locations of BBIS centres:"
         >
-          <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full space-y-3">
-              <div className="flex gap-4">
-                <h4>Zoom into my area</h4>
+              <div className="flex justify-between">
+                <div className="flex items-center gap-4">
+                  <MapPinIcon className="h-5 w-auto" />
+                  <h4>Zoom into my area</h4>
+                </div>
+                <Button
+                  onClick={handleClearSelection}
+                  disabled={!data.zoom_state}
+                  icon={<ArrowPathIcon className="h-4 w-4" />}
+                >
+                  Clear Selection
+                </Button>
               </div>
               <StateDropdown
                 currentState={data.zoom_state}
@@ -859,7 +876,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 />
               )}
             </div>
-            <div className="w-full">
+            <div className="w-full space-y-2">
+              <h4>
+                {data.zoom_state && data.zoom_facility
+                  ? `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`
+                  : "BBIS Centres in Malaysia"}
+              </h4>
+
               <MapEmbed
                 className="h-[420px] w-full"
                 place={

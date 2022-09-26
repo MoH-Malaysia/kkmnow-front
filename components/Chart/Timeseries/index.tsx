@@ -216,6 +216,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
             displayFormats: {
               quarter: "MMM",
               month: "MMM",
+              week: "dd MMM",
             },
             tooltipFormat: "dd MMM yyyy",
           },
