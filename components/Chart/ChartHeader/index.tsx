@@ -9,7 +9,11 @@ const ChartHeader: FunctionComponent<ChartHeaderProps> = ({ title, menu, control
   return (
     <>
       <div className="flex flex-wrap items-start justify-between gap-2">
-        {title && <div className="flex self-center text-base font-bold">{title}</div>}
+        {title && typeof title === "string" ? (
+          <div className="flex self-center text-base font-bold">{title}</div>
+        ) : (
+          title
+        )}
         {menu && <div className="block md:hidden">{menu}</div>}
         {controls && (
           <div className="flex items-center justify-end gap-2 md:hidden">{controls}</div>

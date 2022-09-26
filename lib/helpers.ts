@@ -25,8 +25,8 @@ export const minMax = (e: number) => {
 
 export const uuid = () => uniqueId();
 
-export const numFormat = (value: number): string => {
-  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+export const numFormat = (value: number, type?: any): string => {
+  const formatter = Intl.NumberFormat("en", { notation: type ? type : "compact" });
   return formatter.format(value);
 };
 

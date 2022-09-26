@@ -18,7 +18,7 @@ import { BarCrosshairOption } from "@lib/types";
 interface BarProps {
   className?: string;
   menu?: ReactElement;
-  title?: string;
+  title?: string | ReactElement;
   controls?: ReactElement;
   layout?: "vertical" | "horizontal";
   data?: ChartData<"bar", any[], string | number>;

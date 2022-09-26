@@ -6,9 +6,11 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import { SwitchVerticalIcon, ArrowSmUpIcon, ArrowSmDownIcon } from "@heroicons/react/solid";
 import { CountryAndStates } from "@lib/constants";
+import { useEffect } from "react";
 
 // * TODO: resolve the additional typings later (relative, inverse, unit)
 
@@ -18,6 +20,7 @@ interface TableProps {
   menu?: ReactElement;
   data?: any;
   config?: Array<ColumnDef<Record<string, any>>>;
+  isPagination?: boolean;
 }
 
 const badgeColor = (delta: number, inverse: boolean = false) => {
@@ -36,6 +39,7 @@ const Table: FunctionComponent<TableProps> = ({
   menu,
   data = dummy,
   config = dummyConfig,
+  isPagination = false,
 }) => {
   const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -47,8 +51,7 @@ const Table: FunctionComponent<TableProps> = ({
 
     return undefined;
   };
-
-  const table = useReactTable({
+  const ReactTableProps: any = {
     data,
     columns,
     state: {
@@ -57,8 +60,19 @@ const Table: FunctionComponent<TableProps> = ({
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
     debugTable: false,
-  });
+  };
+
+  !isPagination
+    ? ReactTableProps.getPaginationRowModel == null
+    : (ReactTableProps.getPaginationRowModel = getPaginationRowModel());
+
+  const table = useReactTable(ReactTableProps);
+
+  useEffect(() => {
+    isPagination ? table.setPageSize(10) : null;
+  }, []);
 
   return (
     <div className="table-responsive">
@@ -113,7 +127,7 @@ const Table: FunctionComponent<TableProps> = ({
           {table.getRowModel().rows.map(row => {
             return (
               <tr key={row.id}>
-                {row.getVisibleCells().map(cell => {
+                {row.getVisibleCells().map((cell: any) => {
                   const lastCellInGroup = cell.column.parent
                     ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
                     : cell.column;
@@ -146,6 +160,57 @@ const Table: FunctionComponent<TableProps> = ({
           })}
         </tbody>
       </table>
+      {isPagination ? (
+        <>
+          <div className="my-4 flex w-full items-center justify-center gap-2">
+            <button
+              className="rounded border p-1 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<- Previous"}
+            </button>
+            <span className="flex items-center gap-1">
+              <div>Page</div>
+              <strong>
+                {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+              </strong>
+            </span>
+            <button
+              className="rounded border p-1 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {"Next ->"}
+            </button>
+
+            {/* <span className="flex items-center gap-1">
+              | Go to page:
+              <input
+                type="number"
+                defaultValue={table.getState().pagination.pageIndex + 1}
+                onChange={e => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  table.setPageIndex(page);
+                }}
+                className="w-16 rounded border p-1"
+              />
+            </span> */}
+            {/* <select
+              value={table.getState().pagination.pageSize}
+              onChange={e => {
+                table.setPageSize(Number(e.target.value));
+              }}
+            >
+              {[10, 20, 30, 40, 50].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select> */}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };
