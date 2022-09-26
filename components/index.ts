@@ -9,6 +9,7 @@ export { default as MenuDropdown } from "./MenuDropdown";
 export { default as Section } from "./Section";
 export { default as Checkbox } from "./Checkbox";
 export { default as MapEmbed } from "./MapEmbed";
+export { default as Search } from "./Search";
 
 /** Chart */
 export { default as Line } from "./Chart/Line";
@@ -17,9 +18,11 @@ export { default as Timeseries } from "./Chart/Timeseries";
 export { default as BarMeter } from "./Chart/BarMeter";
 
 export { default as Donut } from "./Chart/Donut";
+export { default as DonutMeter } from "./Chart/DonutMeter";
 export { default as Stages } from "./Chart/Stages";
 export { default as Choropleth } from "./Chart/Choropleth";
 export { default as Table } from "./Chart/Table";
+export { default as TableFacilities } from "./Chart/TableFacilities";
 export { default as ChartHeader } from "./Chart/ChartHeader";
 
 export { default as StateTick } from "./Chart/Ticks/StateTick";

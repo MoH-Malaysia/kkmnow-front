@@ -39,7 +39,6 @@ const Table: FunctionComponent<TableProps> = ({
 
     return undefined;
   };
-  console.log(dummy);
   const ReactTableProps: any = {
     data,
     columns,
@@ -216,6 +215,7 @@ const dummyConfig = [
       {
         id: "total.perc_1dose",
         header: "% 1 Dose",
+        subHeaders: "hello",
         accessorFn: (item: any) => item.total.perc_1dose,
       },
       {

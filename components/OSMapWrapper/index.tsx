@@ -7,6 +7,7 @@ type GoogleMapWrapperProps = {
   mapWidth?: any;
   LatLng?: any;
   MarketArrays?: any;
+  borderRadius?: number;
 };
 
 const OSMapWrapper: FunctionComponent<GoogleMapWrapperProps> = ({
@@ -14,6 +15,7 @@ const OSMapWrapper: FunctionComponent<GoogleMapWrapperProps> = ({
   mapWidth = "100%",
   LatLng = [51.505, -0.09],
   MarketArrays = dummy,
+  borderRadius = 50,
 }) => {
   const position: LatLngExpression = LatLng;
 
@@ -21,14 +23,15 @@ const OSMapWrapper: FunctionComponent<GoogleMapWrapperProps> = ({
     <>
       <div>
         <MapContainer
-          style={{ height: mapHeight, borderRadius: 50, width: mapWidth }}
+          style={{ height: mapHeight, borderRadius: borderRadius, width: mapWidth }}
           center={position}
           zoom={10}
           scrollWheelZoom={true}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url={`https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
+            // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {MarketArrays.map((item: any) => (
             <Marker position={item.position}>

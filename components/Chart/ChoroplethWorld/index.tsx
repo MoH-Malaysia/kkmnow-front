@@ -93,7 +93,6 @@ interface ChoroplethScaleProps {
 const ChoroplethScale: FunctionComponent<ChoroplethScaleProps> = ({ colors, data }) => {
   const [min, max] = [colors[0], colors[colors.length - 1]];
 
-  // console.log(data.map((item:any) => item.value).min())
   return (
     <div>
       <div
