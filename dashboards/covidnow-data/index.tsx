@@ -232,7 +232,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     highlight: items.iso3 == "MYS" ? true : false,
                   }))}
                   config={worldMapConfig}
-                  isPagination={true}
+                  enablePagination
                 />
               </Panel>
             </Tabs>
