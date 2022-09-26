@@ -16,7 +16,7 @@ import { FunctionComponent } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
-import { COVID_COLOR } from "@lib/constants";
+import { CountryAndStates, COVID_COLOR } from "@lib/constants";
 import { routes } from "@lib/routes";
 import { COVID_TABLE_SCHEMA } from "@lib/schema/covid";
 import { filterCaseDeath } from "@lib/options";
@@ -120,7 +120,12 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
       <Container className="min-h-screen">
         {/* Utilisations */}
-        <Section title="Healthcare facility utilisation">
+        <Section
+          title="Healthcare facility utilisation"
+          description={
+            <p className="text-sm text-dim">Data for {CountryAndStates[currentState]}</p>
+          }
+        >
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
               <DonutMeter value={util_chart.util_vent} />
@@ -194,6 +199,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               <Stages
                 title="Active COVID-19 Cases"
                 className="h-full pt-10"
+                state={currentState}
                 menu={<MenuDropdown />}
                 data={{
                   header: {
@@ -316,6 +322,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             <Timeseries
               className="h-[300px] w-full"
               title="Deaths by Date of Death"
+              state={currentState}
               menu={<MenuDropdown />}
               interval="quarter"
               stats={null}
@@ -351,6 +358,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             <Timeseries
               className="h-[300px] w-full"
               title="Patients Ventilated"
+              state={currentState}
               menu={<MenuDropdown />}
               stats={null}
               interval="quarter"
@@ -379,6 +387,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             <Timeseries
               className="h-[300px] w-full"
               title="Patients in ICU"
+              state={currentState}
               menu={<MenuDropdown />}
               interval="quarter"
               stats={null}
@@ -407,6 +416,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             <Timeseries
               className="h-[300px] w-full"
               title="Hospital Admissions"
+              state={currentState}
               menu={<MenuDropdown />}
               interval="quarter"
               stats={null}
@@ -435,6 +445,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             <Timeseries
               className="h-[300px] w-full"
               title="Confirmed Cases"
+              state={currentState}
               menu={<MenuDropdown />}
               interval="quarter"
               enableLegend
@@ -463,6 +474,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             <Timeseries
               className="h-[300px] w-full"
               title="Tests Conducted"
+              state={currentState}
               menu={<MenuDropdown />}
               interval="quarter"
               stats={null}
@@ -533,6 +545,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     : "Deaths by Vaccination Status",
               }[data.show_indicator.value as string]
             }
+            state={currentState}
             controls={
               <Dropdown
                 options={filterCaseDeath}

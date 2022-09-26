@@ -32,6 +32,7 @@ interface TimeseriesProps {
   controls?: ReactElement;
   data?: ChartData<keyof ChartTypeRegistry, any[], string | number>;
   mode?: "grouped" | "stacked";
+  state?: string | ReactElement;
   subheader?: ReactElement;
   interval?:
     | false
@@ -79,6 +80,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   mode = "stacked",
   data = dummy,
   stats,
+  state,
   subheader,
   type = "bar",
   enableCallout = false,
@@ -263,10 +265,10 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   }, [data]);
 
   return (
-    <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
-      {stats && <Stats data={stats} className="py-4"></Stats>}
-      {subheader && <div className="py-4">{subheader}</div>}
+    <div className="space-y-2">
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
+      {stats && <Stats data={stats}></Stats>}
+      {subheader && <div>{subheader}</div>}
 
       <div className={className}>
         {data && <Chart data={data} options={options()} type={type} />}
@@ -351,3 +353,18 @@ const Stats: FunctionComponent<StatsProps> = ({ data, className }) => {
 };
 
 export default Timeseries;
+
+// const locations: {
+//   [state]: {
+//     [district]: {
+//       [facility-type]: [
+//         {
+//           name: "Hospital Whatever";
+//           lat: number;
+//           lon: number;
+//         },
+//         // { ... }
+//       ];
+//     };
+//   };
+// };

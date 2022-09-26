@@ -35,6 +35,7 @@ interface LineProps {
   subheader?: ReactElement | ReactElement[];
   type?: "category" | "linear" | "logarithmic";
   title?: string;
+  state?: string;
   data?: any;
   unitX?: string;
   unitY?: string;
@@ -50,6 +51,7 @@ const Line: FunctionComponent<LineProps> = ({
   controls,
   subheader,
   title,
+  state,
   type = "linear",
   unitX,
   unitY,
@@ -121,7 +123,7 @@ const Line: FunctionComponent<LineProps> = ({
 
   return (
     <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       {subheader && <div className="py-4">{subheader}</div>}
       <div className={className}>
         <LineCanvas options={options} data={data} />

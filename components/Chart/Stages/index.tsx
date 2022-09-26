@@ -10,6 +10,7 @@ interface StagesProps {
   title?: string;
   menu?: ReactElement;
   controls?: ReactElement;
+  state?: string;
   data?: StageData;
 }
 
@@ -26,10 +27,11 @@ const Stages: FunctionComponent<StagesProps> = ({
   menu,
   controls,
   data,
+  state,
 }) => {
   return (
     <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       <div className={className}>
         {/* Header */}
         {data?.header && (

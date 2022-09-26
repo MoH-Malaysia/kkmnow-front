@@ -13,6 +13,7 @@ interface HeatmapProps {
   title?: string | ReactElement;
   menu?: ReactElement;
   key?: string;
+  state?: string;
   valueFormat?: ValueFormat<number>;
   controls?: ReactElement;
   schema?: Array<HeatmapSchema>;
@@ -40,6 +41,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
   schema,
   color,
   menu,
+  state,
   key = "y",
   valueFormat = ">-.2f",
   controls,
@@ -126,7 +128,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
 
   return (
     <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
 
       <div className={className}>
         {legend?.left && (

@@ -8,6 +8,7 @@ interface BarMeterProps {
   title?: string | ReactElement;
   menu?: ReactElement;
   controls?: ReactElement;
+  state?: string;
   total?: number;
   data?: Array<any>;
   xKey?: string;
@@ -24,6 +25,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
   title,
   menu,
   controls,
+  state,
   total = 100,
   color = "#0F172A",
   xKey = "x",
@@ -156,7 +158,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
 
   return (
     <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       <div className={className}>
         {_data &&
           _data.map((item, index) => {
