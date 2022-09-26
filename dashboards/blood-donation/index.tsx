@@ -301,6 +301,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 maxY={data.relative_donation_type ? 100 : undefined}
                 unitY={data.relative_donation_type ? "%" : undefined}
                 menu={<MenuDropdown />}
+                enableCallout
                 subheader={
                   <Checkbox
                     name="donation_type"
@@ -346,6 +347,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 unitY={data.relative_blood_group ? "%" : undefined}
                 maxY={data.relative_blood_group ? 100 : undefined}
                 menu={<MenuDropdown />}
+                enableCallout
                 subheader={
                   <Checkbox
                     name="blood_group"
@@ -411,6 +413,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 interval="year"
                 round="year"
                 menu={<MenuDropdown />}
+                enableCallout
                 subheader={
                   <Checkbox
                     name="donor_type"
@@ -455,6 +458,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 unitY={data.relative_location ? "%" : undefined}
                 maxY={data.relative_location ? 100 : undefined}
                 menu={<MenuDropdown />}
+                enableCallout
                 subheader={
                   <Checkbox
                     name="location"

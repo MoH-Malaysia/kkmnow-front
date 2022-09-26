@@ -766,6 +766,11 @@ chartjs-adapter-luxon@^1.2.0:
   resolved "https://registry.yarnpkg.com/chartjs-adapter-luxon/-/chartjs-adapter-luxon-1.2.0.tgz#1599fe5448a4e5e2af817a1a80aa982435aab431"
   integrity sha512-h1lEns7+8cUN/Dmk24dhrT9hpAimKImQxzHpILqXn2kocdzj9b/fDlBa8v8/OMq5rq0uZEx/NV1WpByH4l2/Rw==
 
+chartjs-plugin-annotation@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-annotation/-/chartjs-plugin-annotation-2.0.1.tgz#faba89dac426b37af5b63b8353636ef03d13816c"
+  integrity sha512-I+bbmiGuxW68DuhFuCS+oSJN4bzX9d3Z+xJ34+4YhrC68+fncRZgNARgJYqlkCD9s+JQohCkZ0iK/GNr+3Ug2A==
+
 chartjs-plugin-crosshair@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/chartjs-plugin-crosshair/-/chartjs-plugin-crosshair-1.2.0.tgz#54c8223ed40db4a5c380f17967fcf1a11cb2a284"

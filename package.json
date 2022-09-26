@@ -26,6 +26,7 @@
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
     "chartjs-adapter-luxon": "^1.2.0",
+    "chartjs-plugin-annotation": "^2.0.1",
     "chartjs-plugin-crosshair": "^1.2.0",
     "leaflet": "^1.9.1",
     "lodash": "^4.17.21",

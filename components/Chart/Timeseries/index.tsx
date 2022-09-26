@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from "react";
+import { FunctionComponent, ReactElement, useCallback } from "react";
 import { ChartHeader, Tooltip } from "@components/index";
 
 import {
@@ -17,6 +17,8 @@ import {
   ChartTypeRegistry,
 } from "chart.js";
 import { CrosshairPlugin } from "chartjs-plugin-crosshair";
+import AnnotationPlugin from "chartjs-plugin-annotation";
+
 import { Chart } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
 import "chartjs-adapter-luxon";
@@ -58,6 +60,7 @@ interface TimeseriesProps {
   gridYValues?: Array<number> | undefined;
   minY?: number;
   maxY?: number;
+  enableCallout?: boolean;
   enableCrosshair?: boolean;
   enableLegend?: boolean;
   enableGridX?: boolean;
@@ -78,6 +81,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   stats,
   subheader,
   type = "bar",
+  enableCallout = false,
   enableCrosshair = true,
   enableLegend = false,
   enableGridX = false,
@@ -95,107 +99,156 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
     TimeSeriesScale,
     Legend,
     ChartTooltip,
-    CrosshairPlugin
+    CrosshairPlugin,
+    AnnotationPlugin
   );
 
-  const options: ChartCrosshairOption = {
-    responsive: true,
-    maintainAspectRatio: false,
-    normalized: true,
-    elements: {
-      point: {
-        borderWidth: 0,
-        radius: 0,
-        hoverRadius: 2,
-      },
-    },
-    plugins: {
-      legend: {
-        display: enableLegend,
-        position: "right" as const,
-      },
-      tooltip: {
-        enabled: true,
-        bodyFont: {
-          family: "Inter",
+  const options = useCallback((): ChartCrosshairOption => {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      normalized: true,
+      elements: {
+        point: {
+          borderWidth: 0,
+          radius: 0,
+          hoverRadius: 2,
         },
-        mode: "index",
-        intersect: false,
+      },
+      plugins: {
+        legend: {
+          display: enableLegend,
+          position: "right" as const,
+        },
+        tooltip: {
+          enabled: true,
+          bodyFont: {
+            family: "Inter",
+          },
+          mode: "index",
+          intersect: false,
 
-        callbacks: {
-          label: function (item) {
-            return `${item.dataset.label}: ${Number(item.parsed.y.toFixed(0)).toLocaleString()}`;
+          callbacks: {
+            label: function (item) {
+              return `${item.dataset.label}: ${+item.parsed.y.toFixed(0).toLocaleString()}`;
+            },
           },
+        },
+        annotation: enableCallout
+          ? {
+              clip: false,
+              common: {
+                drawTime: "afterDraw",
+              },
+              annotations: data.datasets.map((set, index) => {
+                const xIndex = data.labels!.length - 200;
+                const yIndex = data.labels!.length - 1;
+                return {
+                  type: "label",
+                  callout: {
+                    display: true,
+                  },
+                  content(ctx, options) {
+                    let text = set.label!;
+                    if (text.length > 12) text = text.slice(0, 10).concat("..");
+                    return text;
+                  },
+                  font: {
+                    family: "Inter",
+                    style: "normal",
+                    lineHeight: 1,
+                    weight: "400",
+                    size: 14,
+                  },
+                  position: {
+                    x: "start",
+                    y: "start",
+                  },
+                  xAdjust: 20,
+                  xValue: data.labels![xIndex] as string | number,
+                  yAdjust: -20,
+                  yValue: data.datasets
+                    .slice(0, index + 1)
+                    .reduce((previous, current) => previous + current.data[yIndex], 0),
+                };
+              }),
+            }
+          : false,
+        crosshair: enableCrosshair
+          ? {
+              line: {
+                width: 0,
+                color: "#000",
+                dashPattern: [6, 4],
+              },
+              zoom: {
+                enabled: false,
+              },
+              sync: {
+                enabled: false,
+              },
+            }
+          : false,
+      },
+      layout: {
+        padding: {
+          right: enableCallout ? 80 : 0,
+          top: enableCallout ? 20 : 0,
         },
       },
-      crosshair: enableCrosshair
-        ? {
-            line: {
-              width: 0,
-              color: "#000",
-              dashPattern: [6, 4],
+      scales: {
+        x: {
+          type: "time",
+          time: {
+            unit: interval,
+            round: round,
+            displayFormats: {
+              quarter: "MMM",
+              month: "MMM",
             },
-            zoom: {
-              enabled: false,
+            tooltipFormat: "dd MMM yyyy",
+          },
+          grid: {
+            display: enableGridX,
+            borderWidth: 1,
+            borderDash: [5, 10],
+          },
+          ticks: {
+            major: {
+              enabled: true,
             },
-            sync: {
-              enabled: false,
+            minRotation: 0,
+            maxRotation: 0,
+            font: {
+              family: "Inter",
             },
-          }
-        : false,
-    },
-    scales: {
-      x: {
-        type: "time",
-        time: {
-          unit: interval,
-          round: round,
-          displayFormats: {
-            quarter: "MMM",
-            month: "MMM",
           },
-          tooltipFormat: "dd MMM yyyy",
+          stacked: mode === "stacked",
         },
-        grid: {
-          display: enableGridX,
-          borderWidth: 1,
-          borderDash: [5, 10],
-        },
-        ticks: {
-          major: {
-            enabled: true,
+        y: {
+          grid: {
+            display: enableGridY,
+            borderWidth: 1,
+            borderDash: [5, 5],
+            drawTicks: false,
+            drawBorder: false,
+            offset: false,
           },
-          minRotation: 0,
-          maxRotation: 0,
-          font: {
-            family: "Inter",
+          ticks: {
+            padding: 6,
+            callback: (value: string | number) => {
+              return numFormat(value as number).concat(unitY ?? "");
+            },
+            font: {
+              family: "Inter",
+            },
           },
+          max: maxY,
+          stacked: mode === "stacked",
         },
-        stacked: mode === "stacked",
       },
-      y: {
-        grid: {
-          display: enableGridY,
-          borderWidth: 1,
-          borderDash: [5, 5],
-          drawTicks: false,
-          drawBorder: false,
-          offset: false,
-        },
-        ticks: {
-          padding: 6,
-          callback: (value: string | number) => {
-            return numFormat(value as number).concat(unitY ?? "");
-          },
-          font: {
-            family: "Inter",
-          },
-        },
-        max: maxY,
-        stacked: mode === "stacked",
-      },
-    },
-  };
+    };
+  }, [data]);
 
   return (
     <div>
@@ -203,7 +256,9 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
       {stats && <Stats data={stats} className="py-4"></Stats>}
       {subheader && <div className="py-4">{subheader}</div>}
 
-      <div className={className}>{data && <Chart data={data} options={options} type={type} />}</div>
+      <div className={className}>
+        {data && <Chart data={data} options={options()} type={type} />}
+      </div>
     </div>
   );
 };
