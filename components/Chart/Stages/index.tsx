@@ -187,7 +187,7 @@ const Stats: FunctionComponent<StatsProps> = ({
             }`}
           >
             {!unit && appendPlusMinus(delta)}
-            {delta && delta.toFixed(1)}
+            {delta && (+delta.toFixed(1)).toLocaleString()}
             {unit}
           </small>
         </div>
@@ -197,7 +197,7 @@ const Stats: FunctionComponent<StatsProps> = ({
 };
 
 const appendPlusMinus = (delta: number) => {
-  return delta > 0 ? "+" : "-";
+  return delta > 0 ? "+" : "";
 };
 
 const badgeColor = (delta: number, inverse: boolean = false) => {

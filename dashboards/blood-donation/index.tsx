@@ -26,6 +26,7 @@ import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
+const Empty = dynamic(() => import("@components/Chart/Empty"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
@@ -156,7 +157,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   <Timeseries
                     className="h-[500px] w-full"
                     interval="month"
-                    animate={false}
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -178,7 +178,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   <Timeseries
                     className="h-[500px] w-full"
                     interval="month"
-                    animate={false}
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -200,7 +199,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   <Timeseries
                     className="h-[500px] w-full"
                     interval="month"
-                    animate={false}
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -222,7 +220,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   <Timeseries
                     className="h-[500px] w-full"
                     interval="month"
-                    animate={false}
                     data={{
                       labels: timeseries_bloodstock.x,
                       datasets: [
@@ -302,7 +299,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 interval="year"
                 round="year"
                 maxY={data.relative_donation_type ? 100 : undefined}
-                animate={false}
                 unitY={data.relative_donation_type ? "%" : undefined}
                 menu={<MenuDropdown />}
                 subheader={
@@ -349,7 +345,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 round="year"
                 unitY={data.relative_blood_group ? "%" : undefined}
                 maxY={data.relative_blood_group ? 100 : undefined}
-                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -415,7 +410,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 maxY={data.relative_donor_type ? 100 : undefined}
                 interval="year"
                 round="year"
-                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -460,7 +454,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 round="year"
                 unitY={data.relative_location ? "%" : undefined}
                 maxY={data.relative_location ? 100 : undefined}
-                animate={false}
                 menu={<MenuDropdown />}
                 subheader={
                   <Checkbox
@@ -771,7 +764,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           title="How is this data collected?"
           description="Map showing locations of BBIS centres:"
         >
-          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
             <div className="w-full space-y-3">
               <StateDropdown
                 currentState={data.zoom_state}
@@ -798,7 +791,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 width="w-full"
               />
 
-              {timeseries_facility?.[data.zoom_state!]?.[data?.zoom_facility?.label] && (
+              {timeseries_facility?.[data.zoom_state]?.[data.zoom_facility?.label] ? (
                 <div className="w-full pt-7">
                   <Timeseries
                     className="h-[300px] w-full pt-4"
@@ -826,12 +819,22 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     enableGridX={false}
                   />
                 </div>
+              ) : (
+                <Empty
+                  title="Daily Donations"
+                  type="timeseries"
+                  className="h-[300px] w-full pt-7"
+                  placeholder="Please select a facility"
+                />
               )}
             </div>
             <div className="w-full">
-              {data.zoom_state && data.zoom_facility && (
-                <MapEmbed className="h-[420px] w-full" place={data.zoom_facility.label} />
-              )}
+              <MapEmbed
+                className="h-[420px] w-full"
+                place={
+                  data.zoom_state && data.zoom_facility ? data.zoom_facility.label : "Malaysia"
+                }
+              />
             </div>
           </div>
         </Section>

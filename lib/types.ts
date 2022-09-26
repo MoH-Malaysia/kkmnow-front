@@ -1,3 +1,4 @@
+import type { ChartOptions } from "chart.js";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import type { ReactElement } from "react";
@@ -19,3 +20,25 @@ export interface IChart {
   data: any;
   [key: string]: any;
 }
+
+export type ChartCrosshairOption = ChartOptions & {
+  plugins: {
+    crosshair?:
+      | {
+          line: {
+            width?: number;
+            color?: string;
+            dashPattern?: [number, number];
+          };
+          zoom: {
+            enabled: boolean;
+          };
+          sync: {
+            enabled: boolean;
+          };
+        }
+      | false;
+  };
+};
+export type BarCrosshairOption = ChartOptions<"bar"> & ChartCrosshairOption;
+export type LineCrosshairOption = ChartOptions<"line"> & ChartCrosshairOption;

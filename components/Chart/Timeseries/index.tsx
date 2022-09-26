@@ -12,13 +12,15 @@ import {
   Tooltip as ChartTooltip,
   TimeScale,
   TimeSeriesScale,
+  Legend,
   ChartData,
   ChartTypeRegistry,
-  ChartOptions,
 } from "chart.js";
+import { CrosshairPlugin } from "chartjs-plugin-crosshair";
 import { Chart } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
 import "chartjs-adapter-luxon";
+import { ChartCrosshairOption } from "@lib/types";
 
 interface TimeseriesProps {
   className?: string;
@@ -26,7 +28,6 @@ interface TimeseriesProps {
   title?: string;
   type?: keyof ChartTypeRegistry;
   controls?: ReactElement;
-  layout?: "vertical" | "horizontal";
   data?: ChartData<keyof ChartTypeRegistry, any[], string | number>;
   mode?: "grouped" | "stacked";
   subheader?: ReactElement;
@@ -52,32 +53,17 @@ interface TimeseriesProps {
     | "month"
     | "quarter"
     | "year";
-  unitX?: string;
   unitY?: string;
   gridXValues?: Array<number> | undefined;
   gridYValues?: Array<number> | undefined;
   minY?: number;
   maxY?: number;
-  enableLabel?: boolean;
-  hideLabelKeys?: string[];
-  enableLine?: boolean;
+  enableCrosshair?: boolean;
+  enableLegend?: boolean;
   enableGridX?: boolean;
   enableGridY?: boolean;
   stats?: Array<StatProps> | null;
-  animate?: false;
 }
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  LineController,
-  TimeScale,
-  TimeSeriesScale,
-  ChartTooltip
-);
 
 const Timeseries: FunctionComponent<TimeseriesProps> = ({
   className = "w-full h-[750px]", // manage CSS here
@@ -85,21 +71,34 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   title,
   controls,
   interval = "month",
-  unitX,
   unitY,
   round,
   mode = "stacked",
-  layout = "vertical",
   data = dummy,
   stats,
   subheader,
-  animate,
   type = "bar",
+  enableCrosshair = true,
+  enableLegend = false,
   enableGridX = false,
   enableGridY = true,
   maxY,
 }) => {
-  const options: ChartOptions = {
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    PointElement,
+    LineElement,
+    LineController,
+    TimeScale,
+    TimeSeriesScale,
+    Legend,
+    ChartTooltip,
+    CrosshairPlugin
+  );
+
+  const options: ChartCrosshairOption = {
     responsive: true,
     maintainAspectRatio: false,
     normalized: true,
@@ -110,6 +109,41 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
         hoverRadius: 2,
       },
     },
+    plugins: {
+      legend: {
+        display: enableLegend,
+        position: "right" as const,
+      },
+      tooltip: {
+        enabled: true,
+        bodyFont: {
+          family: "Inter",
+        },
+        mode: "index",
+        intersect: false,
+
+        callbacks: {
+          label: function (item) {
+            return `${item.dataset.label}: ${Number(item.parsed.y.toFixed(0)).toLocaleString()}`;
+          },
+        },
+      },
+      crosshair: enableCrosshair
+        ? {
+            line: {
+              width: 0,
+              color: "#000",
+              dashPattern: [6, 4],
+            },
+            zoom: {
+              enabled: false,
+            },
+            sync: {
+              enabled: false,
+            },
+          }
+        : false,
+    },
     scales: {
       x: {
         type: "time",
@@ -118,8 +152,9 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           round: round,
           displayFormats: {
             quarter: "MMM",
-            month: "MMM yyyy",
+            month: "MMM",
           },
+          tooltipFormat: "dd MMM yyyy",
         },
         grid: {
           display: enableGridX,
@@ -131,7 +166,10 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
             enabled: true,
           },
           minRotation: 0,
-          maxRotation: 50,
+          maxRotation: 0,
+          font: {
+            family: "Inter",
+          },
         },
         stacked: mode === "stacked",
       },
@@ -148,6 +186,9 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           padding: 6,
           callback: (value: string | number) => {
             return numFormat(value as number).concat(unitY ?? "");
+          },
+          font: {
+            family: "Inter",
           },
         },
         max: maxY,

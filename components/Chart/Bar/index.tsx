@@ -12,8 +12,8 @@ import {
 } from "chart.js";
 import { Bar as BarCanvas } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, ChartTooltip);
+import { CrosshairPlugin } from "chartjs-plugin-crosshair";
+import { BarCrosshairOption } from "@lib/types";
 
 interface BarProps {
   className?: string;
@@ -27,6 +27,7 @@ interface BarProps {
   unitY?: string;
   minY?: number;
   maxY?: number;
+  enableLegend?: boolean;
   enableGridX?: boolean;
   enableGridY?: boolean;
   enableStack?: boolean;
@@ -43,6 +44,7 @@ const Bar: FunctionComponent<BarProps> = ({
   unitY,
   layout = "vertical",
   data = dummy,
+  enableLegend = false,
   enableStack = false,
   enableGridX = true,
   enableGridY = true,
@@ -50,9 +52,24 @@ const Bar: FunctionComponent<BarProps> = ({
   maxY,
 }) => {
   const isVertical = useMemo(() => layout === "vertical", [layout]);
-  const options: ChartOptions<"bar"> = {
+  ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, ChartTooltip);
+
+  const options: BarCrosshairOption = {
     maintainAspectRatio: false,
     responsive: true,
+    plugins: {
+      legend: {
+        display: enableLegend,
+        position: "chartArea" as const,
+        align: "start",
+      },
+      tooltip: {
+        bodyFont: {
+          family: "Inter",
+        },
+      },
+      crosshair: false,
+    },
     scales: {
       x: {
         type: isVertical ? type : "linear",
@@ -62,6 +79,9 @@ const Bar: FunctionComponent<BarProps> = ({
           borderDash: [5, 10],
         },
         ticks: {
+          font: {
+            family: "Inter",
+          },
           padding: 6,
           callback: function (value: string | number) {
             return isVertical
@@ -81,6 +101,9 @@ const Bar: FunctionComponent<BarProps> = ({
           offset: false,
         },
         ticks: {
+          font: {
+            family: "Inter",
+          },
           padding: 6,
           callback: function (value: string | number) {
             return isVertical

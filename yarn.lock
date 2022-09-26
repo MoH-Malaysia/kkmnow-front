@@ -766,6 +766,11 @@ chartjs-adapter-luxon@^1.2.0:
   resolved "https://registry.yarnpkg.com/chartjs-adapter-luxon/-/chartjs-adapter-luxon-1.2.0.tgz#1599fe5448a4e5e2af817a1a80aa982435aab431"
   integrity sha512-h1lEns7+8cUN/Dmk24dhrT9hpAimKImQxzHpILqXn2kocdzj9b/fDlBa8v8/OMq5rq0uZEx/NV1WpByH4l2/Rw==
 
+chartjs-plugin-crosshair@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-crosshair/-/chartjs-plugin-crosshair-1.2.0.tgz#54c8223ed40db4a5c380f17967fcf1a11cb2a284"
+  integrity sha512-yohsbME+wT1ODBdErBzWnC6xUDcn2tLeWmGjGDTykjpiT7+FMgibffajxqaCVmdzselxNPirpt76vx33EewSSQ==
+
 chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"

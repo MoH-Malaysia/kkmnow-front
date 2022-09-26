@@ -28,7 +28,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
   yKey = "y",
   data = dummy,
   layout = "vertical",
-  unit = "%",
+  unit = "",
 }) => {
   const percentFill = (value: number): string => {
     return `${minMax((value / total) * 100)}%`;
@@ -38,10 +38,13 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
     switch (layout) {
       case "horizontal":
         return (
-          <div className="space-y-2" key={item[xKey].concat(`_${index}`)}>
+          <div className="space-y-1" key={item[xKey].concat(`_${index}`)}>
             <div className="flex justify-between">
               <p>{item[xKey]}</p>
-              <p className="text-dim">{(item[yKey] as number).toFixed(1) + unit}</p>
+              <p className="text-dim">
+                {+(item[yKey] as number).toFixed(1)}
+                {unit}
+              </p>
             </div>
 
             <div className="flex h-2.5 w-full overflow-x-hidden bg-outline">
@@ -69,7 +72,10 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
             </div>
 
             <div className="flex flex-grow items-center gap-2">
-              <p className="w-[40px] text-sm text-dim">{(item[yKey] as number).toFixed(1)}</p>
+              <p className="w-[40px] text-sm text-dim">
+                {+(item[yKey] as number).toFixed(1)}
+                {unit}
+              </p>
               <div className="h-2.5 flex-grow overflow-x-hidden bg-outline">
                 <div
                   className="h-full items-center overflow-hidden"
@@ -90,7 +96,10 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
               className="hidden flex-col items-center space-y-2 lg:flex"
               key={item[xKey].concat(`_${index}`)}
             >
-              <p>{(item[yKey] as number).toFixed(1) + unit}</p>
+              <p>
+                {+(item[yKey] as number).toFixed(1)}
+                {unit}
+              </p>
               <div className="relative flex h-[80%] w-8 overflow-x-hidden bg-outline">
                 <div
                   className="absolute bottom-0 w-full items-center overflow-hidden"
@@ -105,7 +114,10 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
             <div className="block space-y-2 lg:hidden" key={item[xKey].concat(`__${index}`)}>
               <div className="flex justify-between">
                 <p>{item[xKey]}</p>
-                <p className="text-dim">{(item[yKey] as number).toFixed(1) + unit}</p>
+                <p className="text-dim">
+                  {+(item[yKey] as number).toFixed(1)}
+                  {unit}
+                </p>
               </div>
 
               <div className="flex h-2.5 w-full overflow-x-hidden bg-outline">

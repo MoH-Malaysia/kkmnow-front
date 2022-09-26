@@ -129,13 +129,12 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 {data.vax_tab === 0 ? data.filter_age.label : data.filter_dose.label}
               </p>
             }
-            menu={<MenuDropdown />}
             current={data.vax_tab}
             onChange={index => setData("vax_tab", index)}
             controls={<>{renderFilterOptions()}</>}
           >
             <Panel name="Filter by Age group">
-              <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-x-2 gap-y-10 lg:grid-cols-4 lg:gap-6">
                 <Waffle
                   className="aspect-square w-full lg:h-[300px] lg:w-auto"
                   title={
@@ -144,7 +143,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                       <Tooltip
                         trigger={
                           <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].dose1.perc as number).toFixed(2)}%
+                            {(waffle_data[data.filter_age.value].dose1.perc as number).toFixed(1)}%
                           </span>
                         }
                       >
@@ -181,7 +180,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                         <Tooltip
                           trigger={
                             <span className="underline decoration-dashed underline-offset-4">
-                              {(waffle_data[data.filter_age.value].dose2.perc as number).toFixed(2)}
+                              {(waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}
                               %
                             </span>
                           }
@@ -221,7 +220,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                           trigger={
                             <span className="underline decoration-dashed underline-offset-4">
                               {(waffle_data[data.filter_age.value].booster1.perc as number).toFixed(
-                                2
+                                1
                               )}
                               %
                             </span>
@@ -262,7 +261,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                           trigger={
                             <span className="underline decoration-dashed underline-offset-4">
                               {(waffle_data[data.filter_age.value].booster2.perc as number).toFixed(
-                                2
+                                1
                               )}
                               %
                             </span>
@@ -296,7 +295,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               </div>
             </Panel>
             <Panel name="Filter by Dose">
-              <BarMeter data={barmeter_data[data.filter_dose.value]} xKey="id" />
+              <BarMeter data={barmeter_data[data.filter_dose.value]} xKey="id" unit="%" />
             </Panel>
           </Tabs>
         </Section>

@@ -14,3 +14,12 @@ declare module "*.gql" {
 
   export = Schema;
 }
+
+declare module "chartjs-plugin-crosshair" {
+  export const CrosshairPlugin: any;
+  export const Interpolate: any;
+
+  export interface InteractionModeMap {
+    interpolate: Function;
+  }
+}
