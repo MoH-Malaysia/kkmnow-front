@@ -68,14 +68,14 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
             ${width}
           `}
         >
-          {label && <span className="">{label}:</span>}
+          {label && <span className="text-dim">{label}:</span>}
           {enableFlag && selected && (
             <img
               src={`/static/images/states/${(selected as OptionType<L, V>).value}.jpeg`}
               className="aspect-auto h-3"
             />
           )}
-          <span className={`block truncate ${label ? "font-bold" : ""}`}>
+          <span className={`block truncate ${label ? "" : ""}`}>
             {multiple ? title : (selected as OptionType<L, V>)?.label || placeholder || "Select"}
           </span>
           {/* NUMBER OF OPTIONS SELECTED (MULTIPLE = TRUE) */}

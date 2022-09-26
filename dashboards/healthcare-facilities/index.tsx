@@ -1,4 +1,13 @@
-import { Hero, Container, Bar, Search, Section, StateDropdown, Dropdown } from "@components/index";
+import {
+  Hero,
+  Container,
+  Bar,
+  Search,
+  Section,
+  StateDropdown,
+  Dropdown,
+  Table,
+} from "@components/index";
 import { GlobeAltIcon } from "@heroicons/react/24/solid";
 import { MapIcon } from "@heroicons/react/24/outline";
 import { useData } from "@hooks/useData";
@@ -30,16 +39,16 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     zoom_type: "",
     zoom_state: currentState,
     zoom_district: "",
-    table_filter: "",
+    table_state: undefined,
+    table_district: undefined,
+    table_facility_type: undefined,
   });
 
   const isZoomEmpty = () => {
     return data.zoom_district != "" && data.zoom_state != "";
   };
 
-  //   useEffect(() => {
-  //     setData("zoom_facility", undefined);
-  //   }, [data.zoom_state]);
+  console.log(facility_types);
 
   return (
     <>
@@ -63,19 +72,61 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       <Container className="min-h-screen">
         <Section title="Find A Healthcare Facility">
           <div className="mt-2">
-            <TableFacilities
+            <Table
               data={facility_table}
               config={FACILTIES_TABLE_SCHEMA.config}
-              filter={true}
-              pagination={true}
-              currentState={currentState}
-              facility_types={facility_types}
-              state_district_mapping={state_district_mapping}
+              controls={setColumnFilters => (
+                <>
+                  <StateDropdown
+                    label="State"
+                    currentState={data.table_state}
+                    onChange={selected => {
+                      setData("table_state", selected.value);
+                      setColumnFilters([{ id: "state", value: selected.value }]);
+                    }}
+                    exclude={["kvy"]}
+                  />
+                  <Dropdown
+                    selected={data.table_district}
+                    placeholder="All"
+                    label="District"
+                    options={[]}
+                    disabled
+                    onChange={selected => {
+                      setData("table_district", selected);
+                      setColumnFilters(state =>
+                        state.concat({ id: "district", value: selected.value })
+                      );
+                    }}
+                  />
+                  <Dropdown
+                    selected={data.table_facility_type}
+                    placeholder="All"
+                    label="Type"
+                    options={facility_types.map((item: string): OptionType => {
+                      return {
+                        label: item,
+                        value: item.toLowerCase(),
+                      };
+                    })}
+                    onChange={selected => {
+                      setData("table_facility_type", selected);
+                      setColumnFilters(state =>
+                        state.concat({ id: "type", value: selected.label })
+                      );
+                    }}
+                    width="w-full"
+                  />
+                </>
+              )}
+              search={setGlobalFilter => (
+                <Search onChange={query => setGlobalFilter(query ?? "")} />
+              )}
+              enablePagination
             />
           </div>
         </Section>
         <Section title="">
-          {/* <div className="grid grid-cols-1 gap-12 xl:grid-cols-2"> */}
           <div className="flex w-full flex-col gap-12 lg:flex-row">
             <div className="w-full space-y-4 lg:w-1/3">
               <h3>How does proximity to healthcare vary nationally?</h3>
@@ -97,13 +148,11 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
               </h4>
 
               <StateDropdown
-                url={routes.HEALTHCARE}
                 currentState={data.zoom_state}
                 onChange={selected => {
                   setData("zoom_state", selected.value);
                   setData("zoom_district", "");
                   setData("zoom_type", "");
-                  //   router.push(`${routes.HEALTHCARE}/${selected.value}`);
                 }}
                 exclude={["kvy"]}
                 width="w-full"

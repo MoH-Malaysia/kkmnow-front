@@ -1,4 +1,11 @@
-import { FunctionComponent, useMemo, useState, ReactElement } from "react";
+import {
+  FunctionComponent,
+  useMemo,
+  useState,
+  ReactElement,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import {
   ColumnDef,
   flexRender,
@@ -7,21 +14,30 @@ import {
   SortingState,
   useReactTable,
   getPaginationRowModel,
+  ColumnFiltersState,
+  FilterFn,
+  Table as ReactTable,
+  TableOptions,
+  TableOptionsResolved,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
-import { ArrowsUpDownIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftIcon, ArrowRightIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid";
 import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/20/solid";
 import { CountryAndStates } from "@lib/constants";
 import { useEffect } from "react";
-
-// * TODO: resolve the additional typings later (relative, inverse, unit)
+import { rankItem } from "@tanstack/match-sorter-utils";
 
 interface TableProps {
   className?: string;
   title?: string;
   menu?: ReactElement;
+  controls?: (
+    setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>
+  ) => ReactElement | ReactElement[];
+  search?: (setGlobalFilter: Dispatch<SetStateAction<string>>) => ReactElement | ReactElement[];
   data?: any;
   config?: Array<ColumnDef<Record<string, any>>>;
-  isPagination?: boolean;
+  enablePagination?: boolean;
 }
 
 const badgeColor = (delta: number, inverse: boolean = false) => {
@@ -33,6 +49,18 @@ const badgeColor = (delta: number, inverse: boolean = false) => {
   if (inverse) return delta > 1 ? COLOR.RED : delta < 0 ? COLOR.GREEN : COLOR.DEFAULT;
   else return delta > 1 ? COLOR.GREEN : delta < 0 ? COLOR.RED : COLOR.DEFAULT;
 };
+const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value);
+
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  });
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed;
+};
 
 const Table: FunctionComponent<TableProps> = ({
   className = "",
@@ -40,10 +68,14 @@ const Table: FunctionComponent<TableProps> = ({
   menu,
   data = dummy,
   config = dummyConfig,
-  isPagination = false,
+  controls,
+  search,
+  enablePagination = false,
 }) => {
   const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState<string>("");
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const sortTooltip = (sortDir: "asc" | "desc" | false) => {
     if (sortDir === false) return "Sort";
@@ -52,27 +84,29 @@ const Table: FunctionComponent<TableProps> = ({
 
     return undefined;
   };
-  const ReactTableProps: any = {
+  const ReactTableProps: TableOptions<Record<string, any>> = {
     data,
     columns,
     state: {
-      sorting,
+      sorting: sorting,
+      columnFilters: columnFilters,
+      globalFilter: globalFilter,
     },
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    // getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
     debugTable: false,
   };
-
-  !isPagination
-    ? ReactTableProps.getPaginationRowModel == null
-    : (ReactTableProps.getPaginationRowModel = getPaginationRowModel());
 
   const table = useReactTable(ReactTableProps);
 
   useEffect(() => {
-    isPagination ? table.setPageSize(10) : null;
+    enablePagination && table.setPageSize(15);
   }, []);
 
   return (
@@ -80,6 +114,13 @@ const Table: FunctionComponent<TableProps> = ({
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         <span className="text-base font-bold">{title ?? ""}</span>
         {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
+      </div>
+
+      <div className="flex w-full items-center justify-between pb-4">
+        <div className="flex flex-row flex-wrap items-center gap-2">
+          {controls && controls(setColumnFilters)}
+        </div>
+        {search && search(setGlobalFilter)}
       </div>
       <table className={`table ${className}`}>
         <thead>
@@ -91,15 +132,22 @@ const Table: FunctionComponent<TableProps> = ({
                     {header.isPlaceholder ? null : (
                       <div
                         {...{
-                          className: header.column.getCanSort()
-                            ? "cursor-pointer select-none flex gap-1 text-sm justify-end text-right pr-1"
-                            : "hidden",
-                          onClick: header.column.getToggleSortingHandler(),
+                          className: [
+                            header.column.getSize() > 1
+                              ? "select-none flex gap-1 text-sm justify-end text-right pr-1"
+                              : "hidden",
+                            header.column.getCanSort() ? "cursor-pointer" : "",
+                          ].join(" "),
+                          onClick: header.column.getCanSort()
+                            ? header.column.getToggleSortingHandler()
+                            : undefined,
                         }}
                       >
-                        <span>
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                        </span>
+                        <div>
+                          <p className="font-medium text-black">
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                          </p>
+                        </div>
                         <span
                           className="inline-block"
                           title={sortTooltip(header.column.getIsSorted())}
@@ -133,7 +181,7 @@ const Table: FunctionComponent<TableProps> = ({
 
                   const classNames = [
                     ...(cell.row.original.state === "mys" ? ["bg-outline"] : []),
-                    ...(lastCellInGroup.id === cell.column.id ? ["text xs border-r-black"] : []),
+                    ...(lastCellInGroup.id === cell.column.id ? ["text-xs border-r-black"] : []),
                     ...(cell.column.columnDef.relative
                       ? [
                           badgeColor(cell.getValue() as number, cell.column.columnDef.inverse),
@@ -159,57 +207,30 @@ const Table: FunctionComponent<TableProps> = ({
           })}
         </tbody>
       </table>
-      {isPagination ? (
-        <>
-          <div className="my-4 flex w-full items-center justify-center gap-2">
-            <button
-              className="rounded border p-1 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              {"<- Previous"}
-            </button>
-            <span className="flex items-center gap-1">
-              <div>Page</div>
-              <strong>
-                {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-              </strong>
-            </span>
-            <button
-              className="rounded border p-1 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              {"Next ->"}
-            </button>
+      {enablePagination && (
+        <div className="mt-5 flex items-center justify-center gap-4 text-sm">
+          <button
+            className="flex flex-row gap-2 rounded border py-1 px-2 disabled:bg-slate-100 disabled:opacity-50"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ArrowLeftIcon className="h-5 w-4 text-dim" />
+            Previous
+          </button>
 
-            {/* <span className="flex items-center gap-1">
-              | Go to page:
-              <input
-                type="number"
-                defaultValue={table.getState().pagination.pageIndex + 1}
-                onChange={e => {
-                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                  table.setPageIndex(page);
-                }}
-                className="w-16 rounded border p-1"
-              />
-            </span> */}
-            {/* <select
-              value={table.getState().pagination.pageSize}
-              onChange={e => {
-                table.setPageSize(Number(e.target.value));
-              }}
-            >
-              {[10, 20, 30, 40, 50].map(pageSize => (
-                <option key={pageSize} value={pageSize}>
-                  Show {pageSize}
-                </option>
-              ))}
-            </select> */}
-          </div>
-        </>
-      ) : null}
+          <span className="flex items-center gap-1 text-sm">
+            <div>Page</div>
+            <strong>{table.getState().pagination.pageIndex + 1}</strong> of {table.getPageCount()}
+          </span>
+          <button
+            className="flex flex-row gap-2 rounded border py-1 px-2 disabled:bg-slate-100 disabled:opacity-50"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next <ArrowRightIcon className="h-5 w-4 text-dim" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

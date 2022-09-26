@@ -6,6 +6,7 @@ export const FACILTIES_TABLE_SCHEMA = {
       header: "State",
       id: "state",
       accessorKey: "state",
+      enableSorting: false,
       cell: (item: any) => {
         const state = item.getValue() as string;
         return (
@@ -20,16 +21,19 @@ export const FACILTIES_TABLE_SCHEMA = {
       header: "District",
       accessorKey: "data.district",
       id: "district",
+      enableSorting: true,
     },
     {
       header: "Sector",
       accessorKey: "data.sector",
       id: "sector",
+      enableSorting: false,
     },
     {
       header: "Type",
       accessorKey: "data.type",
       id: "type",
+      enableSorting: false,
     },
     {
       header: "Name",
@@ -45,6 +49,7 @@ export const FACILTIES_TABLE_SCHEMA = {
       header: "Telephone",
       accessorKey: "data.phone",
       id: "phone",
+      enableSorting: false,
     },
   ],
 };

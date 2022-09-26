@@ -26,12 +26,12 @@
 }
 
 .table td > div {
-  @apply px-2 py-1 text-sm lg:text-base;
+  @apply px-2 py-1 text-sm;
 }
 
-.table td:not(:first-child) {
+/* .table td:not(:first-child) {
   @apply text-right;
-}
+} */
 
 .table tr:first-child {
   @apply border-t-black;
