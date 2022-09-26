@@ -23,7 +23,7 @@ const Section: FunctionComponent<SectionProps> = ({
           {date && date === "current" ? (
             <span className="text-sm text-dim">Data as of {new Date().toDateString()}</span>
           ) : (
-            date
+            <span className="text-sm text-dim">Data as of {date}</span>
           )}
         </div>
         {description && typeof description === "string" ? (
