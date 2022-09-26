@@ -45,7 +45,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
     vax_tab: 0,
     filter_dose: filterDoseOptions[0],
     filter_age: filterAgeOptions[0],
-    minmax: [0, timeseries_data.x.length - 1],
+    minmax: [timeseries_data.x.length - 182, timeseries_data.x.length - 1], // [6months ago, today]
   });
 
   const filterTimeline = () => {
@@ -347,6 +347,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="pt-7"
               type="range"
               data={timeseries_data.x}
+              defaultValue={data.minmax}
               onChange={(item: { min: number; max: number }) =>
                 setData("minmax", [item.min, item.max])
               }

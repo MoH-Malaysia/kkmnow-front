@@ -118,7 +118,8 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
       plugins: {
         legend: {
           display: enableLegend,
-          position: "right" as const,
+          position: "chartArea" as const,
+          align: "start",
         },
         tooltip: {
           enabled: true,
@@ -127,7 +128,6 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           },
           mode: "index",
           intersect: false,
-
           callbacks: {
             label: function (item) {
               return `${item.dataset.label}: ${+item.parsed.y.toFixed(0).toLocaleString()}`;
@@ -141,7 +141,18 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
                 drawTime: "afterDraw",
               },
               annotations: data.datasets.map((set, index) => {
-                const xIndex = data.labels!.length - 200;
+                const INDEXES = {
+                  year: data.labels!.length - 200,
+                  quarter: data.labels!.length - 45,
+                  month: data.labels!.length - 15,
+                  week: data.labels!.length - 4,
+                  millisecond: data.labels!.length - 1,
+                  second: data.labels!.length - 1,
+                  minute: data.labels!.length - 1,
+                  hour: data.labels!.length - 1,
+                  day: data.labels!.length - 1,
+                };
+                const xIndex = round ? INDEXES[round] : data.labels!.length - 1;
                 const yIndex = data.labels!.length - 1;
                 return {
                   type: "label",
@@ -150,7 +161,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
                   },
                   content(ctx, options) {
                     let text = set.label!;
-                    if (text.length > 12) text = text.slice(0, 10).concat("..");
+                    if (text.length > 15) text = text.slice(0, 12).concat("...");
                     return text;
                   },
                   font: {
@@ -192,7 +203,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
       },
       layout: {
         padding: {
-          right: enableCallout ? 80 : 0,
+          right: enableCallout && round ? 120 : 0,
           top: enableCallout ? 20 : 0,
         },
       },

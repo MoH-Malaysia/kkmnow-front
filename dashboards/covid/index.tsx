@@ -299,6 +299,8 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                         yKey="y"
                         xKey="x"
                         layout="state-horizontal"
+                        relative
+                        sort="desc"
                       />
                     </Panel>
                   );
@@ -317,6 +319,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               menu={<MenuDropdown />}
               interval="quarter"
               stats={null}
+              enableLegend
               data={{
                 labels: timeseries_deaths.x,
                 datasets: [
@@ -351,6 +354,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               menu={<MenuDropdown />}
               stats={null}
               interval="quarter"
+              enableLegend
               data={{
                 labels: timeseries_vents.x,
                 datasets: [
@@ -378,6 +382,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               menu={<MenuDropdown />}
               interval="quarter"
               stats={null}
+              enableLegend
               data={{
                 labels: timeseries_icu.x,
                 datasets: [
@@ -405,6 +410,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               menu={<MenuDropdown />}
               interval="quarter"
               stats={null}
+              enableLegend
               data={{
                 labels: timeseries_admitted.x,
                 datasets: [
@@ -431,6 +437,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title="Confirmed Cases"
               menu={<MenuDropdown />}
               interval="quarter"
+              enableLegend
               stats={null}
               data={{
                 labels: timeseries_cases.x,
@@ -459,6 +466,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               menu={<MenuDropdown />}
               interval="quarter"
               stats={null}
+              enableLegend
               data={{
                 labels: timeseries_tests.x,
                 datasets: [
@@ -467,7 +475,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     label: "Positivity Rate (%)",
                     pointRadius: 0,
                     data: timeseries_tests.tooltip,
-                    borderWidth: 0,
+                    showLine: false,
                   },
                   {
                     type: "bar",

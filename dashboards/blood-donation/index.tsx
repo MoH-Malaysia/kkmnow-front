@@ -23,7 +23,7 @@ import { BLOOD_SUPPLY_SCHEMA, BLOOD_DONATION_SCHEMA } from "@lib/schema/blood-do
 import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { FunctionComponent, useCallback, useState, useEffect } from "react";
+import { FunctionComponent, useCallback, useState, useEffect, useMemo } from "react";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Empty = dynamic(() => import("@components/Chart/Empty"), { ssr: false });
@@ -55,7 +55,10 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
-  const [limit, setLimit] = useState([0, timeseries_all.x.length - 1]);
+  const [limit, setLimit] = useState([
+    timeseries_all.x.length - 365 * 1,
+    timeseries_all.x.length - 1,
+  ] as [number, number]); // [3 years ago, today]
   const { data, setData } = useData({
     relative_donation_type: false,
     relative_blood_group: false,
@@ -94,6 +97,26 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   };
 
   const filtered_timeline = useCallback(filterTimeline, limit);
+  const interval_scale = useMemo(
+    () =>
+      filtered_timeline().x.length > 1095
+        ? "year"
+        : filtered_timeline().x.length > 730
+        ? "quarter"
+        : filtered_timeline().x.length > 365
+        ? "month"
+        : "day",
+    [filtered_timeline().x]
+  );
+  const round_scale = useMemo(
+    () =>
+      filtered_timeline().x.length > 1095
+        ? "quarter"
+        : filtered_timeline().x.length > 365
+        ? "month"
+        : "day",
+    [filtered_timeline().x]
+  );
 
   useEffect(() => {
     setData("zoom_facility", undefined);
@@ -257,9 +280,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               <Timeseries
                 className="h-[400px] w-full pt-6 lg:h-[750px]"
                 title="Daily Donations"
-                interval="year"
+                interval={interval_scale}
                 menu={<MenuDropdown />}
-                round="week"
+                round={filtered_timeline().x.length > 1095 ? "week" : "day"}
                 stats={null}
                 data={{
                   labels: filtered_timeline().x,
@@ -284,6 +307,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               <Slider
                 className="pt-7"
                 type="range"
+                defaultValue={limit}
                 data={timeseries_all.x}
                 onChange={(item: any) => setLimit([item.min, item.max])}
               />
@@ -296,8 +320,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               <Timeseries
                 className="h-[500px] w-full"
                 title="Donation by donation type"
-                interval="year"
-                round="year"
+                interval={interval_scale}
+                round={round_scale}
                 maxY={data.relative_donation_type ? 100 : undefined}
                 unitY={data.relative_donation_type ? "%" : undefined}
                 menu={<MenuDropdown />}
@@ -342,8 +366,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               <Timeseries
                 className="h-[500px] w-full"
                 title="Donation by blood group (phenotype)"
-                interval="year"
-                round="year"
+                interval={interval_scale}
+                round={round_scale}
                 unitY={data.relative_blood_group ? "%" : undefined}
                 maxY={data.relative_blood_group ? 100 : undefined}
                 menu={<MenuDropdown />}
@@ -410,8 +434,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 title="Donation by donor type"
                 unitY={data.relative_donor_type ? "%" : undefined}
                 maxY={data.relative_donor_type ? 100 : undefined}
-                interval="year"
-                round="year"
+                interval={interval_scale}
+                round={round_scale}
                 menu={<MenuDropdown />}
                 enableCallout
                 subheader={
@@ -453,8 +477,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               <Timeseries
                 className="h-[500px] w-full"
                 title="Donation by location"
-                interval="year"
-                round="year"
+                interval={interval_scale}
+                round={round_scale}
                 unitY={data.relative_location ? "%" : undefined}
                 maxY={data.relative_location ? 100 : undefined}
                 menu={<MenuDropdown />}
