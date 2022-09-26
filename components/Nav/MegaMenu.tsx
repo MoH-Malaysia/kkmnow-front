@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 
 import { BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";

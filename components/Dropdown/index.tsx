@@ -1,6 +1,6 @@
 import { Fragment, ReactElement } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { ChevronDownIcon, XIcon } from "@heroicons/react/solid";
+import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
 
 import { isObjInArr } from "lib/helpers";
 
@@ -146,7 +146,7 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
               >
                 <p>Clear</p>
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <XIcon className="h-5 w-5" />
+                  <XMarkIcon className="h-5 w-5" />
                 </span>
               </li>
             )}

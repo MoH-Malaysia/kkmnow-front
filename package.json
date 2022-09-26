@@ -12,7 +12,7 @@
   "dependencies": {
     "@googlemaps/react-wrapper": "^1.1.35",
     "@headlessui/react": "^1.6.5",
-    "@heroicons/react": "^1.0.6",
+    "@heroicons/react": "^2.0.11",
     "@nivo/core": "^0.79.0",
     "@nivo/geo": "^0.79.1",
     "@nivo/heatmap": "^0.79.1",

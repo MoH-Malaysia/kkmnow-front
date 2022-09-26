@@ -9,7 +9,6 @@ interface StateDropdownProps {
   currentState?: string;
   onChange?: (selected: OptionType) => void;
   exclude?: string[];
-  disableText?: boolean;
   width?: string;
   label?: string;
 }

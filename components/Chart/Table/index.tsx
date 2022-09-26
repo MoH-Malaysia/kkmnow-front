@@ -8,7 +8,8 @@ import {
   useReactTable,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import { SwitchVerticalIcon, ArrowSmUpIcon, ArrowSmDownIcon } from "@heroicons/react/solid";
+import { ArrowsUpDownIcon } from "@heroicons/react/24/solid";
+import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/20/solid";
 import { CountryAndStates } from "@lib/constants";
 import { useEffect } from "react";
 
@@ -104,13 +105,11 @@ const Table: FunctionComponent<TableProps> = ({
                           title={sortTooltip(header.column.getIsSorted())}
                         >
                           {{
-                            asc: <ArrowSmUpIcon className="inline-block h-4 w-auto text-black" />,
-                            desc: (
-                              <ArrowSmDownIcon className="inline-block h-4 w-auto text-black" />
-                            ),
+                            asc: <ArrowUpIcon className="inline-block h-4 w-auto text-black" />,
+                            desc: <ArrowDownIcon className="inline-block h-4 w-auto text-black" />,
                           }[header.column.getIsSorted() as string] ?? null}
                           {header.column.getCanSort() && !header.column.getIsSorted() ? (
-                            <SwitchVerticalIcon className="inline-block h-4 w-auto text-dim" />
+                            <ArrowsUpDownIcon className="inline-block h-4 w-auto text-dim" />
                           ) : (
                             ""
                           )}

@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { FunctionComponent, Fragment } from "react";
-import { DotsHorizontalIcon } from "@heroicons/react/solid";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 
 interface MenuDropdownProps {}
 
@@ -8,7 +8,7 @@ const MenuDropdown: FunctionComponent<MenuDropdownProps> = () => {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button>
-        <DotsHorizontalIcon className="h-4 px-2"></DotsHorizontalIcon>
+        <EllipsisHorizontalIcon className="h-5 px-2" />
       </Menu.Button>
       <Transition
         as={Fragment}

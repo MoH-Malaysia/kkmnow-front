@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement, ReactNode } from "react";
-import { ArrowRightIcon } from "@heroicons/react/solid";
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { ChartHeader } from "@components/index";
 
 /**

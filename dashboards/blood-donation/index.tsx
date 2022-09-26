@@ -24,6 +24,7 @@ import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect, useMemo } from "react";
+import { MapPinIcon } from "@heroicons/react/24/outline";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Empty = dynamic(() => import("@components/Chart/Empty"), { ssr: false });
@@ -794,11 +795,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         >
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
             <div className="w-full space-y-3">
+              <div className="flex gap-4">
+                <h4>Zoom into my area</h4>
+              </div>
               <StateDropdown
                 currentState={data.zoom_state}
                 onChange={selected => setData("zoom_state", selected.value)}
                 exclude={["kvy", "lbn", "pls", "pjy"]}
-                disableText
                 width="w-full"
               />
               <Dropdown

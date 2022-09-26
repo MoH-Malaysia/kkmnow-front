@@ -1,6 +1,6 @@
 import { Hero, Container, Bar, Search, Section, StateDropdown, Dropdown } from "@components/index";
-import { GlobeAltIcon } from "@heroicons/react/solid";
-import { MapIcon } from "@heroicons/react/outline";
+import { GlobeAltIcon } from "@heroicons/react/24/solid";
+import { MapIcon } from "@heroicons/react/24/outline";
 import { useData } from "@hooks/useData";
 import { CountryAndStates } from "@lib/constants";
 import { FACILTIES_TABLE_SCHEMA } from "@lib/schema/healthcare-facilities";
@@ -106,7 +106,6 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                   //   router.push(`${routes.HEALTHCARE}/${selected.value}`);
                 }}
                 exclude={["kvy"]}
-                disableText
                 width="w-full"
               />
               <Dropdown
