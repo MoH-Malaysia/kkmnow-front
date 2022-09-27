@@ -1,6 +1,7 @@
 /**
  * CovidNow Data Page <Index>
  */
+import { Metadata } from "@components/index";
 import CovidNowDashboard from "@dashboards/covidnow-data";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
@@ -16,6 +17,8 @@ const CovidNowDataIndex: Page = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"COVIDNOW in Data"} keywords={""} />
+
       <CovidNowDashboard
         timeseries_chart={timeseries_chart}
         heatmap_chart={heatmap_chart}

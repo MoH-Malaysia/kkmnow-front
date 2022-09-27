@@ -1,6 +1,7 @@
 /**
  * Blood Donation Page <State>
  */
+import { Metadata } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { STATES } from "@lib/constants";
@@ -21,6 +22,7 @@ const BloodDonationState: Page = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"Blood Donation"} keywords={""} />
       <BloodDonationDashboard
         timeseries_all={timeseries_all}
         timeseries_bloodstock={timeseries_bloodstock}

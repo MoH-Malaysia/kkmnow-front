@@ -6,6 +6,7 @@ import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
 import { STATES } from "@lib/constants";
 import { get } from "@lib/api";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { Metadata } from "@components/index";
 
 const CovidVaccinationState = ({
   waffle_data,
@@ -16,6 +17,7 @@ const CovidVaccinationState = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"COVID-19 Vaccination"} keywords={""} />
       <CovidVaccinationDashboard
         waffle_data={waffle_data}
         table_data={table_data}
