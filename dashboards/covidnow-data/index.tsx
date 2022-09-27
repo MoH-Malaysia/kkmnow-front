@@ -1,17 +1,4 @@
-import {
-  Hero,
-  Container,
-  Tabs,
-  Panel,
-  MenuDropdown,
-  Checkbox,
-  Tooltip,
-  Section,
-  Slider,
-  StateDropdown,
-  Dropdown,
-  MapEmbed,
-} from "@components/index";
+import { Hero, Container, Tabs, Panel, MenuDropdown, Section, Slider } from "@components/index";
 import { BLOOD_DONATION_COLOR, CountryAndStates, STATES, BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
@@ -24,7 +11,6 @@ const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: fals
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const ChoroplethWorld = dynamic(() => import("@components/Chart/ChoroplethWorld"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
-const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
 interface CovidNOWDashboardProps {
   barmeter_chart: any;
@@ -183,7 +169,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     },
                     {
                       type: "bar",
-                      label: "Primary",
+                      label: "Daily Views",
                       data: filterTimeline().y,
                       backgroundColor: "#D1D5DB",
                     },

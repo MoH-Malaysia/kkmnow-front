@@ -30,7 +30,7 @@
 }
 
 .table th:first-child {
-  @apply w-64;
+  @apply w-60;
 }
 .table th::not(:first-child) {
   @apply w-auto;

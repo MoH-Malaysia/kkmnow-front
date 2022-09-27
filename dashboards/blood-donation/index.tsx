@@ -10,7 +10,6 @@ import {
   Slider,
   StateDropdown,
   Dropdown,
-  MapEmbed,
   Button,
 } from "@components/index";
 import { useData } from "@hooks/useData";
@@ -32,6 +31,7 @@ const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Empty = dynamic(() => import("@components/Chart/Empty"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
+const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
 interface BloodDonationDashboardProps {
   timeseries_all: any;
@@ -125,10 +125,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
     setData("zoom_state", undefined);
     setData("zoom_facility", undefined);
   };
-
-  useEffect(() => {
-    setData("zoom_facility", undefined);
-  }, [data.zoom_state]);
 
   return (
     <>
@@ -828,7 +824,10 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               </div>
               <StateDropdown
                 currentState={data.zoom_state}
-                onChange={selected => setData("zoom_state", selected.value)}
+                onChange={selected => {
+                  setData("zoom_facility", undefined);
+                  setData("zoom_state", selected.value);
+                }}
                 exclude={["kvy", "lbn", "pls", "pjy"]}
                 width="w-full"
               />
@@ -892,20 +891,37 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 />
               )}
             </div>
-            <div className="w-full space-y-2">
-              <h4>
-                {data.zoom_state && data.zoom_facility
-                  ? `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`
-                  : "BBIS Centres in Malaysia"}
-              </h4>
 
-              <MapEmbed
-                className="h-[460px] w-full"
-                place={
-                  data.zoom_state && data.zoom_facility ? data.zoom_facility.label : "Malaysia"
-                }
-              />
-            </div>
+            <OSMapWrapper
+              className="h-[460px] w-full rounded-xl"
+              title={
+                data.zoom_state && data.zoom_facility
+                  ? `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`
+                  : "BBIS Centres in Malaysia"
+              }
+              zoom={data.zoom_facility ? 8 : 5}
+              position={
+                data.zoom_facility && data.zoom_state
+                  ? [
+                      map_facility[data.zoom_state][data.zoom_facility.label].lat,
+                      map_facility[data.zoom_state][data.zoom_facility.label].lon,
+                    ]
+                  : undefined
+              }
+              markers={
+                data.zoom_facility && data.zoom_state
+                  ? [
+                      {
+                        name: `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`,
+                        position: [
+                          map_facility[data.zoom_state][data.zoom_facility.label].lat,
+                          map_facility[data.zoom_state][data.zoom_facility.label].lon,
+                        ],
+                      },
+                    ]
+                  : []
+              }
+            />
           </div>
         </Section>
       </Container>

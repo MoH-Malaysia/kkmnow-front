@@ -5,7 +5,7 @@ interface SectionProps {
   title?: string | ReactElement;
   description?: string | ReactElement;
   children?: ReactNode;
-  date?: "current" | null | string;
+  date?: null | string;
 }
 
 const Section: FunctionComponent<SectionProps> = ({
@@ -13,17 +13,17 @@ const Section: FunctionComponent<SectionProps> = ({
   className = "border-b py-12",
   description,
   children,
-  date = "current",
+  date = new Date().toDateString(),
 }) => {
   return (
     <section className={className}>
       <div className="pb-6">
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           {title && typeof title === "string" ? <h4>{title}</h4> : title}
-          {date && date === "current" ? (
-            <span className="text-sm text-dim">Data as of {new Date().toDateString()}</span>
-          ) : (
+          {typeof date === "string" ? (
             <span className="text-sm text-dim">Data as of {date}</span>
+          ) : (
+            date
           )}
         </div>
         {description && typeof description === "string" ? (

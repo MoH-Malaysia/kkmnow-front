@@ -183,41 +183,49 @@ const Table: FunctionComponent<TableProps> = ({
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map(row => {
-            return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell: any) => {
-                  const lastCellInGroup = cell.column.parent
-                    ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
-                    : cell.column;
+          {table.getRowModel().rows.length ? (
+            table.getRowModel().rows.map(row => {
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell: any) => {
+                    const lastCellInGroup = cell.column.parent
+                      ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
+                      : cell.column;
 
-                  const classNames = [
-                    ...(cell.row.original.state === "mys" ? ["bg-outline"] : []),
-                    ...(lastCellInGroup.id === cell.column.id ? ["text-xs border-r-black"] : []),
-                    ...(cell.column.columnDef.relative
-                      ? [
-                          badgeColor(cell.getValue() as number, cell.column.columnDef.inverse),
-                          "bg-opacity-20",
-                        ]
-                      : []),
-                    ...(cell.getValue() === null ? ["bg-outline"] : []),
-                    cellClass,
-                  ].join(" ");
+                    const classNames = [
+                      ...(cell.row.original.state === "mys" ? ["bg-outline"] : []),
+                      ...(lastCellInGroup.id === cell.column.id ? ["text-xs border-r-black"] : []),
+                      ...(cell.column.columnDef.relative
+                        ? [
+                            badgeColor(cell.getValue() as number, cell.column.columnDef.inverse),
+                            "bg-opacity-20",
+                          ]
+                        : []),
+                      ...(cell.getValue() === null ? ["bg-outline"] : []),
+                      cellClass,
+                    ].join(" ");
 
-                  const unit = cell.column.columnDef.unit ?? undefined;
+                    const unit = cell.column.columnDef.unit ?? undefined;
 
-                  return (
-                    <td key={cell.id} className={classNames}>
-                      <div>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        {cell.getValue() !== null ? unit : "-"}
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+                    return (
+                      <td key={cell.id} className={classNames}>
+                        <div>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          {cell.getValue() !== null ? unit : "-"}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={table.getAllColumns().length} className="border-r border-black">
+                <div>No entries found. </div>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {enablePagination && (

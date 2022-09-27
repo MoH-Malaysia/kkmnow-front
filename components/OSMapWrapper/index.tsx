@@ -1,50 +1,61 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactElement, useEffect } from "react";
 import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 
-type GoogleMapWrapperProps = {
-  mapHeight?: number;
-  mapWidth?: any;
-  LatLng?: any;
-  MarketArrays?: any;
-  borderRadius?: number;
+type OSMapWrapperProps = {
+  className?: string;
+  title?: string | ReactElement;
+  position?: LatLngExpression;
+  zoom?: number;
+  markers?: MarkerProp[];
 };
 
-const OSMapWrapper: FunctionComponent<GoogleMapWrapperProps> = ({
-  mapHeight = 300,
-  mapWidth = "100%",
-  LatLng = [51.505, -0.09],
-  MarketArrays = dummy,
-  borderRadius = 50,
-}) => {
-  const position: LatLngExpression = LatLng;
+type MarkerProp = {
+  position: LatLngExpression;
+  name?: string | ReactElement;
+};
 
+const OSMapWrapper: FunctionComponent<OSMapWrapperProps> = ({
+  className = "h-[400px] w-full rounded-xl z-0",
+  title,
+  position = [5.1420589, 109.618149], // default - Malaysia
+  zoom = 5,
+  markers = dummy,
+}) => {
   return (
-    <>
-      <div>
-        <MapContainer
-          style={{ height: mapHeight, borderRadius: borderRadius, width: mapWidth }}
-          center={position}
-          zoom={10}
-          scrollWheelZoom={true}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url={`https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
-            // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {MarketArrays.map((item: any) => (
-            <Marker position={item.position}>
-              <Popup>{item.name}</Popup>
-            </Marker>
-          ))}
-        </MapContainer>
-      </div>
-    </>
+    <div>
+      <h4 className="mb-5">{title}</h4>
+
+      <MapContainer className={className} center={position} zoom={zoom} scrollWheelZoom={true}>
+        <OSMapControl position={position} zoom={zoom} />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url={`https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
+        />
+        {markers.map((item: any) => (
+          <Marker position={item.position} riseOnHover autoPan>
+            <Popup>{item.name}</Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
   );
 };
 
-const dummy: any = [
+interface OSMapControl {
+  position: LatLngExpression;
+  zoom?: number;
+}
+
+const OSMapControl: FunctionComponent<OSMapControl> = ({ position, zoom = 5 }) => {
+  const map = useMap();
+  useEffect(() => {
+    map.setView(position, zoom, { animate: true });
+  }, [zoom, position]);
+  return null;
+};
+
+const dummy: MarkerProp[] = [
   {
     position: [51.505, -0.09],
     name: "A pretty CSS3 popup. <br> Easily customizable.",
