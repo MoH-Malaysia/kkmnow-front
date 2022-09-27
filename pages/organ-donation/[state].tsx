@@ -1,6 +1,7 @@
 /**
  * Organ Donation Page <State>
  */
+import { Metadata } from "@components/index";
 import OrganDonationDashboard from "@dashboards/organ-donation";
 import { STATES } from "@lib/constants";
 import { Page } from "@lib/types";
@@ -10,6 +11,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const OrganDonationState: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"Organ Donation"} keywords={""} />
       <OrganDonationDashboard></OrganDonationDashboard>
     </>
   );

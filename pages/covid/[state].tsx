@@ -1,6 +1,7 @@
 /**
  * Covid Page <State>
  */
+import { Metadata } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
 import { STATES } from "@lib/constants";
@@ -23,6 +24,7 @@ const CovidState: Page = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"COVID-19"} keywords={""} />
       <CovidDashboard
         bar_chart={bar_chart}
         snapshot_bar={snapshot_bar}
