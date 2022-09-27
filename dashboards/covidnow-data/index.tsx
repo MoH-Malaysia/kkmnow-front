@@ -303,6 +303,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Device Type"
                 layout="horizontal"
+                unit="%"
               />
             </div>
             <div className="w-full space-y-4">
@@ -313,6 +314,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Language on Device"
                 layout="horizontal"
+                unit="%"
               />
             </div>
 
@@ -324,6 +326,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Browser"
                 layout="horizontal"
+                unit="%"
               />
             </div>
           </div>
@@ -336,6 +339,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Operating System (all)"
                 layout="horizontal"
+                unit="%"
               />
             </div>
             <div className="w-full space-y-4">
@@ -346,6 +350,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Operating System (mobile only)"
                 layout="horizontal"
+                unit="%"
               />
             </div>
             <div className="w-full space-y-4">
@@ -356,6 +361,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 title="Screen Resolution (mobile only)"
                 xKey="x"
                 layout="horizontal"
+                unit="%"
               />
             </div>
           </div>
