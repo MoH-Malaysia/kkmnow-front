@@ -45,6 +45,7 @@ const Header = () => {
       title: t("nav.megamenu.categories.healthcare_resources"),
       list: [
         { title: t("nav.megamenu.dashboards.healthcare_facilities"), link: routes.HEALTHCARE },
+        { title: t("nav.megamenu.dashboards.hospital_bed_utilisation"), link: routes.HOSPITAL_BED },
       ],
     },
     {
