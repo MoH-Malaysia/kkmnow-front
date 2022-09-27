@@ -177,13 +177,23 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 </Button>
               </div>
 
+              <Dropdown
+                placeholder="Select facilty type"
+                onChange={item => setData("zoom_facility_type", item)}
+                selected={data.zoom_facility_type}
+                options={facility_types.map((fac: any) => {
+                  return { label: fac, value: fac } as OptionType<string, string>;
+                })}
+                width="w-full"
+              />
+
               <StateDropdown
                 currentState={data.zoom_state}
                 onChange={selected => {
                   setData("zoom_state", selected.value);
                   setData("zoom_district", "");
-                  setData("zoom_facility_type", "");
                 }}
+                disabled={!data.zoom_facility_type}
                 exclude={["kvy"]}
                 width="w-full"
               />
@@ -199,16 +209,6 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                       })
                     : []
                 }
-                width="w-full"
-              />
-              <Dropdown
-                placeholder="Select facilty type"
-                onChange={item => setData("zoom_facility_type", item)}
-                selected={data.zoom_facility_type}
-                disabled={!data.zoom_district}
-                options={facility_types.map((fac: any) => {
-                  return { label: fac, value: fac } as OptionType<string, string>;
-                })}
                 width="w-full"
               />
             </div>
@@ -255,13 +255,13 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
             ) : (
               <>
                 <Empty
-                  title="Distance to Nearest ..."
+                  title="Distance to Nearest Facility"
                   type="timeseries"
                   className="h-[300px] w-full"
                   placeholder="Please select a district"
                 />
                 <Empty
-                  title="Relative to Nearest"
+                  title="Relative to Nearest Facility"
                   type="timeseries"
                   className="h-[300px] w-full"
                   placeholder="Please select a district"

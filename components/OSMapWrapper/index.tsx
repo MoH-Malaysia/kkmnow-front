@@ -16,7 +16,7 @@ type MarkerProp = {
 };
 
 const OSMapWrapper: FunctionComponent<OSMapWrapperProps> = ({
-  className = "h-[400px] w-full rounded-xl z-0",
+  className = "h-[400px] w-full",
   title,
   position = [5.1420589, 109.618149], // default - Malaysia
   zoom = 5,
@@ -26,14 +26,19 @@ const OSMapWrapper: FunctionComponent<OSMapWrapperProps> = ({
     <div>
       <h4 className="mb-5">{title}</h4>
 
-      <MapContainer className={className} center={position} zoom={zoom} scrollWheelZoom={true}>
+      <MapContainer
+        className={`rounded-xl ${className} z-0`}
+        center={position}
+        zoom={zoom}
+        scrollWheelZoom={true}
+      >
         <OSMapControl position={position} zoom={zoom} />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url={`https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
         />
         {markers.map((item: any) => (
-          <Marker position={item.position} riseOnHover autoPan>
+          <Marker position={item.position} autoPan>
             <Popup>{item.name}</Popup>
           </Marker>
         ))}

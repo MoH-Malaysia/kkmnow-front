@@ -11,8 +11,9 @@ import {
   Stages,
   DonutMeter,
   Dropdown,
+  Slider,
 } from "@components/index";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
@@ -62,7 +63,39 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
     filter_death: 0,
     filter_state: 0,
     filter_cases: 0,
+    minmax: [0, timeseries_deaths.x.length - 1],
   });
+
+  const filterTimeline = () => {
+    return {
+      x: timeseries_deaths.x.slice(data.minmax[0], data.minmax[1]),
+      deaths_line: timeseries_deaths.line.slice(data.minmax[0], data.minmax[1]),
+      deaths_inpatient: timeseries_deaths.deaths_inpatient.slice(data.minmax[0], data.minmax[1]),
+      deaths_broughtin: timeseries_deaths.deaths_brought_in.slice(data.minmax[0], data.minmax[1]),
+      vents_line: timeseries_vents.line.slice(data.minmax[0], data.minmax[1]),
+      vents_vent: timeseries_vents.vent.slice(data.minmax[0], data.minmax[1]),
+      icu_line: timeseries_icu.line.slice(data.minmax[0], data.minmax[1]),
+      icu_icu: timeseries_icu.icu.slice(data.minmax[0], data.minmax[1]),
+      admitted_line: timeseries_admitted.line.slice(data.minmax[0], data.minmax[1]),
+      admitted_admitted: timeseries_admitted.admitted.slice(data.minmax[0], data.minmax[1]),
+      cases_line: timeseries_cases.line.slice(data.minmax[0], data.minmax[1]),
+      cases_cases: timeseries_cases.cases.slice(data.minmax[0], data.minmax[1]),
+      tests_posrate: timeseries_tests.tooltip.slice(data.minmax[0], data.minmax[1]),
+      tests_rtk: timeseries_tests.tests_rtk.slice(data.minmax[0], data.minmax[1]),
+      tests_pcr: timeseries_tests.tests_pcr.slice(data.minmax[0], data.minmax[1]),
+    };
+  };
+
+  const filtered_timeline = useCallback(filterTimeline, data.minmax);
+  const interval_scale = useMemo(
+    () =>
+      filtered_timeline().x.length > 180
+        ? "month"
+        : filtered_timeline().x.length > 60
+        ? "week"
+        : "day",
+    [filtered_timeline().x]
+  );
 
   const BarTabsMenu = [
     {
@@ -324,30 +357,30 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title="Deaths by Date of Death"
               state={currentState}
               menu={<MenuDropdown />}
-              interval="quarter"
+              interval={interval_scale}
               stats={null}
-              enableLegend
+              // enableLegend
               data={{
-                labels: timeseries_deaths.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: timeseries_deaths.line,
+                    data: filtered_timeline().deaths_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "In-patient",
-                    data: timeseries_deaths.deaths_inpatient,
+                    data: filtered_timeline().deaths_inpatient,
                     backgroundColor: COVID_COLOR[200],
                     stack: "same",
                   },
                   {
                     type: "bar",
                     label: "Brought in dead",
-                    data: timeseries_deaths.deaths_brought_in,
+                    data: filtered_timeline().deaths_broughtin,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -359,24 +392,24 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               className="h-[300px] w-full"
               title="Patients Ventilated"
               state={currentState}
+              interval={interval_scale}
               menu={<MenuDropdown />}
               stats={null}
-              interval="quarter"
-              enableLegend
+              // enableLegend
               data={{
-                labels: timeseries_vents.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: timeseries_vents.line,
+                    data: filtered_timeline().vents_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Patients ventilated",
-                    data: timeseries_vents.vent,
+                    data: filtered_timeline().vents_vent,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -389,23 +422,23 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title="Patients in ICU"
               state={currentState}
               menu={<MenuDropdown />}
-              interval="quarter"
+              interval={interval_scale}
               stats={null}
-              enableLegend
+              // enableLegend
               data={{
-                labels: timeseries_icu.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: timeseries_icu.line,
+                    data: filtered_timeline().icu_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "ICU admitted",
-                    data: timeseries_icu.icu,
+                    data: filtered_timeline().icu_icu,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -418,23 +451,23 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title="Hospital Admissions"
               state={currentState}
               menu={<MenuDropdown />}
-              interval="quarter"
+              interval={interval_scale}
               stats={null}
-              enableLegend
+              // enableLegend
               data={{
-                labels: timeseries_admitted.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: timeseries_admitted.line,
+                    data: filtered_timeline().admitted_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Patients admitted",
-                    data: timeseries_admitted.admitted,
+                    data: filtered_timeline().admitted_admitted,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -447,23 +480,23 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title="Confirmed Cases"
               state={currentState}
               menu={<MenuDropdown />}
-              interval="quarter"
-              enableLegend
+              interval={interval_scale}
+              // enableLegend
               stats={null}
               data={{
-                labels: timeseries_cases.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: timeseries_cases.line,
+                    data: filtered_timeline().cases_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Cases",
-                    data: timeseries_cases.cases,
+                    data: filtered_timeline().cases_cases,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -476,30 +509,30 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title="Tests Conducted"
               state={currentState}
               menu={<MenuDropdown />}
-              interval="quarter"
+              interval={interval_scale}
               stats={null}
-              enableLegend
+              // enableLegend
               data={{
-                labels: timeseries_tests.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Positivity Rate (%)",
                     pointRadius: 0,
-                    data: timeseries_tests.tooltip,
+                    data: filtered_timeline().tests_posrate,
                     showLine: false,
                   },
                   {
                     type: "bar",
                     label: "RTK",
-                    data: timeseries_tests.tests_rtk,
+                    data: filtered_timeline().tests_rtk,
                     backgroundColor: COVID_COLOR[200],
                     stack: "same",
                   },
                   {
                     type: "bar",
                     label: "PCR",
-                    data: timeseries_tests.tests_pcr,
+                    data: filtered_timeline().tests_pcr,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -507,6 +540,20 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               }}
               enableGridX={false}
             />
+          </div>
+          <div>
+            <Slider
+              className="pt-7"
+              type="range"
+              data={timeseries_deaths.x}
+              defaultValue={data.minmax}
+              onChange={(item: { min: number; max: number }) =>
+                setData("minmax", [item.min, item.max])
+              }
+            />
+            <span className="text-sm text-dim">
+              Use this time slider to zoom in specific time range
+            </span>
           </div>
         </Section>
 
@@ -591,7 +638,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
-                        enableLegend
+                        // enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -627,7 +674,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
-                        enableLegend
+                        // enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -671,7 +718,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
-                        enableLegend
+                        // enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -707,7 +754,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
-                        enableLegend
+                        // enableLegend
                         enableGridX={false}
                       />
                     ),

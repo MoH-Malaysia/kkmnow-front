@@ -90,11 +90,6 @@ export const VACCINE_TABLE_SCHEMA = [
             header: "% 1 Booster",
             accessorFn: (item: any) => item.adol.perc_booster1.toFixed(1),
           },
-          {
-            id: "perc_booster2",
-            header: "% 2 Booster",
-            accessorFn: (item: any) => item.adol.perc_booster2.toFixed(1),
-          },
         ],
       },
       {
@@ -115,11 +110,6 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "child.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.child.perc_booster1.toFixed(1),
-          },
-          {
-            id: "child.perc_booster2",
-            header: "% 2 Booster",
-            accessorFn: (item: any) => item.child.perc_booster2.toFixed(1),
           },
         ],
       },
@@ -255,11 +245,6 @@ export const VACCINE_TABLE_SCHEMA = [
             header: "% 1 Booster",
             accessorFn: (item: any) => item.adol.perc_booster1.toFixed(1),
           },
-          {
-            id: "adol.perc_booster2",
-            header: "% 2 Booster",
-            accessorFn: (item: any) => item.adol.perc_booster2.toFixed(1),
-          },
         ],
       },
     ],
@@ -300,11 +285,6 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "child.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.child.perc_booster1.toFixed(1),
-          },
-          {
-            id: "child.perc_booster2",
-            header: "% 2 Booster",
-            accessorFn: (item: any) => item.child.perc_booster2.toFixed(1),
           },
         ],
       },

@@ -118,18 +118,20 @@ const Table: FunctionComponent<TableProps> = ({
         {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
       </div>
 
-      <div className="flex w-full items-center justify-between pb-4">
-        <div className="flex flex-row flex-wrap items-center gap-2">
-          {controls && controls(setColumnFilters)}
+      {(search || controls) && (
+        <div className="flex w-full items-center justify-between pb-4">
+          <div className="flex flex-row flex-wrap items-center gap-2">
+            {controls && controls(setColumnFilters)}
+          </div>
+          {search && search(setGlobalFilter)}
         </div>
-        {search && search(setGlobalFilter)}
-      </div>
+      )}
+
       <table className={`table ${className}`}>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => {
-                console.log(header);
+              {headerGroup.headers.map((header: any) => {
                 return (
                   <th key={header.id} colSpan={header.colSpan}>
                     {header.isPlaceholder ? null : (

@@ -811,7 +811,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             <div className="w-full space-y-3">
               <div className="flex justify-between">
                 <div className="flex items-center gap-4">
-                  <MapPinIcon className="h-5 w-auto" />
+                  <MapPinIcon className="h-5 w-auto text-dim" />
                   <h4>Zoom into my area</h4>
                 </div>
                 <Button
