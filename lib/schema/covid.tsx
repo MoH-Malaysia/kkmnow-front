@@ -1,4 +1,5 @@
 import { CountryAndStates } from "@lib/constants";
+import { numFormat } from "@lib/helpers";
 
 export const COVID_TABLE_SCHEMA = [
   {
@@ -26,13 +27,15 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths",
             header: "Deaths",
             subheader: "Past 14d",
-            accessorFn: (item: any) => item.deaths.deaths.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.deaths.deaths, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "deaths.deaths_100k",
             header: "Per 100K",
             subheader: "Past 14d",
-            accessorFn: (item: any) => item.deaths.deaths_100k.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.deaths.deaths_100k, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "deaths.deaths_trend",
@@ -54,7 +57,8 @@ export const COVID_TABLE_SCHEMA = [
             header: "Hospital Admission",
             subheader: "Past 14d",
             maxWidth: 10,
-            accessorFn: (item: any) => +item.admitted.admitted.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.admitted.admitted, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "admitted.util_hosp",
@@ -83,13 +87,15 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases",
             header: "Cases",
             subheader: "Past 14d",
-            accessorFn: (item: any) => item.cases.cases.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.cases.cases, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_100k",
             header: "Per 100K",
             subheader: "Past 14d",
-            accessorFn: (item: any) => item.cases.cases_100k.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.cases.cases_100k, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_posrate",
@@ -135,13 +141,15 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths",
             header: "Deaths",
             subheader: "Past 14d",
-            accessorFn: (item: any) => item.deaths.deaths.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.deaths.deaths, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "deaths.deaths_100k",
             header: "Per 100K",
             subheader: "Past 14d",
-            accessorFn: (item: any) => item.deaths.deaths_100k.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.deaths.deaths_100k, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "deaths.deaths_trend",
@@ -184,8 +192,8 @@ export const COVID_TABLE_SCHEMA = [
             id: "admitted.admitted",
             header: "Hospital Admissions",
             subheader: "Past 14d",
-            maxWidth: 10,
-            accessorFn: (item: any) => item.admitted.admitted.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.admitted.admitted, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "admitted.util_hosp",
@@ -234,13 +242,15 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases",
             header: "Cases",
             subheader: "Past 14d",
-            accessorFn: (item: any) => item.cases.cases.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.cases.cases, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_100k",
             header: "Per 100K",
             subheader: "Past 14d",
-            accessorFn: (item: any) => item.cases.cases_100k.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.cases.cases_100k, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_posrate",

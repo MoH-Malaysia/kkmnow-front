@@ -64,16 +64,19 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           id: "data.users",
           header: "Users",
           accessorFn: (item: any) => numFormat(item.data.users, "standard"),
+          sortingFn: "localeNumber",
         },
         {
           id: "data.views",
           header: "Views",
           accessorFn: (item: any) => numFormat(item.data.views, "standard"),
+          sortingFn: "localeNumber",
         },
         {
           id: "data.views_perc",
           header: "% of Views",
           accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
+          sortingFn: "localeNumber",
         },
       ],
     },
@@ -218,7 +221,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 <Table
                   data={choropleth_world.map((items: any) => ({
                     ...items,
-                    highlight: items.iso3 == "MYS" ? true : false,
+                    state: items.iso3.toLowerCase(),
                   }))}
                   config={worldMapConfig}
                   enablePagination

@@ -102,6 +102,15 @@ const Table: FunctionComponent<TableProps> = ({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
+    sortingFns: {
+      localeNumber: (row_a: any, row_b: any, column_id: any): number => {
+        const [a, b] = [
+          Number(row_a.getValue(column_id).replace(",", "")),
+          Number(row_b.getValue(column_id).replace(",", "")),
+        ];
+        return a > b ? 1 : -1;
+      },
+    },
     debugTable: false,
   };
 
