@@ -37,7 +37,7 @@ interface TableProps {
   search?: (setGlobalFilter: Dispatch<SetStateAction<string>>) => ReactElement | ReactElement[];
   cellClass?: string;
   data?: any;
-  config?: Array<ColumnDef<Record<string, any>>>;
+  config?: Array<any>;
   enablePagination?: boolean;
 }
 
@@ -86,7 +86,7 @@ const Table: FunctionComponent<TableProps> = ({
 
     return undefined;
   };
-  const ReactTableProps: TableOptions<Record<string, any>> = {
+  const ReactTableProps: any = {
     data,
     columns,
     state: {
