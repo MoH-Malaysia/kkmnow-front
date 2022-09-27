@@ -1,12 +1,12 @@
 import { FunctionComponent, useState } from "react";
-import { DateTime } from "luxon";
 import { toDate } from "@lib/helpers";
 
 interface SliderProps {
   className?: string;
   type?: "default" | "range";
   onChange?: ({ min, max }: { min: number; max: number }) => void;
-  range?: [number, number]; // [min, max]
+  defaultValue?: [number, number]; // default minmax. on-init only
+  range?: [number, number]; // linear minmax. for sliders that don't have `data[]`
   step?: number;
   data?: Array<any>;
   parseAsDate?: boolean;
@@ -16,13 +16,16 @@ const Slider: FunctionComponent<SliderProps> = ({
   className = "w-full",
   type = "default",
   onChange,
+  defaultValue,
   range = [2008, 2022],
   step = 1,
   data = dummy,
   parseAsDate = true,
 }) => {
-  const [min, setMin] = useState(data ? 0 : range[0]);
-  const [max, setMax] = useState(data ? data.length - 1 : range[1]);
+  const [min, setMin] = useState(defaultValue ? defaultValue[0] : data ? 0 : range[0]);
+  const [max, setMax] = useState(
+    defaultValue ? defaultValue[1] : data ? data.length - 1 : range[1]
+  );
 
   const onRange = (event: any, thumb?: "left" | "right") => {
     const value = Number(event.target.value);

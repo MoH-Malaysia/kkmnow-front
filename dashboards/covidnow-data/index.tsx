@@ -1,17 +1,4 @@
-import {
-  Hero,
-  Container,
-  Tabs,
-  Panel,
-  MenuDropdown,
-  Checkbox,
-  Tooltip,
-  Section,
-  Slider,
-  StateDropdown,
-  Dropdown,
-  MapEmbed,
-} from "@components/index";
+import { Hero, Container, Tabs, Panel, MenuDropdown, Section, Slider } from "@components/index";
 import { BLOOD_DONATION_COLOR, CountryAndStates, STATES, BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
@@ -24,7 +11,6 @@ const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: fals
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const ChoroplethWorld = dynamic(() => import("@components/Chart/ChoroplethWorld"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
-const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
 interface CovidNOWDashboardProps {
   barmeter_chart: any;
@@ -64,7 +50,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       cell: (item: any) => {
         const state = item.getValue() as any;
         return (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 text-left">
             <span>{state.country}</span>
           </div>
         );
@@ -78,16 +64,19 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           id: "data.users",
           header: "Users",
           accessorFn: (item: any) => numFormat(item.data.users, "standard"),
+          sortingFn: "localeNumber",
         },
         {
           id: "data.views",
           header: "Views",
           accessorFn: (item: any) => numFormat(item.data.views, "standard"),
+          sortingFn: "localeNumber",
         },
         {
           id: "data.views_perc",
           header: "% of Views",
           accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
+          sortingFn: "localeNumber",
         },
       ],
     },
@@ -183,7 +172,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     },
                     {
                       type: "bar",
-                      label: "Primary",
+                      label: "Daily Views",
                       data: filterTimeline().y,
                       backgroundColor: "#D1D5DB",
                     },
@@ -217,11 +206,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     className={isMobile ? "h-[300px] w-full" : "h-[500px] w-full"}
                     enableScale={false}
                     projectionScaleSetting={isMobile ? 75 : 125}
-                    data={choropleth_world.map((item: any) => ({
-                      id: item.iso3,
-                      value_real: item.data.views,
-                      value: item.data.views_log ? item.data.views_log : 0,
-                    }))}
+                    xKey="properties.name_short"
+                    data={choropleth_world.map((item: any) => {
+                      return {
+                        id: item.iso3,
+                        value_real: item.data.views,
+                        value: item.data.views_log ? item.data.views_log : 0,
+                      };
+                    })}
                   />
                 </div>
               </Panel>
@@ -229,10 +221,10 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 <Table
                   data={choropleth_world.map((items: any) => ({
                     ...items,
-                    highlight: items.iso3 == "MYS" ? true : false,
+                    state: items.iso3.toLowerCase(),
                   }))}
                   config={worldMapConfig}
-                  isPagination={true}
+                  enablePagination
                 />
               </Panel>
             </Tabs>
@@ -314,6 +306,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Device Type"
                 layout="horizontal"
+                unit="%"
               />
             </div>
             <div className="w-full space-y-4">
@@ -324,6 +317,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Language on Device"
                 layout="horizontal"
+                unit="%"
               />
             </div>
 
@@ -335,6 +329,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Browser"
                 layout="horizontal"
+                unit="%"
               />
             </div>
           </div>
@@ -347,6 +342,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Operating System (all)"
                 layout="horizontal"
+                unit="%"
               />
             </div>
             <div className="w-full space-y-4">
@@ -357,6 +353,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 xKey="x"
                 title="Operating System (mobile only)"
                 layout="horizontal"
+                unit="%"
               />
             </div>
             <div className="w-full space-y-4">
@@ -367,6 +364,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 title="Screen Resolution (mobile only)"
                 xKey="x"
                 layout="horizontal"
+                unit="%"
               />
             </div>
           </div>

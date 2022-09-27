@@ -1,19 +1,22 @@
+import { FunctionComponent, ReactElement, useMemo } from "react";
 import { ChartHeader } from "@components/index";
 import { CountryAndStates } from "@lib/constants";
-import { minMax } from "@lib/helpers";
-import { FunctionComponent, ReactElement } from "react";
+import { minMax, maxBy } from "@lib/helpers";
 
 interface BarMeterProps {
   className?: string;
   title?: string | ReactElement;
   menu?: ReactElement;
   controls?: ReactElement;
+  state?: string;
   total?: number;
   data?: Array<any>;
   xKey?: string;
   yKey?: string;
   color?: string;
   unit?: string;
+  relative?: boolean;
+  sort?: "asc" | "desc";
   layout?: "horizontal" | "vertical" | "state-horizontal";
 }
 
@@ -22,6 +25,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
   title,
   menu,
   controls,
+  state,
   total = 100,
   color = "#0F172A",
   xKey = "x",
@@ -29,10 +33,27 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
   data = dummy,
   layout = "vertical",
   unit = "",
+  sort = undefined,
+  relative = false,
 }) => {
-  const percentFill = (value: number): string => {
-    return `${minMax((value / total) * 100)}%`;
+  const max = () => {
+    if (relative) return maxBy(data, yKey)[yKey];
+    return total;
   };
+
+  const percentFill = (value: number): string => {
+    return `${minMax((value / max()) * 100)}%`;
+  };
+
+  const _data = useMemo(() => {
+    if (!sort) return data;
+
+    if (sort === "asc") {
+      return data.sort((a, b) => a[yKey] - b[yKey]);
+    } else if (sort === "desc") {
+      return data.sort((a, b) => b[yKey] - a[yKey]);
+    }
+  }, [data]);
 
   const renderBars = (item: any, index: number) => {
     switch (layout) {
@@ -137,10 +158,10 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
 
   return (
     <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       <div className={className}>
-        {data &&
-          data.map((item, index) => {
+        {_data &&
+          _data.map((item, index) => {
             return (
               <div className={className} key={index}>
                 {renderBars(item, index)}

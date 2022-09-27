@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement } from "react";
+import { FunctionComponent, ReactElement, useCallback } from "react";
 import { ChartHeader, Tooltip } from "@components/index";
 
 import {
@@ -17,6 +17,8 @@ import {
   ChartTypeRegistry,
 } from "chart.js";
 import { CrosshairPlugin } from "chartjs-plugin-crosshair";
+import AnnotationPlugin from "chartjs-plugin-annotation";
+
 import { Chart } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
 import "chartjs-adapter-luxon";
@@ -30,6 +32,7 @@ interface TimeseriesProps {
   controls?: ReactElement;
   data?: ChartData<keyof ChartTypeRegistry, any[], string | number>;
   mode?: "grouped" | "stacked";
+  state?: string | ReactElement;
   subheader?: ReactElement;
   interval?:
     | false
@@ -58,6 +61,7 @@ interface TimeseriesProps {
   gridYValues?: Array<number> | undefined;
   minY?: number;
   maxY?: number;
+  enableCallout?: boolean;
   enableCrosshair?: boolean;
   enableLegend?: boolean;
   enableGridX?: boolean;
@@ -76,8 +80,10 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   mode = "stacked",
   data = dummy,
   stats,
+  state,
   subheader,
   type = "bar",
+  enableCallout = false,
   enableCrosshair = true,
   enableLegend = false,
   enableGridX = false,
@@ -95,115 +101,178 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
     TimeSeriesScale,
     Legend,
     ChartTooltip,
-    CrosshairPlugin
+    CrosshairPlugin,
+    AnnotationPlugin
   );
 
-  const options: ChartCrosshairOption = {
-    responsive: true,
-    maintainAspectRatio: false,
-    normalized: true,
-    elements: {
-      point: {
-        borderWidth: 0,
-        radius: 0,
-        hoverRadius: 2,
-      },
-    },
-    plugins: {
-      legend: {
-        display: enableLegend,
-        position: "right" as const,
-      },
-      tooltip: {
-        enabled: true,
-        bodyFont: {
-          family: "Inter",
-        },
-        mode: "index",
-        intersect: false,
-
-        callbacks: {
-          label: function (item) {
-            return `${item.dataset.label}: ${Number(item.parsed.y.toFixed(0)).toLocaleString()}`;
-          },
+  const options = useCallback((): ChartCrosshairOption => {
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      normalized: true,
+      elements: {
+        point: {
+          borderWidth: 0,
+          radius: 0,
+          hoverRadius: 2,
         },
       },
-      crosshair: enableCrosshair
-        ? {
-            line: {
-              width: 0,
-              color: "#000",
-              dashPattern: [6, 4],
-            },
-            zoom: {
-              enabled: false,
-            },
-            sync: {
-              enabled: false,
-            },
-          }
-        : false,
-    },
-    scales: {
-      x: {
-        type: "time",
-        time: {
-          unit: interval,
-          round: round,
-          displayFormats: {
-            quarter: "MMM",
-            month: "MMM",
-          },
-          tooltipFormat: "dd MMM yyyy",
+      plugins: {
+        legend: {
+          display: enableLegend,
+          position: "chartArea" as const,
+          align: "start",
         },
-        grid: {
-          display: enableGridX,
-          borderWidth: 1,
-          borderDash: [5, 10],
-        },
-        ticks: {
-          major: {
-            enabled: true,
-          },
-          minRotation: 0,
-          maxRotation: 0,
-          font: {
+        tooltip: {
+          enabled: true,
+          bodyFont: {
             family: "Inter",
           },
-        },
-        stacked: mode === "stacked",
-      },
-      y: {
-        grid: {
-          display: enableGridY,
-          borderWidth: 1,
-          borderDash: [5, 5],
-          drawTicks: false,
-          drawBorder: false,
-          offset: false,
-        },
-        ticks: {
-          padding: 6,
-          callback: (value: string | number) => {
-            return numFormat(value as number).concat(unitY ?? "");
-          },
-          font: {
-            family: "Inter",
+          mode: "index",
+          intersect: false,
+          callbacks: {
+            label: function (item) {
+              return `${item.dataset.label}: ${+item.parsed.y.toFixed(0).toLocaleString()}`;
+            },
           },
         },
-        max: maxY,
-        stacked: mode === "stacked",
+        annotation: enableCallout
+          ? {
+              clip: false,
+              common: {
+                drawTime: "afterDraw",
+              },
+              annotations: data.datasets.map((set, index) => {
+                const INDEXES = {
+                  year: data.labels!.length - 200,
+                  quarter: data.labels!.length - 45,
+                  month: data.labels!.length - 15,
+                  week: data.labels!.length - 4,
+                  millisecond: data.labels!.length - 1,
+                  second: data.labels!.length - 1,
+                  minute: data.labels!.length - 1,
+                  hour: data.labels!.length - 1,
+                  day: data.labels!.length - 1,
+                };
+                const xIndex = round ? INDEXES[round] : data.labels!.length - 1;
+                const yIndex = data.labels!.length - 1;
+                return {
+                  type: "label",
+                  callout: {
+                    display: true,
+                  },
+                  content(ctx, options) {
+                    let text = set.label!;
+                    if (text.length > 15) text = text.slice(0, 12).concat("...");
+                    return text;
+                  },
+                  font: {
+                    family: "Inter",
+                    style: "normal",
+                    lineHeight: 1,
+                    weight: "400",
+                    size: 14,
+                  },
+                  position: {
+                    x: "start",
+                    y: "start",
+                  },
+                  xAdjust: 20,
+                  xValue: data.labels![xIndex] as string | number,
+                  yAdjust: -20,
+                  yValue: data.datasets
+                    .slice(0, index + 1)
+                    .reduce((previous, current) => previous + current.data[yIndex], 0),
+                };
+              }),
+            }
+          : false,
+        crosshair: enableCrosshair
+          ? {
+              line: {
+                width: 0,
+                color: "#000",
+                dashPattern: [6, 4],
+              },
+              zoom: {
+                enabled: false,
+              },
+              sync: {
+                enabled: false,
+              },
+            }
+          : false,
       },
-    },
-  };
+      layout: {
+        padding: {
+          right: enableCallout && round ? 120 : 0,
+          top: enableCallout ? 20 : 0,
+        },
+      },
+      scales: {
+        x: {
+          type: "time",
+          time: {
+            unit: interval,
+            round: round,
+            displayFormats: {
+              quarter: "MMM",
+              month: "MMM",
+              week: "dd MMM",
+            },
+            tooltipFormat: "dd MMM yyyy",
+          },
+          grid: {
+            display: enableGridX,
+            borderWidth: 1,
+            borderDash: [5, 10],
+          },
+          ticks: {
+            major: {
+              enabled: true,
+            },
+            minRotation: 0,
+            maxRotation: 0,
+            font: {
+              family: "Inter",
+            },
+          },
+          stacked: mode === "stacked",
+        },
+        y: {
+          grid: {
+            display: enableGridY,
+            borderWidth: 1,
+            borderDash: [5, 5],
+            drawTicks: false,
+            drawBorder: false,
+            offset: false,
+          },
+          ticks: {
+            padding: 6,
+            callback: (value: string | number) => {
+              return numFormat(value as number).concat(unitY ?? "");
+            },
+            font: {
+              family: "Inter",
+            },
+          },
+          max: maxY,
+          stacked: mode === "stacked",
+        },
+      },
+    };
+  }, [data]);
 
   return (
-    <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
-      {stats && <Stats data={stats} className="py-4"></Stats>}
-      {subheader && <div className="py-4">{subheader}</div>}
+    <div className="space-y-2">
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
+      {stats && <Stats data={stats}></Stats>}
+      {subheader && <div>{subheader}</div>}
 
-      <div className={className}>{data && <Chart data={data} options={options} type={type} />}</div>
+      <div className={className}>
+        {data && <Chart data={data} options={options()} type={type} />}
+      </div>
     </div>
   );
 };
@@ -284,3 +353,18 @@ const Stats: FunctionComponent<StatsProps> = ({ data, className }) => {
 };
 
 export default Timeseries;
+
+// const locations: {
+//   [state]: {
+//     [district]: {
+//       [facility-type]: [
+//         {
+//           name: "Hospital Whatever";
+//           lat: number;
+//           lon: number;
+//         },
+//         // { ... }
+//       ];
+//     };
+//   };
+// };

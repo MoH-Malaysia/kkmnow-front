@@ -1,9 +1,9 @@
 .table {
-  @apply relative w-full max-w-full border-collapse border-spacing-0;
+  @apply relative w-full max-w-full table-fixed border-collapse border-spacing-0;
 }
 
 .table-responsive {
-  @apply overflow-scroll lg:overflow-visible;
+  @apply overflow-auto lg:overflow-visible;
 }
 
 .table th {
@@ -26,11 +26,14 @@
 }
 
 .table td > div {
-  @apply px-2 py-1 text-sm lg:text-base;
+  @apply px-2 py-1 text-sm;
 }
 
-.table td:not(:first-child) {
-  @apply text-right;
+.table th:first-child {
+  @apply w-60;
+}
+.table th:not(:first-child) {
+  @apply w-[350px] lg:w-auto;
 }
 
 .table tr:first-child {

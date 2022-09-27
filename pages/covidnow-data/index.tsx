@@ -1,5 +1,5 @@
 /**
- * Blood Donation Page <Index>
+ * CovidNow Data Page <Index>
  */
 import CovidNowDashboard from "@dashboards/covidnow-data";
 import { get } from "@lib/api";
@@ -7,7 +7,7 @@ import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const BloodDonationIndex: Page = ({
+const CovidNowDataIndex: Page = ({
   timeseries_chart,
   heatmap_chart,
   barmeter_chart,
@@ -54,4 +54,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default BloodDonationIndex;
+export default CovidNowDataIndex;

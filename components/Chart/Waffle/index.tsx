@@ -8,6 +8,7 @@ interface WaffleProps {
   menu?: ReactElement;
   controls?: ReactElement;
   className?: string;
+  state?: string;
   data?: any;
   total?: number;
   padding?: number;
@@ -24,6 +25,7 @@ const Waffle: FunctionComponent<WaffleProps> = ({
   controls,
   className,
   data = dummy,
+  state,
   color = "#157857",
   total = 100,
   padding = 4,
@@ -34,7 +36,7 @@ const Waffle: FunctionComponent<WaffleProps> = ({
 }) => {
   return (
     <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       <div className={className}>
         <ResponsiveWaffle
           data={data}

@@ -45,7 +45,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
     vax_tab: 0,
     filter_dose: filterDoseOptions[0],
     filter_age: filterAgeOptions[0],
-    minmax: [0, timeseries_data.x.length - 1],
+    minmax: [timeseries_data.x.length - 182, timeseries_data.x.length - 1], // [6months ago, today]
   });
 
   const filterTimeline = () => {
@@ -67,7 +67,16 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
     };
   };
 
-  const filtered_timeline = useMemo(filterTimeline, data.minmax);
+  const filtered_timeline = useCallback(filterTimeline, data.minmax);
+  const interval_scale = useMemo(
+    () =>
+      filtered_timeline().x.length > 180
+        ? "month"
+        : filtered_timeline().x.length > 60
+        ? "week"
+        : "day",
+    [filtered_timeline().x]
+  );
 
   const renderFilterOptions = () => {
     switch (data.vax_tab) {
@@ -123,7 +132,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
       <Container className="min-h-screen">
         <Section title="How vaccinated against COVID-19 are we?">
           <Tabs
-            title={
+            state={
               <p className="text-dim">
                 Data for {CountryAndStates[currentState]} |{" "}
                 {data.vax_tab === 0 ? data.filter_age.label : data.filter_dose.label}
@@ -138,8 +147,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 <Waffle
                   className="aspect-square w-full lg:h-[300px] lg:w-auto"
                   title={
-                    <>
-                      1st Dose -{" "}
+                    <div className="flex self-center text-base font-bold">
+                      1st Dose -
                       <Tooltip
                         trigger={
                           <span className="underline decoration-dashed underline-offset-4">
@@ -149,7 +158,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                       >
                         Tooltip for Dose 1
                       </Tooltip>
-                    </>
+                    </div>
                   }
                   color="#9FE8B1"
                   data={waffle_data[data.filter_age.value].dose1.data}
@@ -174,21 +183,18 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 <Waffle
                   className="aspect-square w-full lg:h-[300px] lg:w-auto"
                   title={
-                    <>
-                      <>
-                        2nd Dose -{" "}
-                        <Tooltip
-                          trigger={
-                            <span className="underline decoration-dashed underline-offset-4">
-                              {(waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}
-                              %
-                            </span>
-                          }
-                        >
-                          Tooltip for Dose 2
-                        </Tooltip>
-                      </>
-                    </>
+                    <div className="flex self-center text-base font-bold">
+                      2nd Dose -
+                      <Tooltip
+                        trigger={
+                          <span className="underline decoration-dashed underline-offset-4">
+                            {(waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}%
+                          </span>
+                        }
+                      >
+                        Tooltip for Dose 2
+                      </Tooltip>
+                    </div>
                   }
                   color="#31C752"
                   data={waffle_data[data.filter_age.value].dose2.data}
@@ -213,23 +219,21 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 <Waffle
                   className="aspect-square w-full lg:h-[300px] lg:w-auto"
                   title={
-                    <>
-                      <>
-                        1st Booster -{" "}
-                        <Tooltip
-                          trigger={
-                            <span className="underline decoration-dashed underline-offset-4">
-                              {(waffle_data[data.filter_age.value].booster1.perc as number).toFixed(
-                                1
-                              )}
-                              %
-                            </span>
-                          }
-                        >
-                          Tooltip for Booster 1
-                        </Tooltip>
-                      </>
-                    </>
+                    <div className="flex self-center text-base font-bold">
+                      1st Booster -
+                      <Tooltip
+                        trigger={
+                          <span className="underline decoration-dashed underline-offset-4">
+                            {(waffle_data[data.filter_age.value].booster1.perc as number).toFixed(
+                              1
+                            )}
+                            %
+                          </span>
+                        }
+                      >
+                        Tooltip for Booster 1
+                      </Tooltip>
+                    </div>
                   }
                   color="#228F3A"
                   data={waffle_data[data.filter_age.value].booster1.data}
@@ -254,23 +258,21 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 <Waffle
                   className="aspect-square w-full lg:h-[300px] lg:w-auto"
                   title={
-                    <>
-                      <>
-                        2nd Booster -{" "}
-                        <Tooltip
-                          trigger={
-                            <span className="underline decoration-dashed underline-offset-4">
-                              {(waffle_data[data.filter_age.value].booster2.perc as number).toFixed(
-                                1
-                              )}
-                              %
-                            </span>
-                          }
-                        >
-                          Tooltip for Booster 2
-                        </Tooltip>
-                      </>
-                    </>
+                    <div className="flex self-center text-base font-bold">
+                      2nd Booster -{" "}
+                      <Tooltip
+                        trigger={
+                          <span className="underline decoration-dashed underline-offset-4">
+                            {(waffle_data[data.filter_age.value].booster2.perc as number).toFixed(
+                              1
+                            )}
+                            %
+                          </span>
+                        }
+                      >
+                        Tooltip for Booster 2
+                      </Tooltip>
+                    </div>
                   }
                   color="#135523"
                   data={waffle_data[data.filter_age.value].booster2.data}
@@ -306,36 +308,38 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Timeseries
               className="h-[400px] w-full pt-6 lg:h-[750px]"
               title="Daily Vaccination"
+              state={currentState}
               menu={<MenuDropdown />}
               stats={null}
+              interval={interval_scale}
               data={{
-                labels: filtered_timeline.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline.line_stacked,
+                    data: filtered_timeline().line_stacked,
                     borderColor: "#000",
                   },
                   {
                     type: "bar",
                     label: "Primary",
-                    data: filtered_timeline.primary,
+                    data: filtered_timeline().primary,
                     backgroundColor: COVIDVAX_COLOR[200],
                     stack: "same",
                   },
                   {
                     type: "bar",
                     label: "Booster 1",
-                    data: filtered_timeline.booster,
+                    data: filtered_timeline().booster,
                     backgroundColor: COVIDVAX_COLOR[300],
                     stack: "same",
                   },
                   {
                     type: "bar",
                     label: "Booster 2",
-                    data: filtered_timeline.booster2,
+                    data: filtered_timeline().booster2,
                     backgroundColor: COVIDVAX_COLOR[400],
                     stack: "same",
                   },
@@ -347,6 +351,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="pt-7"
               type="range"
               data={timeseries_data.x}
+              defaultValue={data.minmax}
               onChange={(item: { min: number; max: number }) =>
                 setData("minmax", [item.min, item.max])
               }
@@ -364,21 +369,22 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               title="Primary Doses (All Ages)"
               menu={<MenuDropdown />}
               className="h-full max-h-[250px] w-full"
+              state={currentState}
               enableGridX={false}
               data={{
-                labels: filtered_timeline.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline.line_primary,
+                    data: filtered_timeline().line_primary,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Primary",
-                    data: filtered_timeline.primary,
+                    data: filtered_timeline().primary,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -398,21 +404,22 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               title="1st Boosters (All Ages)"
               menu={<MenuDropdown />}
               className="h-full max-h-[250px] w-full"
+              state={currentState}
               enableGridX={false}
               data={{
-                labels: filtered_timeline.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline.line_booster,
+                    data: filtered_timeline().line_booster,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Booster",
-                    data: filtered_timeline.booster,
+                    data: filtered_timeline().booster,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -430,23 +437,24 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             />
             <Timeseries
               title="2nd Boosters (All Ages)"
+              state={currentState}
               menu={<MenuDropdown />}
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline.line_booster2,
+                    data: filtered_timeline().line_booster2,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Booster 2",
-                    data: filtered_timeline.booster2,
+                    data: filtered_timeline().booster2,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -464,23 +472,24 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             />
             <Timeseries
               title="Adults (All Doses)"
+              state={currentState}
               menu={<MenuDropdown />}
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline.line_adult,
+                    data: filtered_timeline().line_adult,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Adult",
-                    data: filtered_timeline.adult,
+                    data: filtered_timeline().adult,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -498,23 +507,24 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             />
             <Timeseries
               title="Adolescents (All Doses)"
+              state={currentState}
               menu={<MenuDropdown />}
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline.line_adol,
+                    data: filtered_timeline().line_adol,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Adolescent",
-                    data: filtered_timeline.adol,
+                    data: filtered_timeline().adol,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],
@@ -532,23 +542,24 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             />
             <Timeseries
               title="Children (All Doses)"
+              state={currentState}
               menu={<MenuDropdown />}
               className="h-full max-h-[250px] w-full"
               enableGridX={false}
               data={{
-                labels: filtered_timeline.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Moving Average (MA)",
                     pointRadius: 0,
-                    data: filtered_timeline.line_child,
+                    data: filtered_timeline().line_child,
                     borderColor: COVIDVAX_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: "Primary",
-                    data: filtered_timeline.child,
+                    data: filtered_timeline().child,
                     backgroundColor: COVIDVAX_COLOR[100],
                   },
                 ],

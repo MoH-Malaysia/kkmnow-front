@@ -1,4 +1,5 @@
 import { CountryAndStates } from "@lib/constants";
+import { numFormat } from "@lib/helpers";
 
 export const COVID_TABLE_SCHEMA = [
   {
@@ -24,32 +25,22 @@ export const COVID_TABLE_SCHEMA = [
         columns: [
           {
             id: "deaths.deaths",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Deaths</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.deaths.deaths.toFixed(1),
+            header: "Deaths",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.deaths.deaths, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "deaths.deaths_100k",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Per 100k</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.deaths.deaths_100k.toFixed(1),
+            header: "Per 100K",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.deaths.deaths_100k, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "deaths.deaths_trend",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Deaths Trend</p>
-                <p>Past 14d</p>
-              </div>
-            ),
+            header: "Deaths Trend",
+            subheader: "Past 14d",
             accessorFn: (item: any) =>
               item.deaths.deaths_trend && +item.deaths.deaths_trend.toFixed(1),
             relative: true,
@@ -63,33 +54,22 @@ export const COVID_TABLE_SCHEMA = [
         columns: [
           {
             id: "admitted.admitted",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Hospital Admission</p>
-                <p>Past 14d</p>
-              </div>
-            ),
+            header: "Hospital Admission",
+            subheader: "Past 14d",
             maxWidth: 10,
-            accessorFn: (item: any) => item.admitted.admitted.toFixed(1),
+            accessorFn: (item: any) => numFormat(item.admitted.admitted, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "admitted.util_hosp",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Hospital Bed Utilisation</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.admitted.util_hosp.toFixed(1),
+            header: "Hospital Bed Utilisation",
+            accessorFn: (item: any) => +item.admitted.util_hosp.toFixed(1),
             unit: "%",
           },
           {
             id: "admitted.admitted_trend",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Admissions Trend</p>
-                <p>Past 14d</p>
-              </div>
-            ),
+            header: "Admissions Trend",
+            subheader: "Past 14d",
             accessorFn: (item: any) =>
               item.admitted.admitted_trend !== null
                 ? +item.admitted.admitted_trend.toFixed(1)
@@ -105,42 +85,28 @@ export const COVID_TABLE_SCHEMA = [
         columns: [
           {
             id: "cases.cases",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Cases</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.cases.cases.toFixed(1),
+            header: "Cases",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.cases.cases, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_100k",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Per 100k</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.cases.cases_100k.toFixed(1),
+            header: "Per 100K",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.cases.cases_100k, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_posrate",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Positivity Rate</p>
-              </div>
-            ),
+            header: "Positivity Rate",
             accessorFn: (item: any) => +item.cases.cases_posrate.toFixed(1),
             unit: "%",
           },
           {
             id: "cases.cases_trend",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Cases Trend</p>
-                <p>Past 14d</p>
-              </div>
-            ),
+            header: "Cases Trend",
+            subheader: "Past 14d",
             accessorFn: (item: any) => +item.cases.cases_trend.toFixed(1),
             relative: true,
             inverse: true,
@@ -173,32 +139,22 @@ export const COVID_TABLE_SCHEMA = [
         columns: [
           {
             id: "deaths.deaths",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Deaths</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.deaths.deaths.toFixed(1),
+            header: "Deaths",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.deaths.deaths, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "deaths.deaths_100k",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Per 100k</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.deaths.deaths_100k.toFixed(1),
+            header: "Per 100K",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.deaths.deaths_100k, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "deaths.deaths_trend",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Deaths Trend</p>
-                <p>Past 14d</p>
-              </div>
-            ),
+            header: "Deaths Trend",
+            subheader: "Past 14d",
             accessorFn: (item: any) =>
               item.deaths.deaths_trend !== null
                 ? +item.deaths.deaths_trend.toFixed(1)
@@ -234,33 +190,21 @@ export const COVID_TABLE_SCHEMA = [
         columns: [
           {
             id: "admitted.admitted",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Hospital Admission</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            maxWidth: 10,
-            accessorFn: (item: any) => item.admitted.admitted.toFixed(1),
+            header: "Hospital Admissions",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.admitted.admitted, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "admitted.util_hosp",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Hospital Bed Utilisation</p>
-              </div>
-            ),
+            header: "Hospital Bed Utilisation",
             accessorFn: (item: any) => +item.admitted.util_hosp.toFixed(1),
             unit: "%",
           },
           {
             id: "admitted.admitted_trend",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Admissions Trend</p>
-                <p>Past 14d</p>
-              </div>
-            ),
+            header: "Admissions Trend",
+            subheader: "Past 14d",
             accessorFn: (item: any) =>
               item.admitted.admitted_trend !== null
                 ? +item.admitted.admitted_trend.toFixed(1)
@@ -296,41 +240,28 @@ export const COVID_TABLE_SCHEMA = [
         columns: [
           {
             id: "cases.cases",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Cases</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.cases.cases.toFixed(1),
+            header: "Cases",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.cases.cases, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_100k",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Per 100k</p>
-                <p>Past 14d</p>
-              </div>
-            ),
-            accessorFn: (item: any) => item.cases.cases_100k.toFixed(1),
+            header: "Per 100K",
+            subheader: "Past 14d",
+            accessorFn: (item: any) => numFormat(item.cases.cases_100k, "standard"),
+            sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_posrate",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Positivity Rate</p>
-              </div>
-            ),
+            header: "Positivity Rate",
             accessorFn: (item: any) => item.cases.cases_posrate.toFixed(1),
+            unit: "%",
           },
           {
             id: "cases.cases_trend",
-            header: () => (
-              <div>
-                <p className="font-medium text-black">Cases Trend</p>
-                <p>Past 14d</p>
-              </div>
-            ),
+            header: "Cases Trend",
+            subheader: "Past 14d",
             accessorFn: (item: any) => +item.cases.cases_trend.toFixed(1),
             relative: true,
             inverse: true,

@@ -1,4 +1,4 @@
-import { SearchIcon } from "@heroicons/react/solid";
+import { MagnifyingGlassIcon as SearchIcon } from "@heroicons/react/24/solid";
 import { FunctionComponent, useEffect, useRef } from "react";
 
 type SearchProps = {
@@ -25,19 +25,19 @@ const Search: FunctionComponent<SearchProps> = ({ query, onChange }) => {
   }, []);
 
   return (
-    <div className="relative flex w-full items-center">
+    <div className="relative flex items-center">
       <input
         ref={searchRef}
         id="search"
         name="search"
-        type="text"
+        type="search"
         placeholder="Search"
         value={query}
         onChange={e => onChange(e.target.value)}
-        className="block w-full border-0 pl-8 text-dim focus:ring-0"
+        className="block w-full border-0 border-b border-outline pl-8 text-dim focus:ring-0"
       />
       <div className="absolute inset-y-0 left-0 flex items-center py-1.5 pr-1.5">
-        <SearchIcon className="h-5 w-5 text-dim" />
+        <SearchIcon className="h-4 w-4 text-dim" />
       </div>
     </div>
   );

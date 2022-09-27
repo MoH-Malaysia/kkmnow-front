@@ -1,11 +1,13 @@
 import { FunctionComponent, ReactElement } from "react";
 import { Tab } from "@headlessui/react";
 import { ChartHeader } from "..";
+import { CountryAndStates } from "@lib/constants";
 
 interface TabsProps {
   children: Array<ReactElement>;
   className?: string;
   current?: number;
+  state?: string | ReactElement;
   title?: string | ReactElement;
   menu?: ReactElement;
   controls?: ReactElement;
@@ -18,6 +20,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
   title,
   controls,
   current,
+  state,
   menu,
   onChange = () => {},
 }) => {
@@ -25,11 +28,19 @@ const Tabs: FunctionComponent<TabsProps> = ({
     <>
       <Tab.Group selectedIndex={current} onChange={onChange}>
         <div className={`flex flex-wrap justify-between gap-4 pb-4 ${className}`}>
-          {title && typeof title === "string" ? (
-            <span className="text-base font-bold">{title}</span>
-          ) : (
-            title
-          )}
+          <div>
+            {title && typeof title === "string" ? (
+              <span className="text-base font-bold">{title}</span>
+            ) : (
+              title
+            )}
+            {state && typeof state === "string" ? (
+              <p className="text-sm text-dim">Data for {CountryAndStates[state]}</p>
+            ) : (
+              <>{state}</>
+            )}
+          </div>
+
           <Tab.List className="flex flex-wrap items-start justify-between gap-[10px] lg:items-center lg:justify-end">
             {controls}
             <div className="flex flex-grow gap-3">

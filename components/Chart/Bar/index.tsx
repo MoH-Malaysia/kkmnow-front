@@ -19,6 +19,7 @@ interface BarProps {
   className?: string;
   menu?: ReactElement;
   title?: string | ReactElement;
+  state?: string | ReactElement;
   controls?: ReactElement;
   layout?: "vertical" | "horizontal";
   data?: ChartData<"bar", any[], string | number>;
@@ -39,6 +40,7 @@ const Bar: FunctionComponent<BarProps> = ({
   menu,
   title,
   controls,
+  state,
   type = "category",
   unitX,
   unitY,
@@ -119,7 +121,7 @@ const Bar: FunctionComponent<BarProps> = ({
   };
   return (
     <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       <div className={className}>
         <BarCanvas data={data} options={options} />
       </div>
