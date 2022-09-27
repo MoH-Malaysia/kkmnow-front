@@ -50,7 +50,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       cell: (item: any) => {
         const state = item.getValue() as any;
         return (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 text-left">
             <span>{state.country}</span>
           </div>
         );
@@ -203,11 +203,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     className={isMobile ? "h-[300px] w-full" : "h-[500px] w-full"}
                     enableScale={false}
                     projectionScaleSetting={isMobile ? 75 : 125}
-                    data={choropleth_world.map((item: any) => ({
-                      id: item.iso3,
-                      value_real: item.data.views,
-                      value: item.data.views_log ? item.data.views_log : 0,
-                    }))}
+                    xKey="properties.name_short"
+                    data={choropleth_world.map((item: any) => {
+                      return {
+                        id: item.iso3,
+                        value_real: item.data.views,
+                        value: item.data.views_log ? item.data.views_log : 0,
+                      };
+                    })}
                   />
                 </div>
               </Panel>

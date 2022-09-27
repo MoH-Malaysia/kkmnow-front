@@ -38,7 +38,7 @@ const OSMapWrapper: FunctionComponent<OSMapWrapperProps> = ({
           url={`https://api.maptiler.com/maps/pastel/{z}/{x}/{y}.png?key=${process.env.NEXT_PUBLIC_MAPTILER_API_KEY}`}
         />
         {markers.map((item: any) => (
-          <Marker position={item.position} autoPan>
+          <Marker key={item.name} position={item.position} autoPan>
             <Popup>{item.name}</Popup>
           </Marker>
         ))}

@@ -163,7 +163,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
             labelTextColor={schema ? props => get(props, "labelColor") : undefined}
             tooltip={({ cell }) => {
               return (
-                <div className="flex gap-2 rounded bg-white p-3 shadow-md">
+                <div className="nivo-tooltip flex gap-2">
                   <span>{cell.serieId}:</span>
                   <span>
                     <strong>{cell.data.x}</strong> - <strong>{cell.label}</strong>
