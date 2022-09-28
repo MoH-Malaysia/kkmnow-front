@@ -618,7 +618,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name="Per Capita">
                   <>
                     <Heatmap
-                      className="flex h-[150px] overflow-visible"
+                      className="flex h-[140px] overflow-visible"
                       data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
                       subdata
                       axisLeft="default"
@@ -627,7 +627,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[240px] overflow-visible"
+                      className="flex h-[200px] overflow-visible"
                       title="Male"
                       data={[
                         heatmap_donorrate.capita.male_chinese,
@@ -643,7 +643,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[240px] overflow-visible"
+                      className="flex h-[200px] overflow-visible"
                       title="Female"
                       data={[
                         heatmap_donorrate.capita.female_chinese,
@@ -672,7 +672,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[240px] overflow-visible"
+                      className="flex h-[200px] overflow-visible"
                       title="Male"
                       data={[
                         heatmap_donorrate.perc.male_chinese,
@@ -689,7 +689,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[240px] overflow-visible"
+                      className="flex h-[200px] overflow-visible"
                       title="Female"
                       data={[
                         heatmap_donorrate.perc.female_chinese,
@@ -719,7 +719,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[240px] overflow-visible"
+                      className="flex h-[200px] overflow-visible"
                       title="Male"
                       data={[
                         heatmap_donorrate.abs.male_chinese,
@@ -736,7 +736,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[240px] overflow-visible"
+                      className="flex h-[200px] overflow-visible"
                       title="Female"
                       data={[
                         heatmap_donorrate.abs.female_chinese,
@@ -757,7 +757,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             </div>
 
             <Heatmap
-              className="flex h-[700px] overflow-auto pt-7 lg:overflow-visible "
+              className="flex h-[600px] overflow-auto pt-7 lg:overflow-visible "
               title="Donor retention: How well do we retain donors?"
               state={currentState}
               //menu={<MenuDropdown />}

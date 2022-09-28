@@ -190,11 +190,11 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
               forceSquare={forceSquare}
               inactiveOpacity={0.3}
               theme={{
-                fontSize: 14,
+                fontSize: 13,
                 axis: {
                   ticks: {
                     text: {
-                      fontSize: 14,
+                      fontSize: 13,
                       fontFamily: "inherit",
                     },
                   },
@@ -236,11 +236,11 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                 label={schema ? props => get(props, "label") : undefined}
                 labelTextColor={schema ? props => get(props, "labelColor") : undefined}
                 theme={{
-                  fontSize: 14,
+                  fontSize: 13,
                   axis: {
                     ticks: {
                       text: {
-                        fontSize: 14,
+                        fontSize: 13,
                         fontFamily: "inherit",
                       },
                     },
