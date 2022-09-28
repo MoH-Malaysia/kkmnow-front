@@ -15,8 +15,9 @@ import { useData } from "@hooks/useData";
 import { CountryAndStates } from "@lib/constants";
 import { FACILTIES_TABLE_SCHEMA } from "@lib/schema/healthcare-facilities";
 import dynamic from "next/dynamic";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { OptionType } from "@components/types";
+import { get } from "@lib/api";
 
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
@@ -38,13 +39,43 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     table_state: undefined,
     table_district: undefined,
     table_facility_type: undefined,
+    map_markers: [],
+    bar_distances_within: undefined,
+    bar_distances_between: undefined,
   });
 
   const handleClearSelection = () => {
     setData("zoom_state", undefined);
     setData("zoom_facility_type", undefined);
     setData("zoom_district", undefined);
+    setData("map_markers", []);
+    setData("bar_distances_within", undefined);
+    setData("bar_distances_between", undefined);
   };
+
+  const fetchProximities = async () => {
+    if (!data.zoom_state || !data.zoom_facility_type || !data.zoom_district) {
+      setData("map_markers", []);
+      setData("bar_distances_within", []);
+      setData("map_distances_district", []);
+      return;
+    }
+    const { data: result } = await get("/kkmnow", {
+      dashboard: "facilities",
+      table: "false",
+      state: data.zoom_state,
+      fac_type: data.zoom_facility_type.label.toLowerCase(),
+      district: data.zoom_district.label.toLowerCase().replace(" ", "-"),
+    });
+
+    setData("map_markers", result.locations_mapping);
+    setData("bar_distances_within", result.distances_within);
+    setData("bar_distances_between", result.distances_between);
+  };
+
+  useEffect(() => {
+    fetchProximities().catch(e => console.error(e));
+  }, [data.zoom_district, data.zoom_facility_type, data.zoom_state]);
 
   return (
     <>
@@ -188,7 +219,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 currentState={data.zoom_state}
                 onChange={selected => {
                   setData("zoom_state", selected.value);
-                  setData("zoom_district", "");
+                  setData("zoom_district", undefined);
                 }}
                 disabled={!data.zoom_facility_type}
                 exclude={["kvy"]}
@@ -218,12 +249,22 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 } ${data.zoom_district ? data.zoom_district.label + ", " : ""} ${
                   CountryAndStates[data.zoom_state ?? "mys"]
                 }`}
+                position={
+                  data.map_markers.length
+                    ? [data.map_markers[0].lat, data.map_markers[0].lon]
+                    : undefined
+                }
+                zoom={data.map_markers.length ? 9 : undefined}
+                markers={data.map_markers.map((marker: any) => ({
+                  name: marker.name,
+                  position: [marker.lat, marker.lon],
+                }))}
                 className="h-[520px] w-full rounded-xl"
               />
             </div>
           </div>
           <div className="mt-16 grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
-            {data.zoom_state && data.zoom_district ? (
+            {data.bar_distances_within && data.bar_distances_between ? (
               <>
                 <Bar
                   title={
@@ -235,17 +276,37 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                     </div>
                   }
                   className="h-[300px]"
+                  data={{
+                    labels: data.bar_distances_within.x,
+                    datasets: [
+                      {
+                        label: `No. of ${data.zoom_facility_type.label}`,
+                        data: data.bar_distances_within.y,
+                      },
+                    ],
+                  }}
                   enableGridX={false}
                 />
                 <Bar
                   title={
                     <div className="flex self-center text-base font-bold">
+                      Distance of {data.zoom_facility_type.label} in{" "}
                       {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
                       {CountryAndStates[data.zoom_state]} relative to other{" "}
                       {data.zoom_district === "" ? "States" : "Districts"}
                     </div>
                   }
-                  className="h-[300px]"
+                  data={{
+                    labels: data.bar_distances_between.x,
+                    datasets: [
+                      {
+                        label: `Distance to ${data.zoom_facility_type.label}`,
+                        data: data.bar_distances_between.y,
+                      },
+                    ],
+                  }}
+                  className="h-[380px]"
+                  unitY="km"
                   enableGridX={false}
                 />
               </>
