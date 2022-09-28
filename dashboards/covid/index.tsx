@@ -156,7 +156,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         <Section
           title="Healthcare facility utilisation"
           description={
-            <p className="text-sm text-dim">Data for {CountryAndStates[currentState]}</p>
+            <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[currentState]}</p>
           }
         >
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
@@ -228,10 +228,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         {/* What does the latest data show? */}
         <Section title="What does the latest data show?">
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="col-span-1 lg:col-span-2">
+            <div className="col-span-1 xl:col-span-2">
               <Stages
                 title="Active COVID-19 Cases"
-                className="h-full pt-10"
+                className="h-full pt-4"
                 state={currentState}
                 // // menu={<MenuDropdown />}
                 data={{
@@ -325,7 +325,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 }}
               />
             </div>
-            <div className="col-span-2 xl:col-span-1">
+            <div className="col-span-1">
               {/* <ChartHeader title={} // menu={<MenuDropdown />} /> */}
 
               <Tabs
