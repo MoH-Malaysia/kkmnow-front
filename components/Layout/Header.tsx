@@ -104,11 +104,11 @@ const Header = () => {
                   ))}
                 </Container>
               </MegaMenu>
-              <NavItem
+              {/* <NavItem
                 title={t("nav.about")}
                 link="/about"
                 // icon={<NewspaperIcon className="h-4 w-4 text-black" />}
-              />
+              /> */}
             </Nav>
           </div>
           <div className="flex items-center gap-4">
