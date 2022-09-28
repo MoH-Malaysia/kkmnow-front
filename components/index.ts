@@ -11,6 +11,7 @@ export { default as Checkbox } from "./Checkbox";
 export { default as Search } from "./Search";
 export { default as Button } from "./Button";
 export { default as Metadata } from "./Metadata";
+export { default as ErrorCode } from "./Error";
 
 /** Chart */
 export { default as Empty } from "./Chart/Empty";

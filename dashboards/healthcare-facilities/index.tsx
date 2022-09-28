@@ -12,7 +12,7 @@ import {
 } from "@components/index";
 import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { useData } from "@hooks/useData";
-import { CountryAndStates } from "@lib/constants";
+import { CountryAndStates, GRAYBAR_COLOR } from "@lib/constants";
 import { FACILTIES_TABLE_SCHEMA } from "@lib/schema/healthcare-facilities";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useEffect } from "react";
@@ -282,6 +282,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                       {
                         label: `No. of ${data.zoom_facility_type.label}`,
                         data: data.bar_distances_within.y,
+                        backgroundColor: GRAYBAR_COLOR[200],
                       },
                     ],
                   }}
@@ -300,8 +301,9 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                     labels: data.bar_distances_between.x,
                     datasets: [
                       {
-                        label: `Distance to ${data.zoom_facility_type.label}`,
+                        label: `Distance to ${data.zoom_facility_type.label} (km)`,
                         data: data.bar_distances_between.y,
+                        backgroundColor: GRAYBAR_COLOR[200],
                       },
                     ],
                   }}

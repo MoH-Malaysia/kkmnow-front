@@ -41,7 +41,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
             )}
           </div>
 
-          <Tab.List className="flex flex-wrap items-center justify-between gap-[10px] lg:justify-end">
+          <Tab.List className="flex flex-wrap items-start justify-between gap-[10px] lg:justify-end">
             {controls}
             <div className="flex flex-grow gap-3">
               {children.map(({ props: { name } }, index) => (
