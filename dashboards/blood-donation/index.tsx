@@ -806,7 +806,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   setData("zoom_facility", undefined);
                   setData("zoom_state", selected.value);
                 }}
-                exclude={["kvy", "lbn", "pls", "pjy"]}
+                exclude={["kvy", "lbn", "pls", "pjy", "mys"]}
                 width="w-full"
               />
               <Dropdown

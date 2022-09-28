@@ -101,7 +101,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<
                     setData("table_state", selected.value);
                     setColumnFilters([{ id: "state", value: selected.value }]);
                   }}
-                  exclude={["kvy"]}
+                  exclude={["kvy", "mys"]}
                 />
                 <Dropdown
                   selected={data.table_district}
