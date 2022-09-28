@@ -18,7 +18,7 @@ const ChartHeader: FunctionComponent<ChartHeaderProps> = ({ title, menu, control
             title
           )}
           {state && typeof state === "string" ? (
-            <p className="text-sm text-dim">Data for {CountryAndStates[state]}</p>
+            <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[state]}</p>
           ) : (
             <>{state}</>
           )}

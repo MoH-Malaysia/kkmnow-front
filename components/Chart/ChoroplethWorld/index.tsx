@@ -21,6 +21,7 @@ interface ChoroplethProps {
   controls?: ReactElement;
   data?: any;
   xKey?: string;
+  unitY?: string;
   enableScale?: boolean;
   projectionScaleSetting?: number;
 }
@@ -31,6 +32,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
   menu,
   title,
   data = dummyData,
+  unitY,
   enableScale = true,
   projectionScaleSetting = 125,
   xKey,
@@ -73,7 +75,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           tooltip={({ feature: { data, label } }) => {
             return data?.id ? (
               <div className="nivo-tooltip">
-                {label}: {numFormat(data.value_real, "standard")}
+                {label}: {numFormat(data.value_real, "standard")} {unitY}
               </div>
             ) : (
               <></>

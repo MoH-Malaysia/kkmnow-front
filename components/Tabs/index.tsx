@@ -35,13 +35,13 @@ const Tabs: FunctionComponent<TabsProps> = ({
               title
             )}
             {state && typeof state === "string" ? (
-              <p className="text-sm text-dim">Data for {CountryAndStates[state]}</p>
+              <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[state]}</p>
             ) : (
               <>{state}</>
             )}
           </div>
 
-          <Tab.List className="flex flex-wrap items-start justify-between gap-[10px] lg:items-center lg:justify-end">
+          <Tab.List className="flex flex-wrap items-center justify-between gap-[10px] lg:justify-end">
             {controls}
             <div className="flex flex-grow gap-3">
               {children.map(({ props: { name } }, index) => (

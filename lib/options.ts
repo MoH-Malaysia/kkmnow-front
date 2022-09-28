@@ -1,4 +1,4 @@
-import { STATES } from "./constants";
+import { MALAYSIA, STATES } from "./constants";
 
 export const languages = [
   { label: "English", value: "en-GB" },
@@ -43,7 +43,7 @@ export const filterDoseOptions = [
   { label: "2nd Booster", value: "booster2" },
 ];
 
-export const statesOptions = STATES.map(state => ({
+export const statesOptions = [MALAYSIA].concat(STATES).map(state => ({
   label: state.name,
   value: state.key,
 }));

@@ -11,7 +11,6 @@ import {
   Empty,
   Search,
   Section,
-  Table,
   Tabs,
   Panel,
 } from "@components/index";
@@ -20,7 +19,8 @@ import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
-const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
+const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
+const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
 interface HospitalBedUtilisationDashboardProps {}
 
@@ -101,7 +101,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<
                     setData("table_state", selected.value);
                     setColumnFilters([{ id: "state", value: selected.value }]);
                   }}
-                  exclude={["kvy"]}
+                  exclude={["kvy", "mys"]}
                 />
                 <Dropdown
                   selected={data.table_district}
@@ -117,22 +117,6 @@ const HospitalBedUtilisationDashboard: FunctionComponent<
                   }}
                   width="w-52"
                 />
-                {/* <Dropdown
-                  selected={data.table_facility_type}
-                  placeholder="All"
-                  label="Type"
-                  options={facility_types.map((item: string): OptionType => {
-                    return {
-                      label: item,
-                      value: item.toLowerCase(),
-                    };
-                  })}
-                  onChange={selected => {
-                    setData("table_facility_type", selected);
-                    setColumnFilters(state => state.concat({ id: "type", value: selected.value }));
-                  }}
-                  width="w-full"
-                /> */}
                 <Button
                   onClick={() => {
                     setData("table_state", undefined);
@@ -151,6 +135,25 @@ const HospitalBedUtilisationDashboard: FunctionComponent<
             enablePagination
             cellClass="text-left"
           />
+        </Section>
+        <Section title="Bed Utilisation for {hospital_facility}">
+          <div className="grid grid-cols-1 lg:grid-cols-3">
+            <Timeseries
+              className="h-[250px] w-full"
+              title="Daily Hospital Admissions"
+              enableGridX={false}
+            />
+            <Timeseries
+              className="h-[250px] w-full"
+              title="Hospital Bed Admissions (non-critical)"
+              enableGridX={false}
+            />
+            <Timeseries
+              className="h-[250px] w-full"
+              title="ICU Bed Utilisation (critical care)"
+              enableGridX={false}
+            />
+          </div>
         </Section>
 
         {/* <div className="mt-2">
