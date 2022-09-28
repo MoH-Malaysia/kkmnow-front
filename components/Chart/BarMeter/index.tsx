@@ -114,7 +114,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
         return (
           <>
             <div
-              className="hidden flex-col items-center space-y-2 lg:flex"
+              className="hidden h-full flex-col items-center space-y-2 lg:flex"
               key={item[xKey].concat(`_${index}`)}
             >
               <p>
@@ -163,7 +163,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
         {_data &&
           _data.map((item, index) => {
             return (
-              <div className={className} key={index}>
+              <div className="h-full" key={index}>
                 {renderBars(item, index)}
               </div>
             );

@@ -206,6 +206,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     className={isMobile ? "h-[300px] w-full" : "h-[500px] w-full"}
                     enableScale={false}
                     projectionScaleSetting={isMobile ? 75 : 125}
+                    unitY=" views"
                     xKey="properties.name_short"
                     data={choropleth_world.map((item: any) => {
                       return {
@@ -254,6 +255,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                       value: item.data.views_log,
                       value_real: item.data.views,
                     }))}
+                    unitY=" views"
                     graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
                   />
                 </div>

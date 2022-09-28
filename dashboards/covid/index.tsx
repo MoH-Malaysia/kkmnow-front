@@ -227,13 +227,13 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
         {/* What does the latest data show? */}
         <Section title="What does the latest data show?">
-          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <div className="col-span-1 lg:col-span-2">
               <Stages
                 title="Active COVID-19 Cases"
                 className="h-full pt-10"
                 state={currentState}
-                menu={<MenuDropdown />}
+                // // menu={<MenuDropdown />}
                 data={{
                   header: {
                     name: "Active Cases",
@@ -325,15 +325,19 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 }}
               />
             </div>
-            <div className="col-span-1">
-              <ChartHeader title={BarTabsMenu[data.filter_state].title} menu={<MenuDropdown />} />
+            <div className="col-span-2 xl:col-span-1">
+              {/* <ChartHeader title={} // menu={<MenuDropdown />} /> */}
 
-              <Tabs onChange={value => setData("filter_state", value)}>
+              <Tabs
+                title={BarTabsMenu[data.filter_state].title}
+                className="w-full"
+                onChange={value => setData("filter_state", value)}
+              >
                 {BarTabsMenu.map(({ name, data }, index) => {
                   return (
                     <Panel key={index} name={name}>
                       <BarMeter
-                        className="block space-y-2"
+                        className="block w-full space-y-2"
                         data={data}
                         yKey="y"
                         xKey="x"
@@ -353,10 +357,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         <Section title="How are COVID-19 key indicators trending?">
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title="Deaths by Date of Death"
               state={currentState}
-              menu={<MenuDropdown />}
+              // menu={<MenuDropdown />}
               interval={interval_scale}
               stats={null}
               // enableLegend
@@ -389,11 +393,11 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title="Patients Ventilated"
               state={currentState}
               interval={interval_scale}
-              menu={<MenuDropdown />}
+              // menu={<MenuDropdown />}
               stats={null}
               // enableLegend
               data={{
@@ -418,10 +422,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title="Patients in ICU"
               state={currentState}
-              menu={<MenuDropdown />}
+              // menu={<MenuDropdown />}
               interval={interval_scale}
               stats={null}
               // enableLegend
@@ -447,10 +451,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title="Hospital Admissions"
               state={currentState}
-              menu={<MenuDropdown />}
+              // menu={<MenuDropdown />}
               interval={interval_scale}
               stats={null}
               // enableLegend
@@ -476,10 +480,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title="Confirmed Cases"
               state={currentState}
-              menu={<MenuDropdown />}
+              // menu={<MenuDropdown />}
               interval={interval_scale}
               // enableLegend
               stats={null}
@@ -505,10 +509,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title="Tests Conducted"
               state={currentState}
-              menu={<MenuDropdown />}
+              // menu={<MenuDropdown />}
               interval={interval_scale}
               stats={null}
               // enableLegend
