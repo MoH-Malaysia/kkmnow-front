@@ -2,11 +2,11 @@ import { HeatmapSchema } from "./blood-donation";
 
 export const ORGAN_DONATION_SCHEMA: HeatmapSchema[] = [
   {
-    labelColor: "#FFF",
+    labelColor: "#000",
     max: 0,
   },
   {
-    labelColor: "#FFF",
+    labelColor: "#000",
     max: 5000,
   },
   {

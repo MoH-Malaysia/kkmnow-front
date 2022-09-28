@@ -57,6 +57,7 @@ const Bar: FunctionComponent<BarProps> = ({
   ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, ChartTooltip);
 
   const options: BarCrosshairOption = {
+    indexAxis: !isVertical ? "y" : "x",
     maintainAspectRatio: false,
     responsive: true,
     plugins: {

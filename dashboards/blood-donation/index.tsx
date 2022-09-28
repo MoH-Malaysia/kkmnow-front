@@ -96,7 +96,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, limit);
+  const filtered_timeline = useCallback(filterTimeline, [limit, timeseries_all]);
   const interval_scale = useMemo(
     () => (filtered_timeline().x.length > 365 ? "month" : "day"),
     [filtered_timeline().x]
@@ -609,7 +609,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               donate at least 1 time per year."
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-            <div className="w-full space-y-4 overflow-visible">
+            <div className="w-full overflow-visible">
               <Tabs
                 title="Donor rates across key demographics"
                 //menu={<MenuDropdown />}
@@ -757,7 +757,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             </div>
 
             <Heatmap
-              className="flex h-[600px] overflow-auto pt-7 lg:overflow-visible "
+              className="flex h-[600px] overflow-auto lg:overflow-visible "
               title="Donor retention: How well do we retain donors?"
               state={currentState}
               //menu={<MenuDropdown />}

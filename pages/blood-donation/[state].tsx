@@ -6,6 +6,7 @@ import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { STATES } from "@lib/constants";
 import { Page } from "@lib/types";
+import { DateTime } from "luxon";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -61,6 +62,10 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   // transfrom:
   Object.values(data.heatmap_retention).forEach((item: any) => {
     item.data = item.data.filter((_item: any) => _item.y !== null);
+  });
+  data.barchart_time.monthly.x = data.barchart_time.monthly.x.map((item: any) => {
+    const period = DateTime.fromFormat(item, "yyyy-MM-dd");
+    return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
 
   return {

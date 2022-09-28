@@ -1,6 +1,5 @@
 import { FunctionComponent, ReactElement } from "react";
 import { Tab } from "@headlessui/react";
-import { ChartHeader } from "..";
 import { CountryAndStates } from "@lib/constants";
 
 interface TabsProps {
@@ -27,7 +26,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
   return (
     <>
       <Tab.Group selectedIndex={current} onChange={onChange}>
-        <div className={`flex flex-wrap justify-between gap-4 pb-4 ${className}`}>
+        <div className={`flex flex-wrap justify-between gap-4 ${className}`}>
           <div>
             {title && typeof title === "string" ? (
               <span className="text-base font-bold">{title}</span>

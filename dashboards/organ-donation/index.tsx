@@ -1,55 +1,50 @@
-import {
-  Hero,
-  Container,
-  Tabs,
-  Panel,
-  MenuDropdown,
-  Slider,
-  Section,
-  ChartHeader,
-  StateDropdown,
-} from "@components/index";
+import { Hero, Container, Tabs, Panel, Slider, Section, StateDropdown } from "@components/index";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 
-import { ORGAN_DONATION_COLOR } from "@lib/constants";
+import { GRAYBAR_COLOR, ORGAN_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback, useMemo } from "react";
 import { routes } from "@lib/routes";
 import { ORGAN_DONATION_SCHEMA } from "@lib/schema/organ-donation";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
-const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
-interface OrganDonationDashboardProps {}
+interface OrganDonationDashboardProps {
+  timeseries_pledge: any;
+  bar_age: any;
+  bar_time: any;
+  bar_reasons: any;
+  heatmap_donorrate: any;
+}
 
-const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = () => {
+const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = ({
+  timeseries_pledge,
+  bar_age,
+  bar_time,
+  bar_reasons,
+  heatmap_donorrate,
+}) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
-    filter_by: 0,
+    minmax: [0, timeseries_pledge.x.length - 1],
   });
 
-  const TableTabsMenu = [
-    {
-      name: "Show All",
-    },
-    {
-      name: "Total",
-    },
-    {
-      name: "Adults",
-    },
-    {
-      name: "Adolescents",
-    },
-    {
-      name: "Children",
-    },
-  ];
+  const filtered_timeline = useCallback(() => {
+    return {
+      x: timeseries_pledge.x.slice(data.minmax[0], data.minmax[1]),
+      line: timeseries_pledge.line.slice(data.minmax[0], data.minmax[1]),
+      daily: timeseries_pledge.daily.slice(data.minmax[0], data.minmax[1]),
+    };
+  }, [data.minmax, timeseries_pledge]);
 
+  const interval_scale = useMemo(
+    () => (filtered_timeline().x.length > 365 ? "month" : "day"),
+    [filtered_timeline().x]
+  );
   return (
     <>
       <Hero background="hero-light-4">
@@ -57,17 +52,22 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
           <h3 className="text-black">Organ Donation</h3>
           <p className="text-dim">
-            A stable and high supply of blood is critical for a well-functioning public healthcare
-            system. This dashboard, which gives you near-real-time updates on key indicators related
-            to blood transfusion services, is brought to you by the{" "}
+            Since 1997, there have only been 785 actual donors post-mortem despite thousands
+            requiring a transplant. Malaysia uses an opt-in rather than opt-out system, making it
+            vital to achieve a pledger rate as close to 100% as possible. This dashboard, which
+            tracks organ donation pledges, is brought to you by the
             <a href="#" className="font-semibold text-blue-600">
               {" "}
-              National Blood Centre (PDN).
+              National Resource Transplant Centre
             </a>
           </p>
           <div className="flex w-full items-center gap-4">
             <p className="text-sm font-bold text-dim">Zoom into</p>
-            <StateDropdown url={routes.ORGAN_DONATION} currentState={currentState} />
+            <StateDropdown
+              url={routes.ORGAN_DONATION}
+              currentState={currentState}
+              exclude={["kvy"]}
+            />
           </div>
         </div>
       </Hero>
@@ -87,8 +87,36 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
           }
         >
           <div className="space-y-4">
-            <Timeseries title="Daily Pledges" menu={<MenuDropdown />} stats={null} />
-            <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
+            <Timeseries
+              title="Daily Pledges"
+              className="h-[350px]"
+              state={currentState}
+              interval={interval_scale}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    data: filtered_timeline().line,
+                    borderColor: ORGAN_COLOR[600],
+                  },
+                  {
+                    type: "bar",
+                    label: "Daily Pledges",
+                    data: filtered_timeline().daily,
+                    backgroundColor: GRAYBAR_COLOR[100],
+                  },
+                ],
+              }}
+              stats={null}
+            />
+            <Slider
+              className="pt-7"
+              type="range"
+              data={timeseries_pledge.x}
+              onChange={(item: any) => setData("minmax", [item.min, item.max])}
+            />
             <span className="text-sm text-dim">
               Use this time slider to zoom in specific time range
             </span>
@@ -103,22 +131,82 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
-              <Tabs title="Number of new donors" menu={<MenuDropdown />}>
+              <Tabs
+                title="Number of new donors"
+                state={currentState}
+                //   menu={<MenuDropdown />}
+              >
                 <Panel name="Annual">
-                  <Bar className="h-[300px]" enableGridX={false} />
+                  <Bar
+                    className="h-[250px]"
+                    data={{
+                      labels: bar_time.annual.x,
+                      datasets: [
+                        {
+                          label: "New Donors",
+                          data: bar_time.annual.y,
+                          backgroundColor: GRAYBAR_COLOR[200],
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
                 <Panel name="Monthly">
-                  <Bar className="h-[300px]" enableGridX={false} />
+                  <Bar
+                    className="h-[250px]"
+                    data={{
+                      labels: bar_time.monthly.x,
+                      datasets: [
+                        {
+                          label: "New Donors",
+                          data: bar_time.monthly.y,
+                          backgroundColor: GRAYBAR_COLOR[100],
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
               </Tabs>
             </div>
             <div>
-              <Tabs title="New donors by age group" menu={<MenuDropdown />}>
+              <Tabs
+                title="New donors by age group"
+                state={currentState}
+                //   menu={<MenuDropdown />}
+              >
                 <Panel name="Past 1 year">
-                  <Bar className="h-[300px]" enableGridX={false} />
+                  <Bar
+                    className="h-[250px]"
+                    data={{
+                      labels: bar_age.past_year.x,
+                      datasets: [
+                        {
+                          label: "New Donors",
+                          data: bar_age.past_year.y,
+                          backgroundColor: GRAYBAR_COLOR[200],
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
                 <Panel name="Past 1 month">
-                  <Bar className="h-[300px]" enableGridX={false} />
+                  <Bar
+                    className="h-[250px]"
+                    data={{
+                      labels: bar_age.past_month.x,
+                      datasets: [
+                        {
+                          label: "New Donors",
+                          data: bar_age.past_month.y,
+                          backgroundColor: GRAYBAR_COLOR[100],
+                        },
+                      ],
+                    }}
+                    enableGridX={false}
+                  />
                 </Panel>
               </Tabs>
             </div>
@@ -128,120 +216,151 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         {/* What proportion of the population in {{ area }} donates blood? */}
         <Section
           title="What proportion of the population in Klang Valley donates blood?"
-          description="To ensure a stable and high supply of blood, we need 10% of the eliglble population to
+          description="To ensure a stable and high supply of blood, we need 10% of the eligible population to
               donate at least 1 time per year."
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-            <div className="w-full space-y-4">
-              <Tabs title="Donor rates across key demographics" menu={<MenuDropdown />}>
+            <div className="w-full">
+              <Tabs
+                title="Donor rates across key demographics"
+                //menu={<MenuDropdown />}
+                state={currentState}
+              >
                 <Panel name="Per Capita">
                   <>
                     <Heatmap
-                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      data={dummyTwoRowHeatmap}
+                      className="flex h-[140px] overflow-visible"
+                      data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
                       subdata
                       axisLeft="default"
-                      interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[200px] overflow-visible"
                       title="Male"
-                      data={dummyFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.capita.male_chinese,
+                        heatmap_donorrate.capita.male_indian,
+                        heatmap_donorrate.capita.male_bumi,
+                        heatmap_donorrate.capita.male_other,
+                      ]}
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[200px] overflow-visible"
                       title="Female"
-                      data={dummyFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.capita.female_chinese,
+                        heatmap_donorrate.capita.female_indian,
+                        heatmap_donorrate.capita.female_bumi,
+                        heatmap_donorrate.capita.female_other,
+                      ]}
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
                   </>
                 </Panel>
                 <Panel name="% of Donations">
                   <>
                     <Heatmap
-                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      data={dummyTwoRowHeatmap}
+                      className="flex h-[150px] overflow-auto lg:overflow-visible"
+                      data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
                       subdata
                       axisLeft="default"
-                      interactive={false}
+                      unitY="%"
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[200px] overflow-visible"
                       title="Male"
-                      data={dummyFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.perc.male_chinese,
+                        heatmap_donorrate.perc.male_indian,
+                        heatmap_donorrate.perc.male_bumi,
+                        heatmap_donorrate.perc.male_other,
+                      ]}
                       subdata
+                      unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[200px] overflow-visible"
                       title="Female"
-                      data={dummyFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.perc.female_chinese,
+                        heatmap_donorrate.perc.female_indian,
+                        heatmap_donorrate.perc.female_bumi,
+                        heatmap_donorrate.perc.female_other,
+                      ]}
                       subdata
+                      unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
                   </>
                 </Panel>
                 <Panel name="Absolute">
                   <>
                     <Heatmap
-                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      data={dummyTwoRowHeatmap}
+                      className="flex h-[150px] overflow-visible"
+                      data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
                       subdata
                       axisLeft="default"
-                      interactive={false}
+                      valueFormat="<-,.1~s"
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[200px] overflow-visible"
                       title="Male"
-                      data={dummyFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.abs.male_chinese,
+                        heatmap_donorrate.abs.male_indian,
+                        heatmap_donorrate.abs.male_bumi,
+                        heatmap_donorrate.abs.male_other,
+                      ]}
                       subdata
+                      valueFormat="<-,.2~s"
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[200px] overflow-visible"
                       title="Female"
-                      data={dummyFourRowHeatmap}
+                      data={[
+                        heatmap_donorrate.abs.female_chinese,
+                        heatmap_donorrate.abs.female_indian,
+                        heatmap_donorrate.abs.female_bumi,
+                        heatmap_donorrate.abs.female_other,
+                      ]}
                       subdata
+                      valueFormat="<-,.1~s"
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={ORGAN_DONATION_SCHEMA}
-                      color={ORGAN_DONATION_COLOR}
+                      color={Object.values(ORGAN_COLOR)}
                     />
                   </>
                 </Panel>
@@ -249,25 +368,39 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
             </div>
 
             <div>
-              <ChartHeader
-                title="Motivation: Why do people pledge to donate organs?"
-                menu={<MenuDropdown />}
-              />
-              <Tabs className="pt-9" title="Number of new donors" menu={<MenuDropdown />}>
-                <Panel name="Annual">
+              <Tabs title="Reasons for pledging to donate organs" state={currentState}>
+                <Panel name="All-time">
                   <Bar
-                    className="h-[650px] w-full"
-                    enableGridX={false}
-                    enableGridY={false}
+                    className="h-[500px]"
                     layout="horizontal"
+                    data={{
+                      labels: bar_reasons.all_time.x,
+                      datasets: [
+                        {
+                          label: "No. of Donors",
+                          data: bar_reasons.all_time.y,
+                          backgroundColor: GRAYBAR_COLOR[100],
+                        },
+                      ],
+                    }}
+                    enableGridY={false}
                   />
                 </Panel>
-                <Panel name="Monthly">
+                <Panel name="Past 1 month">
                   <Bar
-                    className="h-[650px] w-full"
-                    enableGridX={false}
-                    enableGridY={false}
+                    className="h-[500px]"
                     layout="horizontal"
+                    data={{
+                      labels: bar_reasons.last_month.x,
+                      datasets: [
+                        {
+                          label: "No. of Screenings",
+                          data: bar_reasons.last_month.y,
+                          backgroundColor: GRAYBAR_COLOR[100],
+                        },
+                      ],
+                    }}
+                    enableGridY={false}
                   />
                 </Panel>
               </Tabs>
@@ -279,485 +412,10 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         <Section
           title="How is this data collected?"
           description="Map showing locations of BBIS centres:"
-        >
-          <Choropleth className="h-[500px] w-full" enableScale={false} />
-        </Section>
+        />
       </Container>
     </>
   );
 };
 
 export default OrganDonationDashboard;
-
-const dummyOneColTwoRowHeatmap = [
-  {
-    id: "Male",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-  {
-    id: "Female",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-];
-const dummyOneColFourRowHeatmap = [
-  {
-    id: "Chinese",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-  {
-    id: "Indian",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-  {
-    id: "Bumiputera",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-  {
-    id: "Other",
-    data: [
-      {
-        x: "Overall",
-        y: -13623,
-      },
-    ],
-  },
-];
-
-const dummyTwoRowHeatmap = [
-  {
-    id: "Male",
-    data: [
-      {
-        x: "Train",
-        y: -13623,
-      },
-      {
-        x: "Subway",
-        y: 49382,
-      },
-      {
-        x: "Bus",
-        y: -49785,
-      },
-      {
-        x: "Car",
-        y: 38066,
-      },
-      {
-        x: "Boat",
-        y: -70988,
-      },
-      {
-        x: "Moto",
-        y: 60325,
-      },
-      {
-        x: "Moped",
-        y: -25685,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "Female",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-];
-const dummyFourRowHeatmap = [
-  {
-    id: "Chinese",
-    data: [
-      {
-        x: "Train",
-        y: -13623,
-      },
-      {
-        x: "Subway",
-        y: 49382,
-      },
-      {
-        x: "Bus",
-        y: -49785,
-      },
-      {
-        x: "Car",
-        y: 38066,
-      },
-      {
-        x: "Boat",
-        y: -70988,
-      },
-      {
-        x: "Moto",
-        y: 60325,
-      },
-      {
-        x: "Moped",
-        y: -25685,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "Indian",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "Bumiputera",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "Other",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-];
-
-const dummyDiagonal = [
-  {
-    id: "Japan",
-    data: [
-      {
-        x: "Train",
-        y: -13623,
-      },
-      {
-        x: "Subway",
-        y: 49382,
-      },
-      {
-        x: "Bus",
-        y: -49785,
-      },
-      {
-        x: "Car",
-        y: 38066,
-      },
-      {
-        x: "Boat",
-        y: -70988,
-      },
-      {
-        x: "Moto",
-        y: 60325,
-      },
-      {
-        x: "Moped",
-        y: -25685,
-      },
-      {
-        x: "Bicycle",
-        y: 18402,
-      },
-    ],
-  },
-  {
-    id: "France",
-    data: [
-      {
-        x: "Train",
-        y: 11476,
-      },
-      {
-        x: "Subway",
-        y: -7392,
-      },
-      {
-        x: "Bus",
-        y: 19185,
-      },
-      {
-        x: "Car",
-        y: -20491,
-      },
-      {
-        x: "Boat",
-        y: -66405,
-      },
-      {
-        x: "Moto",
-        y: 62149,
-      },
-      {
-        x: "Moped",
-        y: -62377,
-      },
-    ],
-  },
-  {
-    id: "US",
-    data: [
-      {
-        x: "Train",
-        y: 55769,
-      },
-      {
-        x: "Subway",
-        y: -6430,
-      },
-      {
-        x: "Bus",
-        y: 95228,
-      },
-      {
-        x: "Car",
-        y: 38713,
-      },
-      {
-        x: "Boat",
-        y: -20260,
-      },
-      {
-        x: "Moto",
-        y: 15754,
-      },
-    ],
-  },
-  {
-    id: "Germany",
-    data: [
-      {
-        x: "Train",
-        y: 99572,
-      },
-      {
-        x: "Subway",
-        y: -42981,
-      },
-      {
-        x: "Bus",
-        y: -17820,
-      },
-      {
-        x: "Car",
-        y: 80488,
-      },
-      {
-        x: "Boat",
-        y: -68851,
-      },
-    ],
-  },
-  {
-    id: "Norway",
-    data: [
-      {
-        x: "Train",
-        y: 58659,
-      },
-      {
-        x: "Subway",
-        y: -54633,
-      },
-      {
-        x: "Bus",
-        y: -91166,
-      },
-      {
-        x: "Car",
-        y: 86125,
-      },
-    ],
-  },
-  {
-    id: "Iceland",
-    data: [
-      {
-        x: "Train",
-        y: -72165,
-      },
-      {
-        x: "Subway",
-        y: 5633,
-      },
-      {
-        x: "Bus",
-        y: 81015,
-      },
-    ],
-  },
-  {
-    id: "UK",
-    data: [
-      {
-        x: "Train",
-        y: -51205,
-      },
-      {
-        x: "Subway",
-        y: 18326,
-      },
-    ],
-  },
-  {
-    id: "Vietnam",
-    data: [
-      {
-        x: "Train",
-        y: -20267,
-      },
-    ],
-  },
-];

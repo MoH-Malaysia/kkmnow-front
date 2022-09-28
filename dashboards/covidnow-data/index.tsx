@@ -280,6 +280,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               //   menu={<MenuDropdown />}
               data={heatmap_chart}
               axisLeft="default"
+              unitY=" views"
               valueFormat=" >-.2s"
               schema={COVIDNOW_COLOR_SCHEME}
               color={BLOOD_DONATION_COLOR}

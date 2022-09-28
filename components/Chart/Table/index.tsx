@@ -128,8 +128,8 @@ const Table: FunctionComponent<TableProps> = ({
       </div>
 
       {(search || controls) && (
-        <div className="flex w-full items-center justify-between pb-4">
-          <div className="flex flex-row flex-wrap items-center gap-2">
+        <div className="flex w-full flex-wrap items-center justify-between gap-4 pb-4">
+          <div className="flex w-full flex-col gap-2 lg:w-auto lg:flex-row lg:items-center">
             {controls && controls(setColumnFilters)}
           </div>
           {search && search(setGlobalFilter)}

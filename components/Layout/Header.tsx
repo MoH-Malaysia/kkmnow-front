@@ -95,7 +95,10 @@ const Header = () => {
                       <p className="mb-2 font-bold">{item.title}</p>
                       <ul className="flex flex-col gap-2">
                         {item.list.map((li, index) => (
-                          <li key={item.title} className="text-footer-link">
+                          <li
+                            key={item.title.concat(index.toString())}
+                            className="text-footer-link"
+                          >
                             <Link href={li.link}>{li.title}</Link>
                           </li>
                         ))}

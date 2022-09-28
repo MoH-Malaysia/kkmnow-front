@@ -9,7 +9,7 @@ interface ButtonProps {
 }
 
 const Button: FunctionComponent<ButtonProps> = ({
-  className = "flex items-center gap-2 text-dim text-sm hover:bg-washed transition-all p-2 rounded-md hover:bg-opacity-50",
+  className = "text-dim text-sm hover:bg-washed",
   icon,
   onClick,
   children,
@@ -20,7 +20,7 @@ const Button: FunctionComponent<ButtonProps> = ({
       <button
         onClick={onClick}
         disabled={disabled}
-        className={`${className} disabled:cursor-not-allowed disabled:opacity-50 hover:disabled:bg-transparent`}
+        className={`flex items-center gap-2 rounded-md  transition-all hover:bg-opacity-50 disabled:cursor-not-allowed disabled:opacity-50 hover:disabled:bg-transparent ${className} p-2 `}
       >
         {icon}
         {children}

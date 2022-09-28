@@ -67,7 +67,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, data.minmax);
+  const filtered_timeline = useCallback(filterTimeline, [data.minmax, timeseries_data]);
   const interval_scale = useMemo(
     () =>
       filtered_timeline().x.length > 180
@@ -138,6 +138,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 {data.vax_tab === 0 ? data.filter_age.label : data.filter_dose.label}
               </p>
             }
+            className="pb-4"
             current={data.vax_tab}
             onChange={index => setData("vax_tab", index)}
             controls={<>{renderFilterOptions()}</>}

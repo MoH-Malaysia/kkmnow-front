@@ -86,7 +86,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, data.minmax);
+  const filtered_timeline = useCallback(filterTimeline, [
+    data.minmax,
+    timeseries_admitted,
+    timeseries_cases,
+    timeseries_deaths,
+    timeseries_icu,
+    timeseries_tests,
+    timeseries_vents,
+  ]);
   const interval_scale = useMemo(
     () =>
       filtered_timeline().x.length > 180
