@@ -117,7 +117,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<
                   }}
                   width="w-52"
                 />
-                <Dropdown
+                {/* <Dropdown
                   selected={data.table_facility_type}
                   placeholder="All"
                   label="Type"
@@ -132,7 +132,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<
                     setColumnFilters(state => state.concat({ id: "type", value: selected.value }));
                   }}
                   width="w-full"
-                />
+                /> */}
                 <Button
                   onClick={() => {
                     setData("table_state", undefined);
