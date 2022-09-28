@@ -30,11 +30,6 @@
   h6 {
     @apply text-base font-semibold uppercase tracking-wider text-gray-500;
   }
-
-  p,
-  span {
-    @apply text-sm lg:text-base;
-  }
 }
 
 @layer components {
