@@ -6,6 +6,7 @@ import { ChartHeader, StateTick, DefaultTick } from "@components/index";
 import { CountryAndStates } from "@lib/constants";
 import { HeatmapSchema } from "@lib/schema/blood-donation";
 import { ValueFormat } from "@nivo/core";
+import { cp } from "fs";
 interface HeatmapProps {
   className?: string;
   data?: any;
@@ -14,7 +15,7 @@ interface HeatmapProps {
   menu?: ReactElement;
   key?: string;
   state?: string;
-  valueFormat?: ValueFormat<number>;
+  valueFormat?: string;
   controls?: ReactElement;
   schema?: Array<HeatmapSchema>;
   color?: ColorInterpolatorId | Array<string>;
@@ -22,6 +23,8 @@ interface HeatmapProps {
   maxY?: number;
   forceSquare?: boolean;
   interactive?: boolean;
+  unitX?: string;
+  unitY?: string;
   hoverTarget?: "cell" | "row" | "column" | "rowColumn";
   axisLeft?: AxisProps<any> | "state" | "default";
   axisTop?: AxisProps<any> | null;
@@ -43,7 +46,9 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
   menu,
   state,
   key = "y",
-  valueFormat = ">-.2f",
+  valueFormat = ">-.1f",
+  unitX,
+  unitY,
   controls,
   forceSquare = false,
   interactive = true,
@@ -130,76 +135,23 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} state={state} />
 
-      <div className={className}>
-        {legend?.left && (
-          <span className="rotate-180 text-center font-medium [writing-mode:vertical-lr]">
-            {legend.left}
-          </span>
-        )}
-        <div className="h-full flex-grow">
-          {legend?.top && <span className="block text-center font-medium">{legend.top}</span>}
+      <div className="table-responsive">
+        <div className={`${className} w-[700px] lg:w-auto`}>
+          {legend?.left && (
+            <span className="rotate-180 text-center font-medium [writing-mode:vertical-lr]">
+              {legend.left}
+            </span>
+          )}
+          <div className="h-full flex-grow">
+            {legend?.top && <span className="block text-center font-medium">{legend.top}</span>}
 
-          <ResponsiveHeatMap
-            data={formatted.data}
-            margin={{
-              top: axisTop !== null ? 30 : 0,
-              right: 0,
-              bottom: 30,
-              left: axisLeft === "state" ? 180 : axisLeft === "default" ? 120 : 80,
-            }}
-            hoverTarget={hoverTarget}
-            valueFormat={valueFormat}
-            axisTop={
-              axisTop !== undefined
-                ? axisTop
-                : {
-                    tickSize: 0,
-                    tickPadding: 10,
-                    tickRotation: 0,
-                    legendOffset: 46,
-                  }
-            }
-            label={schema ? props => get(props, "label") : undefined}
-            labelTextColor={schema ? props => get(props, "labelColor") : undefined}
-            tooltip={({ cell }) => {
-              return (
-                <div className="nivo-tooltip flex gap-2">
-                  <span>{cell.serieId}:</span>
-                  <span>
-                    <strong>{cell.data.x}</strong> - <strong>{cell.label}</strong>
-                  </span>
-                </div>
-              );
-            }}
-            axisLeft={getAxisLeft()}
-            isInteractive={interactive}
-            forceSquare={forceSquare}
-            theme={{
-              fontSize: 14,
-              axis: {
-                ticks: {
-                  text: {
-                    fontSize: 14,
-                    fontFamily: "inherit",
-                  },
-                },
-              },
-            }}
-            colors={getColorScheme()}
-            emptyColor="#555555"
-            animate={false}
-          />
-        </div>
-
-        {subdata && (
-          <div className="aspect-auto h-full w-[12.5%]">
             <ResponsiveHeatMap
-              data={formatted.subdata}
+              data={formatted.data}
               margin={{
                 top: axisTop !== null ? 30 : 0,
-                right: 20,
+                right: 0,
                 bottom: 30,
-                left: 0,
+                left: axisLeft === "state" ? 180 : axisLeft === "default" ? 120 : 80,
               }}
               hoverTarget={hoverTarget}
               valueFormat={valueFormat}
@@ -210,15 +162,33 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                       tickSize: 0,
                       tickPadding: 10,
                       tickRotation: 0,
-                      legend: "",
                       legendOffset: 46,
                     }
               }
-              axisLeft={null}
-              forceSquare={forceSquare}
-              isInteractive={interactive}
               label={schema ? props => get(props, "label") : undefined}
               labelTextColor={schema ? props => get(props, "labelColor") : undefined}
+              tooltip={({ cell }) => {
+                return (
+                  <div className="nivo-tooltip flex gap-2 overflow-visible">
+                    <span>{cell.serieId}:</span>
+                    <span>
+                      <strong>
+                        {cell.data.x}
+                        {unitX}
+                      </strong>{" "}
+                      -{" "}
+                      <strong>
+                        {cell.label}
+                        {unitY}
+                      </strong>
+                    </span>
+                  </div>
+                );
+              }}
+              axisLeft={getAxisLeft()}
+              isInteractive={interactive}
+              forceSquare={forceSquare}
+              inactiveOpacity={0.3}
               theme={{
                 fontSize: 14,
                 axis: {
@@ -235,7 +205,72 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
               animate={false}
             />
           </div>
-        )}
+
+          {subdata && (
+            <div className="aspect-auto h-full w-[12.5%]">
+              <ResponsiveHeatMap
+                data={formatted.subdata}
+                margin={{
+                  top: axisTop !== null ? 30 : 0,
+                  right: 0,
+                  bottom: 30,
+                  left: 30,
+                }}
+                hoverTarget={hoverTarget}
+                valueFormat={valueFormat}
+                axisTop={
+                  axisTop !== undefined
+                    ? axisTop
+                    : {
+                        tickSize: 0,
+                        tickPadding: 10,
+                        tickRotation: 0,
+                        legend: "",
+                        legendOffset: 46,
+                      }
+                }
+                axisLeft={null}
+                forceSquare={forceSquare}
+                inactiveOpacity={0.3}
+                isInteractive={interactive}
+                label={schema ? props => get(props, "label") : undefined}
+                labelTextColor={schema ? props => get(props, "labelColor") : undefined}
+                theme={{
+                  fontSize: 14,
+                  axis: {
+                    ticks: {
+                      text: {
+                        fontSize: 14,
+                        fontFamily: "inherit",
+                      },
+                    },
+                  },
+                }}
+                tooltip={({ cell }) => {
+                  return (
+                    <div className="nivo-tooltip flex gap-2 overflow-visible">
+                      <span>{cell.serieId}:</span>
+                      <span>
+                        <strong>
+                          {cell.data.x}
+                          {unitX}
+                        </strong>{" "}
+                        -{" "}
+                        <strong>
+                          {cell.label}
+                          {unitY}
+                        </strong>
+                      </span>
+                    </div>
+                  );
+                }}
+                colors={getColorScheme()}
+                emptyColor="#555555"
+                animate={false}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

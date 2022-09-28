@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...i18n,
-      facility_table: data.facility_table,
+      facility_table: data.facilities_table,
       state_district_mapping: data.helpers.state_district_mapping,
       facility_types: data.helpers.facility_types,
     },

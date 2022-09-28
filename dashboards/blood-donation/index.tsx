@@ -58,15 +58,12 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
-  const [limit, setLimit] = useState([
-    timeseries_all.x.length - 365 * 1,
-    timeseries_all.x.length - 1,
-  ] as [number, number]); // [3 years ago, today]
+  const [limit, setLimit] = useState([0, timeseries_all.x.length - 1] as [number, number]);
   const { data, setData } = useData({
-    relative_donation_type: false,
-    relative_blood_group: false,
-    relative_donor_type: false,
-    relative_location: false,
+    absolute_donation_type: false,
+    absolute_blood_group: false,
+    absolute_donor_type: false,
+    absolute_location: false,
     zoom_state: currentState === "mys" ? undefined : currentState,
     zoom_facility: undefined,
   });
@@ -101,23 +98,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
 
   const filtered_timeline = useCallback(filterTimeline, limit);
   const interval_scale = useMemo(
-    () =>
-      filtered_timeline().x.length > 1095
-        ? "year"
-        : filtered_timeline().x.length > 730
-        ? "quarter"
-        : filtered_timeline().x.length > 365
-        ? "month"
-        : "day",
-    [filtered_timeline().x]
-  );
-  const round_scale = useMemo(
-    () =>
-      filtered_timeline().x.length > 1095
-        ? "quarter"
-        : filtered_timeline().x.length > 365
-        ? "month"
-        : "day",
+    () => (filtered_timeline().x.length > 365 ? "month" : "day"),
     [filtered_timeline().x]
   );
 
@@ -156,14 +137,14 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         <Section title="Is Klang Valley's current blood supply sufficient?">
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
             <Heatmap
-              className="h-[550px]"
+              className="h-[420px]"
               title="Blood Supply by States"
               hoverTarget="row"
               data={heatmap_bloodstock}
               axisLeft="state"
               schema={BLOOD_SUPPLY_SCHEMA}
               color={BLOOD_SUPPLY_COLOR}
-              menu={<MenuDropdown />}
+              //menu={<MenuDropdown />}
             />
             <div>
               <Tabs
@@ -179,11 +160,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   </Tooltip>
                 }
                 state={currentState}
-                menu={<MenuDropdown />}
+                //menu={<MenuDropdown />}
               >
                 <Panel name="Type A">
                   <Timeseries
-                    className="h-[500px] w-full"
+                    className="h-[350px] w-full"
                     interval="week"
                     data={{
                       labels: timeseries_bloodstock.x,
@@ -204,7 +185,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 </Panel>
                 <Panel name="Type B">
                   <Timeseries
-                    className="h-[500px] w-full"
+                    className="h-[350px] w-full"
                     interval="week"
                     data={{
                       labels: timeseries_bloodstock.x,
@@ -225,7 +206,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 </Panel>
                 <Panel name="Type AB">
                   <Timeseries
-                    className="h-[500px] w-full"
+                    className="h-[350px] w-full"
                     interval="week"
                     data={{
                       labels: timeseries_bloodstock.x,
@@ -246,7 +227,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 </Panel>
                 <Panel name="Type O">
                   <Timeseries
-                    className="h-[500px] w-full"
+                    className="h-[350px] w-full"
                     interval="week"
                     data={{
                       labels: timeseries_bloodstock.x,
@@ -283,11 +264,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
               <Timeseries
-                className="h-[400px] w-full pt-6 lg:h-[750px]"
+                className=" h-[350px] w-full pt-6"
                 title="Daily Donations"
                 state={currentState}
                 interval={interval_scale}
-                menu={<MenuDropdown />}
+                //menu={<MenuDropdown />}
                 round={filtered_timeline().x.length > 1095 ? "week" : "day"}
                 stats={null}
                 data={{
@@ -298,13 +279,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       label: "Moving Average (MA)",
                       pointRadius: 0,
                       data: filtered_timeline().line_daily,
-                      borderColor: "red",
+                      borderColor: BLOOD_COLOR[500],
                     },
                     {
                       type: "bar",
-                      label: "Primary",
+                      label: "Daily Donation",
                       data: filtered_timeline().daily,
-                      backgroundColor: "#FF4E4E",
+                      backgroundColor: GRAYBAR_COLOR[100],
                     },
                   ],
                 }}
@@ -324,22 +305,22 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
 
             <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
               <Timeseries
-                className="h-[500px] w-full"
+                className="h-[250px] w-full"
                 state={currentState}
                 title="Donation by donation type"
                 interval={interval_scale}
-                round={round_scale}
-                maxY={data.relative_donation_type ? 100 : undefined}
-                unitY={data.relative_donation_type ? "%" : undefined}
-                menu={<MenuDropdown />}
+                round="day"
+                maxY={!data.absolute_donation_type ? 100 : undefined}
+                unitY={!data.absolute_donation_type ? "%" : undefined}
+                //menu={<MenuDropdown />}
                 enableCallout
                 subheader={
                   <Checkbox
                     name="donation_type"
-                    value={data.relative_donation_type}
-                    onChange={e => setData("relative_donation_type", e.target.checked)}
+                    value={data.absolute_donation_type}
+                    onChange={e => setData("absolute_donation_type", e.target.checked)}
                   >
-                    Relative
+                    Absolute
                   </Checkbox>
                 }
                 data={{
@@ -349,86 +330,19 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       type: "line",
                       label: "Apherisis",
                       pointRadius: 0,
-                      data: !data.relative_donation_type
-                        ? filtered_timeline().apheresis
-                        : filtered_timeline().apheresis_rel,
-                      backgroundColor: BLOOD_COLOR[400],
+                      data: !data.absolute_donation_type
+                        ? filtered_timeline().apheresis_rel
+                        : filtered_timeline().apheresis,
+                      backgroundColor: BLOOD_COLOR[300],
                       fill: true,
                       borderWidth: 0,
                     },
                     {
                       type: "line",
                       label: "Whole blood",
-                      data: !data.relative_donation_type
-                        ? filtered_timeline().wholeblood
-                        : filtered_timeline().wholeblood_rel,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Timeseries
-                className="h-[500px] w-full"
-                title="Donation by blood group (phenotype)"
-                state={currentState}
-                interval={interval_scale}
-                round={round_scale}
-                unitY={data.relative_blood_group ? "%" : undefined}
-                maxY={data.relative_blood_group ? 100 : undefined}
-                menu={<MenuDropdown />}
-                enableCallout
-                subheader={
-                  <Checkbox
-                    name="blood_group"
-                    value={data.relative_blood_group}
-                    onChange={e => setData("relative_blood_group", e.target.checked)}
-                  >
-                    Relative
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "AB",
-                      data: !data.relative_blood_group
-                        ? filtered_timeline().ab
-                        : filtered_timeline().ab_rel,
-                      backgroundColor: BLOOD_COLOR[400],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "B",
-                      data: !data.relative_blood_group
-                        ? filtered_timeline().b
-                        : filtered_timeline().b_rel,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "A",
-                      data: !data.relative_blood_group
-                        ? filtered_timeline().a
-                        : filtered_timeline().a_rel,
-                      backgroundColor: BLOOD_COLOR[200],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-
-                    {
-                      type: "line",
-                      label: "O",
-                      data: !data.relative_blood_group
-                        ? filtered_timeline().o
-                        : filtered_timeline().o_rel,
+                      data: !data.absolute_donation_type
+                        ? filtered_timeline().wholeblood_rel
+                        : filtered_timeline().wholeblood,
                       backgroundColor: BLOOD_COLOR[100],
                       fill: true,
                       borderWidth: 0,
@@ -438,22 +352,22 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 enableGridX={false}
               />
               <Timeseries
-                className="h-[500px] w-full"
-                title="Donation by donor type"
+                className="h-[250px] w-full"
+                title="Donation by blood group (phenotype)"
                 state={currentState}
-                unitY={data.relative_donor_type ? "%" : undefined}
-                maxY={data.relative_donor_type ? 100 : undefined}
                 interval={interval_scale}
-                round={round_scale}
-                menu={<MenuDropdown />}
+                round="day"
+                unitY={!data.absolute_blood_group ? "%" : undefined}
+                maxY={!data.absolute_blood_group ? 100 : undefined}
+                //menu={<MenuDropdown />}
                 enableCallout
                 subheader={
                   <Checkbox
-                    name="donor_type"
-                    value={data.relative_donor_type}
-                    onChange={e => setData("relative_donor_type", e.target.checked)}
+                    name="blood_group"
+                    value={data.absolute_blood_group}
+                    onChange={e => setData("absolute_blood_group", e.target.checked)}
                   >
-                    Relative
+                    Absolute
                   </Checkbox>
                 }
                 data={{
@@ -461,21 +375,42 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   datasets: [
                     {
                       type: "line",
-                      label: "Recurring",
-                      data: !data.relative_donor_type
-                        ? filtered_timeline().recurdon
-                        : filtered_timeline().recurdon_rel,
+                      label: "AB",
+                      data: !data.absolute_blood_group
+                        ? filtered_timeline().ab_rel
+                        : filtered_timeline().ab,
                       backgroundColor: BLOOD_COLOR[400],
                       fill: true,
                       borderWidth: 0,
                     },
                     {
                       type: "line",
-                      label: "New",
-                      data: !data.relative_donor_type
-                        ? filtered_timeline().newdon
-                        : filtered_timeline().newdon_rel,
+                      label: "B",
+                      data: !data.absolute_blood_group
+                        ? filtered_timeline().b_rel
+                        : filtered_timeline().b,
                       backgroundColor: BLOOD_COLOR[300],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                    {
+                      type: "line",
+                      label: "A",
+                      data: !data.absolute_blood_group
+                        ? filtered_timeline().a_rel
+                        : filtered_timeline().a,
+                      backgroundColor: BLOOD_COLOR[200],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+
+                    {
+                      type: "line",
+                      label: "O",
+                      data: !data.absolute_blood_group
+                        ? filtered_timeline().o_rel
+                        : filtered_timeline().o,
+                      backgroundColor: BLOOD_COLOR[100],
                       fill: true,
                       borderWidth: 0,
                     },
@@ -484,22 +419,68 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 enableGridX={false}
               />
               <Timeseries
-                className="h-[500px] w-full"
+                className="h-[250px] w-full"
+                title="Donation by donor type"
+                state={currentState}
+                unitY={!data.absolute_donor_type ? "%" : undefined}
+                maxY={!data.absolute_donor_type ? 100 : undefined}
+                interval={interval_scale}
+                round="day"
+                //menu={<MenuDropdown />}
+                enableCallout
+                subheader={
+                  <Checkbox
+                    name="donor_type"
+                    value={data.absolute_donor_type}
+                    onChange={e => setData("absolute_donor_type", e.target.checked)}
+                  >
+                    Absolute
+                  </Checkbox>
+                }
+                data={{
+                  labels: filtered_timeline().x,
+                  datasets: [
+                    {
+                      type: "line",
+                      label: "Recurring",
+                      data: !data.absolute_donor_type
+                        ? filtered_timeline().recurdon_rel
+                        : filtered_timeline().recurdon,
+                      backgroundColor: BLOOD_COLOR[300],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                    {
+                      type: "line",
+                      label: "New",
+                      data: !data.absolute_donor_type
+                        ? filtered_timeline().newdon_rel
+                        : filtered_timeline().newdon,
+                      backgroundColor: BLOOD_COLOR[100],
+                      fill: true,
+                      borderWidth: 0,
+                    },
+                  ],
+                }}
+                enableGridX={false}
+              />
+              <Timeseries
+                className="h-[250px] w-full"
                 title="Donation by location"
                 state={currentState}
                 interval={interval_scale}
-                round={round_scale}
-                unitY={data.relative_location ? "%" : undefined}
-                maxY={data.relative_location ? 100 : undefined}
-                menu={<MenuDropdown />}
+                round="day"
+                unitY={!data.absolute_location ? "%" : undefined}
+                maxY={!data.absolute_location ? 100 : undefined}
+                //menu={<MenuDropdown />}
                 enableCallout
                 subheader={
                   <Checkbox
                     name="location"
-                    value={data.relative_location}
-                    onChange={e => setData("relative_location", e.target.checked)}
+                    value={data.absolute_location}
+                    onChange={e => setData("absolute_location", e.target.checked)}
                   >
-                    Relative
+                    Absolute
                   </Checkbox>
                 }
                 data={{
@@ -508,20 +489,20 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     {
                       type: "line",
                       label: "Donation Center",
-                      data: !data.relative_location
-                        ? filtered_timeline().center
-                        : filtered_timeline().center_rel,
-                      backgroundColor: BLOOD_COLOR[400],
+                      data: !data.absolute_location
+                        ? filtered_timeline().center_rel
+                        : filtered_timeline().center,
+                      backgroundColor: BLOOD_COLOR[300],
                       fill: true,
                       borderWidth: 0,
                     },
                     {
                       type: "line",
                       label: "Outreach",
-                      data: !data.relative_location
-                        ? filtered_timeline().outreach
-                        : filtered_timeline().outreach_rel,
-                      backgroundColor: BLOOD_COLOR[300],
+                      data: !data.absolute_location
+                        ? filtered_timeline().outreach_rel
+                        : filtered_timeline().outreach,
+                      backgroundColor: BLOOD_COLOR[100],
                       fill: true,
                       borderWidth: 0,
                     },
@@ -541,10 +522,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
-              <Tabs title="Number of new donors" menu={<MenuDropdown />} state={currentState}>
+              <Tabs title="Number of new donors" state={currentState}>
+                {/* //menu={<MenuDropdown />}  */}
                 <Panel name="Annual">
                   <Bar
-                    className="h-[300px]"
+                    className="h-[250px]"
                     data={{
                       labels: barchart_time.annual.x,
                       datasets: [
@@ -561,7 +543,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 </Panel>
                 <Panel name="Monthly">
                   <Bar
-                    className="h-[300px]"
+                    className="h-[250px]"
                     data={{
                       labels: barchart_time.monthly.x,
                       datasets: [
@@ -579,10 +561,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               </Tabs>
             </div>
             <div>
-              <Tabs title="New donors by age group" menu={<MenuDropdown />} state={currentState}>
+              <Tabs title="New donors by age group" state={currentState}>
+                {/* //menu={<MenuDropdown />} */}
                 <Panel name="Past 1 year">
                   <Bar
-                    className="h-[300px]"
+                    className="h-[250px]"
                     data={{
                       labels: barchart_age.past_year.x,
                       datasets: [
@@ -599,7 +582,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 </Panel>
                 <Panel name="Past 1 month">
                   <Bar
-                    className="h-[300px]"
+                    className="h-[250px]"
                     data={{
                       labels: barchart_age.past_month.x,
                       datasets: [
@@ -626,26 +609,25 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               donate at least 1 time per year."
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-            <div className="w-full space-y-4">
+            <div className="w-full space-y-4 overflow-visible">
               <Tabs
                 title="Donor rates across key demographics"
-                menu={<MenuDropdown />}
+                //menu={<MenuDropdown />}
                 state={currentState}
               >
                 <Panel name="Per Capita">
                   <>
                     <Heatmap
-                      className="flex h-[150px] gap-4 overflow-auto lg:overflow-hidden"
+                      className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
                       subdata
                       axisLeft="default"
-                      interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[240px] overflow-visible"
                       title="Male"
                       data={[
                         heatmap_donorrate.capita.male_chinese,
@@ -656,13 +638,12 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[240px] overflow-visible"
                       title="Female"
                       data={[
                         heatmap_donorrate.capita.female_chinese,
@@ -673,7 +654,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
@@ -682,17 +662,17 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name="% of Donations">
                   <>
                     <Heatmap
-                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
                       subdata
                       axisLeft="default"
-                      interactive={false}
+                      unitY="%"
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[240px] overflow-visible"
                       title="Male"
                       data={[
                         heatmap_donorrate.perc.male_chinese,
@@ -701,15 +681,15 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         heatmap_donorrate.perc.male_other,
                       ]}
                       subdata
+                      unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[240px] overflow-visible"
                       title="Female"
                       data={[
                         heatmap_donorrate.perc.female_chinese,
@@ -718,9 +698,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         heatmap_donorrate.perc.female_other,
                       ]}
                       subdata
+                      unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
@@ -729,18 +709,17 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name="Absolute">
                   <>
                     <Heatmap
-                      className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
                       subdata
                       axisLeft="default"
-                      valueFormat="< ,.2~s"
-                      interactive={false}
+                      valueFormat="<-,.1~s"
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[240px] overflow-visible"
                       title="Male"
                       data={[
                         heatmap_donorrate.abs.male_chinese,
@@ -749,16 +728,15 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         heatmap_donorrate.abs.male_other,
                       ]}
                       subdata
-                      valueFormat="< ,.2~s"
+                      valueFormat="<-,.2~s"
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
 
                     <Heatmap
-                      className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
+                      className="flex h-[240px] overflow-visible"
                       title="Female"
                       data={[
                         heatmap_donorrate.abs.female_chinese,
@@ -767,10 +745,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         heatmap_donorrate.abs.female_other,
                       ]}
                       subdata
-                      valueFormat="< ,.2~s"
+                      valueFormat="<-,.1~s"
                       axisLeft="default"
                       axisTop={null}
-                      interactive={false}
                       schema={BLOOD_DONATION_SCHEMA}
                       color={BLOOD_DONATION_COLOR}
                     />
@@ -780,11 +757,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             </div>
 
             <Heatmap
-              className="flex h-[700px] overflow-auto pt-7 lg:overflow-hidden"
+              className="flex h-[700px] overflow-auto pt-7 lg:overflow-visible "
               title="Donor retention: How well do we retain donors?"
               state={currentState}
-              menu={<MenuDropdown />}
+              //menu={<MenuDropdown />}
               data={heatmap_retention}
+              unitY="%"
+              unitX="yr"
               axisLeft={{
                 ticksPosition: "before",
                 tickSize: 0,
@@ -795,7 +774,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 top: "Donated after N years",
                 left: "Donated in",
               }}
-              interactive={false}
               schema={BLOOD_DONATION_SCHEMA}
               color={BLOOD_DONATION_COLOR}
             />
@@ -859,7 +837,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         Data for {data.zoom_facility?.label}, {CountryAndStates[data.zoom_state]}
                       </p>
                     }
-                    menu={<MenuDropdown />}
+                    //menu={<MenuDropdown />}
                     data={{
                       labels: timeseries_facility[data.zoom_state!][data.zoom_facility.label].x,
                       datasets: [

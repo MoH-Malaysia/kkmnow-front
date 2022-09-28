@@ -199,6 +199,7 @@ export const BLOOD_COLOR: Record<number, string> = {
   200: "#FF6F70",
   300: "#FF4E4E",
   400: "#FF0001",
+  500: "#DC2626",
 };
 
 export const GRAYBAR_COLOR: Record<number, string> = {
