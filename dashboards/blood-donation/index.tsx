@@ -3,7 +3,6 @@ import {
   Container,
   Tabs,
   Panel,
-  MenuDropdown,
   Checkbox,
   Tooltip,
   Section,
@@ -13,18 +12,12 @@ import {
   Button,
 } from "@components/index";
 import { useData } from "@hooks/useData";
-import {
-  BLOOD_SUPPLY_COLOR,
-  BLOOD_DONATION_COLOR,
-  BLOOD_COLOR,
-  GRAYBAR_COLOR,
-  CountryAndStates,
-} from "@lib/constants";
-import { BLOOD_SUPPLY_SCHEMA, BLOOD_DONATION_SCHEMA } from "@lib/schema/blood-donation";
+import { BLOOD_SUPPLY_COLOR, BLOOD_COLOR, GRAYBAR_COLOR, CountryAndStates } from "@lib/constants";
+import { BLOOD_SUPPLY_SCHEMA } from "@lib/schema/blood-donation";
 import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { FunctionComponent, useCallback, useState, useEffect, useMemo } from "react";
+import { FunctionComponent, useCallback, useState, useMemo } from "react";
 import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/24/solid";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
@@ -109,7 +102,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
 
   return (
     <>
-      <Hero background="hero-light-1">
+      <Hero background="blood-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
           <h3 className="text-black">Blood Donation</h3>
@@ -623,8 +616,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
                       subdata
                       axisLeft="default"
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
 
                     <Heatmap
@@ -639,8 +631,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
 
                     <Heatmap
@@ -655,8 +646,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
                   </>
                 </Panel>
@@ -668,8 +658,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       unitY="%"
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
 
                     <Heatmap
@@ -685,8 +674,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
 
                     <Heatmap
@@ -702,8 +690,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
                   </>
                 </Panel>
@@ -715,8 +702,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       valueFormat="<-,.1~s"
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
 
                     <Heatmap
@@ -732,8 +718,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       valueFormat="<-,.2~s"
                       axisLeft="default"
                       axisTop={null}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
 
                     <Heatmap
@@ -749,8 +734,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       valueFormat="<-,.1~s"
                       axisLeft="default"
                       axisTop={null}
-                      schema={BLOOD_DONATION_SCHEMA}
-                      color={BLOOD_DONATION_COLOR}
+                      color="blues"
                     />
                   </>
                 </Panel>
@@ -775,8 +759,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 top: "Donated after N years",
                 left: "Donated in",
               }}
-              schema={BLOOD_DONATION_SCHEMA}
-              color={BLOOD_DONATION_COLOR}
+              color="blues"
+              colorMax={35}
             />
           </div>
         </Section>

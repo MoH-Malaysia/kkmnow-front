@@ -135,7 +135,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
   return (
     <>
-      <Hero background="hero-light-4">
+      <Hero>
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">covid-19</span>
           <h3 className="text-black">The latest data on the pandemic in Malaysia.</h3>
@@ -241,7 +241,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 title="Active COVID-19 Cases"
                 className="h-full pt-4"
                 state={currentState}
-                // // menu={<MenuDropdown />}
+                // menu={<MenuDropdown />}
                 data={{
                   header: {
                     name: "Active Cases",

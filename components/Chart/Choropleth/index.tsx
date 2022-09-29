@@ -1,4 +1,4 @@
-import { ResponsiveChoropleth } from "@nivo/geo";
+import { FeatureAccessor, ResponsiveChoropleth } from "@nivo/geo";
 import { FunctionComponent, ReactElement, useState } from "react";
 import { ChartHeader } from "@components/index";
 import {
@@ -29,7 +29,7 @@ interface ChoroplethProps {
   unitY?: string;
   enableScale?: boolean;
   graphChoice?: any;
-  colorScale?: any;
+  colorScale?: string | string[] | FeatureAccessor<any, string>;
   borderWidth?: any;
   borderColor?: any;
   projectionTranslation?: any;
@@ -45,7 +45,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   unitY,
   enableScale = true,
   graphChoice = "ParliamentDesktop",
-  colorScale = "CHOROPLETH_RED_SCALE",
+  colorScale,
   borderWidth = 0.25,
   borderColor = "#13293d",
   projectionTranslation = [0.65, 0.9] as [number, number],
@@ -70,7 +70,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
 
   const [feature, setState] = useState(graphChoices[graphChoice].features);
   const config = {
-    colors: colorScales[colorScale],
+    colors: colorScale,
     projectionScale: projectionScaleSetting,
     projectionTranslation: [0.65, 0.9] as [number, number],
     borderWidth: borderWidth,
@@ -117,7 +117,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
           }}
         />
       </div>
-      {enableScale && <ChoroplethScale colors={config.colors}></ChoroplethScale>}
+      {/* {enableScale && <ChoroplethScale colors={colorScale}></ChoroplethScale>} */}
     </div>
   );
 };

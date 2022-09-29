@@ -6,7 +6,6 @@ import { useData } from "@hooks/useData";
 import { GRAYBAR_COLOR, PEKA_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
 import { routes } from "@lib/routes";
-import { ORGAN_DONATION_SCHEMA } from "@lib/schema/organ-donation";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -44,7 +43,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
 
   return (
     <>
-      <Hero background="hero-light-4">
+      <Hero background="bg-[#F1E6FC]">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
           <h3 className="text-black">Peka B40</h3>
@@ -126,8 +125,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       data={[heatmap_screenrate.capita.male, heatmap_screenrate.capita.female]}
                       subdata
                       axisLeft="default"
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
 
                     <Heatmap
@@ -142,8 +140,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
 
                     <Heatmap
@@ -158,8 +155,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
                   </>
                 </Panel>
@@ -171,8 +167,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       subdata
                       axisLeft="default"
                       unitY="%"
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
 
                     <Heatmap
@@ -188,8 +183,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
 
                     <Heatmap
@@ -205,8 +199,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
                   </>
                 </Panel>
@@ -218,8 +211,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       subdata
                       axisLeft="default"
                       valueFormat="<-,.1~s"
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
 
                     <Heatmap
@@ -235,8 +227,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       valueFormat="<-,.2~s"
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
 
                     <Heatmap
@@ -252,8 +243,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       valueFormat="<-,.1~s"
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(PEKA_COLOR)}
+                      color="red_purple"
                     />
                   </>
                 </Panel>

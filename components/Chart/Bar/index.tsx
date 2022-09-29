@@ -95,6 +95,7 @@ const Bar: FunctionComponent<BarProps> = ({
         stacked: enableStack,
       },
       y: {
+        reverse: !isVertical,
         grid: {
           display: enableGridY,
           borderWidth: 1,

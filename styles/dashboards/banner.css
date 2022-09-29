@@ -1,0 +1,12 @@
+.organ-banner {
+  background: url("/static/images/banner/organ-banner.svg") no-repeat;
+  background-size: cover;
+}
+.blood-banner {
+  background: url("/static/images/banner/blood-banner.svg") no-repeat;
+  background-size: cover;
+}
+.covidvax-banner {
+  background: url("/static/images/banner/covidvax-banner.svg") no-repeat;
+  background-size: cover;
+}

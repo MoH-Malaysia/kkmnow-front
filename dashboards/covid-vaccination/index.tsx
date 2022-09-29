@@ -103,7 +103,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
 
   return (
     <>
-      <Hero background="hero-light-4">
+      <Hero background="covidvax-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             covid-19 vaccination

@@ -6,7 +6,6 @@ import { GRAYBAR_COLOR, ORGAN_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useMemo } from "react";
 import { routes } from "@lib/routes";
-import { ORGAN_DONATION_SCHEMA } from "@lib/schema/organ-donation";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -47,7 +46,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
   );
   return (
     <>
-      <Hero background="hero-light-4">
+      <Hero background="organ-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
           <h3 className="text-black">Organ Donation</h3>
@@ -234,8 +233,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
                       subdata
                       axisLeft="default"
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
 
                     <Heatmap
@@ -250,8 +248,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
 
                     <Heatmap
@@ -266,8 +263,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
                   </>
                 </Panel>
@@ -279,8 +275,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       unitY="%"
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
 
                     <Heatmap
@@ -296,8 +291,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
 
                     <Heatmap
@@ -313,8 +307,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       unitY="%"
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
                   </>
                 </Panel>
@@ -326,8 +319,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       subdata
                       axisLeft="default"
                       valueFormat="<-,.1~s"
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
 
                     <Heatmap
@@ -343,8 +335,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       valueFormat="<-,.2~s"
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
 
                     <Heatmap
@@ -360,8 +351,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       valueFormat="<-,.1~s"
                       axisLeft="default"
                       axisTop={null}
-                      schema={ORGAN_DONATION_SCHEMA}
-                      color={Object.values(ORGAN_COLOR)}
+                      color="greens"
                     />
                   </>
                 </Panel>

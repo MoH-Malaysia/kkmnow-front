@@ -34,7 +34,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<
 
   return (
     <>
-      <Hero background="hero-light-1">
+      <Hero background="bg-[#FFECE4]">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             healthcare resources

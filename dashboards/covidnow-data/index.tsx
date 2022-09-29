@@ -1,10 +1,10 @@
-import { Hero, Container, Tabs, Panel, MenuDropdown, Section, Slider } from "@components/index";
-import { BLOOD_DONATION_COLOR, CountryAndStates, STATES, BREAKPOINTS } from "@lib/constants";
+import { Hero, Container, Tabs, Panel, Section, Slider } from "@components/index";
+import { CountryAndStates, BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
-import { FunctionComponent, useCallback, useState, useEffect } from "react";
-import { COVIDNOW_COLOR_SCHEME } from "@lib/schema/covid-now";
+import { FunctionComponent, useState } from "react";
 import { numFormat } from "@lib/helpers";
+
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
@@ -128,7 +128,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
 
   return (
     <>
-      <Hero background="bg-slate-200">
+      <Hero background="bg-[#ECFAFF]">
         <div className="space-y-4">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             MISCELLANEOUS
@@ -245,7 +245,8 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                   <Choropleth
                     className="h-[500px] w-full"
                     enableScale={false}
-                    colorScale="CHOROPLETH_BLUE_SCALE"
+                    // colorScale="CHOROPLETH_BLUE_SCALE"
+                    colorScale="blues"
                     borderColor="#000"
                     borderWidth={0.5}
                     projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
@@ -283,8 +284,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               axisLeft="default"
               unitY=" views"
               valueFormat=" >-.2s"
-              schema={COVIDNOW_COLOR_SCHEME}
-              color={BLOOD_DONATION_COLOR}
+              color="blues"
             />
           </div>
         </Section>

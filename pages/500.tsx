@@ -1,4 +1,4 @@
-import { Container, ErrorCode } from "@components/index";
+import { Container, ErrorCode, Metadata } from "@components/index";
 import { Page } from "@lib/types";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const Error500: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"Uhh, bug alert!"} keywords={""} />
       <Container className="min-h-[76vh] pt-7 text-black">
         <ErrorCode
           title="Oops, something went terribly wrong."

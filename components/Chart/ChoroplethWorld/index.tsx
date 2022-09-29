@@ -54,7 +54,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           features={feature}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           label={xKey}
-          colors={CHOROPLETH_BLUE_SCALE}
+          colors={"blues"}
           domain={[
             Math.min.apply(
               Math,
