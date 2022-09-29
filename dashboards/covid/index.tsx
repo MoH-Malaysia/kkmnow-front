@@ -3,16 +3,15 @@ import {
   Container,
   Tabs,
   Panel,
-  MenuDropdown,
   StateDropdown,
   Tooltip,
   Section,
-  ChartHeader,
   Stages,
   DonutMeter,
   Dropdown,
   Slider,
 } from "@components/index";
+import Image from "next/image";
 import { FunctionComponent, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
@@ -24,7 +23,6 @@ import { filterCaseDeath } from "@lib/options";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
-const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
@@ -255,7 +253,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       value: snapshot_graphic.cases_local,
                       delta: snapshot_graphic.cases_local_annot,
                       inverse: true,
-                      icon: <img src="/static/images/stages/virus.svg" className="h-8 w-8" />,
+                      icon: (
+                        <Image
+                          src="/static/images/stages/virus.svg"
+                          height={32}
+                          width={32}
+                          alt="Local Cases"
+                        />
+                      ),
                     },
                     {
                       name: "Imported Cases",
@@ -271,7 +276,12 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       delta: snapshot_graphic.home_annot,
                       unit: "%",
                       icon: (
-                        <img src="/static/images/stages/home-quarantine.svg" className="h-8 w-8" />
+                        <Image
+                          src="/static/images/stages/home-quarantine.svg"
+                          height={32}
+                          width={32}
+                          alt="Home Quarantine"
+                        />
                       ),
                     },
                     {
@@ -279,7 +289,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       value: snapshot_graphic.pkrc,
                       delta: snapshot_graphic.pkrc_annot,
                       unit: "%",
-                      icon: <img src="/static/images/stages/pkrc.svg" className="h-8 w-8" />,
+                      icon: (
+                        <Image
+                          src="/static/images/stages/pkrc.svg"
+                          height={32}
+                          width={32}
+                          alt="PKRC"
+                        />
+                      ),
                     },
                     {
                       name: "Hospitalised",
@@ -287,7 +304,12 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       delta: snapshot_graphic.hosp_annot,
                       unit: "%",
                       icon: (
-                        <img src="/static/images/stages/hospitalised.svg" className="h-8 w-8" />
+                        <Image
+                          src="/static/images/stages/hospitalised.svg"
+                          height={32}
+                          width={32}
+                          alt="Hospitalised"
+                        />
                       ),
                     },
                     {
@@ -296,7 +318,12 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       delta: snapshot_graphic.icu_annot,
                       unit: "%",
                       icon: (
-                        <img src="/static/images/stages/icu-unventilated.svg" className="h-8 w-8" />
+                        <Image
+                          src="/static/images/stages/icu-unventilated.svg"
+                          height={32}
+                          width={32}
+                          alt="ICU (Unventilated)"
+                        />
                       ),
                     },
                     {
@@ -305,7 +332,12 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       delta: snapshot_graphic.vent_annot,
                       unit: "%",
                       icon: (
-                        <img src="/static/images/stages/icu-ventilated.svg" className="h-8 w-8" />
+                        <Image
+                          src="/static/images/stages/icu-ventilated.svg"
+                          height={32}
+                          width={32}
+                          alt="ICU (Ventilated)"
+                        />
                       ),
                     },
                   ],
@@ -314,14 +346,28 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       name: "Recovered",
                       value: snapshot_graphic.cases_recovered,
                       delta: snapshot_graphic.cases_recovered_annot,
-                      icon: <img src="/static/images/stages/recovered.svg" className="h-8 w-8" />,
+                      icon: (
+                        <Image
+                          src="/static/images/stages/recovered.svg"
+                          height={32}
+                          width={32}
+                          alt="Recovered"
+                        />
+                      ),
                     },
                     {
                       name: "Death (Including BID)",
                       value: snapshot_graphic.deaths,
                       delta: snapshot_graphic.deaths_annot,
                       inverse: true,
-                      icon: <img src="/static/images/stages/death.svg" className="h-8 w-8" />,
+                      icon: (
+                        <Image
+                          src="/static/images/stages/death.svg"
+                          height={32}
+                          width={32}
+                          alt="Deaths (Including BID)"
+                        />
+                      ),
                     },
                     {
                       name: "Brought in Dead",

@@ -1,5 +1,6 @@
 import {
   FunctionComponent,
+  useEffect,
   useMemo,
   useState,
   ReactElement,
@@ -17,15 +18,14 @@ import {
   ColumnFiltersState,
   FilterFn,
   Table as ReactTable,
-  TableOptions,
-  TableOptionsResolved,
   getFilteredRowModel,
 } from "@tanstack/react-table";
+
 import { ArrowLeftIcon, ArrowRightIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid";
 import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/20/solid";
-import { CountryAndStates } from "@lib/constants";
-import { useEffect } from "react";
 import { rankItem } from "@tanstack/match-sorter-utils";
+import { CountryAndStates } from "@lib/constants";
+import Image from "next/image";
 
 interface TableProps {
   className?: string;
@@ -278,7 +278,12 @@ const dummyConfig = [
       const state = item.getValue() as string;
       return (
         <div className="flex items-center gap-3">
-          <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
+          <Image
+            src={`/static/images/states/${state}.jpeg`}
+            width={16}
+            height={28}
+            alt={CountryAndStates[state]}
+          />
           <span>{CountryAndStates[state]}</span>
         </div>
       );

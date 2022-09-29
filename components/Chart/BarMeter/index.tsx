@@ -2,6 +2,7 @@ import { FunctionComponent, ReactElement, useMemo } from "react";
 import { ChartHeader } from "@components/index";
 import { CountryAndStates } from "@lib/constants";
 import { minMax, maxBy } from "@lib/helpers";
+import Image from "next/image";
 
 interface BarMeterProps {
   className?: string;
@@ -88,7 +89,12 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
         return (
           <div className="flex w-full items-center" key={item[xKey].concat(`_${index}`)}>
             <div className="flex w-[40%] items-center gap-2 lg:w-[35%]">
-              <img src={`/static/images/states/${item[xKey]}.jpeg`} className="h-3 w-5" />
+              <Image
+                src={`/static/images/states/${item[xKey]}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[item[xKey]]}
+              />
               <p className="text-sm text-dim">{CountryAndStates[item[xKey]]}</p>
             </div>
 

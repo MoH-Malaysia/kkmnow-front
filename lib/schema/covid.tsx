@@ -1,6 +1,6 @@
 import { CountryAndStates } from "@lib/constants";
 import { numFormat } from "@lib/helpers";
-
+import Image from "next/image";
 export const COVID_TABLE_SCHEMA = [
   {
     name: "Show All",
@@ -14,7 +14,12 @@ export const COVID_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={12}
+                height={20}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -128,7 +133,12 @@ export const COVID_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={12}
+                height={20}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -179,7 +189,12 @@ export const COVID_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={12}
+                height={20}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -229,7 +244,12 @@ export const COVID_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={12}
+                height={20}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );

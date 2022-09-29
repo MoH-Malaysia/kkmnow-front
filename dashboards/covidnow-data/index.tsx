@@ -4,6 +4,7 @@ import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useState } from "react";
 import { numFormat } from "@lib/helpers";
+import Image from "next/image";
 
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
@@ -92,7 +93,12 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         const state = item.getValue() as string;
         return (
           <div className="flex items-center gap-3">
-            <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
+            <Image
+              src={`/static/images/states/${state}.jpeg`}
+              width={16}
+              height={28}
+              alt={CountryAndStates[state]}
+            />
             <span>{CountryAndStates[state]}</span>
           </div>
         );

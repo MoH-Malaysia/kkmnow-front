@@ -7,12 +7,10 @@ import {
   PointElement,
   BarElement,
   Tooltip as ChartTooltip,
-  ChartOptions,
   ChartData,
 } from "chart.js";
 import { Bar as BarCanvas } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
-import { CrosshairPlugin } from "chartjs-plugin-crosshair";
 import { BarCrosshairOption } from "@lib/types";
 
 interface BarProps {

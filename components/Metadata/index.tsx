@@ -14,7 +14,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({ title, keywords }) => {
     title: title,
     icon: "/favicon.ico",
     description: t("header"),
-    author: "Ministry of Health Malaysia",
+    author: "Ministry of Health & Department of Statistics Malaysia",
     themeColor: "#13293D",
     keywords: keywords ?? "kkmnow kementerian kesihatan covidnow statistics malaysia",
     domain: "kawasanku.dosm.gov.my",
