@@ -60,7 +60,7 @@ const Stages: FunctionComponent<StagesProps> = ({
             {data?.col_1.map(({ name, icon, value, delta, unit, inverse }: StatsProps) => {
               return (
                 value && (
-                  <li>
+                  <li key={name}>
                     <Stats
                       name={name}
                       value={value}
@@ -88,7 +88,7 @@ const Stages: FunctionComponent<StagesProps> = ({
                 {data?.col_2.map(({ name, icon, value, delta, unit, inverse }: StatsProps) => {
                   return (
                     value !== null && (
-                      <li>
+                      <li key={name}>
                         <Stats
                           name={name}
                           value={value}
@@ -119,7 +119,7 @@ const Stages: FunctionComponent<StagesProps> = ({
             {data?.col_3.map(({ name, icon, value, delta, unit, inverse }: StatsProps) => {
               return (
                 value && (
-                  <li>
+                  <li key={name}>
                     <Stats
                       name={name}
                       value={value}

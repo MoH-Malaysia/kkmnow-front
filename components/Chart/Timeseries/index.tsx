@@ -262,28 +262,30 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           max: maxY,
           stacked: mode === "stacked",
         },
-        y1: enableRightScale
+        ...(enableRightScale
           ? {
-              position: "right" as const,
-              grid: {
-                drawOnChartArea: false,
-                drawTicks: false,
-                drawBorder: false,
-                offset: false,
-              },
-              ticks: {
-                padding: 6,
-                callback: (value: string | number) => {
-                  return numFormat(value as number).concat("%");
+              y1: {
+                position: "right" as const,
+                grid: {
+                  drawOnChartArea: false,
+                  drawTicks: false,
+                  drawBorder: false,
+                  offset: false,
                 },
-                font: {
-                  family: "Inter",
+                ticks: {
+                  padding: 6,
+                  callback: (value: string | number) => {
+                    return numFormat(value as number).concat("%");
+                  },
+                  font: {
+                    family: "Inter",
+                  },
                 },
+                max: 100,
+                stacked: mode === "stacked",
               },
-              max: 100,
-              stacked: mode === "stacked",
             }
-          : undefined,
+          : {}),
       },
     };
   }, [data]);

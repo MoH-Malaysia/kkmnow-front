@@ -121,7 +121,7 @@ const Table: FunctionComponent<TableProps> = ({
   }, []);
 
   return (
-    <div className="table-responsive">
+    <>
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         <span className="text-base font-bold">{title ?? ""}</span>
         {menu && <div className="flex items-center justify-end gap-2">{menu}</div>}
@@ -135,110 +135,113 @@ const Table: FunctionComponent<TableProps> = ({
           {search && search(setGlobalFilter)}
         </div>
       )}
-
-      <table className={`table ${className}`}>
-        <thead>
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header: any) => {
-                return (
-                  <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <div
-                        {...{
-                          className: [
-                            header.subHeaders.length < 1
-                              ? "select-none flex gap-1 text-sm justify-end text-right pr-1"
-                              : !header.column.columnDef.header
-                              ? "hidden"
-                              : "text-end pr-2",
-                            header.column.getCanSort() ? "cursor-pointer" : "",
-                          ].join(" "),
-                          onClick: header.column.getCanSort()
-                            ? header.column.getToggleSortingHandler()
-                            : undefined,
-                        }}
-                      >
-                        <div>
-                          <p className="font-medium text-black">
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                          </p>
-                          {header.column.columnDef?.subheader && (
-                            <p className="text-dim">{header.column.columnDef?.subheader}</p>
+      <div className="table-responsive">
+        <table className={`table ${className}`}>
+          <thead>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header: any) => {
+                  return (
+                    <th key={header.id} colSpan={header.colSpan}>
+                      {header.isPlaceholder ? null : (
+                        <div
+                          {...{
+                            className: [
+                              header.subHeaders.length < 1
+                                ? "select-none flex gap-1 text-sm justify-end text-right pr-1"
+                                : !header.column.columnDef.header
+                                ? "hidden"
+                                : "text-end pr-2",
+                              header.column.getCanSort() ? "cursor-pointer" : "",
+                            ].join(" "),
+                            onClick: header.column.getCanSort()
+                              ? header.column.getToggleSortingHandler()
+                              : undefined,
+                          }}
+                        >
+                          <div>
+                            <p className="font-medium text-black">
+                              {flexRender(header.column.columnDef.header, header.getContext())}
+                            </p>
+                            {header.column.columnDef?.subheader && (
+                              <p className="text-dim">{header.column.columnDef?.subheader}</p>
+                            )}
+                          </div>
+                          {header.subHeaders.length < 1 && (
+                            <span
+                              className="inline-block"
+                              title={sortTooltip(header.column.getIsSorted())}
+                            >
+                              {{
+                                asc: <ArrowUpIcon className="inline-block h-4 w-auto text-black" />,
+                                desc: (
+                                  <ArrowDownIcon className="inline-block h-4 w-auto text-black" />
+                                ),
+                              }[header.column.getIsSorted() as string] ?? null}
+                              {header.column.getCanSort() && !header.column.getIsSorted() ? (
+                                <ArrowsUpDownIcon className="inline-block h-4 w-auto text-dim" />
+                              ) : (
+                                ""
+                              )}
+                            </span>
                           )}
                         </div>
-                        {header.subHeaders.length < 1 && (
-                          <span
-                            className="inline-block"
-                            title={sortTooltip(header.column.getIsSorted())}
-                          >
-                            {{
-                              asc: <ArrowUpIcon className="inline-block h-4 w-auto text-black" />,
-                              desc: (
-                                <ArrowDownIcon className="inline-block h-4 w-auto text-black" />
-                              ),
-                            }[header.column.getIsSorted() as string] ?? null}
-                            {header.column.getCanSort() && !header.column.getIsSorted() ? (
-                              <ArrowsUpDownIcon className="inline-block h-4 w-auto text-dim" />
-                            ) : (
-                              ""
-                            )}
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </th>
+                      )}
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
+          </thead>
+          <tbody>
+            {table.getRowModel().rows.length ? (
+              table.getRowModel().rows.map(row => {
+                return (
+                  <tr key={row.id}>
+                    {row.getVisibleCells().map((cell: any) => {
+                      const lastCellInGroup = cell.column.parent
+                        ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
+                        : cell.column;
+
+                      const classNames = [
+                        ...(cell.row.original.state === "mys" ? ["bg-outline"] : []),
+                        ...(lastCellInGroup.id === cell.column.id
+                          ? ["text-xs border-r-black"]
+                          : []),
+                        ...(cell.column.columnDef.relative
+                          ? [
+                              badgeColor(cell.getValue() as number, cell.column.columnDef.inverse),
+                              "bg-opacity-20",
+                            ]
+                          : []),
+                        ...(cell.getValue() === null ? ["bg-outline"] : []),
+                        cellClass,
+                      ].join(" ");
+
+                      const unit = cell.column.columnDef.unit ?? undefined;
+
+                      return (
+                        <td key={cell.id} className={classNames}>
+                          <div>
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            {cell.getValue() !== null ? unit : "-"}
+                          </div>
+                        </td>
+                      );
+                    })}
+                  </tr>
                 );
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.length ? (
-            table.getRowModel().rows.map(row => {
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell: any) => {
-                    const lastCellInGroup = cell.column.parent
-                      ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
-                      : cell.column;
-
-                    const classNames = [
-                      ...(cell.row.original.state === "mys" ? ["bg-outline"] : []),
-                      ...(lastCellInGroup.id === cell.column.id ? ["text-xs border-r-black"] : []),
-                      ...(cell.column.columnDef.relative
-                        ? [
-                            badgeColor(cell.getValue() as number, cell.column.columnDef.inverse),
-                            "bg-opacity-20",
-                          ]
-                        : []),
-                      ...(cell.getValue() === null ? ["bg-outline"] : []),
-                      cellClass,
-                    ].join(" ");
-
-                    const unit = cell.column.columnDef.unit ?? undefined;
-
-                    return (
-                      <td key={cell.id} className={classNames}>
-                        <div>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          {cell.getValue() !== null ? unit : "-"}
-                        </div>
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan={table.getAllColumns().length} className="border-r border-black">
-                <div>No entries found. </div>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+              })
+            ) : (
+              <tr>
+                <td colSpan={table.getAllColumns().length} className="border-r border-black">
+                  <div>No entries found. </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
       {enablePagination && (
         <div className="mt-5 flex items-center justify-center gap-4 text-sm">
           <button
@@ -264,7 +267,7 @@ const Table: FunctionComponent<TableProps> = ({
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
