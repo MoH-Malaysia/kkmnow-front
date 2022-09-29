@@ -100,6 +100,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     label: "Moving Average (MA)",
                     data: filtered_timeline().line,
                     borderColor: ORGAN_COLOR[600],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",

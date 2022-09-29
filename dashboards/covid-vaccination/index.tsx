@@ -327,6 +327,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().line_stacked,
                     borderColor: COVIDVAX_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -386,6 +387,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().line_primary,
                     borderColor: COVIDVAX_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -421,6 +423,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().line_booster,
                     borderColor: COVIDVAX_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -456,6 +459,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().line_booster2,
                     borderColor: COVIDVAX_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -491,6 +495,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().line_adult,
                     borderColor: COVIDVAX_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -526,6 +531,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().line_adol,
                     borderColor: COVIDVAX_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -561,6 +567,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().line_child,
                     borderColor: COVIDVAX_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",

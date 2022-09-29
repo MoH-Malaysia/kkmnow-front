@@ -345,7 +345,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                   return (
                     <Panel key={index} name={name}>
                       <BarMeter
-                        className="block w-full space-y-2"
+                        className="block w-full space-y-2 pt-4"
                         data={data}
                         yKey="y"
                         xKey="x"
@@ -381,6 +381,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().deaths_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -417,6 +418,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().vents_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -446,6 +448,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().icu_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -475,6 +478,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().admitted_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -504,6 +508,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().cases_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",
@@ -523,16 +528,17 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               // menu={<MenuDropdown />}
               interval={interval_scale}
               stats={null}
-              // enableLegend
+              enableRightScale
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: "Positivity Rate (%)",
-                    pointRadius: 0,
+                    borderColor: COVID_COLOR[300],
                     data: filtered_timeline().tests_posrate,
-                    showLine: false,
+                    borderWidth: 1,
+                    yAxisID: "y1",
                   },
                   {
                     type: "bar",

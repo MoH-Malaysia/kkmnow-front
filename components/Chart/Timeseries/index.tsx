@@ -61,6 +61,7 @@ interface TimeseriesProps {
   gridYValues?: Array<number> | undefined;
   minY?: number;
   maxY?: number;
+  enableRightScale?: boolean;
   enableCallout?: boolean;
   enableCrosshair?: boolean;
   enableLegend?: boolean;
@@ -83,6 +84,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   state,
   subheader,
   type = "bar",
+  enableRightScale = false,
   enableCallout = false,
   enableCrosshair = true,
   enableLegend = false,
@@ -260,6 +262,28 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           max: maxY,
           stacked: mode === "stacked",
         },
+        y1: enableRightScale
+          ? {
+              position: "right" as const,
+              grid: {
+                drawOnChartArea: false,
+                drawTicks: false,
+                drawBorder: false,
+                offset: false,
+              },
+              ticks: {
+                padding: 6,
+                callback: (value: string | number) => {
+                  return numFormat(value as number).concat("%");
+                },
+                font: {
+                  family: "Inter",
+                },
+              },
+              max: 100,
+              stacked: mode === "stacked",
+            }
+          : undefined,
       },
     };
   }, [data]);

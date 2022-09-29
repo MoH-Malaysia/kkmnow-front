@@ -82,6 +82,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     label: "Moving Average (MA)",
                     data: filtered_timeline().line,
                     borderColor: PEKA_COLOR[600],
+                    borderWidth: 1,
                   },
                   {
                     type: "bar",

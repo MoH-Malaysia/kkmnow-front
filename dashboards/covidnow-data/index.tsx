@@ -169,6 +169,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                       pointRadius: 0,
                       data: filterTimeline().line,
                       borderColor: "#2563EB",
+                      borderWidth: 1,
                     },
                     {
                       type: "bar",
