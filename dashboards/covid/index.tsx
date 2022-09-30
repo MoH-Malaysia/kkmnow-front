@@ -133,7 +133,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
   return (
     <>
-      <Hero>
+      <Hero background="covid-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">covid-19</span>
           <h3 className="text-black">The latest data on the pandemic in Malaysia.</h3>

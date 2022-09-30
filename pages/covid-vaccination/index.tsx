@@ -32,15 +32,15 @@ const CovidVaccinationIndex = ({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
-  const { data } = await get("/kkmnow", { dashboard: "covidvax", state: "mys" }); // fetch static data here
+  const { data } = await get("/kkmnow", { dashboard: "covid_vax", state: "mys" }); // fetch static data here
 
   return {
     props: {
-      waffle_data: data.waffle_chart,
+      waffle_data: data.waffle,
       barmeter_data: data.bar_chart,
-      table_data: data.snapshot_chart,
-      timeseries_data: data.timeseries_chart,
-      stats_data: data.stats_chart,
+      table_data: data.snapshot,
+      timeseries_data: data.timeseries,
+      stats_data: data.statistics,
       ...i18n,
     },
   };

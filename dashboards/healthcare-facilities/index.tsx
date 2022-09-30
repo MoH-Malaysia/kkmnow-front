@@ -79,7 +79,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
 
   return (
     <>
-      <Hero background="bg-washed">
+      <Hero background="facilities-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             healthcare resources

@@ -43,7 +43,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
 
   return (
     <>
-      <Hero background="bg-[#F1E6FC]">
+      <Hero background="peka-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
           <h3 className="text-black">Peka B40</h3>

@@ -134,7 +134,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
 
   return (
     <>
-      <Hero background="bg-[#ECFAFF]">
+      <Hero background="covidnow-banner">
         <div className="space-y-4">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             MISCELLANEOUS

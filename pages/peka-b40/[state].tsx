@@ -45,9 +45,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       ...i18n,
-      timeseries_screenrate: data.timeseries_chart,
+      timeseries_screenrate: data.timeseries,
       heatmap_screenrate: data.heatmap_screenrate,
-      bar_age: data.barchart_age,
+      bar_age: data.barchart_ages,
     },
   };
 };

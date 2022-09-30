@@ -66,26 +66,26 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       x: timeseries_all.x.slice(limit[0], limit[1]),
       daily: timeseries_all.daily.slice(limit[0], limit[1]),
       line_daily: timeseries_all.line_daily.slice(limit[0], limit[1]),
-      apheresis: timeseries_all.apheresis_abs.slice(limit[0], limit[1]),
-      apheresis_rel: timeseries_all.apheresis_pct.slice(limit[0], limit[1]),
-      wholeblood: timeseries_all.wholeblood_abs.slice(limit[0], limit[1]),
-      wholeblood_rel: timeseries_all.wholeblood_pct.slice(limit[0], limit[1]),
-      o: timeseries_all.blood_o_abs.slice(limit[0], limit[1]),
-      o_rel: timeseries_all.blood_o_pct.slice(limit[0], limit[1]),
-      a: timeseries_all.blood_a_abs.slice(limit[0], limit[1]),
-      a_rel: timeseries_all.blood_a_pct.slice(limit[0], limit[1]),
-      b: timeseries_all.blood_b_abs.slice(limit[0], limit[1]),
-      b_rel: timeseries_all.blood_b_pct.slice(limit[0], limit[1]),
-      ab: timeseries_all.blood_ab_abs.slice(limit[0], limit[1]),
-      ab_rel: timeseries_all.blood_ab_pct.slice(limit[0], limit[1]),
-      newdon: timeseries_all.donor_new_abs.slice(limit[0], limit[1]),
-      newdon_rel: timeseries_all.donor_new_pct.slice(limit[0], limit[1]),
-      recurdon: timeseries_all.donor_recurring_abs.slice(limit[0], limit[1]),
-      recurdon_rel: timeseries_all.donor_recurring_pct.slice(limit[0], limit[1]),
-      center: timeseries_all.location_centre_abs.slice(limit[0], limit[1]),
-      center_rel: timeseries_all.location_centre_pct.slice(limit[0], limit[1]),
-      outreach: timeseries_all.location_mobile_abs.slice(limit[0], limit[1]),
-      outreach_rel: timeseries_all.location_mobile_pct.slice(limit[0], limit[1]),
+      //   apheresis: timeseries_all.apheresis_abs.slice(limit[0], limit[1]),
+      //   apheresis_rel: timeseries_all.apheresis_pct.slice(limit[0], limit[1]),
+      //   wholeblood: timeseries_all.wholeblood_abs.slice(limit[0], limit[1]),
+      //   wholeblood_rel: timeseries_all.wholeblood_pct.slice(limit[0], limit[1]),
+      //   o: timeseries_all.blood_o_abs.slice(limit[0], limit[1]),
+      //   o_rel: timeseries_all.blood_o_pct.slice(limit[0], limit[1]),
+      //   a: timeseries_all.blood_a_abs.slice(limit[0], limit[1]),
+      //   a_rel: timeseries_all.blood_a_pct.slice(limit[0], limit[1]),
+      //   b: timeseries_all.blood_b_abs.slice(limit[0], limit[1]),
+      //   b_rel: timeseries_all.blood_b_pct.slice(limit[0], limit[1]),
+      //   ab: timeseries_all.blood_ab_abs.slice(limit[0], limit[1]),
+      //   ab_rel: timeseries_all.blood_ab_pct.slice(limit[0], limit[1]),
+      //   newdon: timeseries_all.donor_new_abs.slice(limit[0], limit[1]),
+      //   newdon_rel: timeseries_all.donor_new_pct.slice(limit[0], limit[1]),
+      //   recurdon: timeseries_all.donor_recurring_abs.slice(limit[0], limit[1]),
+      //   recurdon_rel: timeseries_all.donor_recurring_pct.slice(limit[0], limit[1]),
+      //   center: timeseries_all.location_centre_abs.slice(limit[0], limit[1]),
+      //   center_rel: timeseries_all.location_centre_pct.slice(limit[0], limit[1]),
+      //   outreach: timeseries_all.location_mobile_abs.slice(limit[0], limit[1]),
+      //   outreach_rel: timeseries_all.location_mobile_pct.slice(limit[0], limit[1]),
     };
   };
 
@@ -298,7 +298,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             </div>
 
             <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-              <Timeseries
+              {/* <Timeseries
                 className="h-[250px] w-full"
                 state={currentState}
                 title="Donation by donation type"
@@ -503,7 +503,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   ],
                 }}
                 enableGridX={false}
-              />
+              /> */}
             </div>
           </div>
         </Section>
@@ -811,7 +811,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 }
                 width="w-full"
               />
-
               {timeseries_facility?.[data.zoom_state]?.[data.zoom_facility?.label] ? (
                 <div className="w-full pt-7">
                   <Timeseries

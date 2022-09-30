@@ -58,11 +58,11 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       ...i18n,
-      timeseries_pledge: data.timeseries_chart,
+      timeseries_pledge: data.timeseries,
       bar_age: data.barchart_age,
       bar_time: data.barchart_time,
       bar_reasons: data.barchart_reasons,
-      heatmap_donorrate: data.heatmap_chart,
+      heatmap_donorrate: data.heatmap_pledgerrate,
     },
   };
 };

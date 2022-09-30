@@ -16,8 +16,8 @@ export const COVID_TABLE_SCHEMA = [
             <div className="flex items-center gap-2">
               <Image
                 src={`/static/images/states/${state}.jpeg`}
-                width={12}
-                height={20}
+                width={20}
+                height={12}
                 alt={CountryAndStates[state]}
               />
               <span className="text-sm">{CountryAndStates[state]}</span>
@@ -135,8 +135,8 @@ export const COVID_TABLE_SCHEMA = [
             <div className="flex items-center gap-2">
               <Image
                 src={`/static/images/states/${state}.jpeg`}
-                width={12}
-                height={20}
+                width={20}
+                height={12}
                 alt={CountryAndStates[state]}
               />
               <span className="text-sm">{CountryAndStates[state]}</span>
@@ -191,8 +191,8 @@ export const COVID_TABLE_SCHEMA = [
             <div className="flex items-center gap-2">
               <Image
                 src={`/static/images/states/${state}.jpeg`}
-                width={12}
-                height={20}
+                width={20}
+                height={12}
                 alt={CountryAndStates[state]}
               />
               <span className="text-sm">{CountryAndStates[state]}</span>
@@ -246,8 +246,8 @@ export const COVID_TABLE_SCHEMA = [
             <div className="flex items-center gap-2">
               <Image
                 src={`/static/images/states/${state}.jpeg`}
-                width={12}
-                height={20}
+                width={20}
+                height={12}
                 alt={CountryAndStates[state]}
               />
               <span className="text-sm">{CountryAndStates[state]}</span>

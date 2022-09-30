@@ -63,7 +63,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   Object.values(data.heatmap_retention).forEach((item: any) => {
     item.data = item.data.filter((_item: any) => _item.y !== null);
   });
-  data.barchart_time.monthly.x = data.barchart_time.monthly.x.map((item: any) => {
+
+  data.bar_chart_time.monthly.x = data.bar_chart_time.monthly.x.map((item: any) => {
     const period = DateTime.fromFormat(item, "yyyy-MM-dd");
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
@@ -77,8 +78,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       heatmap_donorrate: data.heatmap_donorrate,
       heatmap_bloodstock: Object.values(data.heatmap_bloodstock),
       heatmap_retention: Object.values(data.heatmap_retention),
-      barchart_age: data.barchart_age,
-      barchart_time: data.barchart_time,
+      barchart_age: data.bar_chart_age,
+      barchart_time: data.bar_chart_time,
       map_facility: data.map_facility,
     },
   };
