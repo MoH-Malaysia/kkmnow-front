@@ -3,13 +3,13 @@ import {
   Container,
   Tabs,
   Panel,
-  Checkbox,
   Tooltip,
   Section,
   Slider,
   StateDropdown,
   Dropdown,
   Button,
+  BarMeter,
 } from "@components/index";
 import { useData } from "@hooks/useData";
 import { BLOOD_SUPPLY_COLOR, BLOOD_COLOR, GRAYBAR_COLOR, CountryAndStates } from "@lib/constants";
@@ -35,6 +35,7 @@ interface BloodDonationDashboardProps {
   heatmap_retention: any;
   barchart_age: any;
   barchart_time: any;
+  barchart_variables: any;
   map_facility: any;
 }
 
@@ -47,6 +48,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   heatmap_retention,
   barchart_age,
   barchart_time,
+  barchart_variables,
   map_facility,
 }) => {
   const router = useRouter();
@@ -66,26 +68,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       x: timeseries_all.x.slice(limit[0], limit[1]),
       daily: timeseries_all.daily.slice(limit[0], limit[1]),
       line_daily: timeseries_all.line_daily.slice(limit[0], limit[1]),
-      //   apheresis: timeseries_all.apheresis_abs.slice(limit[0], limit[1]),
-      //   apheresis_rel: timeseries_all.apheresis_pct.slice(limit[0], limit[1]),
-      //   wholeblood: timeseries_all.wholeblood_abs.slice(limit[0], limit[1]),
-      //   wholeblood_rel: timeseries_all.wholeblood_pct.slice(limit[0], limit[1]),
-      //   o: timeseries_all.blood_o_abs.slice(limit[0], limit[1]),
-      //   o_rel: timeseries_all.blood_o_pct.slice(limit[0], limit[1]),
-      //   a: timeseries_all.blood_a_abs.slice(limit[0], limit[1]),
-      //   a_rel: timeseries_all.blood_a_pct.slice(limit[0], limit[1]),
-      //   b: timeseries_all.blood_b_abs.slice(limit[0], limit[1]),
-      //   b_rel: timeseries_all.blood_b_pct.slice(limit[0], limit[1]),
-      //   ab: timeseries_all.blood_ab_abs.slice(limit[0], limit[1]),
-      //   ab_rel: timeseries_all.blood_ab_pct.slice(limit[0], limit[1]),
-      //   newdon: timeseries_all.donor_new_abs.slice(limit[0], limit[1]),
-      //   newdon_rel: timeseries_all.donor_new_pct.slice(limit[0], limit[1]),
-      //   recurdon: timeseries_all.donor_recurring_abs.slice(limit[0], limit[1]),
-      //   recurdon_rel: timeseries_all.donor_recurring_pct.slice(limit[0], limit[1]),
-      //   center: timeseries_all.location_centre_abs.slice(limit[0], limit[1]),
-      //   center_rel: timeseries_all.location_centre_pct.slice(limit[0], limit[1]),
-      //   outreach: timeseries_all.location_mobile_abs.slice(limit[0], limit[1]),
-      //   outreach_rel: timeseries_all.location_mobile_pct.slice(limit[0], limit[1]),
     };
   };
 
@@ -99,6 +81,21 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
     setData("zoom_state", undefined);
     setData("zoom_facility", undefined);
   };
+
+  const KEY_VARIABLES_SCHEMA = [
+    {
+      name: "Yesterday",
+      data: barchart_variables.yesterday,
+    },
+    {
+      name: "Past month",
+      data: barchart_variables.past_month,
+    },
+    {
+      name: "Past year",
+      data: barchart_variables.past_year,
+    },
+  ];
 
   return (
     <>
@@ -254,258 +251,87 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 healthcare services that depend upon blood transfusions may start to come under
                 stress."
         >
-          <div className="flex w-full flex-col gap-12">
-            <div className="space-y-4">
-              <Timeseries
-                className=" h-[350px] w-full pt-6"
-                title="Daily Donations"
-                state={currentState}
-                interval={interval_scale}
-                //menu={<MenuDropdown />}
-                round={filtered_timeline().x.length > 1095 ? "week" : "day"}
-                stats={null}
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "Moving Average (MA)",
-                      pointRadius: 0,
-                      data: filtered_timeline().line_daily,
-                      borderColor: BLOOD_COLOR[500],
-                      borderWidth: 1,
-                    },
-                    {
-                      type: "bar",
-                      label: "Daily Donation",
-                      data: filtered_timeline().daily,
-                      backgroundColor: GRAYBAR_COLOR[100],
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Slider
-                className="pt-7"
-                type="range"
-                defaultValue={limit}
-                data={timeseries_all.x}
-                onChange={(item: any) => setLimit([item.min, item.max])}
-              />
-              <span className="text-sm text-dim">
-                Use this time slider to zoom in specific time range
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
-              {/* <Timeseries
-                className="h-[250px] w-full"
-                state={currentState}
-                title="Donation by donation type"
-                interval={interval_scale}
-                round="day"
-                maxY={!data.absolute_donation_type ? 100 : undefined}
-                unitY={!data.absolute_donation_type ? "%" : undefined}
-                //menu={<MenuDropdown />}
-                enableCallout
-                subheader={
-                  <Checkbox
-                    name="donation_type"
-                    value={data.absolute_donation_type}
-                    onChange={e => setData("absolute_donation_type", e.target.checked)}
-                  >
-                    Absolute
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "Apherisis",
-                      pointRadius: 0,
-                      data: !data.absolute_donation_type
-                        ? filtered_timeline().apheresis_rel
-                        : filtered_timeline().apheresis,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "Whole blood",
-                      data: !data.absolute_donation_type
-                        ? filtered_timeline().wholeblood_rel
-                        : filtered_timeline().wholeblood,
-                      backgroundColor: BLOOD_COLOR[100],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Timeseries
-                className="h-[250px] w-full"
-                title="Donation by blood group (phenotype)"
-                state={currentState}
-                interval={interval_scale}
-                round="day"
-                unitY={!data.absolute_blood_group ? "%" : undefined}
-                maxY={!data.absolute_blood_group ? 100 : undefined}
-                //menu={<MenuDropdown />}
-                enableCallout
-                subheader={
-                  <Checkbox
-                    name="blood_group"
-                    value={data.absolute_blood_group}
-                    onChange={e => setData("absolute_blood_group", e.target.checked)}
-                  >
-                    Absolute
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "AB",
-                      data: !data.absolute_blood_group
-                        ? filtered_timeline().ab_rel
-                        : filtered_timeline().ab,
-                      backgroundColor: BLOOD_COLOR[400],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "B",
-                      data: !data.absolute_blood_group
-                        ? filtered_timeline().b_rel
-                        : filtered_timeline().b,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "A",
-                      data: !data.absolute_blood_group
-                        ? filtered_timeline().a_rel
-                        : filtered_timeline().a,
-                      backgroundColor: BLOOD_COLOR[200],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-
-                    {
-                      type: "line",
-                      label: "O",
-                      data: !data.absolute_blood_group
-                        ? filtered_timeline().o_rel
-                        : filtered_timeline().o,
-                      backgroundColor: BLOOD_COLOR[100],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Timeseries
-                className="h-[250px] w-full"
-                title="Donation by donor type"
-                state={currentState}
-                unitY={!data.absolute_donor_type ? "%" : undefined}
-                maxY={!data.absolute_donor_type ? 100 : undefined}
-                interval={interval_scale}
-                round="day"
-                //menu={<MenuDropdown />}
-                enableCallout
-                subheader={
-                  <Checkbox
-                    name="donor_type"
-                    value={data.absolute_donor_type}
-                    onChange={e => setData("absolute_donor_type", e.target.checked)}
-                  >
-                    Absolute
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "Recurring",
-                      data: !data.absolute_donor_type
-                        ? filtered_timeline().recurdon_rel
-                        : filtered_timeline().recurdon,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "New",
-                      data: !data.absolute_donor_type
-                        ? filtered_timeline().newdon_rel
-                        : filtered_timeline().newdon,
-                      backgroundColor: BLOOD_COLOR[100],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              />
-              <Timeseries
-                className="h-[250px] w-full"
-                title="Donation by location"
-                state={currentState}
-                interval={interval_scale}
-                round="day"
-                unitY={!data.absolute_location ? "%" : undefined}
-                maxY={!data.absolute_location ? 100 : undefined}
-                //menu={<MenuDropdown />}
-                enableCallout
-                subheader={
-                  <Checkbox
-                    name="location"
-                    value={data.absolute_location}
-                    onChange={e => setData("absolute_location", e.target.checked)}
-                  >
-                    Absolute
-                  </Checkbox>
-                }
-                data={{
-                  labels: filtered_timeline().x,
-                  datasets: [
-                    {
-                      type: "line",
-                      label: "Donation Center",
-                      data: !data.absolute_location
-                        ? filtered_timeline().center_rel
-                        : filtered_timeline().center,
-                      backgroundColor: BLOOD_COLOR[300],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                    {
-                      type: "line",
-                      label: "Outreach",
-                      data: !data.absolute_location
-                        ? filtered_timeline().outreach_rel
-                        : filtered_timeline().outreach,
-                      backgroundColor: BLOOD_COLOR[100],
-                      fill: true,
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-                enableGridX={false}
-              /> */}
-            </div>
+          <div className="w-full space-y-4">
+            <Timeseries
+              className=" h-[350px] w-full pt-6"
+              title="Daily Donations"
+              state={currentState}
+              interval={interval_scale}
+              //menu={<MenuDropdown />}
+              round={filtered_timeline().x.length > 1095 ? "week" : "day"}
+              stats={null}
+              data={{
+                labels: filtered_timeline().x,
+                datasets: [
+                  {
+                    type: "line",
+                    label: "Moving Average (MA)",
+                    pointRadius: 0,
+                    data: filtered_timeline().line_daily,
+                    borderColor: BLOOD_COLOR[500],
+                    borderWidth: 1,
+                  },
+                  {
+                    type: "bar",
+                    label: "Daily Donation",
+                    data: filtered_timeline().daily,
+                    backgroundColor: GRAYBAR_COLOR[100],
+                  },
+                ],
+              }}
+              enableGridX={false}
+            />
+            <Slider
+              className="pt-7"
+              type="range"
+              defaultValue={limit}
+              data={timeseries_all.x}
+              onChange={(item: any) => setLimit([item.min, item.max])}
+            />
+            <span className="text-sm text-dim">
+              Use this time slider to zoom in specific time range
+            </span>
           </div>
+        </Section>
+        {/* A breakdown of donations by key variables */}
+        <Section
+          title="A breakdown of donations by key variables"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        >
+          <Tabs className="pb-4">
+            {KEY_VARIABLES_SCHEMA.map(({ name, data }) => {
+              return (
+                <Panel key={name} name={name}>
+                  <div className="grid w-full grid-cols-1 gap-12 lg:grid-cols-3">
+                    <BarMeter
+                      title="Donations by Blood Type"
+                      className="flex-col"
+                      state={currentState}
+                      data={data.blood_group}
+                      layout="horizontal"
+                      sort="desc"
+                    />
+                    <BarMeter
+                      title="Donations by Donation Type"
+                      className="flex-col"
+                      state={currentState}
+                      data={data.donation_type}
+                      layout="horizontal"
+                      sort="desc"
+                    />
+                    <BarMeter
+                      title="Donations by Collection Location"
+                      className="flex-col"
+                      state={currentState}
+                      data={data.location}
+                      layout="horizontal"
+                      sort="desc"
+                    />
+                  </div>
+                </Panel>
+              );
+            })}
+          </Tabs>
         </Section>
 
         {/* How strong is the new donor recruitment in {{ area }}? */}
