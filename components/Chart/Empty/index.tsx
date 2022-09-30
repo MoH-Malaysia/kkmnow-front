@@ -185,7 +185,7 @@ const Empty: FunctionComponent<EmptyProps> = ({
       <ChartHeader title={title} />
 
       <Chart data={dummy} options={options} type={"bar"} className="pt-4 opacity-50" />
-      <div className="absolute left-[40%] top-[40%]">
+      <div className="absolute left-[30%] top-[40%]">
         <p className="text-dim">{placeholder}</p>
       </div>
     </div>

@@ -41,7 +41,7 @@ interface TableProps {
   enablePagination?: boolean;
 }
 
-const badgeColor = (delta: number, inverse: boolean = false) => {
+const relativeColor = (delta: number, inverse: boolean = false) => {
   const COLOR = {
     DEFAULT: "bg-outline",
     GREEN: "bg-green-400 text-green-600",
@@ -50,6 +50,10 @@ const badgeColor = (delta: number, inverse: boolean = false) => {
   if (inverse) return delta > 1 ? COLOR.RED : delta < 0 ? COLOR.GREEN : COLOR.DEFAULT;
   else return delta > 1 ? COLOR.GREEN : delta < 0 ? COLOR.RED : COLOR.DEFAULT;
 };
+
+const scaleColor = (value: number) =>
+  value >= 75 ? "bg-[#FDC7B2]" : value >= 50 ? "bg-[#FFECE4]" : "bg-transparent";
+
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value);
@@ -210,9 +214,15 @@ const Table: FunctionComponent<TableProps> = ({
                           : []),
                         ...(cell.column.columnDef.relative
                           ? [
-                              badgeColor(cell.getValue() as number, cell.column.columnDef.inverse),
+                              relativeColor(
+                                cell.getValue() as number,
+                                cell.column.columnDef.inverse
+                              ),
                               "bg-opacity-20",
                             ]
+                          : []),
+                        ...(cell.column.columnDef.scale
+                          ? [scaleColor(cell.getValue() as number)]
                           : []),
                         ...(cell.getValue() === null ? ["bg-outline"] : []),
                         cellClass,
@@ -283,8 +293,8 @@ const dummyConfig = [
         <div className="flex items-center gap-3">
           <Image
             src={`/static/images/states/${state}.jpeg`}
-            width={16}
-            height={28}
+            width={28}
+            height={16}
             alt={CountryAndStates[state]}
           />
           <span>{CountryAndStates[state]}</span>

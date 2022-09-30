@@ -134,10 +134,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const translation = await serverSideTranslations(locale!, ["common"]);
 
   return {
+    notFound: true, // disable page
     props: {
       ...translation,
     },
-    revalidate: 1,
   };
 };
 

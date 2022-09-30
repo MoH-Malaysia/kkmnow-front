@@ -95,8 +95,8 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           <div className="flex items-center gap-3">
             <Image
               src={`/static/images/states/${state}.jpeg`}
-              width={16}
-              height={28}
+              width={28}
+              height={16}
               alt={CountryAndStates[state]}
             />
             <span>{CountryAndStates[state]}</span>

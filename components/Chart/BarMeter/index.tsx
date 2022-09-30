@@ -60,7 +60,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
     switch (layout) {
       case "horizontal":
         return (
-          <div className="space-y-1 pb-3" key={item[xKey].concat(`_${index}`)}>
+          <div className="space-y-1 pb-2" key={item[xKey].concat(`_${index}`)}>
             <div className="flex justify-between">
               <p>{item[xKey]}</p>
               <p className="text-dim">
