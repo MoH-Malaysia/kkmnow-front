@@ -17,6 +17,7 @@ import { ORGAN_DONATION_COLOR } from "@lib/constants";
 import { ORGAN_DONATION_SCHEMA } from "@lib/schema/organ-donation";
 import { Page } from "@lib/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -27,6 +28,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data, setData } = useData({
     filter_by: 0,
   });
+  const { t } = useTranslation("common");
 
   const TableTabsMenu = [
     {
@@ -51,69 +53,55 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Hero background="hero-light-4">
         <div className="space-y-2 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
-            healthcare program
+            {t("peka.title")}
           </span>
-          <h3 className="text-black">PeKa B40</h3>
+          <h3 className="text-black">{t("peka.title_header")}</h3>
           <p className="text-dim">
-            PeKa B40 is a MoH initiative which aims to sustain the healthcare needs of low income
-            groups by focusing on non-communicable diseases (NCDs). Recipients of the Bantuan
-            Prihatin Rakyat (previously known as Bantuan Sara Hidup) and their spouses aged 40 and
-            above are automatically eligible for free health screenings. This dashboard, which gives
-            you near-real-time updates on PeKa B40 screenings, is brought to you by{" "}
+            {t("peka.title_description")}{" "}
             <a href="#" className="font-semibold text-blue-600">
-              ProtectHealth Corporation (PHCorp)
+              {t("peka.title_link")}
             </a>
-            , a fully-owned subsidiary of the Ministry of Health.
+            {t("peka.title_description2")}
           </p>
         </div>
       </Hero>
 
       <Container className="min-h-screen">
         <Section
-          title="What are the latest screening trends in Klang Valley?"
+          title={t("peka.screening_header")}
           description={
             <p className="pt-2 text-dim">
-              Blood compromises 3 components - red blood cells, platelets, and plasma. Although
-              plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35
-              days, and plasma only for up to 5 days. Therefore, it is{" "}
-              <strong>vital to maintain a high and stable level of blood donations</strong>; when
-              blood donation activity is low or volatile, healthcare services that depend upon blood
-              transfusions may start to come under stress.
+              {t("peka.screening_description1")} <strong>{t("peka.screening_description2")}</strong>
+              {t("peka.screening_description3")}
             </p>
           }
         >
           <div className="space-y-4">
             <Timeseries title="Daily Pledges" menu={<MenuDropdown />} stats={null} />
             <Slider className="pt-7" type="range" onChange={(item: any) => console.log(item)} />
-            <span className="text-sm text-dim">
-              Use this time slider to zoom in specific time range
-            </span>
+            <span className="text-sm text-dim">{t("peka.slider")}</span>
           </div>
         </Section>
 
         {/* How strong is the new donor recruitment in {{ area }}? */}
-        <Section
-          title="How strong is the new donor recruitment in Klang Valley?"
-          description="Recruitment of new donors is vital to replace donors who reach their golden years and
-              stop donating, as well as to support a growing population."
-        >
+        <Section title={t("peka.bar1_header")} description={t("peka.bar1_description")}>
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
-              <Tabs title="Number of new donors" menu={<MenuDropdown />}>
-                <Panel name="Annual">
+              <Tabs title={t("peka.bar1_title1")} menu={<MenuDropdown />}>
+                <Panel name={t("peka.annual")}>
                   <Bar className="h-[300px]" enableGridX={false} />
                 </Panel>
-                <Panel name="Monthly">
+                <Panel name={t("peka.monthly")}>
                   <Bar className="h-[300px]" enableGridX={false} />
                 </Panel>
               </Tabs>
             </div>
             <div>
-              <Tabs title="New donors by age group" menu={<MenuDropdown />}>
-                <Panel name="Past 1 year">
+              <Tabs title={t("peka.bar_title2")} menu={<MenuDropdown />}>
+                <Panel name={t("peka.1year")}>
                   <Bar className="h-[300px]" enableGridX={false} />
                 </Panel>
-                <Panel name="Past 1 month">
+                <Panel name={t("peka.1month")}>
                   <Bar className="h-[300px]" enableGridX={false} />
                 </Panel>
               </Tabs>
@@ -122,15 +110,11 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         </Section>
 
         {/* What proportion of the population in {{ area }} donates blood? */}
-        <Section
-          title="What proportion of the population in Klang Valley donates blood?"
-          description="To ensure a stable and high supply of blood, we need 10% of the eliglble population to
-              donate at least 1 time per year."
-        >
+        <Section title={t("peka.heatmap_header")} description={t("peka.heatmap_description")}>
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full space-y-4">
-              <Tabs title="Donor rates across key demographics" menu={<MenuDropdown />}>
-                <Panel name="Per Capita">
+              <Tabs title={t("peka.heatmap_title")} menu={<MenuDropdown />}>
+                <Panel name={t("peka.heatmap_panel1")}>
                   <>
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
@@ -144,7 +128,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Male"
+                      title={t("peka.heatmap2_title")}
                       data={dummyFourRowHeatmap}
                       subdata
                       axisLeft="default"
@@ -156,7 +140,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Female"
+                      title={t("peka.heatmap3_title")}
                       data={dummyFourRowHeatmap}
                       subdata
                       axisLeft="default"
@@ -167,7 +151,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     />
                   </>
                 </Panel>
-                <Panel name="% of Donations">
+                <Panel name={t("peka.heatmap_panel2")}>
                   <>
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
@@ -181,7 +165,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Male"
+                      title={t("peka.heatmap3_title")}
                       data={dummyFourRowHeatmap}
                       subdata
                       axisLeft="default"
@@ -193,7 +177,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Female"
+                      title={t("peka.heatmap3_title")}
                       data={dummyFourRowHeatmap}
                       subdata
                       axisLeft="default"
@@ -204,7 +188,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     />
                   </>
                 </Panel>
-                <Panel name="Absolute">
+                <Panel name={t("peka.heatmap_panel3")}>
                   <>
                     <Heatmap
                       className="flex h-[150px] gap-[30px] overflow-auto lg:overflow-hidden"
@@ -218,7 +202,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Male"
+                      title={t("peka.heatmap3_title")}
                       data={dummyFourRowHeatmap}
                       subdata
                       axisLeft="default"
@@ -230,7 +214,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
                     <Heatmap
                       className="flex h-[240px] gap-[30px] overflow-auto lg:overflow-hidden"
-                      title="Female"
+                      title={t("peka.heatmap3_title")}
                       data={dummyFourRowHeatmap}
                       subdata
                       axisLeft="default"
@@ -245,12 +229,9 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             </div>
 
             <div>
-              <ChartHeader
-                title="Motivation: Why do people pledge to donate organs?"
-                menu={<MenuDropdown />}
-              />
-              <Tabs className="pt-9" title="Number of new donors" menu={<MenuDropdown />}>
-                <Panel name="Annual">
+              <ChartHeader title={t("peka.bar2_title1")} menu={<MenuDropdown />} />
+              <Tabs className="pt-9" title={t("peka.bar2_x")} menu={<MenuDropdown />}>
+                <Panel name={t("peka.annual")}>
                   <Bar
                     className="h-[650px] w-full"
                     enableGridX={false}
@@ -258,7 +239,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                     layout="horizontal"
                   />
                 </Panel>
-                <Panel name="Monthly">
+                <Panel name={t("peka.monthly")}>
                   <Bar
                     className="h-[650px] w-full"
                     enableGridX={false}
@@ -272,10 +253,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
         </Section>
 
         {/* How is this data collected? */}
-        <Section
-          title="How is this data collected?"
-          description="Map showing locations of BBIS centres:"
-        >
+        <Section title={t("peka.map_header")} description={t("peka.map_description")}>
           <Choropleth className="h-[500px] w-full" enableScale={false} />
         </Section>
       </Container>

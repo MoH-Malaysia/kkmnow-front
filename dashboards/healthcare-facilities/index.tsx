@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useState, useEffect } from "react";
 import { OptionType } from "@components/types";
+import { useTranslation } from "next-i18next";
 
 const TableFacilities = dynamic(() => import("@components/Chart/TableFacilities"), { ssr: false });
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
@@ -32,6 +33,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     zoom_district: "",
     table_filter: "",
   });
+  const { t } = useTranslation("common");
 
   const isZoomEmpty = () => {
     return data.zoom_district != "" && data.zoom_state != "";
@@ -46,22 +48,14 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       <Hero background="hero-light-1">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
-            healthcare resources
+            {t("healthcare.title")}
           </span>
-          <h3 className="text-black">Healthcare Facilities</h3>
-          <p className="text-dim">
-            The Health Informatics Centre (PIK) maintains a constantly-updated database on all
-            healthcare faciltiies - both public and private - in Malaysia. This dashboard documents
-            the data in a manner that eases the process of finding a healthcare facility for your
-            needs, and builds on the dataset to analyse healthcare access. The analysis on the
-            access will be constantly enriched over time as we deepen the scope of the facilities
-            dataset - for instance with data on services offered, waiting times, and healthcare
-            outcomes.
-          </p>
+          <h3 className="text-black">{t("healthcare.title_header")}</h3>
+          <p className="text-dim">{t("healthcare.title_description")}</p>
         </div>
       </Hero>
       <Container className="min-h-screen">
-        <Section title="Find A Healthcare Facility">
+        <Section title={t("healthcare.table_header")}>
           <div className="mt-2">
             <TableFacilities
               data={facility_table}
@@ -78,22 +72,12 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
           {/* <div className="grid grid-cols-1 gap-12 xl:grid-cols-2"> */}
           <div className="flex w-full flex-col gap-12 lg:flex-row">
             <div className="w-full space-y-4 lg:w-1/3">
-              <h3>How does proximity to healthcare vary nationally?</h3>
-              <p>
-                Distance to the nearest healthcare facility is not the only measure of access to
-                healthcare. There is a modern and growing body of research demonstrating the tough
-                tradeoffs involved in localisation of healthcare - for instance, diversifying
-                resources across multiple facilities in an area to decrease travel time, or
-                concentrating them in a single hospital to up the quality of care.
-              </p>
-              <p>
-                The data presented here only captures one aspect of healthcare access (proximity),
-                and is intended as a starting point for policymakers and the community to have a
-                conversation about access.
-              </p>
+              <h3>{t("healthcare.map_header")}</h3>
+              <p>{t("healthcare.map_description1")}</p>
+              <p>{t("healthcare.map_description2")}</p>
               <h4 className="flew-row flex items-center gap-2">
                 <GlobeAltIcon className="h-5 w-5 text-dim" />
-                Zoom into my area
+                {t("healthcare.zoom")}
               </h4>
 
               <StateDropdown
@@ -110,7 +94,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 width="w-full"
               />
               <Dropdown
-                placeholder="Select District"
+                placeholder={t("healthcare.dropdown_placeholder1")}
                 onChange={item => setData("zoom_district", item)}
                 selected={data.zoom_district}
                 disabled={!data.zoom_state}
@@ -124,7 +108,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 width="w-full"
               />
               <Dropdown
-                placeholder="Select Facilty Type"
+                placeholder={t("healthcare.dropdown_placeholder2")}
                 onChange={item => setData("zoom_type", item)}
                 selected={data.zoom_type}
                 disabled={!data.zoom_district}
@@ -137,7 +121,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
             <div className="w-full lg:w-2/3">
               <div className="flex flex-row items-center">
                 <h4 className="mb-5">
-                  Hospitals in {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
+                  {t("healthcare.map_title")}{" "}
+                  {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
                   {CountryAndStates[data.zoom_state]}
                 </h4>
                 <div
@@ -145,7 +130,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                   onClick={() => {}}
                 >
                   <MapIcon className="h-5 w-5" />
-                  Navigate to location
+                  {t("healthcare.map_nav")}
                 </div>
               </div>
 
@@ -158,7 +143,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 <Bar
                   title={
                     <div className="flex self-center text-base font-bold">
-                      Distance to Nearest {data.zoom_type ? data.zoom_type.label : ""} within{" "}
+                      {t("healthcare.map_distance")} {data.zoom_type ? data.zoom_type.label : ""}{" "}
+                      {t("healthcare.map_distance1")}{" "}
                       {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
                       {CountryAndStates[data.zoom_state]}
                     </div>
@@ -172,7 +158,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                   title={
                     <div className="flex self-center text-base font-bold">
                       {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
-                      {CountryAndStates[data.zoom_state]} relative to other{" "}
+                      {CountryAndStates[data.zoom_state]} {t("healthcare.map_relative")}{" "}
                       {data.zoom_district === "" ? "States" : "Districts"}
                     </div>
                   }
