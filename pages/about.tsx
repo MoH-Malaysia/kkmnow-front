@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { GetStaticProps } from "next";
 import { useTranslation } from "next-i18next";
-import { UserGroupIcon } from "@heroicons/react/solid";
+import { UserGroupIcon } from "@heroicons/react/24/solid";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Hero from "@components/Hero";

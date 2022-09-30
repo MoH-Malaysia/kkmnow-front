@@ -1,11 +1,13 @@
 /**
  * Blood Donation Page <Index>
  */
+import { Metadata } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { DateTime } from "luxon";
 
 const BloodDonationIndex: Page = ({
   timeseries_all,
@@ -20,6 +22,7 @@ const BloodDonationIndex: Page = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"Blood Donation"} keywords={""} />
       <BloodDonationDashboard
         timeseries_all={timeseries_all}
         timeseries_bloodstock={timeseries_bloodstock}
@@ -42,6 +45,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   // transfrom:
   Object.values(data.heatmap_retention).forEach((item: any) => {
     item.data = item.data.filter((_item: any) => _item.y !== null);
+  });
+
+  data.barchart_time.monthly.x = data.barchart_time.monthly.x.map((item: any) => {
+    const period = DateTime.fromFormat(item, "yyyy-MM-dd");
+    return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
 
   return {

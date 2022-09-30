@@ -20,6 +20,8 @@ interface ChoroplethProps {
   title?: string;
   controls?: ReactElement;
   data?: any;
+  xKey?: string;
+  unitY?: string;
   enableScale?: boolean;
   projectionScaleSetting?: number;
 }
@@ -30,8 +32,10 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
   menu,
   title,
   data = dummyData,
+  unitY,
   enableScale = true,
   projectionScaleSetting = 125,
+  xKey,
 }) => {
   const [feature, setState] = useState(WorldDesktop.features);
   const config = {
@@ -49,6 +53,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           data={data}
           features={feature}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+          label={xKey}
           colors={CHOROPLETH_BLUE_SCALE}
           domain={[
             Math.min.apply(
@@ -67,10 +72,10 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           projectionRotation={[0, 0, 0]}
           borderWidth={config.borderWidth}
           borderColor={config.borderColor}
-          tooltip={({ feature: { data } }) => {
+          tooltip={({ feature: { data, label } }) => {
             return data?.id ? (
               <div className="nivo-tooltip">
-                {data.id}: {numFormat(data.value_real, "standard")}
+                {label}: {numFormat(data.value_real, "standard")} {unitY}
               </div>
             ) : (
               <></>

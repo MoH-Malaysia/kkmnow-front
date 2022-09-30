@@ -37,15 +37,37 @@ export const BLOOD_DONATION_SCHEMA: HeatmapSchema[] = [
     max: 5000,
   },
   {
-    labelColor: "#FFF",
+    labelColor: "#000",
     max: 20000,
   },
   {
-    labelColor: "#FFF",
+    labelColor: "#000",
     max: 50000,
   },
   {
-    labelColor: "#FFF",
+    labelColor: "#000",
     max: Infinity,
+  },
+];
+export const BLOOD_PERCENT_SCHEMA: HeatmapSchema[] = [
+  {
+    labelColor: "#000",
+    max: 20,
+  },
+  {
+    labelColor: "#000",
+    max: 40,
+  },
+  {
+    labelColor: "#FFF",
+    max: 60,
+  },
+  {
+    labelColor: "#FFF",
+    max: 80,
+  },
+  {
+    labelColor: "#FFF",
+    max: 100,
   },
 ];

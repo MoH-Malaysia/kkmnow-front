@@ -11,12 +11,13 @@ import {
   Stages,
   DonutMeter,
   Dropdown,
+  Slider,
 } from "@components/index";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
-import { COVID_COLOR } from "@lib/constants";
+import { CountryAndStates, COVID_COLOR } from "@lib/constants";
 import { routes } from "@lib/routes";
 import { COVID_TABLE_SCHEMA } from "@lib/schema/covid";
 import { filterCaseDeath } from "@lib/options";
@@ -64,7 +65,39 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
     filter_death: 0,
     filter_state: 0,
     filter_cases: 0,
+    minmax: [0, timeseries_deaths.x.length - 1],
   });
+
+  const filterTimeline = () => {
+    return {
+      x: timeseries_deaths.x.slice(data.minmax[0], data.minmax[1]),
+      deaths_line: timeseries_deaths.line.slice(data.minmax[0], data.minmax[1]),
+      deaths_inpatient: timeseries_deaths.deaths_inpatient.slice(data.minmax[0], data.minmax[1]),
+      deaths_broughtin: timeseries_deaths.deaths_brought_in.slice(data.minmax[0], data.minmax[1]),
+      vents_line: timeseries_vents.line.slice(data.minmax[0], data.minmax[1]),
+      vents_vent: timeseries_vents.vent.slice(data.minmax[0], data.minmax[1]),
+      icu_line: timeseries_icu.line.slice(data.minmax[0], data.minmax[1]),
+      icu_icu: timeseries_icu.icu.slice(data.minmax[0], data.minmax[1]),
+      admitted_line: timeseries_admitted.line.slice(data.minmax[0], data.minmax[1]),
+      admitted_admitted: timeseries_admitted.admitted.slice(data.minmax[0], data.minmax[1]),
+      cases_line: timeseries_cases.line.slice(data.minmax[0], data.minmax[1]),
+      cases_cases: timeseries_cases.cases.slice(data.minmax[0], data.minmax[1]),
+      tests_posrate: timeseries_tests.tooltip.slice(data.minmax[0], data.minmax[1]),
+      tests_rtk: timeseries_tests.tests_rtk.slice(data.minmax[0], data.minmax[1]),
+      tests_pcr: timeseries_tests.tests_pcr.slice(data.minmax[0], data.minmax[1]),
+    };
+  };
+
+  const filtered_timeline = useCallback(filterTimeline, data.minmax);
+  const interval_scale = useMemo(
+    () =>
+      filtered_timeline().x.length > 180
+        ? "month"
+        : filtered_timeline().x.length > 60
+        ? "week"
+        : "day",
+    [filtered_timeline().x]
+  );
 
   const BarTabsMenu = [
     {
@@ -120,7 +153,12 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
       <Container className="min-h-screen">
         {/* Utilisations */}
-        <Section title={t("covid.donut_header")}>
+        <Section
+          title={t("covid.donut_header")}
+          description={
+            <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[currentState]}</p>
+          }
+        >
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
               <DonutMeter value={util_chart.util_vent} />
@@ -189,12 +227,13 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
         {/* What does the latest data show? */}
         <Section title={t("covid.diagram_header")}>
-          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-3">
-            <div className="col-span-1 lg:col-span-2">
+          <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="col-span-1 xl:col-span-2">
               <Stages
                 title={t("covid.diagram_subheader")}
-                className="h-full pt-10"
-                menu={<MenuDropdown />}
+                className="h-full pt-4"
+                state={currentState}
+                // // menu={<MenuDropdown />}
                 data={{
                   header: {
                     name: `${t("covid.diagram_title")}`,
@@ -287,18 +326,24 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               />
             </div>
             <div className="col-span-1">
-              <ChartHeader title={BarTabsMenu[data.filter_state].title} menu={<MenuDropdown />} />
+              {/* <ChartHeader title={} // menu={<MenuDropdown />} /> */}
 
-              <Tabs onChange={value => setData("filter_state", value)}>
+              <Tabs
+                title={BarTabsMenu[data.filter_state].title}
+                className="w-full"
+                onChange={value => setData("filter_state", value)}
+              >
                 {BarTabsMenu.map(({ name, data }, index) => {
                   return (
                     <Panel key={index} name={name}>
                       <BarMeter
-                        className="block space-y-2"
+                        className="block w-full space-y-2"
                         data={data}
                         yKey="y"
                         xKey="x"
                         layout="state-horizontal"
+                        relative
+                        sort="desc"
                       />
                     </Panel>
                   );
@@ -312,32 +357,34 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         <Section title={t("covid.area_chart_header")}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title={t("covid.area_chart_title1")}
-              menu={<MenuDropdown />}
-              interval="quarter"
+              state={currentState}
+              // menu={<MenuDropdown />}
+              interval={interval_scale}
               stats={null}
+              // enableLegend
               data={{
-                labels: timeseries_deaths.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: `${t("covid.area_chart_tooltip1")}`,
                     pointRadius: 0,
-                    data: timeseries_deaths.line,
+                    data: filtered_timeline().deaths_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: `${t("covid.area_chart_tooltip2")}`,
-                    data: timeseries_deaths.deaths_inpatient,
+                    data: filtered_timeline().deaths_inpatient,
                     backgroundColor: COVID_COLOR[200],
                     stack: "same",
                   },
                   {
                     type: "bar",
                     label: `${t("covid.area_chart_tooltip3")}`,
-                    data: timeseries_deaths.deaths_brought_in,
+                    data: filtered_timeline().deaths_broughtin,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -346,25 +393,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title={t("covid.area_chart_title2")}
-              menu={<MenuDropdown />}
+              state={currentState}
+              interval={interval_scale}
+              // menu={<MenuDropdown />}
               stats={null}
-              interval="quarter"
+              // enableLegend
               data={{
-                labels: timeseries_vents.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: `${t("covid.area_chart2_tooltip1")}`,
                     pointRadius: 0,
-                    data: timeseries_vents.line,
+                    data: filtered_timeline().vents_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: `${t("covid.area_chart2_tooltip2")}`,
-                    data: timeseries_vents.vent,
+                    data: filtered_timeline().vents_vent,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -373,25 +422,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title={t("covid.area_chart_title3")}
-              menu={<MenuDropdown />}
-              interval="quarter"
+              state={currentState}
+              // menu={<MenuDropdown />}
+              interval={interval_scale}
               stats={null}
+              // enableLegend
               data={{
-                labels: timeseries_icu.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: `${t("covid.area_chart3_tooltip1")}`,
                     pointRadius: 0,
-                    data: timeseries_icu.line,
+                    data: filtered_timeline().icu_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: `${t("covid.area_chart3_tooltip2")}`,
-                    data: timeseries_icu.icu,
+                    data: filtered_timeline().icu_icu,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -400,25 +451,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title={t("covid.area_chart_title4")}
-              menu={<MenuDropdown />}
-              interval="quarter"
+              state={currentState}
+              // menu={<MenuDropdown />}
+              interval={interval_scale}
               stats={null}
+              // enableLegend
               data={{
-                labels: timeseries_admitted.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: `${t("covid.area_chart4_tooltip1")}`,
                     pointRadius: 0,
-                    data: timeseries_admitted.line,
+                    data: filtered_timeline().admitted_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: `${t("covid.area_chart4_tooltip2")}`,
-                    data: timeseries_admitted.admitted,
+                    data: filtered_timeline().admitted_admitted,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -427,25 +480,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title={t("covid.area_chart_title5")}
-              menu={<MenuDropdown />}
-              interval="quarter"
+              state={currentState}
+              // menu={<MenuDropdown />}
+              interval={interval_scale}
+              // enableLegend
               stats={null}
               data={{
-                labels: timeseries_cases.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: `${t("covid.area_chart5_tooltip1")}`,
                     pointRadius: 0,
-                    data: timeseries_cases.line,
+                    data: filtered_timeline().cases_line,
                     borderColor: COVID_COLOR[300],
                   },
                   {
                     type: "bar",
                     label: `${t("covid.area_chart5_tooltip2")}`,
-                    data: timeseries_cases.cases,
+                    data: filtered_timeline().cases_cases,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -454,32 +509,34 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               enableGridX={false}
             />
             <Timeseries
-              className="h-[300px] w-full"
+              className="h-[250px] w-full"
               title={t("covid.area_chart_title6")}
-              menu={<MenuDropdown />}
-              interval="quarter"
+              state={currentState}
+              // menu={<MenuDropdown />}
+              interval={interval_scale}
               stats={null}
+              // enableLegend
               data={{
-                labels: timeseries_tests.x,
+                labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
                     label: `${t("covid.area_chart6_tooltip1")}`,
                     pointRadius: 0,
-                    data: timeseries_tests.tooltip,
-                    borderWidth: 0,
+                    data: filtered_timeline().tests_posrate,
+                    showLine: false,
                   },
                   {
                     type: "bar",
                     label: `${t("covid.area_chart6_tooltip2")}`,
-                    data: timeseries_tests.tests_rtk,
+                    data: filtered_timeline().tests_rtk,
                     backgroundColor: COVID_COLOR[200],
                     stack: "same",
                   },
                   {
                     type: "bar",
                     label: `${t("covid.area_chart6_tooltip3")}`,
-                    data: timeseries_tests.tests_pcr,
+                    data: filtered_timeline().tests_pcr,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
                   },
@@ -487,6 +544,20 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               }}
               enableGridX={false}
             />
+          </div>
+          <div>
+            <Slider
+              className="pt-7"
+              type="range"
+              data={timeseries_deaths.x}
+              defaultValue={data.minmax}
+              onChange={(item: { min: number; max: number }) =>
+                setData("minmax", [item.min, item.max])
+              }
+            />
+            <span className="text-sm text-dim">
+              Use this time slider to zoom in specific time range
+            </span>
           </div>
         </Section>
 
@@ -522,6 +593,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     : `${t("covid.bar_chart_Deaths2")}`,
               }[data.show_indicator.value as string]
             }
+            state={currentState}
             controls={
               <Dropdown
                 options={filterCaseDeath}
@@ -567,7 +639,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
-                        enableLegend
+                        // enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -603,7 +675,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
-                        enableLegend
+                        // enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -647,7 +719,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
-                        enableLegend
+                        // enableLegend
                         enableGridX={false}
                       />
                     ),
@@ -683,7 +755,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                           ],
                         }}
-                        enableLegend
+                        // enableLegend
                         enableGridX={false}
                       />
                     ),

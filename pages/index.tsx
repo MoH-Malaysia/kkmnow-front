@@ -8,7 +8,7 @@ import type { Page } from "@lib/types";
 import { BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 
-import { Hero, Container } from "@components/index";
+import { Hero, Container, Metadata } from "@components/index";
 
 const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation();
@@ -36,6 +36,8 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <>
+      <Metadata title={"KKMNOW"} keywords={""} />
+
       <Hero
         background="bg-home-hero"
         className="relative flex min-h-[300px] flex-col items-center justify-center text-left md:text-center"

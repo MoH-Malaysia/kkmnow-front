@@ -7,6 +7,7 @@ interface DonutProps {
   className?: string;
   data?: any;
   menu?: ReactElement;
+  state?: string;
   title?: string;
   controls?: ReactElement;
   animate?: boolean;
@@ -21,6 +22,7 @@ const Donut: FunctionComponent<DonutProps> = ({
   menu,
   title,
   controls,
+  state,
   animate = false,
   interactive = true,
   innerRadius = 0.7,
@@ -47,7 +49,7 @@ const Donut: FunctionComponent<DonutProps> = ({
 
   return (
     <div>
-      <ChartHeader title={title} menu={menu} controls={controls} />
+      <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       <div className={className}>
         <ResponsiveRadialBar
           data={data}

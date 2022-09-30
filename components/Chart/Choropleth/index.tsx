@@ -26,6 +26,7 @@ interface ChoroplethProps {
   title?: string;
   controls?: ReactElement;
   data?: any;
+  unitY?: string;
   enableScale?: boolean;
   graphChoice?: any;
   colorScale?: any;
@@ -41,6 +42,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   menu,
   title,
   data = dummyData,
+  unitY,
   enableScale = true,
   graphChoice = "ParliamentDesktop",
   colorScale = "CHOROPLETH_RED_SCALE",
@@ -107,6 +109,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
                 {data.value_real
                   ? numFormat(data.value_real, "standard")
                   : numFormat(data.value, "standard")}
+                {unitY}
               </div>
             ) : (
               <></>

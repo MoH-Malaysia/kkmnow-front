@@ -5,5 +5,6 @@ export const routes = {
   ORGAN_DONATION: "/organ-donation",
   PEKA_B40: "/peka-b40",
   HEALTHCARE: "/healthcare-facilities",
+  HOSPITAL_BED: "/hospital-bed-utilisation",
   COVIDNOW_STATS: "/covidnow-data",
 };

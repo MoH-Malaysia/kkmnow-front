@@ -30,7 +30,7 @@ export const BLOOD_SUPPLY_SCHEMA: HeatmapSchema[] = [
 export const COVIDNOW_COLOR_SCHEME: HeatmapSchema[] = [
   {
     labelColor: "#000",
-    max: 150000,
+    max: 232000,
   },
   {
     labelColor: "#fff",

@@ -2,7 +2,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { useTranslation } from "next-i18next";
-import { HomeIcon, MenuAlt3Icon, NewspaperIcon, TemplateIcon, XIcon } from "@heroicons/react/solid";
+import {
+  HomeIcon,
+  Bars3BottomRightIcon,
+  NewspaperIcon,
+  RectangleGroupIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 
 import { languages } from "@lib/options";
 
@@ -39,6 +45,7 @@ const Header = () => {
       title: t("nav.megamenu.categories.healthcare_resources"),
       list: [
         { title: t("nav.megamenu.dashboards.healthcare_facilities"), link: routes.HEALTHCARE },
+        { title: t("nav.megamenu.dashboards.hospital_bed_utilisation"), link: routes.HOSPITAL_BED },
       ],
     },
     {
@@ -75,12 +82,12 @@ const Header = () => {
               <NavItem
                 title={t("nav.home")}
                 link="/"
-                icon={<HomeIcon className="h-5 w-5 text-black" />}
+                icon={<HomeIcon className="h-4 w-4 text-black" />}
               />
               {/* DASHBOARD MEGA MENU */}
               <MegaMenu
                 title={t("nav.dashboards")}
-                icon={<TemplateIcon className="h-5 w-5 text-black" />}
+                icon={<RectangleGroupIcon className="h-4 w-4 text-black" />}
               >
                 <Container className="relative grid gap-4 py-3 md:grid-cols-4 md:gap-6 md:py-6">
                   {megaMenuItems.map((item, index) => (
@@ -97,11 +104,11 @@ const Header = () => {
                   ))}
                 </Container>
               </MegaMenu>
-              <NavItem
+              {/* <NavItem
                 title={t("nav.about")}
                 link="/about"
-                icon={<NewspaperIcon className="h-5 w-5 text-black" />}
-              />
+                // icon={<NewspaperIcon className="h-4 w-4 text-black" />}
+              /> */}
             </Nav>
           </div>
           <div className="flex items-center gap-4">
@@ -109,13 +116,13 @@ const Header = () => {
             <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
             {/* MOBILE NAV ICONS */}
             {isTabletNavOpen ? (
-              <XIcon
-                className="block h-5 w-5 text-black md:hidden"
+              <XMarkIcon
+                className="block h-4 w-4 text-black md:hidden"
                 onClick={() => setIsTabletNavOpen(false)}
               />
             ) : (
-              <MenuAlt3Icon
-                className="block h-5 w-5 text-black md:hidden"
+              <Bars3BottomRightIcon
+                className="block h-4 w-4 text-black md:hidden"
                 onClick={() => setIsTabletNavOpen(true)}
               />
             )}

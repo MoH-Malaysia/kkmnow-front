@@ -18,7 +18,7 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
   onChange,
 }) => {
   return (
-    <div className="checkbox">
+    <div className="checkbox text-sm">
       <label htmlFor={name}>
         <div className="relative flex items-center gap-4">
           <input

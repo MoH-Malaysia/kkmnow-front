@@ -7,6 +7,7 @@ import {
   Slider,
   Section,
   ChartHeader,
+  Metadata,
 } from "@components/index";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
@@ -50,6 +51,7 @@ const PekaB40: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <>
+      <Metadata title={"PeKa B40"} keywords={""} />
       <Hero background="hero-light-4">
         <div className="space-y-2 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">

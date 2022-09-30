@@ -8,8 +8,8 @@ interface StateDropdownProps {
   url?: string;
   currentState?: string;
   onChange?: (selected: OptionType) => void;
+  disabled?: boolean;
   exclude?: string[];
-  disableText?: boolean;
   width?: string;
   label?: string;
 }
@@ -21,13 +21,20 @@ const StateDropdown: FunctionComponent<StateDropdownProps> = ({
   exclude,
   width = "w-64",
   label,
+  disabled = false,
 }) => {
   const router = useRouter();
+  const redirect = (selected: OptionType) => {
+    if (selected.value === "mys") {
+      url && router.push(url);
+      return;
+    }
+    url && router.push(`${url}/${selected.value}`);
+  };
   return (
     <Dropdown
-      onChange={selected =>
-        onChange ? onChange(selected) : router.push(`${url}/${selected.value}`)
-      }
+      onChange={selected => (onChange ? onChange(selected) : redirect(selected))}
+      disabled={disabled}
       selected={statesOptions.find(state => state.value === currentState)}
       options={statesOptions.filter(option => !exclude?.includes(option.value))}
       placeholder="Select state"

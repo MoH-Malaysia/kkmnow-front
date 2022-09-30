@@ -1,6 +1,7 @@
 /**
  * Healthcare Facilities Page
  */
+import { Metadata } from "@components/index";
 import HealthcareFacilitiesDashboard from "@dashboards/healthcare-facilities";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
@@ -14,6 +15,7 @@ const HealthcareFacilitiesIndex: Page = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"Healthcare Facilities"} keywords={""} />
       <HealthcareFacilitiesDashboard
         facility_table={facility_table}
         state_district_mapping={state_district_mapping}
@@ -30,7 +32,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...i18n,
-      facility_table: data.facility_table,
+      facility_table: data.facilities_table,
       state_district_mapping: data.helpers.state_district_mapping,
       facility_types: data.helpers.facility_types,
     },

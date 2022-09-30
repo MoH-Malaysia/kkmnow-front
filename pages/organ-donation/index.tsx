@@ -4,10 +4,12 @@
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import OrganDonationDashboard from "@dashboards/organ-donation";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { Metadata } from "@components/index";
 
 const OrganDonationIndex = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"Organ Donation"} keywords={""} />
       <OrganDonationDashboard></OrganDonationDashboard>
     </>
   );
