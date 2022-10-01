@@ -126,7 +126,8 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               >
                 <Panel name={t("peka.heatmap_panel1")}>
                   <>
-                    <Heatmap
+                    wip
+                    {/* <Heatmap
                       className="flex h-[140px] overflow-visible"
                       data={[heatmap_screenrate.capita.male, heatmap_screenrate.capita.female]}
                       subdata
@@ -162,12 +163,13 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    />
+                    /> */}
                   </>
                 </Panel>
                 <Panel name={t("peka.heatmap_panel2")}>
                   <>
-                    <Heatmap
+                    wip
+                    {/* <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_screenrate.perc.male, heatmap_screenrate.perc.female]}
                       subdata
@@ -206,12 +208,13 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    />
+                    /> */}
                   </>
                 </Panel>
                 <Panel name={t("peka.heatmap_panel3")}>
                   <>
-                    <Heatmap
+                    wip
+                    {/* <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_screenrate.abs.male, heatmap_screenrate.abs.female]}
                       subdata
@@ -250,7 +253,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    />
+                    /> */}
                   </>
                 </Panel>
               </Tabs>

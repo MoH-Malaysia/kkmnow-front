@@ -56,13 +56,64 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
 
+  let abs: any[] = [];
+  let capita: any[] = [];
+  let perc: any[] = [];
+
+  data.heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
+    abs.push({
+      id: item.x,
+      data: [
+        {
+          x: "male",
+          y: item.y,
+        },
+        {
+          x: "female",
+          y: data.heatmap_donorrate.abs.female.data[index].y,
+        },
+      ],
+    });
+    capita.push({
+      id: item.x,
+      data: [
+        {
+          x: "male",
+          y: data.heatmap_donorrate.capita.male.data[index].y,
+        },
+        {
+          x: "female",
+          y: data.heatmap_donorrate.capita.female.data[index].y,
+        },
+      ],
+    });
+    perc.push({
+      id: item.x,
+      data: [
+        {
+          x: "male",
+          y: data.heatmap_donorrate.perc.male.data[index].y,
+        },
+        {
+          x: "female",
+          y: data.heatmap_donorrate.perc.female.data[index].y,
+        },
+      ],
+    });
+  });
+  console.log(abs);
+
   return {
     props: {
       ...i18n,
       timeseries_all: data.timeseries_all,
       timeseries_bloodstock: data.timeseries_bloodstock,
       timeseries_facility: data.timeseries_facility,
-      heatmap_donorrate: data.heatmap_donorrate,
+      heatmap_donorrate: {
+        abs,
+        perc,
+        capita,
+      },
       heatmap_bloodstock: Object.values(data.heatmap_bloodstock),
       heatmap_retention: Object.values(data.heatmap_retention),
       barchart_age: data.bar_chart_age,

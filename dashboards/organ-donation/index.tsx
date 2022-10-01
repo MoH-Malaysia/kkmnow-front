@@ -220,7 +220,8 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               >
                 <Panel name={t("organ.capita")}>
                   <>
-                    <Heatmap
+                    wip
+                    {/* <Heatmap
                       className="flex h-[140px] overflow-visible"
                       data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
                       subdata
@@ -256,12 +257,13 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    />
+                    /> */}
                   </>
                 </Panel>
                 <Panel name={t("organ.heatmap1_panel2")}>
                   <>
-                    <Heatmap
+                    wip
+                    {/* <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
                       subdata
@@ -300,12 +302,13 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    />
+                    /> */}
                   </>
                 </Panel>
                 <Panel name={t("organ.heatmap1_panel3")}>
                   <>
-                    <Heatmap
+                    wip
+                    {/* <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
                       subdata
@@ -344,7 +347,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    />
+                    /> */}
                   </>
                 </Panel>
               </Tabs>
