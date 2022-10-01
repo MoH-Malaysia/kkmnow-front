@@ -119,13 +119,13 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
           <div>
             <Choropleth
-              className="h-[500px] w-full"
+              className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
               enableScale={false}
               colorScale="purples"
               borderColor="#000"
               borderWidth={0.5}
               projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-              projectionScaleSetting={isMobile ? 2200 : 3500}
+              projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
               data={choropleth_malaysia_peka_b40.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],
