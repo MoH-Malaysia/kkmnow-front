@@ -6,6 +6,7 @@ import { GRAYBAR_COLOR, ORGAN_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useMemo } from "react";
 import { routes } from "@lib/routes";
+import { useTranslation } from "next-i18next";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -31,6 +32,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
   const { data, setData } = useData({
     minmax: [0, timeseries_pledge.x.length - 1],
   });
+  const { t } = useTranslation("common");
 
   const filtered_timeline = useCallback(() => {
     return {
@@ -49,19 +51,15 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
       <Hero background="organ-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
-          <h3 className="text-black">Organ Donation</h3>
+          <h3 className="text-black">{t("organ.title_header")}</h3>
           <p className="text-dim">
-            Since 1997, there have only been 785 actual donors post-mortem despite thousands
-            requiring a transplant. Malaysia uses an opt-in rather than opt-out system, making it
-            vital to achieve a pledger rate as close to 100% as possible. This dashboard, which
-            tracks organ donation pledges, is brought to you by the
+            {t("organ.title_description")}
             <a href="#" className="font-semibold text-blue-600">
-              {" "}
-              National Resource Transplant Centre
+              {t("organ.title_link")}
             </a>
           </p>
           <div className="flex w-full items-center gap-4">
-            <p className="text-sm font-bold text-dim">Zoom into</p>
+            <p className="text-sm font-bold text-dim">{t("organ.zoom")}</p>
             <StateDropdown
               url={routes.ORGAN_DONATION}
               currentState={currentState}
@@ -73,21 +71,17 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
 
       <Container className="min-h-screen">
         <Section
-          title="What are the latest organ pledger trends in Klang Valley?"
+          title={t("organ.bar_header")}
           description={
             <p className="pt-2 text-dim">
-              Blood compromises 3 components - red blood cells, platelets, and plasma. Although
-              plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35
-              days, and plasma only for up to 5 days. Therefore, it is{" "}
-              <strong>vital to maintain a high and stable level of blood donations</strong>; when
-              blood donation activity is low or volatile, healthcare services that depend upon blood
-              transfusions may start to come under stress.
+              {t("organ.bar_description1")} <strong> {t("organ.bar_description2")}</strong>; when
+              {t("organ.bar_description3")}
             </p>
           }
         >
           <div className="space-y-4">
             <Timeseries
-              title="Daily Pledges"
+              title={t("organ.bar_tittle")}
               className="h-[350px]"
               state={currentState}
               interval={interval_scale}
@@ -117,26 +111,20 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               data={timeseries_pledge.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
-            <span className="text-sm text-dim">
-              Use this time slider to zoom in specific time range
-            </span>
+            <span className="text-sm text-dim">{t("organ.sub_tittle")}</span>
           </div>
         </Section>
 
         {/* How strong is the new donor recruitment in {{ area }}? */}
-        <Section
-          title="How strong is the new donor recruitment in Klang Valley?"
-          description="Recruitment of new donors is vital to replace donors who reach their golden years and
-              stop donating, as well as to support a growing population."
-        >
+        <Section title={t("organ.bar1_header")} description={t("organ.bar1_description")}>
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
               <Tabs
-                title="Number of new donors"
+                title={t("organ.bar_title")}
                 state={currentState}
                 //   menu={<MenuDropdown />}
               >
-                <Panel name="Annual">
+                <Panel name={t("organ.annual")}>
                   <Bar
                     className="h-[250px]"
                     data={{
@@ -152,7 +140,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     enableGridX={false}
                   />
                 </Panel>
-                <Panel name="Monthly">
+                <Panel name={t("organ.monthly")}>
                   <Bar
                     className="h-[250px]"
                     data={{
@@ -172,11 +160,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
             </div>
             <div>
               <Tabs
-                title="New donors by age group"
+                title={t("organ.bar2_title")}
                 state={currentState}
                 //   menu={<MenuDropdown />}
               >
-                <Panel name="Past 1 year">
+                <Panel name={t("organ.year")}>
                   <Bar
                     className="h-[250px]"
                     data={{
@@ -192,7 +180,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     enableGridX={false}
                   />
                 </Panel>
-                <Panel name="Past 1 month">
+                <Panel name={t("organ.month")}>
                   <Bar
                     className="h-[250px]"
                     data={{
@@ -214,11 +202,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
 
         {/* What proportion of the population in {{ area }} donates blood? */}
-        <Section
-          title="What proportion of the population in Klang Valley donates blood?"
-          description="To ensure a stable and high supply of blood, we need 10% of the eligible population to
-              donate at least 1 time per year."
-        >
+        <Section title={t("organ.heatmap_header")} description={t("organ.heatmap_description")}>
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full">
               <Tabs
@@ -226,7 +210,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 //menu={<MenuDropdown />}
                 state={currentState}
               >
-                <Panel name="Per Capita">
+                <Panel name={t("organ.capita")}>
                   <>
                     <Heatmap
                       className="flex h-[140px] overflow-visible"
@@ -238,7 +222,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
 
                     <Heatmap
                       className="flex h-[200px] overflow-visible"
-                      title="Male"
+                      title={t("organ.heatmap2_title")}
                       data={[
                         heatmap_donorrate.capita.male_chinese,
                         heatmap_donorrate.capita.male_indian,
@@ -267,7 +251,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     />
                   </>
                 </Panel>
-                <Panel name="% of Donations">
+                <Panel name={t("organ.heatmap1_panel2")}>
                   <>
                     <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
@@ -280,7 +264,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
 
                     <Heatmap
                       className="flex h-[200px] overflow-visible"
-                      title="Male"
+                      title={t("organ.heatmap2_title")}
                       data={[
                         heatmap_donorrate.perc.male_chinese,
                         heatmap_donorrate.perc.male_indian,
@@ -296,7 +280,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
 
                     <Heatmap
                       className="flex h-[200px] overflow-visible"
-                      title="Female"
+                      title={t("organ.heatmap3_title")}
                       data={[
                         heatmap_donorrate.perc.female_chinese,
                         heatmap_donorrate.perc.female_indian,
@@ -311,7 +295,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     />
                   </>
                 </Panel>
-                <Panel name="Absolute">
+                <Panel name={t("organ.heatmap1_panel3")}>
                   <>
                     <Heatmap
                       className="flex h-[150px] overflow-visible"
@@ -324,7 +308,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
 
                     <Heatmap
                       className="flex h-[200px] overflow-visible"
-                      title="Male"
+                      title={t("organ.heatmap2_title")}
                       data={[
                         heatmap_donorrate.abs.male_chinese,
                         heatmap_donorrate.abs.male_indian,
@@ -340,7 +324,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
 
                     <Heatmap
                       className="flex h-[200px] overflow-visible"
-                      title="Female"
+                      title={t("organ.heatmap3_title")}
                       data={[
                         heatmap_donorrate.abs.female_chinese,
                         heatmap_donorrate.abs.female_indian,
@@ -359,8 +343,8 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
             </div>
 
             <div>
-              <Tabs title="Reasons for pledging to donate organs" state={currentState}>
-                <Panel name="All-time">
+              <Tabs title={t("organ.bar1_title")} state={currentState}>
+                <Panel name={t("organ.annual")}>
                   <Bar
                     className="h-[500px]"
                     layout="horizontal"
@@ -377,7 +361,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     enableGridY={false}
                   />
                 </Panel>
-                <Panel name="Past 1 month">
+                <Panel name={t("organ.monthly")}>
                   <Bar
                     className="h-[500px]"
                     layout="horizontal"
@@ -400,10 +384,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
 
         {/* How is this data collected? */}
-        <Section
-          title="How is this data collected?"
-          description="Map showing locations of BBIS centres:"
-        />
+        <Section title={t("organ.map_btm")} description={t("organ.map_desc")} />
       </Container>
     </>
   );
