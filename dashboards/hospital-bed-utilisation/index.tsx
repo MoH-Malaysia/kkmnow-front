@@ -156,7 +156,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                         label: "Utilisation rate (%)",
                         data: timeseries_facility[data.state][data.facility].line_util_non_icu,
                         borderColor: "#DC2626",
-                        borderWidth: 1,
+                        borderWidth: 1.5,
                       },
                     ],
                   }}
@@ -172,7 +172,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                         label: "Utilisation rate (%)",
                         data: timeseries_facility[data.state][data.facility].line_util_icu,
                         borderColor: "#DC2626",
-                        borderWidth: 1,
+                        borderWidth: 1.5,
                       },
                     ],
                   }}

@@ -269,7 +269,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     pointRadius: 0,
                     data: filtered_timeline().line_daily,
                     borderColor: BLOOD_COLOR[500],
-                    borderWidth: 1,
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
@@ -657,14 +657,14 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                           data: timeseries_facility[data.zoom_state!][data.zoom_facility.label]
                             .line,
                           borderColor: BLOOD_COLOR[400],
-                          borderWidth: 1,
+                          borderWidth: 1.5,
                         },
                         {
                           type: "bar",
                           label: "Outreach",
                           data: timeseries_facility[data.zoom_state!][data.zoom_facility.label]
                             .daily,
-                          backgroundColor: BLOOD_COLOR[300],
+                          backgroundColor: GRAYBAR_COLOR[100],
                         },
                       ],
                     }}

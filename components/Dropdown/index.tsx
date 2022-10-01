@@ -83,7 +83,7 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
           </span>
           {/* NUMBER OF OPTIONS SELECTED (MULTIPLE = TRUE) */}
           {multiple && (selected as OptionType<L, V>[])?.length > 0 && (
-            <span className="rounded-md bg-dim px-1 py-0.5 text-xs text-white">
+            <span className="rounded-md bg-outline px-1 py-0.5 text-xs text-white">
               {(selected as OptionType<L, V>[]).length}
             </span>
           )}

@@ -427,7 +427,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().deaths_line,
                     borderColor: COVID_COLOR[300],
-                    borderWidth: 1,
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
@@ -464,7 +464,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().vents_line,
                     borderColor: COVID_COLOR[300],
-                    borderWidth: 1,
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
@@ -494,7 +494,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().icu_line,
                     borderColor: COVID_COLOR[300],
-                    borderWidth: 1,
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
@@ -524,7 +524,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().admitted_line,
                     borderColor: COVID_COLOR[300],
-                    borderWidth: 1,
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
@@ -554,7 +554,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     pointRadius: 0,
                     data: filtered_timeline().cases_line,
                     borderColor: COVID_COLOR[300],
-                    borderWidth: 1,
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
@@ -583,7 +583,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     label: "Positivity Rate (%)",
                     borderColor: COVID_COLOR[300],
                     data: filtered_timeline().tests_posrate,
-                    borderWidth: 1,
+                    borderWidth: 1.5,
                     yAxisID: "y1",
                   },
                   {
