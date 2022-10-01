@@ -125,8 +125,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
             <Choropleth
               className="h-[500px] w-full"
               enableScale={false}
-              // colorScale="CHOROPLETH_BLUE_SCALE"
-              colorScale="blues"
+              colorScale="greens"
               borderColor="#000"
               borderWidth={0.5}
               projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
