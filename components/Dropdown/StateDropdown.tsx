@@ -1,5 +1,6 @@
 import { OptionType } from "@components/types";
 import { statesOptions } from "@lib/options";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { FunctionComponent } from "react";
 import Dropdown from ".";
@@ -23,6 +24,7 @@ const StateDropdown: FunctionComponent<StateDropdownProps> = ({
   label,
   disabled = false,
 }) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const redirect = (selected: OptionType) => {
     if (selected.value === "mys") {
@@ -37,7 +39,7 @@ const StateDropdown: FunctionComponent<StateDropdownProps> = ({
       disabled={disabled}
       selected={statesOptions.find(state => state.value === currentState)}
       options={statesOptions.filter(option => !exclude?.includes(option.value))}
-      placeholder="Select state"
+      placeholder={t("placeholder.state")}
       enableFlag
       width={width}
       label={label}

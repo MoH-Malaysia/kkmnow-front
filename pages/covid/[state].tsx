@@ -4,9 +4,10 @@
 import { Metadata } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
-import { STATES } from "@lib/constants";
+import { CountryAndStates, STATES } from "@lib/constants";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const CovidState: Page = ({
@@ -21,10 +22,15 @@ const CovidState: Page = ({
   timeseries_tests,
   timeseries_vents,
   util_chart,
+  state,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation("common");
   return (
     <>
-      <Metadata title={"COVID-19"} keywords={""} />
+      <Metadata
+        title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.covid_19"))}
+        keywords={""}
+      />
       <CovidDashboard
         bar_chart={bar_chart}
         snapshot_bar={snapshot_bar}
@@ -43,12 +49,21 @@ const CovidState: Page = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  const paths = STATES.filter(item => !["kvy"].includes(item.key)).map(state => {
-    return {
-      params: {
-        state: state.key,
+  let paths: Array<any> = [];
+  STATES.filter(item => !["kvy"].includes(item.key)).forEach(state => {
+    paths = paths.concat([
+      {
+        params: {
+          state: state.key,
+        },
       },
-    };
+      {
+        params: {
+          state: state.key,
+        },
+        locale: "ms-MY",
+      },
+    ]);
   });
   return {
     paths: paths,
@@ -75,6 +90,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       timeseries_vents: data.timeseries_vents,
       util_chart: data.util_chart,
       ...i18n,
+      state: params?.state,
     },
   };
 };

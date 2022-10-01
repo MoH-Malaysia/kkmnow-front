@@ -3,6 +3,7 @@ import HospitalBedUtilisationDashboard from "@dashboards/hospital-bed-utilisatio
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const HospitalBedUtilisationPage: Page = ({
@@ -11,9 +12,10 @@ const HospitalBedUtilisationPage: Page = ({
   timeseries_facility,
   timeseries_state,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation();
   return (
     <>
-      <Metadata title={"Hospital Bed Utilisation"} keywords={""} />
+      <Metadata title={t("nav.megamenu.dashboards.hospital_bed_utilisation")} keywords={""} />
       <HospitalBedUtilisationDashboard
         choropleth_bed={choropleth_bed}
         table_facility={table_facility}

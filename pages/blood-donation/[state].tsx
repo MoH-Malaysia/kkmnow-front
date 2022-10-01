@@ -4,10 +4,11 @@
 import { Metadata } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
-import { STATES } from "@lib/constants";
+import { CountryAndStates, STATES } from "@lib/constants";
 import { Page } from "@lib/types";
 import { DateTime } from "luxon";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const BloodDonationState: Page = ({
@@ -21,10 +22,15 @@ const BloodDonationState: Page = ({
   barchart_time,
   barchart_variables,
   map_facility,
+  state,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation("common");
   return (
     <>
-      <Metadata title={"Blood Donation"} keywords={""} />
+      <Metadata
+        title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.blood_donation"))}
+        keywords={""}
+      />
       <BloodDonationDashboard
         timeseries_all={timeseries_all}
         timeseries_bloodstock={timeseries_bloodstock}
@@ -42,15 +48,22 @@ const BloodDonationState: Page = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  const paths = STATES.filter(item => !["pjy", "pls", "lbn", "kvy"].includes(item.key)).map(
-    state => {
-      return {
+  let paths: Array<any> = [];
+  STATES.filter(item => !["pjy", "pls", "lbn", "kvy"].includes(item.key)).forEach(state => {
+    paths = paths.concat([
+      {
         params: {
           state: state.key,
         },
-      };
-    }
-  );
+      },
+      {
+        params: {
+          state: state.key,
+        },
+        locale: "ms-MY",
+      },
+    ]);
+  });
   return {
     paths: paths,
     fallback: false, // can also be true or 'blocking'
@@ -84,6 +97,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       barchart_time: data.bar_chart_time,
       barchart_variables: data.barchart_key_variables,
       map_facility: data.map_facility,
+      state: params?.state,
     },
   };
 };

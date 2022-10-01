@@ -6,6 +6,7 @@ import CovidNowDashboard from "@dashboards/covidnow-data";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const CovidNowDataIndex: Page = ({
@@ -15,9 +16,10 @@ const CovidNowDataIndex: Page = ({
   choropleth_malaysia,
   choropleth_world,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation();
   return (
     <>
-      <Metadata title={"COVIDNOW in Data"} keywords={""} />
+      <Metadata title={t("nav.megamenu.dashboards.covidnow_data")} keywords={""} />
 
       <CovidNowDashboard
         timeseries_chart={timeseries_chart}

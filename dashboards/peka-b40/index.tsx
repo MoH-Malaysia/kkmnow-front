@@ -3,7 +3,7 @@ import { Hero, Container, Tabs, Panel, Slider, Section, StateDropdown } from "@c
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 
-import { GRAYBAR_COLOR, PEKA_COLOR } from "@lib/constants";
+import { CountryAndStates, GRAYBAR_COLOR, PEKA_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
 import { routes } from "@lib/routes";
 import { useTranslation } from "next-i18next";
@@ -48,8 +48,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
     <>
       <Hero background="peka-banner">
         <div className="space-y-4 xl:w-2/3">
-          <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
-          <h3 className="text-black">{t("peka.title")}</h3>
+          <span className="text-sm font-bold uppercase tracking-widest text-dim">
+            {t("peka.title")}
+          </span>
+          <h3 className="text-black">{t("peka.title_header")}</h3>
           <p className="text-dim">
             {t("peka.title_description")}{" "}
             <a href="#" className="font-semibold text-blue-600">
@@ -66,7 +68,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
 
       <Container className="min-h-screen">
         <Section
-          title={t("peka.screening_header")}
+          title={t("peka.screening_header", { state: CountryAndStates[currentState] })}
           description={
             <p className="pt-2 text-dim">
               {t("peka.screening_description1")} <strong>{t("peka.screening_description2")}</strong>
@@ -106,12 +108,15 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               data={timeseries_screenrate.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
-            <span className="text-sm text-dim">{t("peka.slider")}</span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
 
         {/* What proportion of the population in {{ area }} donates blood? */}
-        <Section title={t("peka.heatmap_header")} description={t("peka.heatmap_description")}>
+        <Section
+          title={t("peka.heatmap_header", { state: CountryAndStates[currentState] })}
+          description={t("peka.heatmap_description")}
+        >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full">
               <Tabs

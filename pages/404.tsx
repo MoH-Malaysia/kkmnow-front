@@ -1,19 +1,21 @@
 import { Container, ErrorCode, Metadata } from "@components/index";
 import { Page } from "@lib/types";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Error404: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation("common");
   return (
     <>
-      <Metadata title={"Oops, page not found!"} keywords={""} />
+      <Metadata title={t("error.404.title")} keywords={""} />
 
       <Container className="min-h-[76vh] pt-7 text-black">
         <ErrorCode
-          title="Oops, we can't seem to find the page you're looking for."
-          description="Maybe check the spelling in your URLs"
+          title={t("error.404.title")}
+          description={t("error.404.description")}
           code={404}
-          reason={"Error code: 404 -- Page not found"}
+          reason={t("error.404.reason")}
         />
       </Container>
     </>

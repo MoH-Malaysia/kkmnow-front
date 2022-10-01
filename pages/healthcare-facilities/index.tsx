@@ -6,6 +6,7 @@ import HealthcareFacilitiesDashboard from "@dashboards/healthcare-facilities";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const HealthcareFacilitiesIndex: Page = ({
@@ -13,9 +14,10 @@ const HealthcareFacilitiesIndex: Page = ({
   state_district_mapping,
   facility_types,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation();
   return (
     <>
-      <Metadata title={"Healthcare Facilities"} keywords={""} />
+      <Metadata title={t("nav.megamenu.dashboards.healthcare_facilities")} keywords={""} />
       <HealthcareFacilitiesDashboard
         facility_table={facility_table}
         state_district_mapping={state_district_mapping}

@@ -7,7 +7,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Metadata } from "@components/index";
 import { get } from "@lib/api";
 import { DateTime } from "luxon";
-import { STATES } from "@lib/constants";
+import { CountryAndStates, STATES } from "@lib/constants";
+import { useTranslation } from "next-i18next";
 
 const OrganDonationIndex = ({
   timeseries_pledge,
@@ -15,10 +16,15 @@ const OrganDonationIndex = ({
   bar_time,
   bar_reasons,
   heatmap_donorrate,
+  state,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation();
   return (
     <>
-      <Metadata title={"Organ Donation"} keywords={""} />
+      <Metadata
+        title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.organ_donation"))}
+        keywords={""}
+      />
       <OrganDonationDashboard
         timeseries_pledge={timeseries_pledge}
         bar_age={bar_age}
@@ -31,12 +37,21 @@ const OrganDonationIndex = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = STATES.filter(item => !["kvy"].includes(item.key)).map(state => {
-    return {
-      params: {
-        state: state.key,
+  let paths: Array<any> = [];
+  STATES.filter(item => !["kvy"].includes(item.key)).forEach(state => {
+    paths = paths.concat([
+      {
+        params: {
+          state: state.key,
+        },
       },
-    };
+      {
+        params: {
+          state: state.key,
+        },
+        locale: "ms-MY",
+      },
+    ]);
   });
   return {
     paths: paths,
@@ -63,6 +78,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       bar_time: data.barchart_time,
       bar_reasons: data.barchart_reasons,
       heatmap_donorrate: data.heatmap_pledgerrate,
+      state: params?.state,
     },
   };
 };

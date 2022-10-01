@@ -6,6 +6,7 @@ import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
 import { get } from "@lib/api";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Metadata } from "@components/index";
+import { useTranslation } from "next-i18next";
 
 const CovidVaccinationIndex = ({
   waffle_data,
@@ -14,9 +15,11 @@ const CovidVaccinationIndex = ({
   timeseries_data,
   stats_data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation("common");
+
   return (
     <>
-      <Metadata title={"COVID-19 Vaccination"} keywords={""} />
+      <Metadata title={t("nav.megamenu.dashboards.covid_19_vax")} keywords={""} />
 
       <CovidVaccinationDashboard
         waffle_data={waffle_data}

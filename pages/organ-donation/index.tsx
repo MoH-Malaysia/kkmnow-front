@@ -7,6 +7,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Metadata } from "@components/index";
 import { get } from "@lib/api";
 import { DateTime } from "luxon";
+import { useTranslation } from "next-i18next";
 
 const OrganDonationIndex = ({
   timeseries_pledge,
@@ -15,9 +16,10 @@ const OrganDonationIndex = ({
   bar_reasons,
   heatmap_donorrate,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation();
   return (
     <>
-      <Metadata title={"Organ Donation"} keywords={""} />
+      <Metadata title={t("nav.megamenu.dashboards.organ_donation")} keywords={""} />
       <OrganDonationDashboard
         timeseries_pledge={timeseries_pledge}
         bar_age={bar_age}

@@ -110,7 +110,9 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             {t("vaccination.title")}
           </span>
-          <h3 className="text-black">{t("vaccination.title_header")}</h3>
+          <h3 className="text-black">
+            {t("vaccination.title_header", { state: CountryAndStates[currentState] })}
+          </h3>
           <p className="text-dim">{t("vaccination.title_description1")}</p>
           <p className="text-dim">
             {t("vaccination.title_description2")}{" "}
@@ -132,7 +134,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
           <Tabs
             state={
               <p className="text-dim">
-                {t("vaccination.data")} {CountryAndStates[currentState]} |{" "}
+                {t("common.data_for", { state: CountryAndStates[currentState] })} |{" "}
                 {data.vax_tab === 0 ? data.filter_age.label : data.filter_dose.label}
               </p>
             }
@@ -594,7 +596,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               className="flex flex-wrap justify-end gap-2 pb-4"
               title={t("vaccination.table_subheader")}
             >
-              {VACCINE_TABLE_SCHEMA.map((menu, index) => {
+              {VACCINE_TABLE_SCHEMA().map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
                     <Table data={table_data} config={menu.config} />

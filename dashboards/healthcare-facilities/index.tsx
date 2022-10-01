@@ -1,3 +1,6 @@
+/**
+ * Please do not remove the commented code.
+ */
 import {
   Hero,
   Container,
@@ -41,8 +44,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     table_district: undefined,
     table_facility_type: undefined,
     map_markers: [],
-    bar_distances_within: undefined,
-    bar_distances_between: undefined,
+    // bar_distances_within: undefined,
+    // bar_distances_between: undefined,
   });
   const { t } = useTranslation("common");
 
@@ -51,15 +54,15 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     setData("zoom_facility_type", undefined);
     setData("zoom_district", undefined);
     setData("map_markers", []);
-    setData("bar_distances_within", undefined);
-    setData("bar_distances_between", undefined);
+    // setData("bar_distances_within", undefined);
+    // setData("bar_distances_between", undefined);
   };
 
   const fetchProximities = async () => {
     if (!data.zoom_state || !data.zoom_facility_type || !data.zoom_district) {
       setData("map_markers", []);
-      setData("bar_distances_within", []);
-      setData("map_distances_district", []);
+      //   setData("bar_distances_within", []);
+      //   setData("bar_distances_district", []);
       return;
     }
     const { data: result } = await get("/kkmnow", {
@@ -71,8 +74,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     });
 
     setData("map_markers", result.locations_mapping);
-    setData("bar_distances_within", result.distances_within);
-    setData("bar_distances_between", result.distances_between);
+    // setData("bar_distances_within", result.distances_within);
+    // setData("bar_distances_between", result.distances_between);
   };
 
   useEffect(() => {
@@ -95,11 +98,11 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
           <div className="mt-2">
             <Table
               data={facility_table}
-              config={FACILTIES_TABLE_SCHEMA.config}
+              config={FACILTIES_TABLE_SCHEMA()}
               controls={setColumnFilters => (
                 <>
                   <StateDropdown
-                    label="State"
+                    label={t("common.state")}
                     currentState={data.table_state}
                     onChange={selected => {
                       setData("table_state", selected.value);
@@ -109,9 +112,11 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                     width="w-full lg:w-64"
                   />
                   <Dropdown
+                    label={t("common.district")}
                     selected={data.table_district}
-                    placeholder={!data.table_state ? "Select state first" : "All"}
-                    label="District"
+                    placeholder={
+                      !data.table_state ? t("placeholder.state_first") : t("placeholder.district")
+                    }
                     options={
                       data.table_state
                         ? state_district_mapping[data.table_state].map((district: string) => {
@@ -129,8 +134,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                   />
                   <Dropdown
                     selected={data.table_facility_type}
-                    placeholder="All"
-                    label="Type"
+                    placeholder={t("placeholder.all")}
+                    label={t("common.type")}
                     options={facility_types.map((item: string): OptionType => {
                       return {
                         label: item,
@@ -156,7 +161,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                       }}
                       icon={<ArrowPathIcon className="h-4 w-4" />}
                     >
-                      Clear Selection
+                      {t("common.clear_selection")}
                     </Button>
                   )}
                 </>
@@ -172,7 +177,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
             />
           </div>
         </Section>
-        <div className="grid grid-cols-1 gap-8 pt-12 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 py-12 lg:grid-cols-3">
           <Section
             className="col-span-1"
             title={t("healthcare.map_header")}
@@ -191,13 +196,13 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                     onClick={handleClearSelection}
                     icon={<ArrowPathIcon className="h-4 w-4" />}
                   >
-                    Clear Selection
+                    {t("common.clear_selection")}
                   </Button>
                 )}
               </div>
 
               <Dropdown
-                placeholder="Select facilty type"
+                placeholder={t("placeholder.facility_type")}
                 onChange={item => setData("zoom_facility_type", item)}
                 selected={data.zoom_facility_type}
                 options={facility_types.map((fac: any) => {
@@ -217,7 +222,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 width="w-full"
               />
               <Dropdown
-                placeholder={t("healthcare.dropdown_placeholder1")}
+                placeholder={t("placeholder.district")}
                 onChange={item => setData("zoom_district", item)}
                 selected={data.zoom_district}
                 disabled={!data.zoom_state}
@@ -236,8 +241,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
             <OSMapWrapper
               title={`${
                 data.zoom_facility_type
-                  ? data.zoom_facility_type.label.concat(" in ")
-                  : "Healthcare Facilities in "
+                  ? data.zoom_facility_type.label.concat(t("common.in"))
+                  : t("healthcare.map_title")
               } ${data.zoom_district ? data.zoom_district.label + ", " : ""} ${
                 CountryAndStates[data.zoom_state ?? "mys"]
               }`}
@@ -256,6 +261,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
           </div>
         </div>
 
+        {/* 
+        // Dataset not ready
         <div className="grid w-full grid-cols-1 gap-12 py-12 xl:grid-cols-2">
           {data.bar_distances_within && data.bar_distances_between ? (
             <>
@@ -321,7 +328,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
               />
             </>
           )}
-        </div>
+        </div> */}
       </Container>
     </>
   );

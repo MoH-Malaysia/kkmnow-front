@@ -5,6 +5,7 @@ import { Metadata } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const CovidIndex = ({
@@ -20,9 +21,11 @@ const CovidIndex = ({
   timeseries_vents,
   util_chart,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation("common");
+
   return (
     <>
-      <Metadata title={"COVID-19"} keywords={""} />
+      <Metadata title={t("nav.megamenu.dashboards.covid_19")} keywords={""} />
       <CovidDashboard
         bar_chart={bar_chart}
         snapshot_bar={snapshot_bar}

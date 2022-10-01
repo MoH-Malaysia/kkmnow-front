@@ -107,8 +107,8 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
   const BarTabsMenu = [
     {
-      name: "Deaths",
-      title: "Deaths per 100K",
+      name: t("covid.tab_table2"),
+      title: t("covid.tab_table2") + " per 100K",
       data: snapshot_bar.deaths,
     },
     {
@@ -127,8 +127,8 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
       data: snapshot_bar.util_hosp,
     },
     {
-      name: "Cases",
-      title: "Cases per 100K",
+      name: t("covid.tab_table4"),
+      title: t("covid.tab_table4") + " per 100K",
       data: snapshot_bar.cases,
     },
   ];
@@ -140,7 +140,9 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             {t("covid.title")}
           </span>
-          <h3 className="text-black">{t("covid.title_header")}</h3>
+          <h3 className="text-black">
+            {t("covid.title_header", { state: CountryAndStates[currentState] })}
+          </h3>
           <p className="text-dim">{t("covid.title_description1")}</p>
           <p className="text-dim">
             {t("covid.title_description2")}{" "}
@@ -162,7 +164,9 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         <Section
           title={t("covid.donut_header")}
           description={
-            <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[currentState]}</p>
+            <p className="pt-4 text-sm text-dim">
+              {t("common.data_for", { state: CountryAndStates[currentState] })}
+            </p>
           }
         >
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
@@ -616,9 +620,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 setData("minmax", [item.min, item.max])
               }
             />
-            <span className="text-sm text-dim">
-              Use this time slider to zoom in specific time range
-            </span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
 
@@ -629,7 +631,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               className="flex flex-wrap justify-end gap-2 pb-4"
               title={t("covid.table_subheader")}
             >
-              {COVID_TABLE_SCHEMA.map((menu, index) => {
+              {COVID_TABLE_SCHEMA().map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
                     <Table data={snapshot_table} config={menu.config} />

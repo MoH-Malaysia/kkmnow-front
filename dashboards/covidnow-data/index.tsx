@@ -61,25 +61,25 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
     },
     {
       id: "data",
-      header: "Statistics",
+      header: t("covidnow.statistics"),
       columns: [
         {
           id: "data.users",
-          header: "Users",
+          header: t("covidnow.user"),
           accessorFn: (item: any) => numFormat(item.data.users, "standard"),
           sortingFn: "localeNumber",
           sortDescFirst: true,
         },
         {
           id: "data.views",
-          header: "Views",
+          header: t("covidnow.views"),
           accessorFn: (item: any) => numFormat(item.data.views, "standard"),
           sortingFn: "localeNumber",
           sortDescFirst: true,
         },
         {
           id: "data.views_perc",
-          header: "% of Views",
+          header: t("covidnow.%_views"),
           accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
           sortingFn: "localeNumber",
           sortDescFirst: true,
@@ -111,29 +111,29 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
     },
     {
       id: "data",
-      header: "Statistics",
+      header: t("covidnow.statistics"),
       columns: [
         {
           id: "data.total_user",
-          header: "Users",
+          header: t("covidnow.user"),
           accessorFn: (item: any) => numFormat(item.data.users, "standard"),
           sortDescFirst: true,
         },
         {
           id: "data.views",
-          header: "Views",
+          header: t("covidnow.views"),
           accessorFn: (item: any) => numFormat(item.data.views, "standard"),
           sortDescFirst: true,
         },
         {
           id: "data.views_perc",
-          header: "% of Views",
+          header: t("covidnow.%_views"),
           accessorFn: (item: any) => Math.round(item.data.views_perc * 100) / 100 + "%",
           sortDescFirst: true,
         },
         {
           id: "data.pop_perc",
-          header: "% of Population",
+          header: t("covidnow.%_population"),
           accessorFn: (item: any) => Math.round(item.data.pop_perc * 100) / 100 + "%",
           sortDescFirst: true,
         },
@@ -195,7 +195,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 data={timeseries_chart.x}
                 onChange={(item: any) => setLimit([item.min, item.max])}
               />
-              <span className="text-sm text-dim">{t("covidnow.slider")}</span>
+              <span className="text-sm text-dim">{t("common.slider")}</span>
             </div>
           </div>
         </Section>
@@ -240,7 +240,10 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         </Section>
 
         {/* Malaysia Map */}
-        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
+        <Section
+          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
+          description={t("covidnow.mmap_description")}
+        >
           <div>
             <Tabs className="flex flex-wrap justify-end gap-2" title={t("covidnow.mmap_title")}>
               <Panel key={0} name={`${t("covidnow.heatmap")}`}>

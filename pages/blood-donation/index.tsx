@@ -8,6 +8,7 @@ import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { DateTime } from "luxon";
+import { useTranslation } from "next-i18next";
 
 const BloodDonationIndex: Page = ({
   timeseries_all,
@@ -21,9 +22,10 @@ const BloodDonationIndex: Page = ({
   barchart_variables,
   map_facility,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation("common");
   return (
     <>
-      <Metadata title={"Blood Donation"} keywords={""} />
+      <Metadata title={t("nav.megamenu.dashboards.blood_donation")} keywords={""} />
       <BloodDonationDashboard
         timeseries_all={timeseries_all}
         timeseries_bloodstock={timeseries_bloodstock}

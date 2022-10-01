@@ -2,7 +2,7 @@ import { Hero, Container, Tabs, Panel, Slider, Section, StateDropdown } from "@c
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 
-import { GRAYBAR_COLOR, ORGAN_COLOR } from "@lib/constants";
+import { CountryAndStates, GRAYBAR_COLOR, ORGAN_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useMemo } from "react";
 import { routes } from "@lib/routes";
@@ -50,7 +50,9 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
     <>
       <Hero background="organ-banner">
         <div className="space-y-4 xl:w-2/3">
-          <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
+          <span className="text-sm font-bold uppercase tracking-widest text-dim">
+            {t("organ.title")}
+          </span>
           <h3 className="text-black">{t("organ.title_header")}</h3>
           <p className="text-dim">
             {t("organ.title_description")}
@@ -71,7 +73,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
 
       <Container className="min-h-screen">
         <Section
-          title={t("organ.bar_header")}
+          title={t("organ.bar_header", { state: CountryAndStates[currentState] })}
           description={
             <p className="pt-2 text-dim">
               {t("organ.bar_description1")} <strong> {t("organ.bar_description2")}</strong>; when
@@ -111,12 +113,15 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               data={timeseries_pledge.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
-            <span className="text-sm text-dim">{t("organ.sub_tittle")}</span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
 
         {/* How strong is the new donor recruitment in {{ area }}? */}
-        <Section title={t("organ.bar1_header")} description={t("organ.bar1_description")}>
+        <Section
+          title={t("organ.bar1_header", { state: CountryAndStates[currentState] })}
+          description={t("organ.bar1_description")}
+        >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
               <Tabs
@@ -202,7 +207,10 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
 
         {/* What proportion of the population in {{ area }} donates blood? */}
-        <Section title={t("organ.heatmap_header")} description={t("organ.heatmap_description")}>
+        <Section
+          title={t("organ.heatmap_header", { state: CountryAndStates[currentState] })}
+          description={t("organ.heatmap_description")}
+        >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full">
               <Tabs

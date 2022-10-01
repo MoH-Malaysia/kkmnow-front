@@ -1,10 +1,12 @@
 import { CountryAndStates } from "@lib/constants";
+import { useTranslation } from "next-i18next";
 import Image from "next/image";
 
-export const FACILTIES_TABLE_SCHEMA = {
-  config: [
+export const FACILTIES_TABLE_SCHEMA = () => {
+  const { t } = useTranslation();
+  return [
     {
-      header: "State",
+      header: t("common.state"),
       id: "state",
       accessorKey: "state",
       enableSorting: false,
@@ -24,44 +26,44 @@ export const FACILTIES_TABLE_SCHEMA = {
       },
     },
     {
-      header: "District",
+      header: t("common.district"),
       sortDescFirst: true,
       accessorKey: "data.district",
       id: "district",
       enableSorting: true,
     },
     {
-      header: "Sector",
+      header: t("healthcare.table_sector"),
       sortDescFirst: true,
       accessorKey: "data.sector",
       id: "sector",
       enableSorting: false,
     },
     {
-      header: "Type",
+      header: t("common.type"),
       sortDescFirst: true,
       accessorKey: "data.type",
       id: "type",
       enableSorting: false,
     },
     {
-      header: "Name",
+      header: t("common.name"),
       sortDescFirst: true,
       accessorKey: "data.name",
       id: "name",
     },
     {
-      header: "Address",
+      header: t("healthcare.table_address"),
       sortDescFirst: true,
       accessorKey: "data.address",
       id: "address",
     },
     {
-      header: "Telephone",
+      header: t("healthcare.table_telephone"),
       sortDescFirst: true,
       accessorKey: "data.phone",
       id: "phone",
       enableSorting: false,
     },
-  ],
+  ];
 };

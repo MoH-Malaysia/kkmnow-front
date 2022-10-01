@@ -3,17 +3,23 @@ import { get } from "@lib/api";
 import { Page } from "@lib/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PekaB40Dashboard from "@dashboards/peka-b40";
-import { STATES } from "@lib/constants";
+import { CountryAndStates, STATES } from "@lib/constants";
 import Metadata from "@components/Metadata";
+import { useTranslation } from "next-i18next";
 
 const PekaB40State: Page = ({
   timeseries_screenrate,
   heatmap_screenrate,
   bar_age,
+  state,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation();
   return (
     <>
-      <Metadata title={"Peka B40"} keywords={""} />
+      <Metadata
+        title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.peka_b40"))}
+        keywords={""}
+      />
       <PekaB40Dashboard
         timeseries_screenrate={timeseries_screenrate}
         heatmap_screenrate={heatmap_screenrate}
@@ -24,12 +30,21 @@ const PekaB40State: Page = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = STATES.filter(item => !["kvy"].includes(item.key)).map(state => {
-    return {
-      params: {
-        state: state.key,
+  let paths: Array<any> = [];
+  STATES.filter(item => !["kvy"].includes(item.key)).forEach(state => {
+    paths = paths.concat([
+      {
+        params: {
+          state: state.key,
+        },
       },
-    };
+      {
+        params: {
+          state: state.key,
+        },
+        locale: "ms-MY",
+      },
+    ]);
   });
   return {
     paths: paths,
@@ -48,6 +63,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       timeseries_screenrate: data.timeseries,
       heatmap_screenrate: data.heatmap_screenrate,
       bar_age: data.barchart_ages,
+      state: params?.state,
     },
   };
 };

@@ -4,15 +4,17 @@ import { Page } from "@lib/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PekaB40Dashboard from "@dashboards/peka-b40";
 import Metadata from "@components/Metadata";
+import { useTranslation } from "next-i18next";
 
 const PekaB40: Page = ({
   timeseries_screenrate,
   heatmap_screenrate,
   bar_age,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation();
   return (
     <>
-      <Metadata title={"Peka B40"} keywords={""} />
+      <Metadata title={t("nav.megamenu.dashboards.peka_b40")} keywords={""} />
       <PekaB40Dashboard
         timeseries_screenrate={timeseries_screenrate}
         heatmap_screenrate={heatmap_screenrate}
