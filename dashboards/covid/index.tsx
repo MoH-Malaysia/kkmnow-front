@@ -211,7 +211,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 </Tooltip>
               </div>
             </div>
-            {util_chart.util_pkrc && (
+            {util_chart.util_pkrc ? (
               <div className="flex items-center gap-3">
                 <DonutMeter value={util_chart.util_pkrc} />
                 <div>
@@ -227,7 +227,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                   </Tooltip>
                 </div>
               </div>
-            )}
+            ) : undefined}
           </div>
         </Section>
 

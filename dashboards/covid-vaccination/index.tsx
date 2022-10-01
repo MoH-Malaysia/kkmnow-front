@@ -400,7 +400,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: "Daily",
-                  value: `+${stats_data.daily_primary.daily.toLocaleString()}`,
+                  value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
                 },
                 {
                   title: "Total",
@@ -436,7 +436,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: "Daily",
-                  value: `+${stats_data.daily_booster.daily.toLocaleString()}`,
+                  value: `+${stats_data.daily_booster.latest.toLocaleString()}`,
                 },
                 {
                   title: "Total",
@@ -472,7 +472,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: "Daily",
-                  value: `+${stats_data.daily_booster2.daily.toLocaleString()}`,
+                  value: `+${stats_data.daily_booster2.latest.toLocaleString()}`,
                 },
                 {
                   title: "Total",
@@ -508,7 +508,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: "Daily",
-                  value: `+${stats_data.daily_adult.daily.toLocaleString()}`,
+                  value: `+${stats_data.daily_adult.latest.toLocaleString()}`,
                 },
                 {
                   title: "Total",
@@ -544,7 +544,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: "Daily",
-                  value: `+${stats_data.daily_adol.daily.toLocaleString()}`,
+                  value: `+${stats_data.daily_adol.latest.toLocaleString()}`,
                 },
                 {
                   title: "Total",
@@ -580,7 +580,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: "Daily",
-                  value: `+${stats_data.daily_child.daily.toLocaleString()}`,
+                  value: `+${stats_data.daily_child.latest.toLocaleString()}`,
                 },
                 {
                   title: "Total",

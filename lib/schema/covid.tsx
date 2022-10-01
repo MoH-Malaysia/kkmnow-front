@@ -68,7 +68,8 @@ export const COVID_TABLE_SCHEMA = [
           {
             id: "admitted.util_hosp",
             header: "Hospital Bed Utilisation",
-            accessorFn: (item: any) => +item.admitted.util_hosp.toFixed(1),
+            accessorFn: (item: any) =>
+              item.admitted.util_hosp && +item.admitted.util_hosp.toFixed(1),
             unit: "%",
           },
           {
@@ -213,7 +214,8 @@ export const COVID_TABLE_SCHEMA = [
           {
             id: "admitted.util_hosp",
             header: "Hospital Bed Utilisation",
-            accessorFn: (item: any) => +item.admitted.util_hosp.toFixed(1),
+            accessorFn: (item: any) =>
+              item.admitted.util_hosp && +item.admitted.util_hosp.toFixed(1),
             unit: "%",
           },
           {
