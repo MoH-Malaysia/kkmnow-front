@@ -28,7 +28,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
   const { data } = await get("/kkmnow", { dashboard: "peka_b40", state: "mys" });
-  console.log(data);
   return {
     props: {
       ...i18n,
