@@ -3,7 +3,7 @@ import { Page } from "@lib/types";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const Error404: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Fallback: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <Metadata title={"Oops, You are offline!"} keywords={""} />
@@ -20,7 +20,7 @@ const Error404: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   );
 };
 
-export default Error404;
+export default Fallback;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
