@@ -38,7 +38,6 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
     minmax: [0, timeseries_pledge.x.length - 1],
   });
   const { t } = useTranslation("common");
-
   const filtered_timeline = useCallback(() => {
     return {
       x: timeseries_pledge.x.slice(data.minmax[0], data.minmax[1]),
@@ -123,13 +122,13 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
           <div>
             <Choropleth
-              className="h-[500px] w-full"
+              className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
               enableScale={false}
               colorScale="greens"
               borderColor="#000"
               borderWidth={0.5}
               projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-              projectionScaleSetting={isMobile ? 2200 : 3500}
+              projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
               data={choropleth_malaysia_organ_donation.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],

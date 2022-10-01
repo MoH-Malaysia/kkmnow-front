@@ -246,14 +246,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               <Panel key={0} name={`${t("covidnow.heatmap")}`}>
                 <div className="grid grid-cols-1 ">
                   <Choropleth
-                    className="h-[500px] w-full"
+                    className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
                     enableScale={false}
                     // colorScale="CHOROPLETH_BLUE_SCALE"
                     colorScale="blues"
                     borderColor="#000"
                     borderWidth={0.5}
                     projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-                    projectionScaleSetting={isMobile ? 2200 : 3500}
+                    projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
                     data={choropleth_malaysia.map((item: any) => ({
                       id: CountryAndStates[item.state],
                       state: CountryAndStates[item.state],
