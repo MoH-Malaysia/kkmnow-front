@@ -3,16 +3,15 @@ import {
   Container,
   Tabs,
   Panel,
-  MenuDropdown,
   StateDropdown,
   Tooltip,
   Section,
-  ChartHeader,
   Stages,
   DonutMeter,
   Dropdown,
   Slider,
 } from "@components/index";
+import Image from "next/image";
 import { FunctionComponent, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
@@ -21,10 +20,10 @@ import { CountryAndStates, COVID_COLOR } from "@lib/constants";
 import { routes } from "@lib/routes";
 import { COVID_TABLE_SCHEMA } from "@lib/schema/covid";
 import { filterCaseDeath } from "@lib/options";
+import { useTranslation } from "next-i18next";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
-const Donut = dynamic(() => import("@components/Chart/Donut"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
@@ -57,6 +56,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
+  const { t } = useTranslation("common");
 
   const { data, setData } = useData({
     show_indicator: filterCaseDeath[0],
@@ -86,7 +86,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, data.minmax);
+  const filtered_timeline = useCallback(filterTimeline, [
+    data.minmax,
+    timeseries_admitted,
+    timeseries_cases,
+    timeseries_deaths,
+    timeseries_icu,
+    timeseries_tests,
+    timeseries_vents,
+  ]);
   const interval_scale = useMemo(
     () =>
       filtered_timeline().x.length > 180
@@ -127,26 +135,24 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
   return (
     <>
-      <Hero background="hero-light-4">
+      <Hero background="covid-banner">
         <div className="space-y-4 xl:w-2/3">
-          <span className="text-sm font-bold uppercase tracking-widest text-dim">covid-19</span>
-          <h3 className="text-black">The latest data on the pandemic in Malaysia.</h3>
+          <span className="text-sm font-bold uppercase tracking-widest text-dim">
+            {t("covid.title")}
+          </span>
+          <h3 className="text-black">{t("covid.title_header")}</h3>
+          <p className="text-dim">{t("covid.title_description1")}</p>
           <p className="text-dim">
-            Drawing from the Ministry of Health's excellent CovidDashboard dashboard, this page
-            allows you to track the evolution of the epidemic in Malaysia on a daily basis.
-          </p>
-          <p className="text-dim">
-            For a more general look at infectious diseases such as measles, chicken pox, and HFMD,
-            head on over to our{" "}
+            {t("covid.title_description2")}{" "}
             <a href="#" className="font-semibold text-blue-600">
               {" "}
-              Infectious Diseases Dashboard.
+              {t("covid.description_link")}
             </a>
           </p>
 
           <div className="flex w-full items-center gap-4">
-            <p className="text-sm font-bold text-dim">Zoom into</p>
-            <StateDropdown url={routes.COVID} currentState={currentState} />
+            <p className="text-sm font-bold text-dim">{t("covid.zoom")}</p>
+            <StateDropdown url={routes.COVID} currentState={currentState} exclude={["kvy"]} />
           </div>
         </div>
       </Hero>
@@ -154,7 +160,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
       <Container className="min-h-screen">
         {/* Utilisations */}
         <Section
-          title="Healthcare facility utilisation"
+          title={t("covid.donut_header")}
           description={
             <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[currentState]}</p>
           }
@@ -163,7 +169,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             <div className="flex items-center gap-3">
               <DonutMeter value={util_chart.util_vent} />
               <div>
-                <p className="text-dim">Ventilators</p>
+                <p className="text-dim">{t("covid.donut1")}</p>
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
@@ -171,14 +177,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     </span>
                   }
                 >
-                  Tooltip for Ventilators
+                  {t("covid.donut1_tooltips")}
                 </Tooltip>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <DonutMeter value={util_chart.util_icu} />
               <div>
-                <p className="text-dim">ICUs</p>
+                <p className="text-dim">{t("covid.donut2")}</p>
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
@@ -186,14 +192,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     </span>
                   }
                 >
-                  Tooltip for ICUs
+                  {t("covid.donut2_tooltips")}
                 </Tooltip>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <DonutMeter value={util_chart.util_hosp} />
               <div>
-                <p className="text-dim">Hospital Beds</p>
+                <p className="text-dim">{t("covid.donut3")}</p>
                 <Tooltip
                   trigger={
                     <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
@@ -201,15 +207,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     </span>
                   }
                 >
-                  Tooltip for Hospital Beds
+                  {t("covid.donut3_tooltips")}
                 </Tooltip>
               </div>
             </div>
-            {util_chart.util_pkrc && (
+            {util_chart.util_pkrc ? (
               <div className="flex items-center gap-3">
                 <DonutMeter value={util_chart.util_pkrc} />
                 <div>
-                  <p className="text-dim">PKRC</p>
+                  <p className="text-dim">{t("covid.donut4")}</p>
                   <Tooltip
                     trigger={
                       <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
@@ -217,40 +223,47 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       </span>
                     }
                   >
-                    Tooltip for PKRC
+                    {t("covid.donut4_tooltips")}
                   </Tooltip>
                 </div>
               </div>
-            )}
+            ) : undefined}
           </div>
         </Section>
 
         {/* What does the latest data show? */}
-        <Section title="What does the latest data show?">
+        <Section title={t("covid.diagram_header")}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <div className="col-span-1 xl:col-span-2">
               <Stages
-                title="Active COVID-19 Cases"
+                title={t("covid.diagram_subheader")}
                 className="h-full pt-4"
                 state={currentState}
-                // // menu={<MenuDropdown />}
+                // menu={<MenuDropdown />}
                 data={{
                   header: {
-                    name: "Active Cases",
+                    name: `${t("covid.diagram_title")}`,
                     value: snapshot_graphic.cases_active,
                     delta: snapshot_graphic.cases_active_annot,
                     inverse: true,
                   },
                   col_1: [
                     {
-                      name: "Local Cases",
+                      name: `${t("covid.col1_title1")}`,
                       value: snapshot_graphic.cases_local,
                       delta: snapshot_graphic.cases_local_annot,
                       inverse: true,
-                      icon: <img src="/static/images/stages/virus.svg" className="h-8 w-8" />,
+                      icon: (
+                        <Image
+                          src="/static/images/stages/virus.svg"
+                          height={32}
+                          width={32}
+                          alt="Local Cases"
+                        />
+                      ),
                     },
                     {
-                      name: "Imported Cases",
+                      name: `${t("covid.col1_title2")}`,
                       value: snapshot_graphic.cases_import,
                       delta: snapshot_graphic.cases_import_annot,
                       inverse: true,
@@ -258,65 +271,106 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                   ],
                   col_2: [
                     {
-                      name: "Home Quarantine",
+                      name: `${t("covid.col2_title1")}`,
                       value: snapshot_graphic.home,
                       delta: snapshot_graphic.home_annot,
                       unit: "%",
                       icon: (
-                        <img src="/static/images/stages/home-quarantine.svg" className="h-8 w-8" />
+                        <Image
+                          src="/static/images/stages/home-quarantine.svg"
+                          height={32}
+                          width={32}
+                          alt="Home Quarantine"
+                        />
                       ),
                     },
                     {
-                      name: "PKRC",
+                      name: `${t("covid.col2_title2")}`,
                       value: snapshot_graphic.pkrc,
                       delta: snapshot_graphic.pkrc_annot,
                       unit: "%",
-                      icon: <img src="/static/images/stages/pkrc.svg" className="h-8 w-8" />,
+                      icon: (
+                        <Image
+                          src="/static/images/stages/pkrc.svg"
+                          height={32}
+                          width={32}
+                          alt="PKRC"
+                        />
+                      ),
                     },
                     {
-                      name: "Hospitalised",
+                      name: `${t("covid.col2_title3")}`,
                       value: snapshot_graphic.hosp,
                       delta: snapshot_graphic.hosp_annot,
                       unit: "%",
                       icon: (
-                        <img src="/static/images/stages/hospitalised.svg" className="h-8 w-8" />
+                        <Image
+                          src="/static/images/stages/hospitalised.svg"
+                          height={32}
+                          width={32}
+                          alt="Hospitalised"
+                        />
                       ),
                     },
                     {
-                      name: "ICU (Unventilated)",
+                      name: `${t("covid.col2_title4")}`,
                       value: snapshot_graphic.icu,
                       delta: snapshot_graphic.icu_annot,
                       unit: "%",
                       icon: (
-                        <img src="/static/images/stages/icu-unventilated.svg" className="h-8 w-8" />
+                        <Image
+                          src="/static/images/stages/icu-unventilated.svg"
+                          height={32}
+                          width={32}
+                          alt="ICU (Unventilated)"
+                        />
                       ),
                     },
                     {
-                      name: "ICU (Ventilated)",
+                      name: `${t("covid.col2_title5")}`,
                       value: snapshot_graphic.vent,
                       delta: snapshot_graphic.vent_annot,
                       unit: "%",
                       icon: (
-                        <img src="/static/images/stages/icu-ventilated.svg" className="h-8 w-8" />
+                        <Image
+                          src="/static/images/stages/icu-ventilated.svg"
+                          height={32}
+                          width={32}
+                          alt="ICU (Ventilated)"
+                        />
                       ),
                     },
                   ],
                   col_3: [
                     {
-                      name: "Recovered",
+                      name: `${t("covid.col3_title1")}`,
                       value: snapshot_graphic.cases_recovered,
                       delta: snapshot_graphic.cases_recovered_annot,
-                      icon: <img src="/static/images/stages/recovered.svg" className="h-8 w-8" />,
+                      icon: (
+                        <Image
+                          src="/static/images/stages/recovered.svg"
+                          height={32}
+                          width={32}
+                          alt="Recovered"
+                        />
+                      ),
                     },
                     {
-                      name: "Death (Including BID)",
+                      name: `${t("covid.col3_title2")}`,
                       value: snapshot_graphic.deaths,
                       delta: snapshot_graphic.deaths_annot,
                       inverse: true,
-                      icon: <img src="/static/images/stages/death.svg" className="h-8 w-8" />,
+                      icon: (
+                        <Image
+                          src="/static/images/stages/death.svg"
+                          height={32}
+                          width={32}
+                          alt="Deaths (Including BID)"
+                        />
+                      ),
                     },
                     {
-                      name: "Brought in Dead",
+                      name: `${t("covid.col3_title3")}`,
                       value: snapshot_graphic.deaths_bid,
                       delta: snapshot_graphic.deaths_bid_annot,
                       inverse: true,
@@ -337,7 +391,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                   return (
                     <Panel key={index} name={name}>
                       <BarMeter
-                        className="block w-full space-y-2"
+                        className="block w-full space-y-2 pt-4"
                         data={data}
                         yKey="y"
                         xKey="x"
@@ -354,11 +408,11 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* How are COVID-19 key indicators trending */}
-        <Section title="How are COVID-19 key indicators trending?">
+        <Section title={t("covid.area_chart_header")}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
               className="h-[250px] w-full"
-              title="Deaths by Date of Death"
+              title={t("covid.area_chart_title1")}
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
@@ -369,21 +423,22 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: `${t("covid.area_chart_tooltip1")}`,
                     pointRadius: 0,
                     data: filtered_timeline().deaths_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "In-patient",
+                    label: `${t("covid.area_chart_tooltip2")}`,
                     data: filtered_timeline().deaths_inpatient,
                     backgroundColor: COVID_COLOR[200],
                     stack: "same",
                   },
                   {
                     type: "bar",
-                    label: "Brought in dead",
+                    label: `${t("covid.area_chart_tooltip3")}`,
                     data: filtered_timeline().deaths_broughtin,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
@@ -394,7 +449,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             />
             <Timeseries
               className="h-[250px] w-full"
-              title="Patients Ventilated"
+              title={t("covid.area_chart_title2")}
               state={currentState}
               interval={interval_scale}
               // menu={<MenuDropdown />}
@@ -405,14 +460,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: `${t("covid.area_chart2_tooltip1")}`,
                     pointRadius: 0,
                     data: filtered_timeline().vents_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "Patients ventilated",
+                    label: `${t("covid.area_chart2_tooltip2")}`,
                     data: filtered_timeline().vents_vent,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
@@ -423,7 +479,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             />
             <Timeseries
               className="h-[250px] w-full"
-              title="Patients in ICU"
+              title={t("covid.area_chart_title3")}
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
@@ -434,14 +490,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: `${t("covid.area_chart3_tooltip1")}`,
                     pointRadius: 0,
                     data: filtered_timeline().icu_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "ICU admitted",
+                    label: `${t("covid.area_chart3_tooltip2")}`,
                     data: filtered_timeline().icu_icu,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
@@ -452,7 +509,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             />
             <Timeseries
               className="h-[250px] w-full"
-              title="Hospital Admissions"
+              title={t("covid.area_chart_title4")}
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
@@ -463,14 +520,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: `${t("covid.area_chart4_tooltip1")}`,
                     pointRadius: 0,
                     data: filtered_timeline().admitted_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "Patients admitted",
+                    label: `${t("covid.area_chart4_tooltip2")}`,
                     data: filtered_timeline().admitted_admitted,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
@@ -481,7 +539,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             />
             <Timeseries
               className="h-[250px] w-full"
-              title="Confirmed Cases"
+              title={t("covid.area_chart_title5")}
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
@@ -492,14 +550,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: `${t("covid.area_chart5_tooltip1")}`,
                     pointRadius: 0,
                     data: filtered_timeline().cases_line,
                     borderColor: COVID_COLOR[300],
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "Cases",
+                    label: `${t("covid.area_chart5_tooltip2")}`,
                     data: filtered_timeline().cases_cases,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
@@ -510,32 +569,34 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             />
             <Timeseries
               className="h-[250px] w-full"
-              title="Tests Conducted"
+              title={t("covid.area_chart_title6")}
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
               stats={null}
-              // enableLegend
+              enableRightScale
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
-                    label: "Positivity Rate (%)",
+                    label: `${t("covid.area_chart6_tooltip1")}`,
                     pointRadius: 0,
+                    borderColor: COVID_COLOR[300],
                     data: filtered_timeline().tests_posrate,
-                    showLine: false,
+                    borderWidth: 1.5,
+                    yAxisID: "y1",
                   },
                   {
                     type: "bar",
-                    label: "RTK",
+                    label: `${t("covid.area_chart6_tooltip2")}`,
                     data: filtered_timeline().tests_rtk,
                     backgroundColor: COVID_COLOR[200],
                     stack: "same",
                   },
                   {
                     type: "bar",
-                    label: "PCR",
+                    label: `${t("covid.area_chart6_tooltip3")}`,
                     data: filtered_timeline().tests_pcr,
                     backgroundColor: COVID_COLOR[100],
                     stack: "same",
@@ -562,11 +623,11 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* How vaccinated against COVID-19 are we? */}
-        <Section title="How vaccinated against COVID-19 are we?">
+        <Section title={t("covid.table_header")}>
           <div>
             <Tabs
               className="flex flex-wrap justify-end gap-2 pb-4"
-              title="Vaccination Progress by State"
+              title={t("covid.table_subheader")}
             >
               {COVID_TABLE_SCHEMA.map((menu, index) => {
                 return (
@@ -579,21 +640,18 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
           </div>
         </Section>
 
-        <Section
-          title="How is vaccination influencing key epidemic indicators?"
-          description="Some description here"
-        >
+        <Section title={t("covid.bar_chart_header")} description={t("covid.bar_chart_subheader")}>
           <Tabs
             title={
               {
                 cases:
                   data.filter_cases === 0
-                    ? "Cases per 100k by Vaccination Status"
-                    : "Cases by Vaccination Status",
+                    ? `${t("covid.bar_chart_cases1")}`
+                    : `${t("covid.bar_chart_cases2")}`,
                 deaths:
                   data.filter_deaths === 0
-                    ? "Deaths per 100k by Vaccination Status"
-                    : "Deaths by Vaccination Status",
+                    ? `${t("covid.bar_chart_Deaths1")}`
+                    : `${t("covid.bar_chart_Deaths2")}`,
               }[data.show_indicator.value as string]
             }
             state={currentState}
@@ -606,7 +664,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             }
             onChange={value => setData("filter_death", value)}
           >
-            <Panel name="Per Capita">
+            <Panel name={t("covid.bar_chart1_type")}>
               <>
                 {
                   {
@@ -617,25 +675,25 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                           labels: bar_chart.cases.capita.x,
                           datasets: [
                             {
-                              label: "Unvaccinated",
+                              label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.cases.capita.unvax,
                               backgroundColor: COVID_COLOR[100],
                               stack: "1",
                             },
                             {
-                              label: "Partially Vaccinated",
+                              label: `${t("covid.bar_chart2_label2")}`,
                               data: bar_chart.cases.capita.partialvax,
                               backgroundColor: COVID_COLOR[200],
                               stack: "2",
                             },
                             {
-                              label: "Fully Vaccinated",
+                              label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.cases.capita.fullvax,
                               backgroundColor: COVID_COLOR[300],
                               stack: "3",
                             },
                             {
-                              label: "Boosted",
+                              label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.cases.capita.boosted,
                               backgroundColor: COVID_COLOR[300],
                               stack: "4",
@@ -653,25 +711,25 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                           labels: bar_chart.deaths.capita.x,
                           datasets: [
                             {
-                              label: "Unvaccinated",
+                              label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.deaths.capita.unvax,
                               backgroundColor: COVID_COLOR[100],
                               stack: "1",
                             },
                             {
-                              label: "Partially Vaccinated",
+                              label: `${t("covid.bar_chart2_label2")}`,
                               data: bar_chart.deaths.capita.partialvax,
                               backgroundColor: COVID_COLOR[200],
                               stack: "2",
                             },
                             {
-                              label: "Fully Vaccinated",
+                              label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.deaths.capita.fullvax,
                               backgroundColor: COVID_COLOR[300],
                               stack: "3",
                             },
                             {
-                              label: "Boosted",
+                              label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.deaths.capita.boosted,
                               backgroundColor: COVID_COLOR[300],
                               stack: "4",
@@ -686,7 +744,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 }
               </>
             </Panel>
-            <Panel name="Absolute">
+            <Panel name={t("covid.bar_chart2_type")}>
               <>
                 {
                   {
@@ -697,25 +755,25 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                           labels: bar_chart.cases.abs.x,
                           datasets: [
                             {
-                              label: "Unvaccinated",
+                              label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.cases.abs.unvax,
                               backgroundColor: COVID_COLOR[100],
                               stack: "1",
                             },
                             {
-                              label: "Partially Vaccinated",
+                              label: `${t("covid.bar_chart2_label2")}`,
                               data: bar_chart.cases.abs.partialvax,
                               backgroundColor: COVID_COLOR[200],
                               stack: "2",
                             },
                             {
-                              label: "Fully Vaccinated",
+                              label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.cases.abs.fullvax,
                               backgroundColor: COVID_COLOR[300],
                               stack: "3",
                             },
                             {
-                              label: "Boosted",
+                              label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.cases.abs.boosted,
                               backgroundColor: COVID_COLOR[300],
                               stack: "4",
@@ -733,25 +791,25 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                           labels: bar_chart.deaths.abs.x,
                           datasets: [
                             {
-                              label: "Unvaccinated",
+                              label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.deaths.abs.unvax,
                               backgroundColor: COVID_COLOR[100],
                               stack: "1",
                             },
                             {
-                              label: "Partially Vaccinated",
+                              label: `${t("covid.bar_chart2_label2")}`,
                               data: bar_chart.deaths.abs.partialvax,
                               backgroundColor: COVID_COLOR[200],
                               stack: "2",
                             },
                             {
-                              label: "Fully Vaccinated",
+                              label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.deaths.abs.fullvax,
                               backgroundColor: COVID_COLOR[300],
                               stack: "3",
                             },
                             {
-                              label: "Boosted",
+                              label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.deaths.abs.boosted,
                               backgroundColor: COVID_COLOR[300],
                               stack: "4",

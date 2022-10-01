@@ -6,10 +6,6 @@ export enum BREAKPOINTS {
   XL = 1440,
 }
 
-export enum DASHBOARDS {
-  KAWASANKU = "kawasanku",
-}
-
 // COUNTRY & STATES
 export const MALAYSIA: Record<string, string> = {
   key: "mys",
@@ -170,15 +166,6 @@ export const BLOOD_DONATION_COLOR: Array<string> = [
   "rgba(0, 114, 197, 1)",
 ];
 
-export const ORGAN_DONATION_COLOR: Array<string> = [
-  "#228F3A",
-  "#29AB47",
-  "#31C752",
-  "#84E19A",
-  "#9FE8B1",
-  "#CFF6D9",
-];
-
 // COVID COLORS
 export const COVID_COLOR: Record<number, string> = {
   100: "#2563EB4D",
@@ -200,6 +187,24 @@ export const BLOOD_COLOR: Record<number, string> = {
   300: "#FF4E4E",
   400: "#FF0001",
   500: "#DC2626",
+};
+
+export const ORGAN_COLOR: Record<number, string> = {
+  100: "#CFF6D9",
+  200: "#9FE8B1",
+  300: "#84E19A",
+  400: "#31C752",
+  500: "#29AB47",
+  600: "#228F3A",
+};
+
+export const PEKA_COLOR: Record<number, string> = {
+  100: "#FCEDFF",
+  200: "#F6CCFD",
+  300: "#DA9FE3",
+  400: "#B560C2",
+  500: "#9154C0",
+  600: "#6731A8",
 };
 
 export const GRAYBAR_COLOR: Record<number, string> = {

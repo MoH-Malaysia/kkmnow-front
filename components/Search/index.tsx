@@ -4,9 +4,10 @@ import { FunctionComponent, useEffect, useRef } from "react";
 type SearchProps = {
   query?: string;
   onChange: (query?: string) => void;
+  className?: string;
 };
 
-const Search: FunctionComponent<SearchProps> = ({ query, onChange }) => {
+const Search: FunctionComponent<SearchProps> = ({ query, onChange, className }) => {
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const Search: FunctionComponent<SearchProps> = ({ query, onChange }) => {
   }, []);
 
   return (
-    <div className="relative flex items-center">
+    <div className={`relative flex items-center ${className}`}>
       <input
         ref={searchRef}
         id="search"

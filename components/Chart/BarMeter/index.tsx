@@ -2,6 +2,7 @@ import { FunctionComponent, ReactElement, useMemo } from "react";
 import { ChartHeader } from "@components/index";
 import { CountryAndStates } from "@lib/constants";
 import { minMax, maxBy } from "@lib/helpers";
+import Image from "next/image";
 
 interface BarMeterProps {
   className?: string;
@@ -59,7 +60,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
     switch (layout) {
       case "horizontal":
         return (
-          <div className="space-y-1" key={item[xKey].concat(`_${index}`)}>
+          <div className="space-y-1 pb-2" key={item[xKey].concat(`_${index}`)}>
             <div className="flex justify-between">
               <p>{item[xKey]}</p>
               <p className="text-dim">
@@ -68,7 +69,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
               </p>
             </div>
 
-            <div className="flex h-2.5 w-full overflow-x-hidden bg-outline">
+            <div className="flex h-2.5 w-full overflow-x-hidden bg-washed">
               <div
                 className="h-full items-center overflow-hidden"
                 style={{
@@ -88,7 +89,12 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
         return (
           <div className="flex w-full items-center" key={item[xKey].concat(`_${index}`)}>
             <div className="flex w-[40%] items-center gap-2 lg:w-[35%]">
-              <img src={`/static/images/states/${item[xKey]}.jpeg`} className="h-3 w-5" />
+              <Image
+                src={`/static/images/states/${item[xKey]}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[item[xKey]]}
+              />
               <p className="text-sm text-dim">{CountryAndStates[item[xKey]]}</p>
             </div>
 
@@ -97,7 +103,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
                 {+(item[yKey] as number).toFixed(1)}
                 {unit}
               </p>
-              <div className="h-2.5 flex-grow overflow-x-hidden bg-outline">
+              <div className="h-2.5 flex-grow overflow-x-hidden bg-washed">
                 <div
                   className="h-full items-center overflow-hidden"
                   style={{
@@ -121,7 +127,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
                 {+(item[yKey] as number).toFixed(1)}
                 {unit}
               </p>
-              <div className="relative flex h-[80%] w-8 overflow-x-hidden bg-outline">
+              <div className="relative flex h-[80%] w-8 overflow-x-hidden bg-washed">
                 <div
                   className="absolute bottom-0 w-full items-center overflow-hidden"
                   style={{
@@ -141,7 +147,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
                 </p>
               </div>
 
-              <div className="flex h-2.5 w-full overflow-x-hidden bg-outline">
+              <div className="flex h-2.5 w-full overflow-x-hidden bg-washed">
                 <div
                   className="h-full items-center overflow-hidden"
                   style={{
@@ -157,7 +163,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
   };
 
   return (
-    <div>
+    <div className="space-y-2">
       <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       <div className={className}>
         {_data &&

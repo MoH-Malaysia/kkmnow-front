@@ -1,11 +1,12 @@
-import { Container, ErrorCode } from "@components/index";
+import { Container, ErrorCode, Metadata } from "@components/index";
 import { Page } from "@lib/types";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const Error404: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Error500: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
+      <Metadata title={"Uhh, bug alert!"} keywords={""} />
       <Container className="min-h-[76vh] pt-7 text-black">
         <ErrorCode
           title="Oops, something went terribly wrong."
@@ -18,7 +19,7 @@ const Error404: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   );
 };
 
-export default Error404;
+export default Error500;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);

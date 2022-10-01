@@ -100,7 +100,7 @@ const Slider: FunctionComponent<SliderProps> = ({
                   <div className="absolute top-0 left-0 h-2 w-full rounded-xl bg-[#E2E8F0]"></div>
                   {/* Active Range */}
                   <div
-                    className="absolute top-0 left-0 right-0 h-2 rounded-xl bg-black"
+                    className="absolute top-0 left-0 right-0 h-2 rounded-xl bg-outlineHover"
                     style={{
                       left: position?.active.left,
                       right: position?.active.right,
@@ -123,10 +123,10 @@ const Slider: FunctionComponent<SliderProps> = ({
                   <div className="pointer-events-none absolute -top-8 flex w-full justify-between">
                     {data && (
                       <>
-                        <span className="text-sm">
+                        <span className="text-sm text-black">
                           {parseAsDate ? toDate(data[min]) : data[min]}
                         </span>
-                        <span className="text-sm">
+                        <span className="text-sm text-black">
                           {parseAsDate ? toDate(data[max]) : data[max]}
                         </span>
                       </>
@@ -166,7 +166,7 @@ const Slider: FunctionComponent<SliderProps> = ({
                 <div className="absolute top-0 left-0 h-2 w-full rounded-xl bg-[#E2E8F0]"></div>
                 {/* Active Range */}
                 <div
-                  className="absolute top-0 left-0 right-0 h-2 rounded-xl bg-black"
+                  className="absolute top-0 left-0 right-0 h-2 rounded-xl bg-outlineHover"
                   style={{
                     left: position?.active.left,
                     right: position?.active.right,

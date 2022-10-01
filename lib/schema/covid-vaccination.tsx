@@ -1,4 +1,5 @@
 import { CountryAndStates } from "@lib/constants";
+import Image from "next/image";
 
 export const VACCINE_TABLE_SCHEMA = [
   {
@@ -13,7 +14,12 @@ export const VACCINE_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -26,22 +32,26 @@ export const VACCINE_TABLE_SCHEMA = [
           {
             id: "total.perc_dose1",
             header: "% 1 Dose",
+            sortDescFirst: true,
             accessorFn: (item: any) => item.total.perc_dose1.toFixed(1),
           },
           {
             id: "total.perc_dose2",
             header: "% 2 Doses",
             accessorFn: (item: any) => item.total.perc_dose2.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "total.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.total.perc_booster1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "total.perc_booster2",
             header: "% 2 Booster",
             accessorFn: (item: any) => item.total.perc_booster2.toFixed(1),
+            sortDescFirst: true,
           },
         ],
       },
@@ -53,21 +63,25 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "adult.perc_dose1",
             header: "% 1 Dose",
             accessorFn: (item: any) => item.adult.perc_dose1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adult.perc_dose2",
             header: "% 2 Doses",
             accessorFn: (item: any) => item.adult.perc_dose2.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adult.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.adult.perc_booster1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adult.perc_booster2",
             header: "% 2 Booster",
             accessorFn: (item: any) => item.adult.perc_booster2.toFixed(1),
+            sortDescFirst: true,
           },
         ],
       },
@@ -79,16 +93,19 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "adol.perc_dose1",
             header: "% 1 Dose",
             accessorFn: (item: any) => item.adol.perc_dose1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adol.perc_dose2",
             header: "% 2 Doses",
             accessorFn: (item: any) => item.adol.perc_dose2.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.adol.perc_booster1.toFixed(1),
+            sortDescFirst: true,
           },
         ],
       },
@@ -100,16 +117,19 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "child.perc_dose1",
             header: "% 1 Dose",
             accessorFn: (item: any) => item.child.perc_dose1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "child.perc_dose2",
             header: "% 2 Doses",
             accessorFn: (item: any) => item.child.perc_dose2.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "child.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.child.perc_booster1.toFixed(1),
+            sortDescFirst: true,
           },
         ],
       },
@@ -127,7 +147,12 @@ export const VACCINE_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -141,21 +166,25 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "total.perc_dose1",
             header: "% 1 Dose",
             accessorFn: (item: any) => item.total.perc_dose1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "total.perc_dose2",
             header: "% 2 Doses",
             accessorFn: (item: any) => item.total.perc_dose2.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "total.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.total.perc_booster1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "total.perc_booster2",
             header: "% 2 Booster",
             accessorFn: (item: any) => item.total.perc_booster2.toFixed(1),
+            sortDescFirst: true,
           },
         ],
       },
@@ -173,7 +202,12 @@ export const VACCINE_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -187,21 +221,25 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "adult.perc_dose1",
             header: "% 1 Dose",
             accessorFn: (item: any) => item.adult.perc_dose1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adult.perc_dose2",
             header: "% 2 Doses",
             accessorFn: (item: any) => item.adult.perc_dose2.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adult.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.adult.perc_booster1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adult.perc_booster2",
             header: "% 2 Booster",
             accessorFn: (item: any) => item.adult.perc_booster2.toFixed(1),
+            sortDescFirst: true,
           },
         ],
       },
@@ -219,7 +257,12 @@ export const VACCINE_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -234,16 +277,19 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "adol.perc_dose1",
             header: "% 1 Dose",
             accessorFn: (item: any) => item.adol.perc_dose1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adol.perc_dose2",
             header: "% 2 Doses",
             accessorFn: (item: any) => item.adol.perc_dose2.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "adol.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.adol.perc_booster1.toFixed(1),
+            sortDescFirst: true,
           },
         ],
       },
@@ -261,7 +307,12 @@ export const VACCINE_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -275,16 +326,19 @@ export const VACCINE_TABLE_SCHEMA = [
             id: "child.perc_dose1",
             header: "% 1 Dose",
             accessorFn: (item: any) => item.child.perc_dose1.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "child.perc_dose2",
             header: "% 2 Doses",
             accessorFn: (item: any) => item.child.perc_dose2.toFixed(1),
+            sortDescFirst: true,
           },
           {
             id: "child.perc_booster1",
             header: "% 1 Booster",
             accessorFn: (item: any) => item.child.perc_booster1.toFixed(1),
+            sortDescFirst: true,
           },
         ],
       },

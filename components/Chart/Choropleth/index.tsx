@@ -1,4 +1,4 @@
-import { ResponsiveChoropleth } from "@nivo/geo";
+import { FeatureAccessor, ResponsiveChoropleth } from "@nivo/geo";
 import { FunctionComponent, ReactElement, useState } from "react";
 import { ChartHeader } from "@components/index";
 import {
@@ -15,6 +15,7 @@ import DunMobile from "@lib/geojson/dun_mobile.json";
 import StateDesktop from "@lib/geojson/state_desktop.json";
 import StateMobile from "@lib/geojson/state_mobile.json";
 import { numFormat } from "@lib/helpers";
+import { ColorInterpolatorId } from "@nivo/colors";
 
 /**
  * Choropleth component
@@ -29,7 +30,7 @@ interface ChoroplethProps {
   unitY?: string;
   enableScale?: boolean;
   graphChoice?: any;
-  colorScale?: any;
+  colorScale?: ColorInterpolatorId | string[] | FeatureAccessor<any, string>;
   borderWidth?: any;
   borderColor?: any;
   projectionTranslation?: any;
@@ -45,7 +46,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   unitY,
   enableScale = true,
   graphChoice = "ParliamentDesktop",
-  colorScale = "CHOROPLETH_RED_SCALE",
+  colorScale,
   borderWidth = 0.25,
   borderColor = "#13293d",
   projectionTranslation = [0.65, 0.9] as [number, number],
@@ -70,7 +71,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
 
   const [feature, setState] = useState(graphChoices[graphChoice].features);
   const config = {
-    colors: colorScales[colorScale],
+    colors: colorScale,
     projectionScale: projectionScaleSetting,
     projectionTranslation: [0.65, 0.9] as [number, number],
     borderWidth: borderWidth,
@@ -83,7 +84,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
         <ResponsiveChoropleth
           data={data}
           features={feature}
-          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+          margin={{ top: 10, right: 0, bottom: 0, left: 0 }}
           colors={config.colors}
           domain={[
             Math.min.apply(
@@ -117,7 +118,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
           }}
         />
       </div>
-      {enableScale && <ChoroplethScale colors={config.colors}></ChoroplethScale>}
+      {/* {enableScale && <ChoroplethScale colors={colorScale}></ChoroplethScale>} */}
     </div>
   );
 };

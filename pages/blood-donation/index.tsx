@@ -18,6 +18,7 @@ const BloodDonationIndex: Page = ({
   heatmap_retention,
   barchart_age,
   barchart_time,
+  barchart_variables,
   map_facility,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -32,6 +33,7 @@ const BloodDonationIndex: Page = ({
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
+        barchart_variables={barchart_variables}
         map_facility={map_facility}
       />
     </>
@@ -47,7 +49,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     item.data = item.data.filter((_item: any) => _item.y !== null);
   });
 
-  data.barchart_time.monthly.x = data.barchart_time.monthly.x.map((item: any) => {
+  data.bar_chart_time.monthly.x = data.bar_chart_time.monthly.x.map((item: any) => {
     const period = DateTime.fromFormat(item, "yyyy-MM-dd");
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
@@ -61,8 +63,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       heatmap_donorrate: data.heatmap_donorrate,
       heatmap_bloodstock: Object.values(data.heatmap_bloodstock),
       heatmap_retention: Object.values(data.heatmap_retention),
-      barchart_age: data.barchart_age,
-      barchart_time: data.barchart_time,
+      barchart_age: data.bar_chart_age,
+      barchart_time: data.bar_chart_time,
+      barchart_variables: data.barchart_key_variables,
       map_facility: data.map_facility,
     },
   };

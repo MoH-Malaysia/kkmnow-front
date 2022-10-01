@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useCallback } from "react";
+import { FunctionComponent, ReactElement, useMemo } from "react";
 import { ChartHeader, Tooltip } from "@components/index";
 
 import {
@@ -61,6 +61,7 @@ interface TimeseriesProps {
   gridYValues?: Array<number> | undefined;
   minY?: number;
   maxY?: number;
+  enableRightScale?: boolean;
   enableCallout?: boolean;
   enableCrosshair?: boolean;
   enableLegend?: boolean;
@@ -83,6 +84,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   state,
   subheader,
   type = "bar",
+  enableRightScale = false,
   enableCallout = false,
   enableCrosshair = true,
   enableLegend = false,
@@ -105,7 +107,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
     AnnotationPlugin
   );
 
-  const options = useCallback((): ChartCrosshairOption => {
+  const options = useMemo((): ChartCrosshairOption => {
     return {
       responsive: true,
       maintainAspectRatio: false,
@@ -260,6 +262,30 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           max: maxY,
           stacked: mode === "stacked",
         },
+        ...(enableRightScale
+          ? {
+              y1: {
+                position: "right" as const,
+                grid: {
+                  drawOnChartArea: false,
+                  drawTicks: false,
+                  drawBorder: false,
+                  offset: false,
+                },
+                ticks: {
+                  padding: 6,
+                  callback: (value: string | number) => {
+                    return numFormat(value as number).concat("%");
+                  },
+                  font: {
+                    family: "Inter",
+                  },
+                },
+                max: 100,
+                stacked: mode === "stacked",
+              },
+            }
+          : {}),
       },
     };
   }, [data]);
@@ -270,9 +296,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
       {stats && <Stats data={stats}></Stats>}
       {subheader && <div>{subheader}</div>}
 
-      <div className={className}>
-        {data && <Chart data={data} options={options()} type={type} />}
-      </div>
+      <div className={className}>{data && <Chart data={data} options={options} type={type} />}</div>
     </div>
   );
 };

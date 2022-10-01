@@ -1,10 +1,12 @@
-import { Hero, Container, Tabs, Panel, MenuDropdown, Section, Slider } from "@components/index";
-import { BLOOD_DONATION_COLOR, CountryAndStates, STATES, BREAKPOINTS } from "@lib/constants";
+import { Hero, Container, Tabs, Panel, Section, Slider } from "@components/index";
+import { CountryAndStates, BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
-import { FunctionComponent, useCallback, useState, useEffect } from "react";
-import { COVIDNOW_COLOR_SCHEME } from "@lib/schema/covid-now";
+import { FunctionComponent, useState } from "react";
 import { numFormat } from "@lib/helpers";
+import Image from "next/image";
+import { useTranslation } from "next-i18next";
+
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
@@ -32,6 +34,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   const dateEnd = new Date("2022-09-24").toDateString();
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
+  const { t } = useTranslation("common");
 
   const filterTimeline = () => {
     return {
@@ -65,18 +68,21 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           header: "Users",
           accessorFn: (item: any) => numFormat(item.data.users, "standard"),
           sortingFn: "localeNumber",
+          sortDescFirst: true,
         },
         {
           id: "data.views",
           header: "Views",
           accessorFn: (item: any) => numFormat(item.data.views, "standard"),
           sortingFn: "localeNumber",
+          sortDescFirst: true,
         },
         {
           id: "data.views_perc",
           header: "% of Views",
           accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
           sortingFn: "localeNumber",
+          sortDescFirst: true,
         },
       ],
     },
@@ -92,7 +98,12 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         const state = item.getValue() as string;
         return (
           <div className="flex items-center gap-3">
-            <img className="h-4 w-7" src={`/static/images/states/${state}.jpeg`}></img>
+            <Image
+              src={`/static/images/states/${state}.jpeg`}
+              width={28}
+              height={16}
+              alt={CountryAndStates[state]}
+            />
             <span>{CountryAndStates[state]}</span>
           </div>
         );
@@ -106,21 +117,25 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           id: "data.total_user",
           header: "Users",
           accessorFn: (item: any) => numFormat(item.data.users, "standard"),
+          sortDescFirst: true,
         },
         {
           id: "data.views",
           header: "Views",
           accessorFn: (item: any) => numFormat(item.data.views, "standard"),
+          sortDescFirst: true,
         },
         {
           id: "data.views_perc",
           header: "% of Views",
           accessorFn: (item: any) => Math.round(item.data.views_perc * 100) / 100 + "%",
+          sortDescFirst: true,
         },
         {
           id: "data.pop_perc",
           header: "% of Population",
           accessorFn: (item: any) => Math.round(item.data.pop_perc * 100) / 100 + "%",
+          sortDescFirst: true,
         },
       ],
     },
@@ -128,34 +143,27 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
 
   return (
     <>
-      <Hero background="bg-slate-200">
+      <Hero background="covidnow-banner">
         <div className="space-y-4">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
-            MISCELLANEOUS
+            {t("covidnow.title")}
           </span>
-          <h3 className="text-black">COVIDNOW: Data from its year in the sun</h3>
-          <p className="text-dim">
-            Over 6 million users, 44 million views, and 100 million clicks later, data on COVIDNOW -
-            powered by Google Analytics - provides a large-sample insight into how users interact
-            with a Malaysian-based data site. Beyond providing transparency on the usage of
-            COVIDNOW, this dashboard also yields valuable insight into how Malaysians use the web -
-            ranging from where usage is concentrated, to what times of day saw peak traffic, to the
-            devices people use. We hope this helps everyone looking to do something similar.
-          </p>
+          <h3 className="text-black">{t("covidnow.title_header")}</h3>
+          <p className="text-dim">{t("covidnow.title_description")}</p>
         </div>
       </Hero>
       <Container className="min-h-screen">
         {/* Daily views on COVIDNOW */}
         <Section
-          title="COVIDNOW always received a steady stream of traffic, but saw huge spikes driven by shock value"
-          description="The largest two spikes in traffic were due to the launch announcement (2 mil views over its first 2 days), and Malaysia hitting the “90% of adults fully vaccinated milestone” (2 mil views in a single day). The former was likely due to massive traction on social media, while the latter was due to 90% being used as the trigger to allow interstate travel."
+          title={t("covidnow.combine_header")}
+          description={t("covidnow.combine_description")}
           date={dateEnd}
         >
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
               <Timeseries
                 className="h-[350px] w-full pt-6"
-                title="Daily views on COVIDNOW"
+                title={t("covidnow.combine_title")}
                 interval="month"
                 // menu={<MenuDropdown />}
                 round="day"
@@ -165,14 +173,15 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                   datasets: [
                     {
                       type: "line",
-                      label: "Moving Average (MA)",
+                      label: `${t("covidnow.combine_tooltip1")}`,
                       pointRadius: 0,
                       data: filterTimeline().line,
                       borderColor: "#2563EB",
+                      borderWidth: 1.5,
                     },
                     {
                       type: "bar",
-                      label: "Daily Views",
+                      label: `${t("covidnow.combine_tooltip2")}`,
                       data: filterTimeline().y,
                       backgroundColor: "#D1D5DB",
                     },
@@ -186,21 +195,19 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 data={timeseries_chart.x}
                 onChange={(item: any) => setLimit([item.min, item.max])}
               />
-              <span className="text-sm text-dim">
-                Use this time slider to zoom in specific time range
-              </span>
+              <span className="text-sm text-dim">{t("covidnow.slider")}</span>
             </div>
           </div>
         </Section>
         {/* World Map */}
         <Section
-          title="Globally, COVIDNOW was accessed from every country in the world...except Niger and North Korea"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+          title={t("covidnow.wmap_header")}
+          description={t("covidnow.wmap_description")}
           date={dateEnd}
         >
           <div>
-            <Tabs className="flex flex-wrap justify-end gap-2" title="World Views Statistics">
-              <Panel key={0} name={"Heatmap"}>
+            <Tabs className="flex flex-wrap justify-end gap-2" title={t("covidnow.wmap_title")}>
+              <Panel key={0} name={`${t("covidnow.heatmap")}`}>
                 <div className="grid grid-cols-1 ">
                   <ChoroplethWorld
                     className={isMobile ? "h-[300px] w-full" : "h-[500px] w-full"}
@@ -218,7 +225,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                   />
                 </div>
               </Panel>
-              <Panel key={1} name={"Table"}>
+              <Panel key={1} name={`${t("covidnow.table")}`}>
                 <Table
                   data={choropleth_world.map((items: any) => ({
                     ...items,
@@ -233,18 +240,16 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         </Section>
 
         {/* Malaysia Map */}
-        <Section
-          title="Within Malaysia, views disproportionately came from the Klang Valley and urban centres"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-        >
+        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
           <div>
-            <Tabs className="flex flex-wrap justify-end gap-2" title="Malaysia Views Statistics">
-              <Panel key={0} name={"Heatmap"}>
+            <Tabs className="flex flex-wrap justify-end gap-2" title={t("covidnow.mmap_title")}>
+              <Panel key={0} name={`${t("covidnow.heatmap")}`}>
                 <div className="grid grid-cols-1 ">
                   <Choropleth
                     className="h-[500px] w-full"
                     enableScale={false}
-                    colorScale="CHOROPLETH_BLUE_SCALE"
+                    // colorScale="CHOROPLETH_BLUE_SCALE"
+                    colorScale="blues"
                     borderColor="#000"
                     borderWidth={0.5}
                     projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
@@ -260,7 +265,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                   />
                 </div>
               </Panel>
-              <Panel key={1} name={"Table"}>
+              <Panel key={1} name={`${t("covidnow.table")}`}>
                 <Table data={choropleth_malaysia} config={malaysiaMapConfig} />
               </Panel>
             </Tabs>
@@ -269,28 +274,28 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
 
         {/* Heatmap */}
         <Section
-          title="In general, users checked COVIDNOW when they woke up - likely due to updates being pushed overnight"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+          title={t("covidnow.heatmap_header")}
+          description={t("covidnow.heatmap_description")}
           date={dateEnd}
         >
           <div className="grid grid-cols-1 gap-12">
             <Heatmap
               className="flex h-[500px] w-[1500px] overflow-auto pt-7 lg:w-auto lg:overflow-visible"
-              title="Median Views by Time of Day"
+              title={t("covidnow.heatmap_title")}
               //   menu={<MenuDropdown />}
               data={heatmap_chart}
               axisLeft="default"
+              unitY=" views"
               valueFormat=" >-.2s"
-              schema={COVIDNOW_COLOR_SCHEME}
-              color={BLOOD_DONATION_COLOR}
+              color="blues"
             />
           </div>
         </Section>
 
         {/* covidnow user demographic */}
         <Section
-          title="For developers: A breakdown of views by key user demographics"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          title={t("covidnow.bar_header")}
+          description={t("covidnow.bar_description")}
           date={dateEnd}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-3">
@@ -300,7 +305,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 data={barmeter_chart.device_type}
                 yKey="y"
                 xKey="x"
-                title="Device Type"
+                title={t("covidnow.bar_title1")}
                 layout="horizontal"
                 unit="%"
               />
@@ -311,7 +316,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 data={barmeter_chart.device_language}
                 yKey="y"
                 xKey="x"
-                title="Language on Device"
+                title={t("covidnow.bar_title2")}
                 layout="horizontal"
                 unit="%"
               />
@@ -323,7 +328,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 data={barmeter_chart.browser}
                 yKey="y"
                 xKey="x"
-                title="Browser"
+                title={t("covidnow.bar_title3")}
                 layout="horizontal"
                 unit="%"
               />
@@ -336,7 +341,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 data={barmeter_chart.os}
                 yKey="y"
                 xKey="x"
-                title="Operating System (all)"
+                title={t("covidnow.bar_title4")}
                 layout="horizontal"
                 unit="%"
               />
@@ -347,7 +352,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 data={barmeter_chart.os_mobile}
                 yKey="y"
                 xKey="x"
-                title="Operating System (mobile only)"
+                title={t("covidnow.bar_title5")}
                 layout="horizontal"
                 unit="%"
               />
@@ -357,7 +362,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 className="block space-y-2"
                 data={barmeter_chart.mobile_screensize}
                 yKey="y"
-                title="Screen Resolution (mobile only)"
+                title={t("covidnow.bar_title6")}
                 xKey="x"
                 layout="horizontal"
                 unit="%"

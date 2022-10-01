@@ -1,11 +1,12 @@
-import { InferGetStaticPropsType, GetStaticProps } from "next";
+import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PekaB40Dashboard from "@dashboards/peka-b40";
+import { STATES } from "@lib/constants";
 import Metadata from "@components/Metadata";
 
-const PekaB40: Page = ({
+const PekaB40State: Page = ({
   timeseries_screenrate,
   heatmap_screenrate,
   bar_age,
@@ -22,10 +23,24 @@ const PekaB40: Page = ({
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = STATES.filter(item => !["kvy"].includes(item.key)).map(state => {
+    return {
+      params: {
+        state: state.key,
+      },
+    };
+  });
+  return {
+    paths: paths,
+    fallback: false, // can also be true or 'blocking'
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
-  const { data } = await get("/kkmnow", { dashboard: "peka_b40", state: "mys" });
+  const { data } = await get("/kkmnow", { dashboard: "peka_b40", state: params?.state });
 
   return {
     props: {
@@ -37,4 +52,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default PekaB40;
+export default PekaB40State;

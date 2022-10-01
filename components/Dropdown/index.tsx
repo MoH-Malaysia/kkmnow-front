@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Fragment, ReactElement } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
@@ -70,9 +71,11 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
         >
           {label && <span className="text-dim">{label}:</span>}
           {enableFlag && selected && (
-            <img
+            <Image
               src={`/static/images/states/${(selected as OptionType<L, V>).value}.jpeg`}
-              className="aspect-auto h-3"
+              width={20}
+              height={12}
+              alt={(selected as OptionType<L, V>).label as string}
             />
           )}
           <span className={`block truncate ${label ? "" : ""}`}>
@@ -80,7 +83,7 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
           </span>
           {/* NUMBER OF OPTIONS SELECTED (MULTIPLE = TRUE) */}
           {multiple && (selected as OptionType<L, V>[])?.length > 0 && (
-            <span className="rounded-md bg-dim px-1 py-0.5 text-xs text-white">
+            <span className="rounded-md bg-outline px-1 py-0.5 text-xs text-white">
               {(selected as OptionType<L, V>[]).length}
             </span>
           )}
@@ -115,9 +118,11 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
                 value={option}
               >
                 {enableFlag && (
-                  <img
+                  <Image
                     src={`/static/images/states/${option.value}.jpeg`}
-                    className="aspect-auto h-3"
+                    width={20}
+                    height={12}
+                    alt={option.label as string}
                   />
                 )}
                 <span

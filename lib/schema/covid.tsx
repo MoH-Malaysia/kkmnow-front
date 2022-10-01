@@ -1,6 +1,6 @@
 import { CountryAndStates } from "@lib/constants";
 import { numFormat } from "@lib/helpers";
-
+import Image from "next/image";
 export const COVID_TABLE_SCHEMA = [
   {
     name: "Show All",
@@ -14,7 +14,12 @@ export const COVID_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -27,6 +32,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths",
             header: "Deaths",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.deaths.deaths, "standard"),
             sortingFn: "localeNumber",
           },
@@ -34,6 +40,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths_100k",
             header: "Per 100K",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.deaths.deaths_100k, "standard"),
             sortingFn: "localeNumber",
           },
@@ -41,6 +48,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths_trend",
             header: "Deaths Trend",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) =>
               item.deaths.deaths_trend && +item.deaths.deaths_trend.toFixed(1),
             relative: true,
@@ -57,19 +65,23 @@ export const COVID_TABLE_SCHEMA = [
             header: "Hospital Admission",
             subheader: "Past 14d",
             maxWidth: 10,
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.admitted.admitted, "standard"),
             sortingFn: "localeNumber",
           },
           {
             id: "admitted.util_hosp",
             header: "Hospital Bed Utilisation",
-            accessorFn: (item: any) => +item.admitted.util_hosp.toFixed(1),
+            sortDescFirst: true,
+            accessorFn: (item: any) =>
+              item.admitted.util_hosp && +item.admitted.util_hosp.toFixed(1),
             unit: "%",
           },
           {
             id: "admitted.admitted_trend",
             header: "Admissions Trend",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) =>
               item.admitted.admitted_trend !== null
                 ? +item.admitted.admitted_trend.toFixed(1)
@@ -87,6 +99,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases",
             header: "Cases",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.cases.cases, "standard"),
             sortingFn: "localeNumber",
           },
@@ -94,12 +107,14 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases_100k",
             header: "Per 100K",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.cases.cases_100k, "standard"),
             sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_posrate",
             header: "Positivity Rate",
+            sortDescFirst: true,
             accessorFn: (item: any) => +item.cases.cases_posrate.toFixed(1),
             unit: "%",
           },
@@ -107,6 +122,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases_trend",
             header: "Cases Trend",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => +item.cases.cases_trend.toFixed(1),
             relative: true,
             inverse: true,
@@ -128,7 +144,12 @@ export const COVID_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -141,6 +162,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths",
             header: "Deaths",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.deaths.deaths, "standard"),
             sortingFn: "localeNumber",
           },
@@ -148,6 +170,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths_100k",
             header: "Per 100K",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.deaths.deaths_100k, "standard"),
             sortingFn: "localeNumber",
           },
@@ -155,6 +178,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "deaths.deaths_trend",
             header: "Deaths Trend",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) =>
               item.deaths.deaths_trend !== null
                 ? +item.deaths.deaths_trend.toFixed(1)
@@ -179,7 +203,12 @@ export const COVID_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -192,19 +221,23 @@ export const COVID_TABLE_SCHEMA = [
             id: "admitted.admitted",
             header: "Hospital Admissions",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.admitted.admitted, "standard"),
             sortingFn: "localeNumber",
           },
           {
             id: "admitted.util_hosp",
             header: "Hospital Bed Utilisation",
-            accessorFn: (item: any) => +item.admitted.util_hosp.toFixed(1),
+            sortDescFirst: true,
+            accessorFn: (item: any) =>
+              item.admitted.util_hosp && +item.admitted.util_hosp.toFixed(1),
             unit: "%",
           },
           {
             id: "admitted.admitted_trend",
             header: "Admissions Trend",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) =>
               item.admitted.admitted_trend !== null
                 ? +item.admitted.admitted_trend.toFixed(1)
@@ -229,7 +262,12 @@ export const COVID_TABLE_SCHEMA = [
           const state = item.getValue() as string;
           return (
             <div className="flex items-center gap-2">
-              <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+              <Image
+                src={`/static/images/states/${state}.jpeg`}
+                width={20}
+                height={12}
+                alt={CountryAndStates[state]}
+              />
               <span className="text-sm">{CountryAndStates[state]}</span>
             </div>
           );
@@ -242,6 +280,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases",
             header: "Cases",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.cases.cases, "standard"),
             sortingFn: "localeNumber",
           },
@@ -249,12 +288,14 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases_100k",
             header: "Per 100K",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => numFormat(item.cases.cases_100k, "standard"),
             sortingFn: "localeNumber",
           },
           {
             id: "cases.cases_posrate",
             header: "Positivity Rate",
+            sortDescFirst: true,
             accessorFn: (item: any) => item.cases.cases_posrate.toFixed(1),
             unit: "%",
           },
@@ -262,6 +303,7 @@ export const COVID_TABLE_SCHEMA = [
             id: "cases.cases_trend",
             header: "Cases Trend",
             subheader: "Past 14d",
+            sortDescFirst: true,
             accessorFn: (item: any) => +item.cases.cases_trend.toFixed(1),
             relative: true,
             inverse: true,
