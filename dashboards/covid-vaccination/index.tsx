@@ -41,14 +41,20 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
   stats_data,
 }) => {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
     vax_tab: 0,
-    filter_dose: filterDoseOptions[0],
-    filter_age: filterAgeOptions[0],
+    filter_dose: {
+      label: t(`vaccination.${filterDoseOptions[0].value}`),
+      value: filterDoseOptions[0].value,
+    },
+    filter_age: {
+      label: t(`vaccination.${filterAgeOptions[0].value}`),
+      value: filterAgeOptions[0].value,
+    },
     minmax: [timeseries_data.x.length - 182, timeseries_data.x.length - 1], // [6months ago, today]
   });
-  const { t } = useTranslation("common");
 
   const filterTimeline = () => {
     return {
@@ -88,7 +94,12 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             placeholder="Select"
             onChange={item => setData("filter_age", item)}
             selected={data.filter_age}
-            options={filterAgeOptions}
+            options={filterAgeOptions.map(option => {
+              return {
+                label: t(`vaccination.${option.value}`),
+                value: option.value,
+              };
+            })}
           />
         );
       case 1:
@@ -97,7 +108,12 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             placeholder="Select"
             onChange={item => setData("filter_dose", item)}
             selected={data.filter_dose}
-            options={filterDoseOptions}
+            options={filterDoseOptions.map(option => {
+              return {
+                label: t(`vaccination.${option.value}`),
+                value: option.value,
+              };
+            })}
           />
         );
     }

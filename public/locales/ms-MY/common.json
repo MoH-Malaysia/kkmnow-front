@@ -263,7 +263,9 @@
     "table_admission_trend": "Kadar Kemasukan Hospital",
     "table_cases": "Kes",
     "table_cases_posrate": "Kadar Positif",
-    "table_cases_trend": "Kadar Kes"
+    "table_cases_trend": "Kadar Kes",
+    "cases": "Kes",
+    "deaths": "Kematian"
   },
   "vaccination": {
     "title": "Vaksin COVID-19",
@@ -286,6 +288,10 @@
     "booster2": "Penggalak ke-2",
     "tooltips_booster2": "Petua alat untuk Booster 2",
     "filter_dose": "Tapis mengikut Dos",
+    "child": "Kanak-kanak",
+    "adolescent": "Remaja",
+    "adult": "Dewasa",
+    "elderly": "Warga emas",
     "combine_header": "Apakah keadaan semasa program vaksinasi COVID-19?",
     "combine_title": "Vaksinasi Harian",
     "combine_tooltip1": "Purata Pergerakan",
@@ -349,7 +355,7 @@
     "mmap_title": "Statistik Pandangan Dunia Malaysia",
     "heatmap_header": "Secara umum, pengguna menyemak COVIDNOW apabila mereka bangun - mungkin disebabkan kemas kini yang ditolak semalaman",
     "heatmap_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-    "heatmap_title": "% daripada tontonan mengikut masa dalam hari",
+    "heatmap_title": "Median tontonan mengikut masa dalam hari",
     "bar_header": "Untuk pemaju: Pecahan paparan mengikut demografi pengguna utama",
     "bar_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
     "bar_title1": "Jenis Peranti",
@@ -357,7 +363,17 @@
     "bar_title3": "Pelayar",
     "bar_title4": "Sistem Operasi (semua)",
     "bar_title5": "Sistem Pengandalian (mudah alih sahaja)",
-    "bar_title6": "Resolusi Skrin (mudah alih sahaja)"
+    "bar_title6": "Resolusi Skrin (mudah alih sahaja)",
+
+    "days": {
+      "Sunday": "Ahad",
+      "Monday": "Isnin",
+      "Tuesday": "Selasa",
+      "Wednesday": "Rabu",
+      "Thursday": "Khamis",
+      "Friday": "Jumaat",
+      "Saturday": "Sabtu"
+    }
   },
   "blood": {
     "category": "Kesihatan",

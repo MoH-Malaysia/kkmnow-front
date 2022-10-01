@@ -59,7 +59,10 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
   const { t } = useTranslation("common");
 
   const { data, setData } = useData({
-    show_indicator: filterCaseDeath[0],
+    show_indicator: {
+      label: t(`covid.${filterCaseDeath[0].value}`),
+      value: filterCaseDeath[0].value,
+    },
     filter_death: 0,
     filter_state: 0,
     filter_cases: 0,
@@ -659,7 +662,12 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             state={currentState}
             controls={
               <Dropdown
-                options={filterCaseDeath}
+                options={filterCaseDeath.map(option => {
+                  return {
+                    label: t(`covid.${option.value}`),
+                    value: option.value,
+                  };
+                })}
                 selected={data.show_indicator}
                 onChange={e => setData("show_indicator", e)}
               />

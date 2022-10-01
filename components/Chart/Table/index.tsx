@@ -265,7 +265,7 @@ const Table: FunctionComponent<TableProps> = ({
             {t("common.previous")}
           </button>
 
-          <span className="flex items-center gap-1 text-sm">
+          <span className="flex items-center gap-1 text-center text-sm">
             {t("common.page_of", {
               current: table.getState().pagination.pageIndex + 1,
               total: table.getPageCount(),

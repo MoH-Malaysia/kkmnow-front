@@ -263,7 +263,9 @@
     "table_admission_trend": "Hospital Admission Trend",
     "table_cases": "Cases",
     "table_cases_posrate": "Positivity Rate",
-    "table_cases_trend": "Cases Trend"
+    "table_cases_trend": "Cases Trend",
+    "cases": "Cases",
+    "deaths": "Deaths"
   },
   "vaccination": {
     "title": "COVID-19 Vaccination",
@@ -286,6 +288,10 @@
     "booster2": "2nd Booster",
     "tooltips_booster2": "Tooltip for Booster 2",
     "filter_dose": "Filter by Dose",
+    "child": "Children",
+    "adolescent": "Adolescent",
+    "adult": "Adults",
+    "elderly": "Elderly",
     "combine_header": "What is the current state of the COVID-19 vaccination program?",
     "combine_title": "Daily Vaccination",
     "combine_tooltip1": "Moving Average (MA)",
@@ -347,7 +353,7 @@
     "mmap_title": "Malaysia Views Statistics",
     "heatmap_header": "In general, users checked COVIDNOW when they woke up - likely due to updates being pushed overnight",
     "heatmap_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-    "heatmap_title": "% of Views by Time of Day",
+    "heatmap_title": "Median Views by Time of Day",
     "bar_header": "For developers: A breakdown of views by key user demographics",
     "bar_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
     "bar_title1": "Device Type",
@@ -355,7 +361,16 @@
     "bar_title3": "Browser",
     "bar_title4": "Operating System (all)",
     "bar_title5": "Operating System (mobile only)",
-    "bar_title6": "Screen Resolution (mobile only) 2"
+    "bar_title6": "Screen Resolution (mobile only) 2",
+    "days": {
+      "Sunday": "Sunday",
+      "Monday": "Monday",
+      "Tuesday": "Tuesday",
+      "Wednesday": "Wednesday",
+      "Thursday": "Thursday",
+      "Friday": "Friday",
+      "Saturday": "Saturday"
+    }
   },
   "blood": {
     "title": "health",
