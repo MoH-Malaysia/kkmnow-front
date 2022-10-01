@@ -27,12 +27,15 @@ const HealthcareFacilitiesIndex: Page = ({
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
-  const { data } = await get("/kkmnow", { dashboard: "facilities" }); // fetch static data here
+  const { data } = await get("/kkmnow", { dashboard: "facilities" });
+  const {
+    data: { facilities_table },
+  } = await get("/kkmnow", { dashboard: "facilities_table" });
 
   return {
     props: {
       ...i18n,
-      facility_table: data.facilities_table,
+      facility_table: facilities_table,
       state_district_mapping: data.helpers.state_district_mapping,
       facility_types: data.helpers.facility_types,
     },
