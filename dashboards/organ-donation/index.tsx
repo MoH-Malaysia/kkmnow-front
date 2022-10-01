@@ -1,8 +1,8 @@
 import { Hero, Container, Tabs, Panel, Slider, Section, StateDropdown } from "@components/index";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
-
-import { CountryAndStates, GRAYBAR_COLOR, ORGAN_COLOR } from "@lib/constants";
+import { useWindowWidth } from "@hooks/useWindowWidth";
+import { GRAYBAR_COLOR, ORGAN_COLOR, CountryAndStates, BREAKPOINTS } from "@lib/constants";
 import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useMemo } from "react";
 import { routes } from "@lib/routes";
@@ -11,6 +11,7 @@ import { useTranslation } from "next-i18next";
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
+const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
 interface OrganDonationDashboardProps {
   timeseries_pledge: any;
@@ -18,6 +19,7 @@ interface OrganDonationDashboardProps {
   bar_time: any;
   bar_reasons: any;
   heatmap_donorrate: any;
+  choropleth_malaysia_organ_donation: any;
 }
 
 const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = ({
@@ -26,14 +28,16 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
   bar_time,
   bar_reasons,
   heatmap_donorrate,
+  choropleth_malaysia_organ_donation,
 }) => {
   const router = useRouter();
+  const windowWidth = useWindowWidth();
+  const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
     minmax: [0, timeseries_pledge.x.length - 1],
   });
   const { t } = useTranslation("common");
-
   const filtered_timeline = useCallback(() => {
     return {
       x: timeseries_pledge.x.slice(data.minmax[0], data.minmax[1]),
@@ -55,7 +59,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
           </span>
           <h3 className="text-black">{t("organ.title_header")}</h3>
           <p className="text-dim">
-            {t("organ.title_description")}
+            {t("organ.title_description")}{" "}
             <a href="#" className="font-semibold text-blue-600">
               {t("organ.title_link")}
             </a>
@@ -114,6 +118,27 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
             <span className="text-sm text-dim">{t("common.slider")}</span>
+          </div>
+        </Section>
+        {/* Choropleth view of organ donar in Malaysia */}
+        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
+          <div>
+            <Choropleth
+              className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
+              enableScale={false}
+              colorScale="greens"
+              borderColor="#000"
+              borderWidth={0.5}
+              projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
+              projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
+              data={choropleth_malaysia_organ_donation.map((item: any) => ({
+                id: CountryAndStates[item.state],
+                state: CountryAndStates[item.state],
+                value: item.data.perc,
+              }))}
+              unitY="%"
+              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+            />
           </div>
         </Section>
 

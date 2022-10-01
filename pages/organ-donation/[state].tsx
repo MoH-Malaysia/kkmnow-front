@@ -17,6 +17,7 @@ const OrganDonationIndex = ({
   bar_reasons,
   heatmap_donorrate,
   state,
+  choropleth_malaysia_organ_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation();
   return (
@@ -31,6 +32,7 @@ const OrganDonationIndex = ({
         bar_time={bar_time}
         bar_reasons={bar_reasons}
         heatmap_donorrate={heatmap_donorrate}
+        choropleth_malaysia_organ_donation={choropleth_malaysia_organ_donation}
       />
     </>
   );
@@ -79,6 +81,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       bar_reasons: data.barchart_reasons,
       heatmap_donorrate: data.heatmap_pledgerrate,
       state: params?.state,
+      choropleth_malaysia_organ_donation: data.choropleth_malaysia,
     },
   };
 };
