@@ -20,6 +20,66 @@ const OrganDonationIndex = ({
   choropleth_malaysia_organ_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation();
+  let abs: any[] = [],
+    capita: any[] = [],
+    perc: any[] = [];
+  heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
+    if (item.x === "Overall") return;
+    abs.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: item.y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.abs.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y: heatmap_donorrate.abs.male.data[index].y + heatmap_donorrate.abs.female.data[index].y,
+        },
+      ],
+    });
+    capita.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: heatmap_donorrate.capita.male.data[index].y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.capita.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_donorrate.capita.female.data[index].y +
+            heatmap_donorrate.capita.male.data[index].y,
+        },
+      ],
+    });
+    perc.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: heatmap_donorrate.perc.male.data[index].y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.perc.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_donorrate.perc.female.data[index].y + heatmap_donorrate.perc.male.data[index].y,
+        },
+      ],
+    });
+  });
   return (
     <>
       <Metadata
@@ -31,7 +91,11 @@ const OrganDonationIndex = ({
         bar_age={bar_age}
         bar_time={bar_time}
         bar_reasons={bar_reasons}
-        heatmap_donorrate={heatmap_donorrate}
+        heatmap_donorrate={{
+          abs,
+          perc,
+          capita,
+        }}
         choropleth_malaysia_organ_donation={choropleth_malaysia_organ_donation}
       />
     </>

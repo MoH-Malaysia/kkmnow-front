@@ -229,7 +229,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
           </div>
 
           {subdata && (
-            <div className="aspect-auto h-full w-[12.5%]">
+            <div className="aspect-auto h-full w-[20%]">
               <ResponsiveHeatMap
                 data={formatted.subdata}
                 margin={{

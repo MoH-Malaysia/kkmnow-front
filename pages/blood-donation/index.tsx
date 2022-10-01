@@ -24,6 +24,66 @@ const BloodDonationIndex: Page = ({
   choropleth_malaysia_blood_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation("common");
+  let abs: any[] = [],
+    capita: any[] = [],
+    perc: any[] = [];
+  heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
+    if (item.x === "Overall") return;
+    abs.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: item.y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.abs.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y: heatmap_donorrate.abs.male.data[index].y + heatmap_donorrate.abs.female.data[index].y,
+        },
+      ],
+    });
+    capita.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: heatmap_donorrate.capita.male.data[index].y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.capita.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_donorrate.capita.female.data[index].y +
+            heatmap_donorrate.capita.male.data[index].y,
+        },
+      ],
+    });
+    perc.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: heatmap_donorrate.perc.male.data[index].y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.perc.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_donorrate.perc.female.data[index].y + heatmap_donorrate.perc.male.data[index].y,
+        },
+      ],
+    });
+  });
   return (
     <>
       <Metadata title={t("nav.megamenu.dashboards.blood_donation")} keywords={""} />
@@ -32,7 +92,11 @@ const BloodDonationIndex: Page = ({
         timeseries_bloodstock={timeseries_bloodstock}
         timeseries_facility={timeseries_facility}
         heatmap_bloodstock={heatmap_bloodstock}
-        heatmap_donorrate={heatmap_donorrate}
+        heatmap_donorrate={{
+          abs,
+          perc,
+          capita,
+        }}
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
@@ -62,47 +126,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   let capita: any[] = [];
   let perc: any[] = [];
 
-  data.heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
-    abs.push({
-      id: item.x,
-      data: [
-        {
-          x: "male",
-          y: item.y,
-        },
-        {
-          x: "female",
-          y: data.heatmap_donorrate.abs.female.data[index].y,
-        },
-      ],
-    });
-    capita.push({
-      id: item.x,
-      data: [
-        {
-          x: "male",
-          y: data.heatmap_donorrate.capita.male.data[index].y,
-        },
-        {
-          x: "female",
-          y: data.heatmap_donorrate.capita.female.data[index].y,
-        },
-      ],
-    });
-    perc.push({
-      id: item.x,
-      data: [
-        {
-          x: "male",
-          y: data.heatmap_donorrate.perc.male.data[index].y,
-        },
-        {
-          x: "female",
-          y: data.heatmap_donorrate.perc.female.data[index].y,
-        },
-      ],
-    });
-  });
   console.log(abs);
 
   return {
@@ -111,11 +134,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       timeseries_all: data.timeseries_all,
       timeseries_bloodstock: data.timeseries_bloodstock,
       timeseries_facility: data.timeseries_facility,
-      heatmap_donorrate: {
-        abs,
-        perc,
-        capita,
-      },
+      heatmap_donorrate: data.heatmap_donorrate,
       heatmap_bloodstock: Object.values(data.heatmap_bloodstock),
       heatmap_retention: Object.values(data.heatmap_retention),
       barchart_age: data.bar_chart_age,

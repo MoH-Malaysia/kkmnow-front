@@ -15,6 +15,68 @@ const PekaB40State: Page = ({
   choropleth_malaysia_peka_b40,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation();
+  let abs: any[] = [],
+    capita: any[] = [],
+    perc: any[] = [];
+  heatmap_screenrate.abs.male.data.forEach((item: any, index: number) => {
+    if (item.x === "Overall") return;
+    abs.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: item.y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_screenrate.abs.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_screenrate.abs.male.data[index].y + heatmap_screenrate.abs.female.data[index].y,
+        },
+      ],
+    });
+    capita.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: heatmap_screenrate.capita.male.data[index].y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_screenrate.capita.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_screenrate.capita.female.data[index].y +
+            heatmap_screenrate.capita.male.data[index].y,
+        },
+      ],
+    });
+    perc.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: heatmap_screenrate.perc.male.data[index].y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_screenrate.perc.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_screenrate.perc.female.data[index].y +
+            heatmap_screenrate.perc.male.data[index].y,
+        },
+      ],
+    });
+  });
   return (
     <>
       <Metadata
@@ -23,7 +85,11 @@ const PekaB40State: Page = ({
       />
       <PekaB40Dashboard
         timeseries_screenrate={timeseries_screenrate}
-        heatmap_screenrate={heatmap_screenrate}
+        heatmap_screenrate={{
+          abs,
+          perc,
+          capita,
+        }}
         bar_age={bar_age}
         choropleth_malaysia_peka_b40={choropleth_malaysia_peka_b40}
       />

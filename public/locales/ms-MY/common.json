@@ -364,7 +364,6 @@
     "bar_title4": "Sistem Operasi (semua)",
     "bar_title5": "Sistem Pengandalian (mudah alih sahaja)",
     "bar_title6": "Resolusi Skrin (mudah alih sahaja)",
-
     "days": {
       "Sunday": "Ahad",
       "Monday": "Isnin",
@@ -449,7 +448,10 @@
     "low": "Rendah",
     "mid": "Sederhana",
     "safe": "Selamat",
-    "high": "Tinggi"
+    "high": "Tinggi",
+    "male": "Lelaki",
+    "female": "Perempuan",
+    "overall": "Keseluruhan"
   },
   "healthcare": {
     "title": "Sumber Penjagaan Kesihatan",

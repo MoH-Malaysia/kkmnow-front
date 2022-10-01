@@ -444,7 +444,10 @@
     "low": "Low",
     "mid": "Mid",
     "safe": "Safe",
-    "high": "High"
+    "high": "High",
+    "male": "Male",
+    "female": "Female",
+    "overall": "Overall"
   },
   "healthcare": {
     "title": "healthcare resources",

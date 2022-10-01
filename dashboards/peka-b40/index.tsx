@@ -118,7 +118,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
           </div>
         </Section>
         {/* Choropleth view of pekaB40 in Malaysia */}
-        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
+        <Section
+          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
+          description={t("covidnow.mmap_description")}
+        >
           <div>
             <Choropleth
               className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
@@ -153,7 +156,14 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               >
                 <Panel name={t("peka.heatmap_panel1")}>
                   <>
-                    wip
+                    <Heatmap
+                      className="flex h-[600px] overflow-visible"
+                      data={heatmap_screenrate.capita}
+                      subdata
+                      axisLeft="default"
+                      color="red_purple"
+                    />
+
                     {/* <Heatmap
                       className="flex h-[140px] overflow-visible"
                       data={[heatmap_screenrate.capita.male, heatmap_screenrate.capita.female]}
@@ -195,7 +205,15 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 </Panel>
                 <Panel name={t("peka.heatmap_panel2")}>
                   <>
-                    wip
+                    <Heatmap
+                      className="flex h-[600px] overflow-visible"
+                      data={heatmap_screenrate.perc}
+                      subdata
+                      axisLeft="default"
+                      color="red_purple"
+                      unitY="%"
+                    />
+
                     {/* <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_screenrate.perc.male, heatmap_screenrate.perc.female]}
@@ -240,7 +258,15 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 </Panel>
                 <Panel name={t("peka.heatmap_panel3")}>
                   <>
-                    wip
+                    <Heatmap
+                      className="flex h-[600px] overflow-visible"
+                      data={heatmap_screenrate.abs}
+                      subdata
+                      axisLeft="default"
+                      valueFormat="<-,.1~s"
+                      color="red_purple"
+                    />
+
                     {/* <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_screenrate.abs.male, heatmap_screenrate.abs.female]}

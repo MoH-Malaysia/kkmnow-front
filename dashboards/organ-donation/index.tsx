@@ -121,7 +121,10 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
           </div>
         </Section>
         {/* Choropleth view of organ donar in Malaysia */}
-        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
+        <Section
+          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
+          description={t("covidnow.mmap_description")}
+        >
           <div>
             <Choropleth
               className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
@@ -245,7 +248,13 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               >
                 <Panel name={t("organ.capita")}>
                   <>
-                    wip
+                    <Heatmap
+                      className="flex h-[600px] overflow-visible"
+                      data={heatmap_donorrate.capita}
+                      subdata
+                      axisLeft="default"
+                      color="greens"
+                    />
                     {/* <Heatmap
                       className="flex h-[140px] overflow-visible"
                       data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
@@ -287,7 +296,14 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 </Panel>
                 <Panel name={t("organ.heatmap1_panel2")}>
                   <>
-                    wip
+                    <Heatmap
+                      className="flex h-[600px] overflow-visible"
+                      data={heatmap_donorrate.perc}
+                      subdata
+                      axisLeft="default"
+                      color="greens"
+                      unitY="%"
+                    />
                     {/* <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
@@ -332,7 +348,14 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 </Panel>
                 <Panel name={t("organ.heatmap1_panel3")}>
                   <>
-                    wip
+                    <Heatmap
+                      className="flex h-[600px] overflow-visible"
+                      data={heatmap_donorrate.abs}
+                      subdata
+                      axisLeft="default"
+                      valueFormat="<-,.1~s"
+                      color="greens"
+                    />
                     {/* <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}

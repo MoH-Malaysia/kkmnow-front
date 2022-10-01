@@ -26,6 +26,66 @@ const BloodDonationState: Page = ({
   choropleth_malaysia_blood_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation("common");
+  let abs: any[] = [],
+    capita: any[] = [],
+    perc: any[] = [];
+  heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
+    if (item.x === "Overall") return;
+    abs.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: item.y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.abs.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y: heatmap_donorrate.abs.male.data[index].y + heatmap_donorrate.abs.female.data[index].y,
+        },
+      ],
+    });
+    capita.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: heatmap_donorrate.capita.male.data[index].y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.capita.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_donorrate.capita.female.data[index].y +
+            heatmap_donorrate.capita.male.data[index].y,
+        },
+      ],
+    });
+    perc.push({
+      id: item.x,
+      data: [
+        {
+          x: t("blood.male"),
+          y: heatmap_donorrate.perc.male.data[index].y,
+        },
+        {
+          x: t("blood.female"),
+          y: heatmap_donorrate.perc.female.data[index].y,
+        },
+        {
+          x: t("blood.overall"),
+          y:
+            heatmap_donorrate.perc.female.data[index].y + heatmap_donorrate.perc.male.data[index].y,
+        },
+      ],
+    });
+  });
   return (
     <>
       <Metadata
