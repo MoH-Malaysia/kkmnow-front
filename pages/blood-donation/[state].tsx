@@ -19,6 +19,7 @@ const BloodDonationState: Page = ({
   heatmap_retention,
   barchart_age,
   barchart_time,
+  barchart_variables,
   map_facility,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -34,6 +35,7 @@ const BloodDonationState: Page = ({
         barchart_age={barchart_age}
         barchart_time={barchart_time}
         map_facility={map_facility}
+        barchart_variables={barchart_variables}
       />
     </>
   );
@@ -80,6 +82,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       heatmap_retention: Object.values(data.heatmap_retention),
       barchart_age: data.bar_chart_age,
       barchart_time: data.bar_chart_time,
+      barchart_variables: data.barchart_key_variables,
       map_facility: data.map_facility,
     },
   };
