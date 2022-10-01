@@ -34,7 +34,6 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
   const { data, setData } = useData({
     minmax: [0, timeseries_screenrate.x.length - 1],
   });
-  console.log(choropleth_malaysia_peka_b40);
 
   const { t } = useTranslation("common");
 

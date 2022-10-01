@@ -10,6 +10,7 @@ const PekaB40State: Page = ({
   timeseries_screenrate,
   heatmap_screenrate,
   bar_age,
+  choropleth_malaysia_peka_b40,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
@@ -18,6 +19,7 @@ const PekaB40State: Page = ({
         timeseries_screenrate={timeseries_screenrate}
         heatmap_screenrate={heatmap_screenrate}
         bar_age={bar_age}
+        choropleth_malaysia_peka_b40={choropleth_malaysia_peka_b40}
       />
     </>
   );
@@ -48,6 +50,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       timeseries_screenrate: data.timeseries,
       heatmap_screenrate: data.heatmap_screenrate,
       bar_age: data.barchart_ages,
+      choropleth_malaysia_peka_b40: data.choropleth_malaysia,
     },
   };
 };
