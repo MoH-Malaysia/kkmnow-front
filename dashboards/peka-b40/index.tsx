@@ -121,7 +121,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             <Choropleth
               className="h-[500px] w-full"
               enableScale={false}
-              colorScale="RdPu"
+              colorScale="purples"
               borderColor="#000"
               borderWidth={0.5}
               projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
