@@ -58,7 +58,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
           <h3 className="text-black">{t("organ.title_header")}</h3>
           <p className="text-dim">
-            {t("organ.title_description")}
+            {t("organ.title_description")}{" "}
             <a href="#" className="font-semibold text-blue-600">
               {t("organ.title_link")}
             </a>
