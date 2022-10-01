@@ -2,8 +2,9 @@ import { FunctionComponent, useCallback, useMemo } from "react";
 import { Hero, Container, Tabs, Panel, Slider, Section, StateDropdown } from "@components/index";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
+import { useWindowWidth } from "@hooks/useWindowWidth";
 
-import { GRAYBAR_COLOR, PEKA_COLOR } from "@lib/constants";
+import { GRAYBAR_COLOR, PEKA_COLOR, CountryAndStates, BREAKPOINTS } from "@lib/constants";
 import { useRouter } from "next/router";
 import { routes } from "@lib/routes";
 import { useTranslation } from "next-i18next";
@@ -11,23 +12,29 @@ import { useTranslation } from "next-i18next";
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
+const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
 interface PekaB40DashboardProps {
   timeseries_screenrate: any;
   heatmap_screenrate: any;
   bar_age: any;
+  choropleth_malaysia_peka_b40: any;
 }
 
 const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
   timeseries_screenrate,
   heatmap_screenrate,
   bar_age,
+  choropleth_malaysia_peka_b40,
 }) => {
   const router = useRouter();
+  const windowWidth = useWindowWidth();
+  const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
     minmax: [0, timeseries_screenrate.x.length - 1],
   });
+  console.log(choropleth_malaysia_peka_b40);
 
   const { t } = useTranslation("common");
 
@@ -107,6 +114,28 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
             <span className="text-sm text-dim">{t("peka.slider")}</span>
+          </div>
+        </Section>
+        {/* Choropleth view of pekaB40 in Malaysia */}
+        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
+          <div>
+            <Choropleth
+              className="h-[500px] w-full"
+              enableScale={false}
+              // colorScale="CHOROPLETH_BLUE_SCALE"
+              colorScale="blues"
+              borderColor="#000"
+              borderWidth={0.5}
+              projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
+              projectionScaleSetting={isMobile ? 2200 : 3500}
+              data={choropleth_malaysia_peka_b40.map((item: any) => ({
+                id: CountryAndStates[item.state],
+                state: CountryAndStates[item.state],
+                value: item.data.perc,
+              }))}
+              unitY="%"
+              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+            />
           </div>
         </Section>
 
