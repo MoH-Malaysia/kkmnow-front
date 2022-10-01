@@ -6,6 +6,7 @@ import { useData } from "@hooks/useData";
 import { GRAYBAR_COLOR, PEKA_COLOR } from "@lib/constants";
 import { useRouter } from "next/router";
 import { routes } from "@lib/routes";
+import { useTranslation } from "next-i18next";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -28,6 +29,8 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
     minmax: [0, timeseries_screenrate.x.length - 1],
   });
 
+  const { t } = useTranslation("common");
+
   const filtered_timeline = useCallback(() => {
     return {
       x: timeseries_screenrate.x.slice(data.minmax[0], data.minmax[1]),
@@ -46,17 +49,16 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
       <Hero background="peka-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
-          <h3 className="text-black">Peka B40</h3>
+          <h3 className="text-black">{t("peka.title")}</h3>
           <p className="text-dim">
-            PeKa B40 is a MoH initiative which aims to sustain the healthcare needs of low income
-            groups by focusing on non-communicable diseases (NCDs). Recipients of the Bantuan
-            Prihatin Rakyat (previously known as Bantuan Sara Hidup) and their spouses aged 40 and
-            above are automatically eligible for free health screenings. This dashboard, which gives
-            you near-real-time updates on PeKa B40 screenings, is brought to you by ProtectHealth
-            Corporation (PHCorp), a fully-owned subsidiary of the Ministry of Health.
+            {t("peka.title_description")}{" "}
+            <a href="#" className="font-semibold text-blue-600">
+              {t("peka.title_link")}
+            </a>
+            {t("peka.title_description2")}
           </p>
           <div className="flex w-full items-center gap-4">
-            <p className="text-sm font-bold text-dim">Zoom into</p>
+            <p className="text-sm font-bold text-dim">{t("covid.zoom")}</p>
             <StateDropdown url={routes.PEKA_B40} currentState={currentState} exclude={["kvy"]} />
           </div>
         </div>
@@ -64,8 +66,13 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
 
       <Container className="min-h-screen">
         <Section
-          title="What are the latest screening trends in Klang Valley?"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+          title={t("peka.screening_header")}
+          description={
+            <p className="pt-2 text-dim">
+              {t("peka.screening_description1")} <strong>{t("peka.screening_description2")}</strong>
+              {t("peka.screening_description3")}
+            </p>
+          }
         >
           <div className="space-y-4">
             <Timeseries
@@ -81,7 +88,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     label: "Moving Average (MA)",
                     data: filtered_timeline().line,
                     borderColor: PEKA_COLOR[600],
-                    borderWidth: 1,
+                    borderWidth: 1.5,
                   },
                   {
                     type: "bar",
@@ -99,26 +106,20 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               data={timeseries_screenrate.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
-            <span className="text-sm text-dim">
-              Use this time slider to zoom in specific time range
-            </span>
+            <span className="text-sm text-dim">{t("peka.slider")}</span>
           </div>
         </Section>
 
         {/* What proportion of the population in {{ area }} donates blood? */}
-        <Section
-          title="What proportion of the population in Klang Valley donates blood?"
-          description="To ensure a stable and high supply of blood, we need 10% of the eligible population to
-          donate at least 1 time per year."
-        >
+        <Section title={t("peka.heatmap_header")} description={t("peka.heatmap_description")}>
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full">
               <Tabs
-                title="Donor rates across key demographics"
+                title={t("peka.heatmap_title")}
                 //menu={<MenuDropdown />}
                 state={currentState}
               >
-                <Panel name="Per Capita">
+                <Panel name={t("peka.heatmap_panel1")}>
                   <>
                     <Heatmap
                       className="flex h-[140px] overflow-visible"
@@ -159,7 +160,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     />
                   </>
                 </Panel>
-                <Panel name="% of Donations">
+                <Panel name={t("peka.heatmap_panel2")}>
                   <>
                     <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
@@ -203,7 +204,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     />
                   </>
                 </Panel>
-                <Panel name="Absolute">
+                <Panel name={t("peka.heatmap_panel3")}>
                   <>
                     <Heatmap
                       className="flex h-[150px] overflow-visible"
@@ -251,8 +252,8 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             </div>
 
             <div>
-              <Tabs title="Newly screened individuals by age" state={currentState}>
-                <Panel name="Past 1 year">
+              <Tabs title={t("peka.bar2_x")} state={currentState}>
+                <Panel name={t("peka.annual")}>
                   <Bar
                     className="h-[500px]"
                     layout="horizontal"
@@ -269,7 +270,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     enableGridY={false}
                   />
                 </Panel>
-                <Panel name="Past 1 month">
+                <Panel name={t("peka.monthly")}>
                   <Bar
                     className="h-[500px]"
                     layout="horizontal"
@@ -292,10 +293,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         </Section>
 
         {/* How is this data collected? */}
-        <Section
-          title="How is this data collected?"
-          description="Map showing locations of BBIS centres:"
-        />
+        <Section title={t("peka.map_header")} description={t("peka.map_description")} />
       </Container>
     </>
   );

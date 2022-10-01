@@ -17,6 +17,7 @@ import { FACILTIES_TABLE_SCHEMA } from "@lib/schema/healthcare-facilities";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useEffect } from "react";
 import { OptionType } from "@components/types";
+import { useTranslation } from "next-i18next";
 import { get } from "@lib/api";
 
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
@@ -43,6 +44,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     bar_distances_within: undefined,
     bar_distances_between: undefined,
   });
+  const { t } = useTranslation("common");
 
   const handleClearSelection = () => {
     setData("zoom_state", undefined);
@@ -82,22 +84,14 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       <Hero background="facilities-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
-            healthcare resources
+            {t("healthcare.title")}
           </span>
-          <h3 className="text-black">Healthcare Facilities</h3>
-          <p className="text-dim">
-            The Health Informatics Centre (PIK) maintains a constantly-updated database on all
-            healthcare faciltiies - both public and private - in Malaysia. This dashboard documents
-            the data in a manner that eases the process of finding a healthcare facility for your
-            needs, and builds on the dataset to analyse healthcare access. The analysis on the
-            access will be constantly enriched over time as we deepen the scope of the facilities
-            dataset - for instance with data on services offered, waiting times, and healthcare
-            outcomes.
-          </p>
+          <h3 className="text-black">{t("healthcare.title_header")}</h3>
+          <p className="text-dim">{t("healthcare.title_description")}</p>
         </div>
       </Hero>
       <Container className="min-h-screen">
-        <Section title="Find A Healthcare Facility">
+        <Section title={t("healthcare.table_header")}>
           <div className="mt-2">
             <Table
               data={facility_table}
@@ -181,21 +175,15 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
         <div className="grid grid-cols-1 gap-8 pt-12 lg:grid-cols-3">
           <Section
             className="col-span-1"
-            title="How does proximity to healthcare vary nationally?"
-            description="Distance to the nearest healthcare facility is not the only measure of access to
-                healthcare. There is a modern and growing body of research demonstrating the tough
-                tradeoffs involved in localisation of healthcare - for instance, diversifying
-                resources across multiple facilities in an area to decrease travel time, or
-                concentrating them in a single hospital to up the quality of care.  The data presented here only captures one aspect of healthcare access (proximity),
-                and is intended as a starting point for policymakers and the community to have a
-                conversation about access."
+            title={t("healthcare.map_header")}
+            description={t("healthcare.map_description1")}
             date={null}
           >
             <div className="w-full space-y-2 lg:space-y-4">
               <div className="flex items-center justify-between gap-2">
                 <h4 className="flex items-center gap-2">
                   <MapPinIcon className="h-5 w-5 text-dim" />
-                  Zoom into my area
+                  {t("healthcare.zoom")}
                 </h4>
 
                 {data.zoom_facility_type && (
@@ -229,7 +217,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 width="w-full"
               />
               <Dropdown
-                placeholder="Select district"
+                placeholder={t("healthcare.dropdown_placeholder1")}
                 onChange={item => setData("zoom_district", item)}
                 selected={data.zoom_district}
                 disabled={!data.zoom_state}
