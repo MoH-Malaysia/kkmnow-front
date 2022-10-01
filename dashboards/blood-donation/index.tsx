@@ -12,7 +12,15 @@ import {
   BarMeter,
 } from "@components/index";
 import { useData } from "@hooks/useData";
-import { BLOOD_SUPPLY_COLOR, BLOOD_COLOR, GRAYBAR_COLOR, CountryAndStates } from "@lib/constants";
+import { useWindowWidth } from "@hooks/useWindowWidth";
+
+import {
+  BLOOD_SUPPLY_COLOR,
+  BLOOD_COLOR,
+  GRAYBAR_COLOR,
+  CountryAndStates,
+  BREAKPOINTS,
+} from "@lib/constants";
 import { BLOOD_SUPPLY_SCHEMA } from "@lib/schema/blood-donation";
 import { routes } from "@lib/routes";
 import dynamic from "next/dynamic";
@@ -26,6 +34,7 @@ const Empty = dynamic(() => import("@components/Chart/Empty"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
+const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
 interface BloodDonationDashboardProps {
   timeseries_all: any;
@@ -38,6 +47,7 @@ interface BloodDonationDashboardProps {
   barchart_time: any;
   barchart_variables: any;
   map_facility: any;
+  choropleth_malaysia_blood_donation: any;
 }
 
 const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
@@ -51,8 +61,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   barchart_time,
   barchart_variables,
   map_facility,
+  choropleth_malaysia_blood_donation,
 }) => {
   const router = useRouter();
+  const windowWidth = useWindowWidth();
+  const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
   const [limit, setLimit] = useState([0, timeseries_all.x.length - 1] as [number, number]);
   const { data, setData } = useData({
@@ -285,6 +298,28 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             <span className="text-sm text-dim">
               Use this time slider to zoom in specific time range
             </span>
+          </div>
+        </Section>
+        {/* Choropleth view of organ donar in Malaysia */}
+        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
+          <div>
+            <Choropleth
+              className="h-[500px] w-full"
+              enableScale={false}
+              // colorScale="CHOROPLETH_BLUE_SCALE"
+              colorScale="blues"
+              borderColor="#000"
+              borderWidth={0.5}
+              projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
+              projectionScaleSetting={isMobile ? 2200 : 3500}
+              data={choropleth_malaysia_blood_donation.map((item: any) => ({
+                id: CountryAndStates[item.state],
+                state: CountryAndStates[item.state],
+                value: item.data.perc,
+              }))}
+              unitY="%"
+              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+            />
           </div>
         </Section>
         {/* A breakdown of donations by key variables */}

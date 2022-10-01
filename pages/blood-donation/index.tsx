@@ -20,6 +20,7 @@ const BloodDonationIndex: Page = ({
   barchart_time,
   barchart_variables,
   map_facility,
+  choropleth_malaysia_blood_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
@@ -35,6 +36,7 @@ const BloodDonationIndex: Page = ({
         barchart_time={barchart_time}
         barchart_variables={barchart_variables}
         map_facility={map_facility}
+        choropleth_malaysia_blood_donation={choropleth_malaysia_blood_donation}
       />
     </>
   );
@@ -67,6 +69,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       barchart_time: data.bar_chart_time,
       barchart_variables: data.barchart_key_variables,
       map_facility: data.map_facility,
+      choropleth_malaysia_blood_donation: data.choropleth_malaysia,
     },
   };
 };
