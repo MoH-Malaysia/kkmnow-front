@@ -43,7 +43,7 @@ const CovidState: Page = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  const paths = STATES.map(state => {
+  const paths = STATES.filter(item => !["kvy"].includes(item.key)).map(state => {
     return {
       params: {
         state: state.key,
