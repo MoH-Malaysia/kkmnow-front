@@ -37,6 +37,7 @@ const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: fa
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
 interface BloodDonationDashboardProps {
+  last_updated: number;
   timeseries_all: any;
   timeseries_bloodstock: any;
   timeseries_facility: any;
@@ -51,6 +52,7 @@ interface BloodDonationDashboardProps {
 }
 
 const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
+  last_updated,
   timeseries_all,
   timeseries_bloodstock,
   timeseries_facility,
@@ -139,7 +141,10 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       </Hero>
       <Container className="min-h-screen">
         {/* Is {{ area }}'s current blood supply sufficient? */}
-        <Section title={t("blood.table_header", { state: CountryAndStates[currentState] })}>
+        <Section
+          title={t("blood.table_header", { state: CountryAndStates[currentState] })}
+          date={last_updated}
+        >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
             <Heatmap
               className="h-[420px]"
@@ -260,6 +265,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         <Section
           title={t("blood.combine_header", { state: CountryAndStates[currentState] })}
           description={t("blood.combine_description")}
+          date={last_updated}
         >
           <div className="w-full space-y-4">
             <Timeseries
@@ -305,6 +311,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         <Section
           title={t("covidnow.mmap_header", { state: t("state.kvy") })}
           description={t("covidnow.mmap_description")}
+          date={last_updated}
         >
           <div>
             <Choropleth
@@ -327,7 +334,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           </div>
         </Section>
         {/* A breakdown of donations by key variables */}
-        <Section title={t("blood.barmeter_header")} description={t("blood.barmeter_description")}>
+        <Section
+          title={t("blood.barmeter_header")}
+          description={t("blood.barmeter_description")}
+          date={last_updated}
+        >
           <Tabs className="pb-4">
             {KEY_VARIABLES_SCHEMA.map(({ name, data }) => {
               return (
@@ -368,6 +379,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         <Section
           title={t("blood.bar1_header", { state: CountryAndStates[currentState] })}
           description={t("blood.bar1_description")}
+          date={last_updated}
         >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
@@ -455,6 +467,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         <Section
           title={t("blood.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("blood.heatmap_description")}
+          date={last_updated}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full overflow-visible">
@@ -636,7 +649,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         </Section>
 
         {/* How is this data collected? */}
-        <Section title={t("blood.map_header")} description={t("blood.map_description")}>
+        <Section
+          title={t("blood.map_header")}
+          description={t("blood.map_description")}
+          date={last_updated}
+        >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full space-y-3">
               <div className="flex flex-wrap justify-between">

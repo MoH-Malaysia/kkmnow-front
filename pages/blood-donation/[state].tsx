@@ -12,6 +12,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const BloodDonationState: Page = ({
+  last_updated,
   timeseries_all,
   timeseries_bloodstock,
   timeseries_facility,
@@ -93,6 +94,7 @@ const BloodDonationState: Page = ({
         keywords={""}
       />
       <BloodDonationDashboard
+        last_updated={last_updated}
         timeseries_all={timeseries_all}
         timeseries_bloodstock={timeseries_bloodstock}
         timeseries_facility={timeseries_facility}
@@ -149,6 +151,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       ...i18n,
+      last_updated: new Date().valueOf(),
       timeseries_all: data.timeseries_all,
       timeseries_bloodstock: data.timeseries_bloodstock,
       timeseries_facility: data.timeseries_facility,

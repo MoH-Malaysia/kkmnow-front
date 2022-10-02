@@ -24,6 +24,7 @@ const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
 interface HospitalBedUtilisationDashboardProps {
+  last_updated: number;
   choropleth_bed: any;
   table_facility: any;
   timeseries_facility: any;
@@ -31,6 +32,7 @@ interface HospitalBedUtilisationDashboardProps {
 }
 
 const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationDashboardProps> = ({
+  last_updated,
   choropleth_bed,
   table_facility,
   timeseries_facility,
@@ -58,6 +60,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
         <Section
           title={t("bed.choro_header", { state: CountryAndStates["mys"] })}
           description={t("bed.choro_description")}
+          date={last_updated}
         >
           <Tabs className="flex flex-wrap justify-end gap-2">
             <Panel key={0} name={t("bed.tab_choro1")}>
@@ -92,7 +95,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
             </Panel>
           </Tabs>
         </Section>
-        <Section title={t("bed.table_header")}>
+        <Section title={t("bed.table_header")} date={last_updated}>
           <Table
             controls={setColumnFilters => (
               <>
@@ -135,7 +138,10 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
             enablePagination
           />
         </Section>
-        <Section title={t("bed.timeseries_header", { facility: data.facility ?? "Malaysia" })}>
+        <Section
+          title={t("bed.timeseries_header", { facility: data.facility ?? "Malaysia" })}
+          date={last_updated}
+        >
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
             {data.state && data.facility ? (
               <>

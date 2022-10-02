@@ -11,6 +11,7 @@ import { DateTime } from "luxon";
 import { useTranslation } from "next-i18next";
 
 const BloodDonationIndex: Page = ({
+  last_updated,
   timeseries_all,
   timeseries_bloodstock,
   timeseries_facility,
@@ -88,6 +89,7 @@ const BloodDonationIndex: Page = ({
     <>
       <Metadata title={t("nav.megamenu.dashboards.blood_donation")} keywords={""} />
       <BloodDonationDashboard
+        last_updated={last_updated}
         timeseries_all={timeseries_all}
         timeseries_bloodstock={timeseries_bloodstock}
         timeseries_facility={timeseries_facility}
@@ -122,15 +124,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
 
-  let abs: any[] = [];
-  let capita: any[] = [];
-  let perc: any[] = [];
-
-  console.log(abs);
-
   return {
     props: {
       ...i18n,
+      last_updated: new Date().valueOf(),
       timeseries_all: data.timeseries_all,
       timeseries_bloodstock: data.timeseries_bloodstock,
       timeseries_facility: data.timeseries_facility,

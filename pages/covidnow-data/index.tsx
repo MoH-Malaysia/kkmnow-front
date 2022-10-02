@@ -8,9 +8,9 @@ import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { i18n } from "next-i18next";
 
 const CovidNowDataIndex: Page = ({
+  last_updated,
   timeseries_chart,
   heatmap_chart,
   barmeter_chart,
@@ -29,6 +29,7 @@ const CovidNowDataIndex: Page = ({
       <Metadata title={t("nav.megamenu.dashboards.covidnow_data")} keywords={""} />
 
       <CovidNowDashboard
+        last_updated={last_updated}
         timeseries_chart={timeseries_chart}
         heatmap_chart={final}
         barmeter_chart={barmeter_chart}
@@ -40,7 +41,7 @@ const CovidNowDataIndex: Page = ({
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const i18n2 = await serverSideTranslations(locale!, ["common"]);
+  const i18n = await serverSideTranslations(locale!, ["common"]);
 
   const data2 = await get("/kkmnow", { dashboard: "covid_now" }); // fetch static data here
 
@@ -50,7 +51,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   });
   return {
     props: {
-      ...i18n2,
+      ...i18n,
+      last_updated: new Date().valueOf(),
       timeseries_chart: data2.data.timeseries,
       heatmap_chart: heatmap_chart,
       barmeter_chart: data2.data.bar_chart,

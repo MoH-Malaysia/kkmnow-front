@@ -15,6 +15,7 @@ const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: 
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
 interface PekaB40DashboardProps {
+  last_updated: number;
   timeseries_screenrate: any;
   heatmap_screenrate: any;
   bar_age: any;
@@ -22,6 +23,7 @@ interface PekaB40DashboardProps {
 }
 
 const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
+  last_updated,
   timeseries_screenrate,
   heatmap_screenrate,
   bar_age,
@@ -81,6 +83,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               {t("peka.screening_description3")}
             </p>
           }
+          date={last_updated}
         >
           <div className="space-y-4">
             <Timeseries
@@ -121,6 +124,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         <Section
           title={t("covidnow.mmap_header", { state: t("state.kvy") })}
           description={t("covidnow.mmap_description")}
+          date={last_updated}
         >
           <div>
             <Choropleth
@@ -146,6 +150,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         <Section
           title={t("peka.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("peka.heatmap_description")}
+          date={last_updated}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full">
@@ -354,7 +359,11 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         </Section>
 
         {/* How is this data collected? */}
-        <Section title={t("peka.map_header")} description={t("peka.map_description")} />
+        <Section
+          title={t("peka.map_header")}
+          description={t("peka.map_description")}
+          date={last_updated}
+        />
       </Container>
     </>
   );

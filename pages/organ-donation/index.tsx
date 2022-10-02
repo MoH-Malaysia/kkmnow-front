@@ -10,6 +10,7 @@ import { DateTime } from "luxon";
 import { useTranslation } from "next-i18next";
 
 const OrganDonationIndex = ({
+  last_updated,
   timeseries_pledge,
   bar_age,
   bar_time,
@@ -82,6 +83,7 @@ const OrganDonationIndex = ({
     <>
       <Metadata title={t("nav.megamenu.dashboards.organ_donation")} keywords={""} />
       <OrganDonationDashboard
+        last_updated={last_updated}
         timeseries_pledge={timeseries_pledge}
         bar_age={bar_age}
         bar_time={bar_time}
@@ -111,6 +113,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...i18n,
+      last_updated: new Date().valueOf(),
       timeseries_pledge: data.timeseries,
       bar_age: data.barchart_age,
       bar_time: data.barchart_time,

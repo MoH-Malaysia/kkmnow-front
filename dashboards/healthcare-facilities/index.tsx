@@ -26,12 +26,14 @@ import { get } from "@lib/api";
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
 interface HealthcareFacilitiesDashboardProps {
+  last_updated: number;
   facility_table: any;
   state_district_mapping: any;
   facility_types: any;
 }
 
 const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashboardProps> = ({
+  last_updated,
   facility_table,
   state_district_mapping,
   facility_types,
@@ -94,7 +96,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
         </div>
       </Hero>
       <Container className="min-h-screen">
-        <Section title={t("healthcare.table_header")}>
+        <Section title={t("healthcare.table_header")} date={last_updated}>
           <div className="mt-2">
             <Table
               data={facility_table}

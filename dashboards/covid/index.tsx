@@ -28,6 +28,7 @@ const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: 
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
 interface CovidDashboardProps {
+  last_updated: number;
   bar_chart: any;
   snapshot_bar: any;
   snapshot_graphic: any;
@@ -42,6 +43,7 @@ interface CovidDashboardProps {
 }
 
 const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
+  last_updated,
   bar_chart,
   snapshot_bar,
   snapshot_graphic,
@@ -171,6 +173,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               {t("common.data_for", { state: CountryAndStates[currentState] })}
             </p>
           }
+          date={last_updated}
         >
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
@@ -239,7 +242,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* What does the latest data show? */}
-        <Section title={t("covid.diagram_header")}>
+        <Section title={t("covid.diagram_header")} date={last_updated}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <div className="col-span-1 xl:col-span-2">
               <Stages
@@ -415,7 +418,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* How are COVID-19 key indicators trending */}
-        <Section title={t("covid.area_chart_header")}>
+        <Section title={t("covid.area_chart_header")} date={last_updated}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
               className="h-[250px] w-full"
@@ -423,7 +426,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              stats={null}
+              //    stats={[
+              //     {
+              //       title: t("vaccination.daily"),
+              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
+              //     },
+              //     {
+              //       title: `${t("vaccination.total")}`,
+              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
+              //     },
+              //   ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -460,7 +472,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               interval={interval_scale}
               // menu={<MenuDropdown />}
-              stats={null}
+              //   stats={[
+              //     {
+              //       title: t("vaccination.daily"),
+              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
+              //     },
+              //     {
+              //       title: `${t("vaccination.total")}`,
+              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
+              //     },
+              //   ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -490,7 +511,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              stats={null}
+              //   stats={[
+              //     {
+              //       title: t("vaccination.daily"),
+              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
+              //     },
+              //     {
+              //       title: `${t("vaccination.total")}`,
+              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
+              //     },
+              //   ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -520,7 +550,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              stats={null}
+              //   stats={[
+              //     {
+              //       title: t("vaccination.daily"),
+              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
+              //     },
+              //     {
+              //       title: `${t("vaccination.total")}`,
+              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
+              //     },
+              //   ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -551,7 +590,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               // menu={<MenuDropdown />}
               interval={interval_scale}
               // enableLegend
-              stats={null}
+              //   stats={[
+              //     {
+              //       title: t("vaccination.daily"),
+              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
+              //     },
+              //     {
+              //       title: `${t("vaccination.total")}`,
+              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
+              //     },
+              //   ]}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -580,7 +628,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              stats={null}
+              //   stats={[
+              //     {
+              //       title: t("vaccination.daily"),
+              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
+              //     },
+              //     {
+              //       title: `${t("vaccination.total")}`,
+              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
+              //     },
+              //   ]}
               enableRightScale
               data={{
                 labels: filtered_timeline().x,
@@ -628,7 +685,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* How vaccinated against COVID-19 are we? */}
-        <Section title={t("covid.table_header")}>
+        <Section title={t("covid.table_header")} date={last_updated}>
           <div>
             <Tabs
               className="flex flex-wrap justify-end gap-2 pb-4"
@@ -645,7 +702,11 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
           </div>
         </Section>
 
-        <Section title={t("covid.bar_chart_header")} description={t("covid.bar_chart_subheader")}>
+        <Section
+          title={t("covid.bar_chart_header")}
+          description={t("covid.bar_chart_subheader")}
+          date={last_updated}
+        >
           <Tabs
             title={
               {

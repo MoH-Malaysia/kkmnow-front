@@ -26,6 +26,7 @@ const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false });
 
 interface CovidVaccinationProps {
+  last_updated: number;
   waffle_data: Array<any>;
   barmeter_data: Array<any>;
   table_data: Array<any>;
@@ -34,6 +35,7 @@ interface CovidVaccinationProps {
 }
 
 const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
+  last_updated,
   waffle_data,
   table_data,
   barmeter_data,
@@ -146,7 +148,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
       </Hero>
 
       <Container className="min-h-screen">
-        <Section title={t("vaccination.waffle_header")}>
+        <Section title={t("vaccination.waffle_header")} date={last_updated}>
           <Tabs
             state={
               <p className="text-dim">
@@ -325,7 +327,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* What is the current state of the COVID-19 vaccination program? */}
-        <Section title={t("vaccination.combine_header")}>
+        <Section title={t("vaccination.combine_header")} date={last_updated}>
           <div className="space-y-4">
             <Timeseries
               className="h-[350px] w-full pt-6"
@@ -384,7 +386,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* How are COVID-19 key indicators trending */}
-        <Section title={t("vaccination.area_chart_header")}>
+        <Section title={t("vaccination.area_chart_header")} date={last_updated}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
               title={t("vaccination.area_chart_title1")}
@@ -606,7 +608,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* Which states are best vaccinated against COVID-19? */}
-        <Section title={t("vaccination.table_header")}>
+        <Section title={t("vaccination.table_header")} date={last_updated}>
           <div>
             <Tabs
               className="flex flex-wrap justify-end gap-2 pb-4"

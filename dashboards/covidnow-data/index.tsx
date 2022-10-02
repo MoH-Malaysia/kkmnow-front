@@ -15,6 +15,7 @@ const ChoroplethWorld = dynamic(() => import("@components/Chart/ChoroplethWorld"
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
 interface CovidNOWDashboardProps {
+  last_updated: number;
   barmeter_chart: any;
   timeseries_chart: any;
   heatmap_chart: any;
@@ -23,6 +24,7 @@ interface CovidNOWDashboardProps {
 }
 
 const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
+  last_updated,
   timeseries_chart,
   heatmap_chart,
   barmeter_chart,
@@ -31,7 +33,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
 }) => {
   const [limit, setLimit] = useState([0, timeseries_chart.x.length - 1]);
 
-  const dateEnd = new Date("2022-09-24").toDateString();
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const { t } = useTranslation("common");
@@ -157,7 +158,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.combine_header")}
           description={t("covidnow.combine_description")}
-          date={dateEnd}
+          date={last_updated}
         >
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
@@ -203,7 +204,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.wmap_header")}
           description={t("covidnow.wmap_description")}
-          date={dateEnd}
+          date={last_updated}
         >
           <div>
             <Tabs className="flex flex-wrap justify-end gap-2" title={t("covidnow.wmap_title")}>
@@ -213,7 +214,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     className={isMobile ? "h-[300px] w-full" : "h-[500px] w-full"}
                     enableScale={false}
                     projectionScaleSetting={isMobile ? 65 : 125}
-                    unitY=" views"
+                    unitY={` ${t("covidnow.views").toLowerCase()}`}
                     xKey="properties.name_short"
                     data={choropleth_world.map((item: any) => {
                       return {
@@ -243,6 +244,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.mmap_header", { state: t("state.kvy") })}
           description={t("covidnow.mmap_description")}
+          date={last_updated}
         >
           <div>
             <Tabs className="flex flex-wrap justify-end gap-2" title={t("covidnow.mmap_title")}>
@@ -263,7 +265,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                       value: item.data.views_log,
                       value_real: item.data.views,
                     }))}
-                    unitY=" views"
+                    unitY={` ${t("covidnow.views").toLowerCase()}`}
                     graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
                   />
                 </div>
@@ -279,7 +281,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.heatmap_header")}
           description={t("covidnow.heatmap_description")}
-          date={dateEnd}
+          date={last_updated}
         >
           <div className="grid grid-cols-1 gap-12">
             <Heatmap
@@ -288,7 +290,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               //   menu={<MenuDropdown />}
               data={heatmap_chart}
               axisLeft="default"
-              unitY=" views"
+              unitY={` ${t("covidnow.views").toLowerCase()}`}
               valueFormat=" >-.2s"
               color="blues"
             />
@@ -299,7 +301,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.bar_header")}
           description={t("covidnow.bar_description")}
-          date={dateEnd}
+          date={last_updated}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-3">
             <div className="w-full space-y-4">

@@ -11,6 +11,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const CovidState: Page = ({
+  last_updated,
   bar_chart,
   snapshot_bar,
   snapshot_graphic,
@@ -32,6 +33,7 @@ const CovidState: Page = ({
         keywords={""}
       />
       <CovidDashboard
+        last_updated={last_updated}
         bar_chart={bar_chart}
         snapshot_bar={snapshot_bar}
         snapshot_graphic={snapshot_graphic}
@@ -78,6 +80,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   return {
     props: {
+      last_updated: new Date().valueOf(),
       bar_chart: data.bar_chart,
       snapshot_bar: data.snapshot_bar,
       snapshot_graphic: data.snapshot_graphic,

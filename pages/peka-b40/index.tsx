@@ -7,6 +7,7 @@ import Metadata from "@components/Metadata";
 import { useTranslation } from "next-i18next";
 
 const PekaB40: Page = ({
+  last_updated,
   timeseries_screenrate,
   heatmap_screenrate,
   bar_age,
@@ -79,6 +80,7 @@ const PekaB40: Page = ({
     <>
       <Metadata title={t("nav.megamenu.dashboards.peka_b40")} keywords={""} />
       <PekaB40Dashboard
+        last_updated={last_updated}
         timeseries_screenrate={timeseries_screenrate}
         heatmap_screenrate={{
           abs,
@@ -99,6 +101,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...i18n,
+      last_updated: new Date().valueOf(),
       timeseries_screenrate: data.timeseries,
       heatmap_screenrate: data.heatmap_screenrate,
       bar_age: data.barchart_ages,

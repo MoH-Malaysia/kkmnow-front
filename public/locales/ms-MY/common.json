@@ -26,6 +26,7 @@
     "next": "Seterusnya",
     "in": " di ",
     "page_of": "Muka surat {{ current }} daripada {{ total }}",
+    "data_of": "Data setakat {{ date }}",
     "data_for": "Data untuk {{ state }}",
     "slider": "Gunakan peluncur masa ini untuk mengezum dalam julat masa tertentu",
     "zoom": "Zum ke kawasan saya",

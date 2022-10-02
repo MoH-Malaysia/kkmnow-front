@@ -9,6 +9,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const CovidIndex = ({
+  last_updated,
   bar_chart,
   snapshot_bar,
   snapshot_graphic,
@@ -27,6 +28,7 @@ const CovidIndex = ({
     <>
       <Metadata title={t("nav.megamenu.dashboards.covid_19")} keywords={""} />
       <CovidDashboard
+        last_updated={last_updated}
         bar_chart={bar_chart}
         snapshot_bar={snapshot_bar}
         snapshot_graphic={snapshot_graphic}
@@ -49,6 +51,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
+      last_updated: new Date().valueOf(),
       bar_chart: data.bar_chart,
       snapshot_bar: data.snapshot_bar,
       snapshot_graphic: data.snapshot_graphic,

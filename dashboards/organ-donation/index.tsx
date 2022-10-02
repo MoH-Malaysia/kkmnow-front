@@ -14,6 +14,7 @@ const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: 
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
 interface OrganDonationDashboardProps {
+  last_updated: number;
   timeseries_pledge: any;
   bar_age: any;
   bar_time: any;
@@ -23,6 +24,7 @@ interface OrganDonationDashboardProps {
 }
 
 const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = ({
+  last_updated,
   timeseries_pledge,
   bar_age,
   bar_time,
@@ -84,6 +86,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               {t("organ.bar_description3")}
             </p>
           }
+          date={last_updated}
         >
           <div className="space-y-4">
             <Timeseries
@@ -124,6 +127,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         <Section
           title={t("covidnow.mmap_header", { state: t("state.kvy") })}
           description={t("covidnow.mmap_description")}
+          date={last_updated}
         >
           <div>
             <Choropleth
@@ -149,6 +153,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         <Section
           title={t("organ.bar1_header", { state: CountryAndStates[currentState] })}
           description={t("organ.bar1_description")}
+          date={last_updated}
         >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
@@ -238,6 +243,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         <Section
           title={t("organ.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("organ.heatmap_description")}
+          date={last_updated}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full">
@@ -443,7 +449,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
 
         {/* How is this data collected? */}
-        <Section title={t("organ.map_btm")} description={t("organ.map_desc")} />
+        <Section title={t("organ.map_btm")} description={t("organ.map_desc")} date={last_updated} />
       </Container>
     </>
   );

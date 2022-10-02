@@ -10,6 +10,7 @@ import { Metadata } from "@components/index";
 import { useTranslation } from "next-i18next";
 
 const CovidVaccinationState = ({
+  last_updated,
   waffle_data,
   table_data,
   barmeter_data,
@@ -25,6 +26,7 @@ const CovidVaccinationState = ({
         keywords={""}
       />
       <CovidVaccinationDashboard
+        last_updated={last_updated}
         waffle_data={waffle_data}
         table_data={table_data}
         barmeter_data={barmeter_data}
@@ -66,6 +68,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       ...i18n,
+      last_updated: new Date().valueOf(),
       waffle_data: data.waffle,
       barmeter_data: data.bar_chart,
       table_data: data.snapshot,
