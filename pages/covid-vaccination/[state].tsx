@@ -6,7 +6,7 @@ import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
 import { CountryAndStates, STATES } from "@lib/constants";
 import { get } from "@lib/api";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Layout, Metadata, StateDropdown } from "@components/index";
+import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import { useTranslation } from "next-i18next";
 import { routes } from "@lib/routes";
 import { useRouter } from "next/router";
@@ -50,6 +50,7 @@ CovidVaccinationState.layout = (page: ReactElement<any, string | JSXElementConst
       />
     }
   >
+    <StateModal url={routes.COVID_VAX} />
     {page}
   </Layout>
 );

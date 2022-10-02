@@ -4,7 +4,7 @@
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import OrganDonationDashboard from "@dashboards/organ-donation";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Layout, Metadata, StateDropdown } from "@components/index";
+import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import { get } from "@lib/api";
 import { DateTime } from "luxon";
 import { useTranslation } from "next-i18next";
@@ -112,6 +112,7 @@ OrganDonationIndex.layout = (page: ReactElement<any, string | JSXElementConstruc
       />
     }
   >
+    <StateModal url={routes.ORGAN_DONATION} exclude={["kvy"]} />
     {page}
   </Layout>
 );

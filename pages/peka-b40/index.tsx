@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PekaB40Dashboard from "@dashboards/peka-b40";
 import Metadata from "@components/Metadata";
 import { useTranslation } from "next-i18next";
-import { StateDropdown } from "@components/index";
+import { StateDropdown, StateModal } from "@components/index";
 import Layout from "@components/Layout";
 import { routes } from "@lib/routes";
 import { JSXElementConstructor } from "react";
@@ -104,6 +104,7 @@ PekaB40Index.layout = (page: ReactElement<any, string | JSXElementConstructor<an
       <StateDropdown url={routes.PEKA_B40} currentState={"mys"} exclude={["kvy"]} hideOnScroll />
     }
   >
+    <StateModal url={routes.PEKA_B40} exclude={["kvy"]} />
     {page}
   </Layout>
 );

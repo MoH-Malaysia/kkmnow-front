@@ -31,7 +31,8 @@
     "slider": "Use this time slider to zoom into specific time range",
     "zoom": "Zoom into my area",
     "clear_selection": "Clear selection",
-    "no_entries": "No entries found"
+    "no_entries": "No entries found",
+    "check_out": "Check out"
   },
   "placeholder": {
     "all": "All",

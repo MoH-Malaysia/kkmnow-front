@@ -5,7 +5,7 @@ import { InferGetStaticPropsType, GetStaticProps } from "next";
 import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
 import { get } from "@lib/api";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Layout, Metadata, StateDropdown } from "@components/index";
+import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import { useTranslation } from "next-i18next";
 import { JSXElementConstructor, ReactElement } from "react";
 import { routes } from "@lib/routes";
@@ -38,6 +38,7 @@ const CovidVaccinationIndex = ({
 
 CovidVaccinationIndex.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
   <Layout stateSelector={<StateDropdown url={routes.COVID} currentState={"mys"} hideOnScroll />}>
+    <StateModal url={routes.COVID_VAX} />
     {page}
   </Layout>
 );

@@ -6,7 +6,7 @@ import PekaB40Dashboard from "@dashboards/peka-b40";
 import { CountryAndStates, STATES } from "@lib/constants";
 import Metadata from "@components/Metadata";
 import { useTranslation } from "next-i18next";
-import { StateDropdown } from "@components/index";
+import { StateDropdown, StateModal } from "@components/index";
 import Layout from "@components/Layout";
 import { routes } from "@lib/routes";
 import { useRouter } from "next/router";
@@ -115,6 +115,7 @@ PekaB40State.layout = (page: ReactElement<any, string | JSXElementConstructor<an
       />
     }
   >
+    <StateModal url={routes.PEKA_B40} exclude={["kvy"]} />
     {page}
   </Layout>
 );

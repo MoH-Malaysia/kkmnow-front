@@ -1,7 +1,7 @@
 /**
  * Covid Page <State>
  */
-import { Layout, Metadata, StateDropdown } from "@components/index";
+import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
 import { CountryAndStates, STATES } from "@lib/constants";
@@ -63,6 +63,7 @@ CovidState.layout = page => (
       />
     }
   >
+    <StateModal url={routes.COVID} exclude={["kvy"]} />
     {page}
   </Layout>
 );

@@ -1,7 +1,7 @@
 /**
  * Blood Donation Page <Index>
  */
-import { Layout, Metadata, StateDropdown } from "@components/index";
+import { Layout, Metadata, Modal, StateDropdown, StateModal } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
@@ -10,6 +10,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { DateTime } from "luxon";
 import { useTranslation } from "next-i18next";
 import { routes } from "@lib/routes";
+import Image from "next/image";
+import { statesOptions } from "@lib/options";
+import Link from "next/link";
 
 const BloodDonationIndex: Page = ({
   last_updated,
@@ -131,6 +134,7 @@ BloodDonationIndex.layout = page => (
       />
     }
   >
+    <StateModal url={routes.BLOOD_DONATION} exclude={["pjy", "pls", "lbn", "kvy"]} />
     {page}
   </Layout>
 );

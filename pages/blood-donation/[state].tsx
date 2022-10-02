@@ -1,7 +1,7 @@
 /**
  * Blood Donation Page <State>
  */
-import { Layout, Metadata, StateDropdown } from "@components/index";
+import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { CountryAndStates, STATES } from "@lib/constants";
@@ -128,6 +128,7 @@ BloodDonationState.layout = page => (
       />
     }
   >
+    <StateModal url={routes.BLOOD_DONATION} exclude={["pjy", "pls", "lbn", "kvy"]} />
     {page}
   </Layout>
 );
