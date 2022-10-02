@@ -75,7 +75,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       district: data.zoom_district.label.toLowerCase().replace(" ", "-"),
     });
 
-    setData("map_markers", result.locations_mapping);
+    setData("map_markers", result.locations);
     // setData("bar_distances_within", result.distances_within);
     // setData("bar_distances_between", result.distances_between);
   };
@@ -140,7 +140,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                     label={t("common.type")}
                     options={facility_types.map((item: string): OptionType => {
                       return {
-                        label: item,
+                        label: t("healthcare.".concat(item)),
                         value: item.toLowerCase(),
                       };
                     })}
@@ -208,7 +208,10 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 onChange={item => setData("zoom_facility_type", item)}
                 selected={data.zoom_facility_type}
                 options={facility_types.map((fac: any) => {
-                  return { label: fac, value: fac } as OptionType<string, string>;
+                  return { label: t("healthcare.".concat(fac)), value: fac } as OptionType<
+                    string,
+                    string
+                  >;
                 })}
                 width="w-full"
               />

@@ -99,7 +99,9 @@ const Header = () => {
                             key={item.title.concat(index.toString())}
                             className="text-footer-link"
                           >
-                            <Link href={li.link}>{li.title}</Link>
+                            <Link href={li.link}>
+                              <a onClick={() => setIsTabletNavOpen(false)}>{li.title}</a>
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -107,11 +109,6 @@ const Header = () => {
                   ))}
                 </Container>
               </MegaMenu>
-              {/* <NavItem
-                title={t("nav.about")}
-                link="/about"
-                // icon={<NewspaperIcon className="h-4 w-4 text-black" />}
-              /> */}
             </Nav>
           </div>
           <div className="flex items-center gap-4">

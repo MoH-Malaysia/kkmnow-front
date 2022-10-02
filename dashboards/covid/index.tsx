@@ -68,7 +68,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
     filter_death: 0,
     filter_state: 0,
     filter_cases: 0,
-    minmax: [0, timeseries_deaths.x.length - 1],
+    minmax: [timeseries_deaths.x.length - 182, timeseries_deaths.x.length - 1],
   });
 
   const filterTimeline = () => {
@@ -646,7 +646,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     type: "line",
                     label: `${t("covid.area_chart6_tooltip1")}`,
                     pointRadius: 0,
-                    borderColor: COVID_COLOR[300],
+                    borderColor: "#0F172A",
                     data: filtered_timeline().tests_posrate,
                     borderWidth: 1.5,
                     yAxisID: "y1",

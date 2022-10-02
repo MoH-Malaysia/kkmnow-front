@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, ReactElement, SetStateAction, Dispatch } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 
@@ -8,7 +8,7 @@ import { useWindowWidth } from "@hooks/useWindowWidth";
 type MegaMenuProps = {
   icon?: JSX.Element;
   title: string;
-  children: React.ReactNode;
+  children: ReactElement[] | ReactElement;
 };
 
 const MegaMenu: React.FC<MegaMenuProps> = ({ icon, title, children }) => {

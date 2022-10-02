@@ -30,7 +30,8 @@
     "data_for": "Data untuk {{ state }}",
     "slider": "Gunakan peluncur masa ini untuk mengezum dalam julat masa tertentu",
     "zoom": "Zum ke kawasan saya",
-    "clear_selection": "Kosongkan pilihan"
+    "clear_selection": "Kosongkan pilihan",
+    "no_entries": "Data tidak ditemui"
   },
   "placeholder": {
     "all": "Semua",
@@ -472,7 +473,11 @@
     "map_relative": "relatif terhadap satu sama lain.",
     "table_sector": "Sektor",
     "table_address": "Alamat",
-    "table_telephone": "Telefon"
+    "table_telephone": "Telefon",
+    "clinic": "Klinik",
+    "hospital": "Hospital",
+    "government": "Kerajaan",
+    "private": "Swasta"
   },
   "bed": {
     "title": "Sumber Penjagaan Kesihatan",

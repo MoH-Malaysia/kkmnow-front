@@ -247,7 +247,7 @@ const Table: FunctionComponent<TableProps> = ({
             ) : (
               <tr>
                 <td colSpan={table.getAllColumns().length} className="border-r border-black">
-                  <div>No entries found. </div>
+                  <div>{t("common.no_entries")}. </div>
                 </td>
               </tr>
             )}

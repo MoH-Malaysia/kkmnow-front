@@ -2,7 +2,7 @@ import { Hero, Container, Tabs, Panel, Section, Slider } from "@components/index
 import { CountryAndStates, BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 import dynamic from "next/dynamic";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useCallback, useMemo, useState } from "react";
 import { numFormat } from "@lib/helpers";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
@@ -44,6 +44,17 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       line: timeseries_chart.line.slice(limit[0], limit[1]),
     };
   };
+
+  const filtered_timeline = useCallback(filterTimeline, [limit]);
+  const interval_scale = useMemo(
+    () =>
+      filtered_timeline().x.length > 180
+        ? "month"
+        : filtered_timeline().x.length > 60
+        ? "week"
+        : "day",
+    [filtered_timeline().x]
+  );
 
   const worldMapConfig = [
     {
@@ -165,25 +176,24 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               <Timeseries
                 className="h-[350px] w-full pt-6"
                 title={t("covidnow.combine_title")}
-                interval="month"
+                interval={interval_scale}
                 // menu={<MenuDropdown />}
-                round="day"
                 stats={null}
                 data={{
-                  labels: filterTimeline().x,
+                  labels: filtered_timeline().x,
                   datasets: [
                     {
                       type: "line",
                       label: `${t("covidnow.combine_tooltip1")}`,
                       pointRadius: 0,
-                      data: filterTimeline().line,
+                      data: filtered_timeline().line,
                       borderColor: "#2563EB",
                       borderWidth: 1.5,
                     },
                     {
                       type: "bar",
                       label: `${t("covidnow.combine_tooltip2")}`,
-                      data: filterTimeline().y,
+                      data: filtered_timeline().y,
                       backgroundColor: "#D1D5DB",
                     },
                   ],

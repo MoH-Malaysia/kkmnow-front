@@ -30,7 +30,8 @@
     "data_of": "Data as of {{ date }}",
     "slider": "Use this time slider to zoom into specific time range",
     "zoom": "Zoom into my area",
-    "clear_selection": "Clear selection"
+    "clear_selection": "Clear selection",
+    "no_entries": "No entries found"
   },
   "placeholder": {
     "all": "All",
@@ -473,7 +474,11 @@
     "map_relative": "relative to other",
     "table_sector": "Sector",
     "table_address": "Address",
-    "table_telephone": "Telephone"
+    "table_telephone": "Telephone",
+    "clinic": "Clinic",
+    "hospital": "Hospital",
+    "government": "Government",
+    "private": "Private"
   },
   "bed": {
     "title": "healthcare resources",
@@ -564,6 +569,6 @@
     "new_donor2": "Monthly",
     "map_btm": "How is this data collected?",
     "map_desc": "Map showing locations of BBIS centres:",
-    "donor": "Donor"
+    "donor": "Donor+"
   }
 }
