@@ -31,7 +31,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
 }) => {
   const [limit, setLimit] = useState([0, timeseries_chart.x.length - 1]);
 
-  const dateEnd = new Date("2022-09-24").toDateString();
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const { t } = useTranslation("common");
@@ -157,7 +156,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.combine_header")}
           description={t("covidnow.combine_description")}
-          date={dateEnd}
         >
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
@@ -200,11 +198,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           </div>
         </Section>
         {/* World Map */}
-        <Section
-          title={t("covidnow.wmap_header")}
-          description={t("covidnow.wmap_description")}
-          date={dateEnd}
-        >
+        <Section title={t("covidnow.wmap_header")} description={t("covidnow.wmap_description")}>
           <div>
             <Tabs className="flex flex-wrap justify-end gap-2" title={t("covidnow.wmap_title")}>
               <Panel key={0} name={`${t("covidnow.heatmap")}`}>
@@ -276,7 +270,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.heatmap_header")}
           description={t("covidnow.heatmap_description")}
-          date={dateEnd}
         >
           <div className="grid grid-cols-1 gap-12">
             <Heatmap
@@ -293,11 +286,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         </Section>
 
         {/* covidnow user demographic */}
-        <Section
-          title={t("covidnow.bar_header")}
-          description={t("covidnow.bar_description")}
-          date={dateEnd}
-        >
+        <Section title={t("covidnow.bar_header")} description={t("covidnow.bar_description")}>
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-3">
             <div className="w-full space-y-4">
               <BarMeter
