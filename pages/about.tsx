@@ -4,14 +4,14 @@ import { useTranslation } from "next-i18next";
 import { UserGroupIcon } from "@heroicons/react/24/solid";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import Hero from "@components/Hero";
-import Container from "@components/Container";
+import { Metadata, Hero, Container } from "@components/index";
 
 const About = () => {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <>
+      <Metadata title={"About"} keywords={""} />
       <Hero background="hero-light-1" className="text-center">
         <div className="mb-3 flex flex-col gap-2">
           <h1>👋</h1>
@@ -48,7 +48,7 @@ const About = () => {
           <Team teamArr={t("about.data.team", { returnObjects: true })} />
         </Section>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -134,10 +134,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const translation = await serverSideTranslations(locale!, ["common"]);
 
   return {
+    notFound: true, // disable page
     props: {
       ...translation,
     },
-    revalidate: 1,
   };
 };
 

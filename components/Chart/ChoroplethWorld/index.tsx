@@ -1,13 +1,7 @@
 import { ResponsiveChoropleth } from "@nivo/geo";
 import { FunctionComponent, ReactElement, useState } from "react";
 import { ChartHeader } from "@components/index";
-import {
-  // CHOROPLETH_RED_SCALE,
-  //   CHOROPLETH_GREEN_SCALE,
-  CHOROPLETH_BLUE_SCALE,
-  //   CHOROPLETH_RED_PURPLE_SCALE,
-  //   CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
-} from "@lib/constants";
+import { CHOROPLETH_BLUE_SCALE } from "@lib/constants";
 import WorldDesktop from "@lib/geojson/world_desktop.json";
 import { numFormat } from "@lib/helpers";
 
@@ -54,7 +48,7 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
           features={feature}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           label={xKey}
-          colors={CHOROPLETH_BLUE_SCALE}
+          colors={"blues"}
           domain={[
             Math.min.apply(
               Math,

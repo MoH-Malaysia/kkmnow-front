@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { FunctionComponent, ReactElement, useMemo, useState } from "react";
 import { useTranslation } from "next-i18next";
 import {
   HomeIcon,
@@ -23,7 +23,11 @@ import Dropdown from "@components/Dropdown";
 import Container from "@components/Container";
 import MegaMenu from "@components/Nav/MegaMenu";
 
-const Header = () => {
+interface HeaderProps {
+  stateSelector?: ReactElement;
+}
+
+const Header: FunctionComponent<HeaderProps> = ({ stateSelector }) => {
   const { t } = useTranslation("common");
   const { language, onLanguageChange } = useLanguage();
 
@@ -95,8 +99,13 @@ const Header = () => {
                       <p className="mb-2 font-bold">{item.title}</p>
                       <ul className="flex flex-col gap-2">
                         {item.list.map((li, index) => (
-                          <li key={item.title} className="text-footer-link">
-                            <Link href={li.link}>{li.title}</Link>
+                          <li
+                            key={item.title.concat(index.toString())}
+                            className="text-footer-link"
+                          >
+                            <Link href={li.link}>
+                              <a onClick={() => setIsTabletNavOpen(false)}>{li.title}</a>
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -104,14 +113,10 @@ const Header = () => {
                   ))}
                 </Container>
               </MegaMenu>
-              {/* <NavItem
-                title={t("nav.about")}
-                link="/about"
-                // icon={<NewspaperIcon className="h-4 w-4 text-black" />}
-              /> */}
             </Nav>
           </div>
           <div className="flex items-center gap-4">
+            {stateSelector}
             {/* LANGUAGE DROPDOWN */}
             <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
             {/* MOBILE NAV ICONS */}

@@ -1,9 +1,12 @@
 import { CountryAndStates } from "@lib/constants";
+import { useTranslation } from "next-i18next";
+import Image from "next/image";
 
-export const FACILTIES_TABLE_SCHEMA = {
-  config: [
+export const FACILTIES_TABLE_SCHEMA = () => {
+  const { t } = useTranslation();
+  return [
     {
-      header: "State",
+      header: t("common.state"),
       id: "state",
       accessorKey: "state",
       enableSorting: false,
@@ -11,45 +14,57 @@ export const FACILTIES_TABLE_SCHEMA = {
         const state = item.getValue() as string;
         return (
           <div className="flex items-center gap-2">
-            <img className="h-3 w-5" src={`/static/images/states/${state}.jpeg`} />
+            <Image
+              src={`/static/images/states/${state}.jpeg`}
+              width={20}
+              height={12}
+              alt={CountryAndStates[state]}
+            />
             <span className="text-sm">{CountryAndStates[state]}</span>
           </div>
         );
       },
     },
     {
-      header: "District",
+      header: t("common.district"),
+      sortDescFirst: true,
       accessorKey: "data.district",
       id: "district",
       enableSorting: true,
     },
     {
-      header: "Sector",
+      header: t("healthcare.table_sector"),
+      sortDescFirst: true,
       accessorKey: "data.sector",
+      accessorFn: (item: any) => t("healthcare.".concat(item.data.sector)),
       id: "sector",
       enableSorting: false,
     },
     {
-      header: "Type",
-      accessorKey: "data.type",
+      header: t("common.type"),
+      sortDescFirst: true,
+      accessorFn: (item: any) => t("healthcare.".concat(item.data.type)), /// "data.type",
       id: "type",
       enableSorting: false,
     },
     {
-      header: "Name",
+      header: t("common.name"),
+      sortDescFirst: true,
       accessorKey: "data.name",
       id: "name",
     },
     {
-      header: "Address",
+      header: t("healthcare.table_address"),
+      sortDescFirst: true,
       accessorKey: "data.address",
       id: "address",
     },
     {
-      header: "Telephone",
+      header: t("healthcare.table_telephone"),
+      sortDescFirst: true,
       accessorKey: "data.phone",
       id: "phone",
       enableSorting: false,
     },
-  ],
+  ];
 };

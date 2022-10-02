@@ -1,15 +1,19 @@
 /**
  * Covid Page <State>
  */
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
-import { STATES } from "@lib/constants";
+import { CountryAndStates, STATES } from "@lib/constants";
+import { routes } from "@lib/routes";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
 
 const CovidState: Page = ({
+  last_updated,
   bar_chart,
   snapshot_bar,
   snapshot_graphic,
@@ -21,11 +25,18 @@ const CovidState: Page = ({
   timeseries_tests,
   timeseries_vents,
   util_chart,
+  statistics,
+  state,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation("common");
   return (
     <>
-      <Metadata title={"COVID-19"} keywords={""} />
+      <Metadata
+        title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.covid_19"))}
+        keywords={""}
+      />
       <CovidDashboard
+        last_updated={last_updated}
         bar_chart={bar_chart}
         snapshot_bar={snapshot_bar}
         snapshot_graphic={snapshot_graphic}
@@ -37,18 +48,44 @@ const CovidState: Page = ({
         timeseries_tests={timeseries_tests}
         timeseries_vents={timeseries_vents}
         util_chart={util_chart}
+        statistics={statistics}
       />
     </>
   );
 };
 
+CovidState.layout = page => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.COVID}
+        currentState={(useRouter().query.state as string) ?? "mys"}
+        exclude={["kvy"]}
+        hideOnScroll
+      />
+    }
+  >
+    <StateModal url={routes.COVID} exclude={["kvy"]} />
+    {page}
+  </Layout>
+);
+
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  const paths = STATES.map(state => {
-    return {
-      params: {
-        state: state.key,
+  let paths: Array<any> = [];
+  STATES.filter(item => !["kvy"].includes(item.key)).forEach(state => {
+    paths = paths.concat([
+      {
+        params: {
+          state: state.key,
+        },
       },
-    };
+      {
+        params: {
+          state: state.key,
+        },
+        locale: "ms-MY",
+      },
+    ]);
   });
   return {
     paths: paths,
@@ -63,6 +100,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   return {
     props: {
+      last_updated: new Date().valueOf(),
       bar_chart: data.bar_chart,
       snapshot_bar: data.snapshot_bar,
       snapshot_graphic: data.snapshot_graphic,
@@ -74,7 +112,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       timeseries_tests: data.timeseries_tests,
       timeseries_vents: data.timeseries_vents,
       util_chart: data.util_chart,
+      statistics: data.statistics,
       ...i18n,
+      state: params?.state,
     },
   };
 };

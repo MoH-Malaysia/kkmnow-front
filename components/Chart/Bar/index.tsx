@@ -7,12 +7,10 @@ import {
   PointElement,
   BarElement,
   Tooltip as ChartTooltip,
-  ChartOptions,
   ChartData,
 } from "chart.js";
 import { Bar as BarCanvas } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
-import { CrosshairPlugin } from "chartjs-plugin-crosshair";
 import { BarCrosshairOption } from "@lib/types";
 
 interface BarProps {
@@ -57,6 +55,7 @@ const Bar: FunctionComponent<BarProps> = ({
   ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, ChartTooltip);
 
   const options: BarCrosshairOption = {
+    indexAxis: !isVertical ? "y" : "x",
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
@@ -94,6 +93,7 @@ const Bar: FunctionComponent<BarProps> = ({
         stacked: enableStack,
       },
       y: {
+        reverse: !isVertical,
         grid: {
           display: enableGridY,
           borderWidth: 1,

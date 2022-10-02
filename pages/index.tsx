@@ -36,7 +36,7 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
   return (
     <>
-      <Metadata title={"KKMNOW"} keywords={""} />
+      <Metadata keywords={""} />
 
       <Hero
         background="bg-home-hero"

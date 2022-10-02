@@ -1,13 +1,16 @@
 import { MagnifyingGlassIcon as SearchIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from "next-i18next";
 import { FunctionComponent, useEffect, useRef } from "react";
 
 type SearchProps = {
   query?: string;
   onChange: (query?: string) => void;
+  className?: string;
 };
 
-const Search: FunctionComponent<SearchProps> = ({ query, onChange }) => {
+const Search: FunctionComponent<SearchProps> = ({ query, onChange, className }) => {
   const searchRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleSlashKeydown = (event: KeyboardEvent) => {
@@ -25,13 +28,13 @@ const Search: FunctionComponent<SearchProps> = ({ query, onChange }) => {
   }, []);
 
   return (
-    <div className="relative flex items-center">
+    <div className={`relative flex items-center ${className}`}>
       <input
         ref={searchRef}
         id="search"
         name="search"
         type="search"
-        placeholder="Search"
+        placeholder={t("placeholder.search")}
         value={query}
         onChange={e => onChange(e.target.value)}
         className="block w-full border-0 border-b border-outline pl-8 text-dim focus:ring-0"

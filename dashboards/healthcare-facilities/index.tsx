@@ -1,3 +1,6 @@
+/**
+ * Please do not remove the commented code.
+ */
 import {
   Hero,
   Container,
@@ -17,17 +20,20 @@ import { FACILTIES_TABLE_SCHEMA } from "@lib/schema/healthcare-facilities";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useEffect } from "react";
 import { OptionType } from "@components/types";
+import { useTranslation } from "next-i18next";
 import { get } from "@lib/api";
 
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
 interface HealthcareFacilitiesDashboardProps {
+  last_updated: number;
   facility_table: any;
   state_district_mapping: any;
   facility_types: any;
 }
 
 const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashboardProps> = ({
+  last_updated,
   facility_table,
   state_district_mapping,
   facility_types,
@@ -40,24 +46,25 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     table_district: undefined,
     table_facility_type: undefined,
     map_markers: [],
-    bar_distances_within: undefined,
-    bar_distances_between: undefined,
+    // bar_distances_within: undefined,
+    // bar_distances_between: undefined,
   });
+  const { t } = useTranslation("common");
 
   const handleClearSelection = () => {
     setData("zoom_state", undefined);
     setData("zoom_facility_type", undefined);
     setData("zoom_district", undefined);
     setData("map_markers", []);
-    setData("bar_distances_within", undefined);
-    setData("bar_distances_between", undefined);
+    // setData("bar_distances_within", undefined);
+    // setData("bar_distances_between", undefined);
   };
 
   const fetchProximities = async () => {
     if (!data.zoom_state || !data.zoom_facility_type || !data.zoom_district) {
       setData("map_markers", []);
-      setData("bar_distances_within", []);
-      setData("map_distances_district", []);
+      //   setData("bar_distances_within", []);
+      //   setData("bar_distances_district", []);
       return;
     }
     const { data: result } = await get("/kkmnow", {
@@ -68,9 +75,9 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       district: data.zoom_district.label.toLowerCase().replace(" ", "-"),
     });
 
-    setData("map_markers", result.locations_mapping);
-    setData("bar_distances_within", result.distances_within);
-    setData("bar_distances_between", result.distances_between);
+    setData("map_markers", result.locations);
+    // setData("bar_distances_within", result.distances_within);
+    // setData("bar_distances_between", result.distances_between);
   };
 
   useEffect(() => {
@@ -79,44 +86,39 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
 
   return (
     <>
-      <Hero background="hero-light-1">
+      <Hero background="facilities-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
-            healthcare resources
+            {t("healthcare.title")}
           </span>
-          <h3 className="text-black">Healthcare Facilities</h3>
-          <p className="text-dim">
-            The Health Informatics Centre (PIK) maintains a constantly-updated database on all
-            healthcare faciltiies - both public and private - in Malaysia. This dashboard documents
-            the data in a manner that eases the process of finding a healthcare facility for your
-            needs, and builds on the dataset to analyse healthcare access. The analysis on the
-            access will be constantly enriched over time as we deepen the scope of the facilities
-            dataset - for instance with data on services offered, waiting times, and healthcare
-            outcomes.
-          </p>
+          <h3 className="text-black">{t("healthcare.title_header")}</h3>
+          <p className="text-dim">{t("healthcare.title_description")}</p>
         </div>
       </Hero>
       <Container className="min-h-screen">
-        <Section title="Find A Healthcare Facility">
+        <Section title={t("healthcare.table_header")} date={last_updated}>
           <div className="mt-2">
             <Table
               data={facility_table}
-              config={FACILTIES_TABLE_SCHEMA.config}
+              config={FACILTIES_TABLE_SCHEMA()}
               controls={setColumnFilters => (
                 <>
                   <StateDropdown
-                    label="State"
+                    label={t("common.state")}
                     currentState={data.table_state}
                     onChange={selected => {
                       setData("table_state", selected.value);
                       setColumnFilters([{ id: "state", value: selected.value }]);
                     }}
                     exclude={["kvy", "mys"]}
+                    width="w-full lg:w-64"
                   />
                   <Dropdown
+                    label={t("common.district")}
                     selected={data.table_district}
-                    placeholder="All"
-                    label="District"
+                    placeholder={
+                      !data.table_state ? t("placeholder.state_first") : t("placeholder.district")
+                    }
                     options={
                       data.table_state
                         ? state_district_mapping[data.table_state].map((district: string) => {
@@ -124,22 +126,21 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                           })
                         : []
                     }
-                    disabled={!data.table_state}
                     onChange={selected => {
                       setData("table_district", selected);
                       setColumnFilters(state =>
                         state.concat({ id: "district", value: selected.value })
                       );
                     }}
-                    width="w-52"
+                    width="w-full lg:w-64"
                   />
                   <Dropdown
                     selected={data.table_facility_type}
-                    placeholder="All"
-                    label="Type"
+                    placeholder={t("placeholder.all")}
+                    label={t("common.type")}
                     options={facility_types.map((item: string): OptionType => {
                       return {
-                        label: item,
+                        label: t("healthcare.".concat(item)),
                         value: item.toLowerCase(),
                       };
                     })}
@@ -151,66 +152,66 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                     }}
                     width="w-full"
                   />
-                  <Button
-                    onClick={() => {
-                      setData("table_state", undefined);
-                      setData("table_district", undefined);
-                      setData("table_facility_type", undefined);
-                      setColumnFilters([]);
-                    }}
-                    disabled={
-                      !data.table_state && !data.table_district && !data.table_facility_type
-                    }
-                    icon={<ArrowPathIcon className="h-4 w-4" />}
-                  >
-                    Clear Selection
-                  </Button>
+                  {(data.table_state || data.table_district || data.table_facility_type) && (
+                    <Button
+                      className="justify-end text-right text-sm text-dim"
+                      onClick={() => {
+                        setData("table_state", undefined);
+                        setData("table_district", undefined);
+                        setData("table_facility_type", undefined);
+                        setColumnFilters([]);
+                      }}
+                      icon={<ArrowPathIcon className="h-4 w-4" />}
+                    >
+                      {t("common.clear_selection")}
+                    </Button>
+                  )}
                 </>
               )}
               search={setGlobalFilter => (
-                <Search onChange={query => setGlobalFilter(query ?? "")} />
+                <Search
+                  className="w-full lg:w-auto"
+                  onChange={query => setGlobalFilter(query ?? "")}
+                />
               )}
               enablePagination
               cellClass="text-left"
             />
           </div>
         </Section>
-        <Section date={null}>
-          <div className="flex w-full flex-col gap-12 lg:flex-row">
-            <div className="w-full space-y-4 lg:w-1/3">
-              <h3>How does proximity to healthcare vary nationally?</h3>
-              <p>
-                Distance to the nearest healthcare facility is not the only measure of access to
-                healthcare. There is a modern and growing body of research demonstrating the tough
-                tradeoffs involved in localisation of healthcare - for instance, diversifying
-                resources across multiple facilities in an area to decrease travel time, or
-                concentrating them in a single hospital to up the quality of care.
-              </p>
-              <p>
-                The data presented here only captures one aspect of healthcare access (proximity),
-                and is intended as a starting point for policymakers and the community to have a
-                conversation about access.
-              </p>
+        <div className="grid grid-cols-1 gap-8 py-12 lg:grid-cols-3">
+          <Section
+            className="col-span-1"
+            title={t("healthcare.map_header")}
+            description={t("healthcare.map_description1")}
+            date={null}
+          >
+            <div className="w-full space-y-2 lg:space-y-4">
               <div className="flex items-center justify-between gap-2">
                 <h4 className="flex items-center gap-2">
                   <MapPinIcon className="h-5 w-5 text-dim" />
-                  Zoom into my area
+                  {t("healthcare.zoom")}
                 </h4>
-                <Button
-                  onClick={handleClearSelection}
-                  disabled={!data.zoom_state}
-                  icon={<ArrowPathIcon className="h-4 w-4" />}
-                >
-                  Clear Selection
-                </Button>
+
+                {data.zoom_facility_type && (
+                  <Button
+                    onClick={handleClearSelection}
+                    icon={<ArrowPathIcon className="h-4 w-4" />}
+                  >
+                    {t("common.clear_selection")}
+                  </Button>
+                )}
               </div>
 
               <Dropdown
-                placeholder="Select facilty type"
+                placeholder={t("placeholder.facility_type")}
                 onChange={item => setData("zoom_facility_type", item)}
                 selected={data.zoom_facility_type}
                 options={facility_types.map((fac: any) => {
-                  return { label: fac, value: fac } as OptionType<string, string>;
+                  return { label: t("healthcare.".concat(fac)), value: fac } as OptionType<
+                    string,
+                    string
+                  >;
                 })}
                 width="w-full"
               />
@@ -226,7 +227,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 width="w-full"
               />
               <Dropdown
-                placeholder="Select district"
+                placeholder={t("placeholder.district")}
                 onChange={item => setData("zoom_district", item)}
                 selected={data.zoom_district}
                 disabled={!data.zoom_state}
@@ -240,96 +241,99 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 width="w-full"
               />
             </div>
-            <div className="w-full lg:w-2/3">
-              <OSMapWrapper
-                title={`${
-                  data.zoom_facility_type
-                    ? data.zoom_facility_type.label.concat(" in ")
-                    : "Healthcare Facilities in "
-                } ${data.zoom_district ? data.zoom_district.label + ", " : ""} ${
-                  CountryAndStates[data.zoom_state ?? "mys"]
-                }`}
-                position={
-                  data.map_markers.length
-                    ? [data.map_markers[0].lat, data.map_markers[0].lon]
-                    : undefined
+          </Section>
+          <div className="col-span-1 lg:col-span-2">
+            <OSMapWrapper
+              title={`${
+                data.zoom_facility_type
+                  ? data.zoom_facility_type.label.concat(t("common.in"))
+                  : t("healthcare.map_title")
+              } ${data.zoom_district ? data.zoom_district.label + ", " : ""} ${
+                CountryAndStates[data.zoom_state ?? "mys"]
+              }`}
+              position={
+                data.map_markers.length
+                  ? [data.map_markers[0].lat, data.map_markers[0].lon]
+                  : undefined
+              }
+              zoom={data.map_markers.length ? 9 : undefined}
+              markers={data.map_markers.map((marker: any) => ({
+                name: marker.name,
+                position: [marker.lat, marker.lon],
+              }))}
+              className="h-[520px] w-full rounded-xl"
+            />
+          </div>
+        </div>
+
+        {/* 
+        // Dataset not ready
+        <div className="grid w-full grid-cols-1 gap-12 py-12 xl:grid-cols-2">
+          {data.bar_distances_within && data.bar_distances_between ? (
+            <>
+              <Bar
+                title={
+                  <div className="flex self-center text-base font-bold">
+                    Distance to Nearest{" "}
+                    {data.zoom_facility_type ? data.zoom_facility_type.label : ""} within{" "}
+                    {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
+                    {CountryAndStates[data.zoom_state]}
+                  </div>
                 }
-                zoom={data.map_markers.length ? 9 : undefined}
-                markers={data.map_markers.map((marker: any) => ({
-                  name: marker.name,
-                  position: [marker.lat, marker.lon],
-                }))}
-                className="h-[520px] w-full rounded-xl"
+                className="h-[300px]"
+                data={{
+                  labels: data.bar_distances_within.x,
+                  datasets: [
+                    {
+                      label: `No. of ${data.zoom_facility_type.label}`,
+                      data: data.bar_distances_within.y,
+                      backgroundColor: GRAYBAR_COLOR[200],
+                    },
+                  ],
+                }}
+                enableGridX={false}
               />
-            </div>
-          </div>
-          <div className="mt-16 grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
-            {data.bar_distances_within && data.bar_distances_between ? (
-              <>
-                <Bar
-                  title={
-                    <div className="flex self-center text-base font-bold">
-                      Distance to Nearest{" "}
-                      {data.zoom_facility_type ? data.zoom_facility_type.label : ""} within{" "}
-                      {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
-                      {CountryAndStates[data.zoom_state]}
-                    </div>
-                  }
-                  className="h-[300px]"
-                  data={{
-                    labels: data.bar_distances_within.x,
-                    datasets: [
-                      {
-                        label: `No. of ${data.zoom_facility_type.label}`,
-                        data: data.bar_distances_within.y,
-                        backgroundColor: GRAYBAR_COLOR[200],
-                      },
-                    ],
-                  }}
-                  enableGridX={false}
-                />
-                <Bar
-                  title={
-                    <div className="flex self-center text-base font-bold">
-                      Distance of {data.zoom_facility_type.label} in{" "}
-                      {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
-                      {CountryAndStates[data.zoom_state]} relative to other{" "}
-                      {data.zoom_district === "" ? "States" : "Districts"}
-                    </div>
-                  }
-                  data={{
-                    labels: data.bar_distances_between.x,
-                    datasets: [
-                      {
-                        label: `Distance to ${data.zoom_facility_type.label} (km)`,
-                        data: data.bar_distances_between.y,
-                        backgroundColor: GRAYBAR_COLOR[200],
-                      },
-                    ],
-                  }}
-                  className="h-[380px]"
-                  unitY="km"
-                  enableGridX={false}
-                />
-              </>
-            ) : (
-              <>
-                <Empty
-                  title="Distance to Nearest Facility"
-                  type="timeseries"
-                  className="h-[300px] w-full"
-                  placeholder="Please select a district"
-                />
-                <Empty
-                  title="Relative to Nearest Facility"
-                  type="timeseries"
-                  className="h-[300px] w-full"
-                  placeholder="Please select a district"
-                />
-              </>
-            )}
-          </div>
-        </Section>
+              <Bar
+                title={
+                  <div className="flex self-center text-base font-bold">
+                    Distance of {data.zoom_facility_type.label} in{" "}
+                    {data.zoom_district ? data.zoom_district.label + ", " : ""}{" "}
+                    {CountryAndStates[data.zoom_state]} relative to other{" "}
+                    {data.zoom_district === "" ? "States" : "Districts"}
+                  </div>
+                }
+                data={{
+                  labels: data.bar_distances_between.x,
+                  datasets: [
+                    {
+                      label: `Distance to ${data.zoom_facility_type.label} (km)`,
+                      data: data.bar_distances_between.y,
+                      backgroundColor: GRAYBAR_COLOR[200],
+                    },
+                  ],
+                }}
+                className="h-[380px]"
+                unitY="km"
+                enableGridX={false}
+              />
+            </>
+          ) : (
+            <>
+              <Empty
+                title="Distance to Nearest Facility"
+                type="timeseries"
+                className="h-[300px] w-full"
+                placeholder="Please select a district"
+              />
+              <Empty
+                title="Relative to Nearest Facility"
+                type="timeseries"
+                className="h-[300px] w-full"
+                placeholder="Please select a district"
+              />
+            </>
+          )}
+        </div> */}
       </Container>
     </>
   );

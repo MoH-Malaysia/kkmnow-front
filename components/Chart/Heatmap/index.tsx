@@ -5,8 +5,7 @@ import { AxisProps } from "@nivo/axes";
 import { ChartHeader, StateTick, DefaultTick } from "@components/index";
 import { CountryAndStates } from "@lib/constants";
 import { HeatmapSchema } from "@lib/schema/blood-donation";
-import { ValueFormat } from "@nivo/core";
-import { cp } from "fs";
+
 interface HeatmapProps {
   className?: string;
   data?: any;
@@ -19,6 +18,7 @@ interface HeatmapProps {
   controls?: ReactElement;
   schema?: Array<HeatmapSchema>;
   color?: ColorInterpolatorId | Array<string>;
+  colorMax?: number;
   minY?: number;
   maxY?: number;
   forceSquare?: boolean;
@@ -43,6 +43,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
   subdata = false,
   schema,
   color,
+  colorMax,
   menu,
   state,
   key = "y",
@@ -63,7 +64,6 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
   ) => {
     if (!schema) return;
     let { data, formattedValue } = props;
-
     for (const scheme of schema) {
       if (data[key] <= scheme.max) {
         if (!scheme[_key]) return formattedValue;
@@ -108,11 +108,27 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
       return {
         type: "sequential",
         scheme: color,
+        maxValue: colorMax,
       };
     }
 
     return undefined;
   };
+
+  const computeTextColor = (value: number, subdata: boolean = false) => {
+    let max = colorMax;
+    if (!max) {
+      max = !subdata
+        ? getMax(formatted.data.map((item: any) => item.data.map((_item: any) => _item.y)))
+        : getMax(formatted.subdata.map((item: any) => item.data.map((_item: any) => _item.y)));
+    }
+
+    if (value / max > 0.65) return "#FFF";
+    else return "#000";
+  };
+
+  const getMax = (array: Array<any>): number =>
+    Math.max(...array.map((e: any) => (Array.isArray(e) ? getMax(e) : e)));
 
   const formatted = useMemo(() => {
     let _data: Array<any> = data;
@@ -129,14 +145,14 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
       data: _data,
       subdata: _subdata,
     };
-  }, []);
+  }, [data]);
 
   return (
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} state={state} />
 
       <div className="table-responsive">
-        <div className={`${className} w-[700px] lg:w-auto`}>
+        <div className={`${className} lg:w-auto`}>
           {legend?.left && (
             <span className="rotate-180 text-center font-medium [writing-mode:vertical-lr]">
               {legend.left}
@@ -166,7 +182,12 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                     }
               }
               label={schema ? props => get(props, "label") : undefined}
-              labelTextColor={schema ? props => get(props, "labelColor") : undefined}
+              //   labelTextColor={schema ? props => get(props, "labelColor") : undefined}
+              labelTextColor={
+                schema
+                  ? props => get(props, "labelColor")
+                  : props => computeTextColor(props.value as number)
+              }
               tooltip={({ cell }) => {
                 return (
                   <div className="nivo-tooltip flex gap-2 overflow-visible">
@@ -207,7 +228,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
           </div>
 
           {subdata && (
-            <div className="aspect-auto h-full w-[12.5%]">
+            <div className="aspect-auto h-full w-[28%]">
               <ResponsiveHeatMap
                 data={formatted.subdata}
                 margin={{
@@ -234,7 +255,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                 inactiveOpacity={0.3}
                 isInteractive={interactive}
                 label={schema ? props => get(props, "label") : undefined}
-                labelTextColor={schema ? props => get(props, "labelColor") : undefined}
+                labelTextColor={props => computeTextColor(props.value as number, true)}
                 theme={{
                   fontSize: 13,
                   axis: {

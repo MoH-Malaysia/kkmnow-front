@@ -9,7 +9,6 @@ import {
   Tooltip as ChartTooltip,
   TimeScale,
   TimeSeriesScale,
-  ChartOptions,
   Filler,
 } from "chart.js";
 
