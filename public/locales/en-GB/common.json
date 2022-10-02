@@ -525,7 +525,8 @@
     "bar2_title1": "Motivation: Why do people pledge to donate organs?",
     "bar2_x": "Number of new donors",
     "map_header": "How is this data collected?",
-    "map_description": "Map showing locations of BBIS centres:"
+    "map_description": "Map showing locations of BBIS centres:",
+    "screening": "Screening"
   },
   "organ": {
     "title": "health",
@@ -562,6 +563,7 @@
     "new_donor1": "Annual",
     "new_donor2": "Monthly",
     "map_btm": "How is this data collected?",
-    "map_desc": "Map showing locations of BBIS centres:"
+    "map_desc": "Map showing locations of BBIS centres:",
+    "donor": "Donor"
   }
 }

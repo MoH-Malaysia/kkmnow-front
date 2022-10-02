@@ -417,7 +417,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       labels: bar_reasons.all_time.x,
                       datasets: [
                         {
-                          label: "No. of Donors",
+                          label: t("organ.donor"),
                           data: bar_reasons.all_time.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
@@ -434,7 +434,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       labels: bar_reasons.last_month.x,
                       datasets: [
                         {
-                          label: "No. of Screenings",
+                          label: t("organ.donor"),
                           data: bar_reasons.last_month.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },

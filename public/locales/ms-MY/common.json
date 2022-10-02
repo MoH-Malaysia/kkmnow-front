@@ -525,7 +525,8 @@
     "bar2_title1": "Motivasi: Mengapa orang berikrar untuk menderma organ?",
     "bar2_x": "Bilangan penderman baru",
     "map_header": "Bagaimana data ini dikumpul",
-    "map_description": "Peta menunjukkan lokasi pusat BBIS:"
+    "map_description": "Peta menunjukkan lokasi pusat BBIS:",
+    "screening": "Saringan"
   },
   "organ": {
     "title": "Kesihatan",
@@ -563,6 +564,7 @@
     "new_donor1": "Tahunan",
     "new_donor2": "Bulanan",
     "map_btm": "Bagaimana data ini dikumpul",
-    "map_desc": "Peta menunjukkan lokasi pusat BBIS:"
+    "map_desc": "Peta menunjukkan lokasi pusat BBIS:",
+    "donor": "Penderma"
   }
 }

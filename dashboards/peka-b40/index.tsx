@@ -327,7 +327,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       labels: bar_age.last_year.x,
                       datasets: [
                         {
-                          label: "No. of Screenings",
+                          label: t("peka.screening"),
                           data: bar_age.last_year.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
@@ -344,7 +344,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       labels: bar_age.last_year.x,
                       datasets: [
                         {
-                          label: "No. of Screenings",
+                          label: t("peka.screening"),
                           data: bar_age.last_year.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
