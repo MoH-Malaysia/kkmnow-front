@@ -15,12 +15,12 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
 
-  // TODO: update links with actual images
+  // TODO: update last image after launch day
   const imageArr = [
-    "/static/images/home-hero.png",
-    "/static/images/home-hero.png",
-    "/static/images/home-hero.png",
-    "/static/images/home-hero.png",
+    "/static/images/home-citfgithub.png",
+    "/static/images/home-mohgithub.png",
+    "/static/images/home-covidnow.png",
+    "/static/images/home-endemic.png",
     "/static/images/home-hero.png",
   ];
 
