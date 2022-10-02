@@ -29,8 +29,8 @@ const BloodDonationIndex: Page = ({
   let abs: any[] = [],
     capita: any[] = [],
     perc: any[] = [];
+  let vars: Record<string, any> = {};
   heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
-    if (item.x === "Overall") return;
     abs.push({
       id: item.x,
       data: [
@@ -86,6 +86,15 @@ const BloodDonationIndex: Page = ({
       ],
     });
   });
+
+  Object.entries(barchart_variables).forEach(([key, values]: [string, any]) => {
+    vars[key] = Object.entries(values).reduce((previous, current: [string, any]) => {
+      return {
+        ...previous,
+        [current[0]]: current[1].map((item: any) => ({ ...item, x: t("blood.".concat(item.x)) })),
+      };
+    }, {});
+  });
   return (
     <>
       <Metadata title={t("nav.megamenu.dashboards.blood_donation")} keywords={""} />
@@ -103,7 +112,7 @@ const BloodDonationIndex: Page = ({
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
-        barchart_variables={barchart_variables}
+        barchart_variables={vars}
         map_facility={map_facility}
         choropleth_malaysia_blood_donation={choropleth_malaysia_blood_donation}
       />

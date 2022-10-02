@@ -372,7 +372,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       title={t("blood.barmeter4_title")}
                       className="flex-col"
                       state={currentState}
-                      data={data.donor_regularity}
+                      data={data.donation_regularity}
                       layout="horizontal"
                       sort="desc"
                     />
