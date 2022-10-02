@@ -3,22 +3,33 @@
  */
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
-import { STATES } from "@lib/constants";
+import { CountryAndStates, STATES } from "@lib/constants";
 import { get } from "@lib/api";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
+import { useTranslation } from "next-i18next";
+import { routes } from "@lib/routes";
+import { useRouter } from "next/router";
+import { JSXElementConstructor, ReactElement } from "react";
 
 const CovidVaccinationState = ({
+  last_updated,
   waffle_data,
   table_data,
   barmeter_data,
   timeseries_data,
   stats_data,
+  state,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { t } = useTranslation("common");
   return (
     <>
-      <Metadata title={"COVID-19 Vaccination"} keywords={""} />
+      <Metadata
+        title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.covid_19_vax"))}
+        keywords={""}
+      />
       <CovidVaccinationDashboard
+        last_updated={last_updated}
         waffle_data={waffle_data}
         table_data={table_data}
         barmeter_data={barmeter_data}
@@ -29,13 +40,37 @@ const CovidVaccinationState = ({
   );
 };
 
+CovidVaccinationState.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.COVID_VAX}
+        currentState={(useRouter().query.state as string) ?? "mys"}
+        hideOnScroll
+      />
+    }
+  >
+    <StateModal url={routes.COVID_VAX} />
+    {page}
+  </Layout>
+);
+
 export const getStaticPaths: GetStaticPaths = async ctx => {
-  const paths = STATES.map(state => {
-    return {
-      params: {
-        state: state.key,
+  let paths: Array<any> = [];
+  STATES.forEach(state => {
+    paths = paths.concat([
+      {
+        params: {
+          state: state.key,
+        },
       },
-    };
+      {
+        params: {
+          state: state.key,
+        },
+        locale: "ms-MY",
+      },
+    ]);
   });
   return {
     paths: paths,
@@ -50,12 +85,14 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   return {
     props: {
+      ...i18n,
+      last_updated: new Date().valueOf(),
       waffle_data: data.waffle,
       barmeter_data: data.bar_chart,
       table_data: data.snapshot,
       timeseries_data: data.timeseries,
       stats_data: data.statistics,
-      ...i18n,
+      state: params?.state,
     },
   };
 };

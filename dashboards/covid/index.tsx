@@ -28,6 +28,7 @@ const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: 
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
 interface CovidDashboardProps {
+  last_updated: number;
   bar_chart: any;
   snapshot_bar: any;
   snapshot_graphic: any;
@@ -39,9 +40,11 @@ interface CovidDashboardProps {
   timeseries_tests: any;
   timeseries_vents: any;
   util_chart: any;
+  statistics: any;
 }
 
 const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
+  last_updated,
   bar_chart,
   snapshot_bar,
   snapshot_graphic,
@@ -53,17 +56,21 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
   timeseries_tests,
   timeseries_vents,
   util_chart,
+  statistics,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
   const { t } = useTranslation("common");
 
   const { data, setData } = useData({
-    show_indicator: filterCaseDeath[0],
+    show_indicator: {
+      label: t(`covid.opt_${filterCaseDeath[0].value}`),
+      value: filterCaseDeath[0].value,
+    },
     filter_death: 0,
     filter_state: 0,
     filter_cases: 0,
-    minmax: [0, timeseries_deaths.x.length - 1],
+    minmax: [timeseries_deaths.x.length - 182, timeseries_deaths.x.length - 1],
   });
 
   const filterTimeline = () => {
@@ -107,8 +114,8 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
   const BarTabsMenu = [
     {
-      name: "Deaths",
-      title: "Deaths per 100K",
+      name: t("covid.tab_table2"),
+      title: t("covid.tab_table2") + " per 100K",
       data: snapshot_bar.deaths,
     },
     {
@@ -127,8 +134,8 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
       data: snapshot_bar.util_hosp,
     },
     {
-      name: "Cases",
-      title: "Cases per 100K",
+      name: t("covid.tab_table4"),
+      title: t("covid.tab_table4") + " per 100K",
       data: snapshot_bar.cases,
     },
   ];
@@ -140,7 +147,9 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             {t("covid.title")}
           </span>
-          <h3 className="text-black">{t("covid.title_header")}</h3>
+          <h3 className="text-black">
+            {t("covid.title_header", { state: CountryAndStates[currentState] })}
+          </h3>
           <p className="text-dim">{t("covid.title_description1")}</p>
           <p className="text-dim">
             {t("covid.title_description2")}{" "}
@@ -162,8 +171,11 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         <Section
           title={t("covid.donut_header")}
           description={
-            <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[currentState]}</p>
+            <p className="pt-4 text-sm text-dim">
+              {t("common.data_for", { state: CountryAndStates[currentState] })}
+            </p>
           }
+          date={last_updated}
         >
           <div className="grid grid-cols-2 gap-12 pt-6 lg:grid-cols-4">
             <div className="flex items-center gap-3">
@@ -232,7 +244,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* What does the latest data show? */}
-        <Section title={t("covid.diagram_header")}>
+        <Section title={t("covid.diagram_header")} date={last_updated}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <div className="col-span-1 xl:col-span-2">
               <Stages
@@ -408,7 +420,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* How are COVID-19 key indicators trending */}
-        <Section title={t("covid.area_chart_header")}>
+        <Section title={t("covid.area_chart_header")} date={last_updated}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
               className="h-[250px] w-full"
@@ -416,7 +428,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              stats={null}
+              stats={[
+                {
+                  title: t("covid.deaths.annot1"),
+                  value: `+${statistics.deaths.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.deaths.annot2"),
+                  value: `${statistics.deaths.annot2.toLocaleString()}`,
+                },
+              ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -453,7 +474,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               interval={interval_scale}
               // menu={<MenuDropdown />}
-              stats={null}
+              stats={[
+                {
+                  title: t("covid.vent.annot1"),
+                  value: `+${statistics.vent.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.vent.annot2"),
+                  value: `${statistics.vent.annot2.toLocaleString()}`,
+                },
+              ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -483,7 +513,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              stats={null}
+              stats={[
+                {
+                  title: t("covid.icu.annot1"),
+                  value: `+${statistics.icu.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.icu.annot2"),
+                  value: `${statistics.icu.annot2.toLocaleString()}`,
+                },
+              ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -513,7 +552,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              stats={null}
+              stats={[
+                {
+                  title: t("covid.admitted.annot1"),
+                  value: `+${statistics.admitted.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.admitted.annot2"),
+                  value: `${statistics.admitted.annot2.toLocaleString()}`,
+                },
+              ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -544,7 +592,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               // menu={<MenuDropdown />}
               interval={interval_scale}
               // enableLegend
-              stats={null}
+              stats={[
+                {
+                  title: t("covid.cases.annot1"),
+                  value: `+${statistics.cases.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.cases.annot2"),
+                  value: `${statistics.cases.annot2.toLocaleString()}`,
+                },
+              ]}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -573,7 +630,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              stats={null}
+              stats={[
+                {
+                  title: t("covid.tests.annot1"),
+                  value: `+${statistics.tests.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.tests.annot2"),
+                  value: `${statistics.tests.annot2.toLocaleString()}`,
+                },
+              ]}
               enableRightScale
               data={{
                 labels: filtered_timeline().x,
@@ -582,7 +648,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     type: "line",
                     label: `${t("covid.area_chart6_tooltip1")}`,
                     pointRadius: 0,
-                    borderColor: COVID_COLOR[300],
+                    borderColor: "#0F172A",
                     data: filtered_timeline().tests_posrate,
                     borderWidth: 1.5,
                     yAxisID: "y1",
@@ -616,20 +682,18 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 setData("minmax", [item.min, item.max])
               }
             />
-            <span className="text-sm text-dim">
-              Use this time slider to zoom in specific time range
-            </span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
 
         {/* How vaccinated against COVID-19 are we? */}
-        <Section title={t("covid.table_header")}>
+        <Section title={t("covid.table_header")} date={last_updated}>
           <div>
             <Tabs
               className="flex flex-wrap justify-end gap-2 pb-4"
               title={t("covid.table_subheader")}
             >
-              {COVID_TABLE_SCHEMA.map((menu, index) => {
+              {COVID_TABLE_SCHEMA().map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
                     <Table data={snapshot_table} config={menu.config} />
@@ -640,7 +704,11 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
           </div>
         </Section>
 
-        <Section title={t("covid.bar_chart_header")} description={t("covid.bar_chart_subheader")}>
+        <Section
+          title={t("covid.bar_chart_header")}
+          description={t("covid.bar_chart_subheader")}
+          date={last_updated}
+        >
           <Tabs
             title={
               {
@@ -657,7 +725,12 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             state={currentState}
             controls={
               <Dropdown
-                options={filterCaseDeath}
+                options={filterCaseDeath.map(option => {
+                  return {
+                    label: t(`covid.opt_${option.value}`),
+                    value: option.value,
+                  };
+                })}
                 selected={data.show_indicator}
                 onChange={e => setData("show_indicator", e)}
               />

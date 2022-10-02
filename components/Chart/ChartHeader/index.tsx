@@ -1,4 +1,5 @@
 import { CountryAndStates } from "@lib/constants";
+import { useTranslation } from "next-i18next";
 import { FunctionComponent, ReactElement } from "react";
 interface ChartHeaderProps {
   title?: string | ReactElement;
@@ -8,6 +9,7 @@ interface ChartHeaderProps {
 }
 
 const ChartHeader: FunctionComponent<ChartHeaderProps> = ({ title, menu, controls, state }) => {
+  const { t } = useTranslation();
   return (
     <>
       <div className="flex flex-wrap items-start justify-between gap-2">
@@ -18,7 +20,9 @@ const ChartHeader: FunctionComponent<ChartHeaderProps> = ({ title, menu, control
             title
           )}
           {state && typeof state === "string" ? (
-            <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[state]}</p>
+            <p className="pt-4 text-sm text-dim">
+              {t("common.data_for", { state: CountryAndStates[state] })}
+            </p>
           ) : (
             <>{state}</>
           )}

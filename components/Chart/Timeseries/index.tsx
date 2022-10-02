@@ -281,7 +281,6 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
                     family: "Inter",
                   },
                 },
-                max: 100,
                 stacked: mode === "stacked",
               },
             }

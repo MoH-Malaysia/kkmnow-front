@@ -26,6 +26,7 @@ const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false });
 
 interface CovidVaccinationProps {
+  last_updated: number;
   waffle_data: Array<any>;
   barmeter_data: Array<any>;
   table_data: Array<any>;
@@ -34,6 +35,7 @@ interface CovidVaccinationProps {
 }
 
 const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
+  last_updated,
   waffle_data,
   table_data,
   barmeter_data,
@@ -41,14 +43,20 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
   stats_data,
 }) => {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
     vax_tab: 0,
-    filter_dose: filterDoseOptions[0],
-    filter_age: filterAgeOptions[0],
+    filter_dose: {
+      label: t(`vaccination.${filterDoseOptions[0].value}`),
+      value: filterDoseOptions[0].value,
+    },
+    filter_age: {
+      label: t(`vaccination.${filterAgeOptions[0].value}`),
+      value: filterAgeOptions[0].value,
+    },
     minmax: [timeseries_data.x.length - 182, timeseries_data.x.length - 1], // [6months ago, today]
   });
-  const { t } = useTranslation("common");
 
   const filterTimeline = () => {
     return {
@@ -88,7 +96,12 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             placeholder="Select"
             onChange={item => setData("filter_age", item)}
             selected={data.filter_age}
-            options={filterAgeOptions}
+            options={filterAgeOptions.map(option => {
+              return {
+                label: t(`vaccination.${option.value}`),
+                value: option.value,
+              };
+            })}
           />
         );
       case 1:
@@ -97,7 +110,12 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             placeholder="Select"
             onChange={item => setData("filter_dose", item)}
             selected={data.filter_dose}
-            options={filterDoseOptions}
+            options={filterDoseOptions.map(option => {
+              return {
+                label: t(`vaccination.${option.value}`),
+                value: option.value,
+              };
+            })}
           />
         );
     }
@@ -110,7 +128,9 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
             {t("vaccination.title")}
           </span>
-          <h3 className="text-black">{t("vaccination.title_header")}</h3>
+          <h3 className="text-black">
+            {t("vaccination.title_header", { state: CountryAndStates[currentState] })}
+          </h3>
           <p className="text-dim">{t("vaccination.title_description1")}</p>
           <p className="text-dim">
             {t("vaccination.title_description2")}{" "}
@@ -128,11 +148,11 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
       </Hero>
 
       <Container className="min-h-screen">
-        <Section title={t("vaccination.waffle_header")}>
+        <Section title={t("vaccination.waffle_header")} date={last_updated}>
           <Tabs
             state={
               <p className="text-dim">
-                {t("vaccination.data")} {CountryAndStates[currentState]} |{" "}
+                {t("common.data_for", { state: CountryAndStates[currentState] })} |{" "}
                 {data.vax_tab === 0 ? data.filter_age.label : data.filter_dose.label}
               </p>
             }
@@ -307,7 +327,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* What is the current state of the COVID-19 vaccination program? */}
-        <Section title={t("vaccination.combine_header")}>
+        <Section title={t("vaccination.combine_header")} date={last_updated}>
           <div className="space-y-4">
             <Timeseries
               className="h-[350px] w-full pt-6"
@@ -366,7 +386,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* How are COVID-19 key indicators trending */}
-        <Section title={t("vaccination.area_chart_header")}>
+        <Section title={t("vaccination.area_chart_header")} date={last_updated}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
               title={t("vaccination.area_chart_title1")}
@@ -588,13 +608,13 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* Which states are best vaccinated against COVID-19? */}
-        <Section title={t("vaccination.table_header")}>
+        <Section title={t("vaccination.table_header")} date={last_updated}>
           <div>
             <Tabs
               className="flex flex-wrap justify-end gap-2 pb-4"
               title={t("vaccination.table_subheader")}
             >
-              {VACCINE_TABLE_SCHEMA.map((menu, index) => {
+              {VACCINE_TABLE_SCHEMA().map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
                     <Table data={table_data} config={menu.config} />

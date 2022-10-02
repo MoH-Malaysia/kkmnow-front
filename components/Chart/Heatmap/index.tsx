@@ -5,8 +5,7 @@ import { AxisProps } from "@nivo/axes";
 import { ChartHeader, StateTick, DefaultTick } from "@components/index";
 import { CountryAndStates } from "@lib/constants";
 import { HeatmapSchema } from "@lib/schema/blood-donation";
-import { ValueFormat } from "@nivo/core";
-import { cp } from "fs";
+
 interface HeatmapProps {
   className?: string;
   data?: any;
@@ -153,7 +152,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
       <ChartHeader title={title} menu={menu} controls={controls} state={state} />
 
       <div className="table-responsive">
-        <div className={`${className} w-[700px] lg:w-auto`}>
+        <div className={`${className} lg:w-auto`}>
           {legend?.left && (
             <span className="rotate-180 text-center font-medium [writing-mode:vertical-lr]">
               {legend.left}
@@ -229,7 +228,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
           </div>
 
           {subdata && (
-            <div className="aspect-auto h-full w-[12.5%]">
+            <div className="aspect-auto h-full w-[28%]">
               <ResponsiveHeatMap
                 data={formatted.subdata}
                 margin={{

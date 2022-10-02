@@ -26,6 +26,7 @@ import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/20/solid";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { CountryAndStates } from "@lib/constants";
 import Image from "next/image";
+import { useTranslation } from "next-i18next";
 
 interface TableProps {
   className?: string;
@@ -82,6 +83,7 @@ const Table: FunctionComponent<TableProps> = ({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const { t } = useTranslation();
 
   const sortTooltip = (sortDir: "asc" | "desc" | false) => {
     if (sortDir === false) return "Sort";
@@ -245,7 +247,7 @@ const Table: FunctionComponent<TableProps> = ({
             ) : (
               <tr>
                 <td colSpan={table.getAllColumns().length} className="border-r border-black">
-                  <div>No entries found. </div>
+                  <div>{t("common.no_entries")}. </div>
                 </td>
               </tr>
             )}
@@ -260,20 +262,24 @@ const Table: FunctionComponent<TableProps> = ({
             disabled={!table.getCanPreviousPage()}
           >
             <ArrowLeftIcon className="h-5 w-4 text-dim" />
-            Previous
+            {t("common.previous")}
           </button>
 
-          <span className="flex items-center gap-1 text-sm">
-            <div>Page</div>
+          <span className="flex items-center gap-1 text-center text-sm">
+            {t("common.page_of", {
+              current: table.getState().pagination.pageIndex + 1,
+              total: table.getPageCount(),
+            })}
+            {/* <div>Page</div>
             <span className="font-medium">{table.getState().pagination.pageIndex + 1}</span> of{" "}
-            {table.getPageCount()}
+            {table.getPageCount()} */}
           </span>
           <button
             className="flex flex-row gap-2 rounded border py-1 px-2 disabled:bg-slate-100 disabled:opacity-50"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next <ArrowRightIcon className="h-5 w-4 text-dim" />
+            {t("common.next")} <ArrowRightIcon className="h-5 w-4 text-dim" />
           </button>
         </div>
       )}

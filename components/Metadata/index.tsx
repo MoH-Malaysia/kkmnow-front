@@ -3,7 +3,7 @@ import { FunctionComponent } from "react";
 import { useTranslation } from "next-i18next";
 
 interface MetadataProps {
-  title: string;
+  title?: string;
   keywords?: string;
 }
 
@@ -11,7 +11,7 @@ const Metadata: FunctionComponent<MetadataProps> = ({ title, keywords }) => {
   const { t } = useTranslation();
 
   const META = {
-    title: title,
+    title: title ? title.concat(" | KKMNOW") : "KKMNOW",
     icon: "/favicon.ico",
     description: t("header"),
     author: "Ministry of Health & Department of Statistics Malaysia",

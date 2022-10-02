@@ -17,12 +17,14 @@ import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { HOSPITAL_TABLE_SCHEMA } from "@lib/schema/hospital-bed-utilisation";
 import { useWindowWidth } from "@hooks/useWindowWidth";
+import { useTranslation } from "next-i18next";
 
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 
 interface HospitalBedUtilisationDashboardProps {
+  last_updated: number;
   choropleth_bed: any;
   table_facility: any;
   timeseries_facility: any;
@@ -30,6 +32,7 @@ interface HospitalBedUtilisationDashboardProps {
 }
 
 const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationDashboardProps> = ({
+  last_updated,
   choropleth_bed,
   table_facility,
   timeseries_facility,
@@ -40,32 +43,27 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
   });
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
+  const { t } = useTranslation();
 
   return (
     <>
       <Hero background="hospbed-banner">
         <div className="space-y-4 xl:w-2/3">
           <span className="text-sm font-bold uppercase tracking-widest text-dim">
-            healthcare resources
+            {t("bed.title")}
           </span>
-          <h3 className="text-black">Hospital Bed Utilisation</h3>
-          <p className="text-dim">
-            The Health Informatics Centre (PIK) maintains a constantly-updated database on all
-            healthcare facilities - both public and private - in Malaysia. This dashboard documents
-            the data in a manner that eases the process of finding a healthcare facility for your
-            needs, and builds on the dataset to analyse healthcare access. The analysis on access
-            will be constantly enriched over time as we deepen the scope of the facilities dataset -
-            for instance with data on services offered, waiting times, and healthare outcomes.
-          </p>
+          <h3 className="text-black">{t("bed.title_header")}</h3>
+          <p className="text-dim">{t("bed.title_description")}</p>
         </div>
       </Hero>
       <Container className="min-h-screen">
         <Section
-          title="What is the current geographic distribution of hospital bed utilisation?"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          title={t("bed.choro_header", { state: CountryAndStates["mys"] })}
+          description={t("bed.choro_description")}
+          date={last_updated}
         >
           <Tabs className="flex flex-wrap justify-end gap-2">
-            <Panel key={0} name="Non-Critical Care">
+            <Panel key={0} name={t("bed.tab_choro1")}>
               <Choropleth
                 className={"h-[500px] w-auto"}
                 colorScale="oranges"
@@ -80,7 +78,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 unitY="%"
               />
             </Panel>
-            <Panel key={1} name={"Critical Care (ICU)"}>
+            <Panel key={1} name={t("bed.tab_choro2")}>
               <Choropleth
                 className={"h-[500px] w-auto"}
                 colorScale="reds"
@@ -97,12 +95,12 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
             </Panel>
           </Tabs>
         </Section>
-        <Section title="Hospital Bed Utilisation by Facility">
+        <Section title={t("bed.table_header")} date={last_updated}>
           <Table
             controls={setColumnFilters => (
               <>
                 <StateDropdown
-                  label="State"
+                  label={t("common.state")}
                   currentState={data.table_state}
                   onChange={selected => {
                     setData("table_state", selected.value);
@@ -122,7 +120,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                   disabled={!data.table_state && !data.table_district && !data.table_facility_type}
                   icon={<ArrowPathIcon className="h-4 w-4" />}
                 >
-                  Clear Selection
+                  {t("common.clear_selection")}
                 </Button>
               </>
             )}
@@ -140,20 +138,23 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
             enablePagination
           />
         </Section>
-        <Section title={`Bed Utilisation for ${data.facility ?? "Malaysia"}`}>
+        <Section
+          title={t("bed.timeseries_header", { facility: data.facility ?? "Malaysia" })}
+          date={last_updated}
+        >
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
             {data.state && data.facility ? (
               <>
                 <Timeseries
                   className="h-[250px] w-full"
-                  title="Hospital Bed Utilisation (non-critical)"
+                  title={t("bed.timeseries_beds")}
                   enableGridX={false}
                   data={{
                     labels: timeseries_facility[data.state][data.facility].x,
                     datasets: [
                       {
                         type: "line",
-                        label: "Utilisation rate (%)",
+                        label: t("bed.timeseries_utilrate"),
                         data: timeseries_facility[data.state][data.facility].line_util_non_icu,
                         borderColor: "#DC2626",
                         borderWidth: 1.5,
@@ -163,13 +164,13 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 />
                 <Timeseries
                   className="h-[250px] w-full"
-                  title="ICU Bed Utilisation (critical care)"
+                  title={t("bed.timeseries_icu")}
                   data={{
                     labels: timeseries_facility[data.state][data.facility].x,
                     datasets: [
                       {
                         type: "line",
-                        label: "Utilisation rate (%)",
+                        label: t("bed.timeseries_utilrate"),
                         data: timeseries_facility[data.state][data.facility].line_util_icu,
                         borderColor: "#DC2626",
                         borderWidth: 1.5,
@@ -182,16 +183,16 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
             ) : (
               <>
                 <Empty
-                  title="Hospital Bed Utilisation (non-critical)"
+                  title={t("bed.timeseries_beds")}
                   type="timeseries"
                   className="h-[250px] w-full"
-                  placeholder="Please select a facility from table"
+                  placeholder={t("bed.timeseries_placeholder")}
                 />
                 <Empty
-                  title="ICU Bed Utilisation (critical care)"
+                  title={t("bed.timeseries_icu")}
                   type="timeseries"
                   className="h-[250px] w-full"
-                  placeholder="Please select a facility from table"
+                  placeholder={t("bed.timeseries_placeholder")}
                 />
               </>
             )}

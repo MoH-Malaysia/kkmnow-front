@@ -37,6 +37,7 @@ const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: fa
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
 interface BloodDonationDashboardProps {
+  last_updated: number;
   timeseries_all: any;
   timeseries_bloodstock: any;
   timeseries_facility: any;
@@ -51,6 +52,7 @@ interface BloodDonationDashboardProps {
 }
 
 const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = ({
+  last_updated,
   timeseries_all,
   timeseries_bloodstock,
   timeseries_facility,
@@ -99,15 +101,15 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
 
   const KEY_VARIABLES_SCHEMA = [
     {
-      name: "Yesterday",
+      name: t("blood.yesterday"),
       data: barchart_variables.yesterday,
     },
     {
-      name: "Past month",
+      name: t("blood.month"),
       data: barchart_variables.past_month,
     },
     {
-      name: "Past year",
+      name: t("blood.year"),
       data: barchart_variables.past_year,
     },
   ];
@@ -139,15 +141,18 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       </Hero>
       <Container className="min-h-screen">
         {/* Is {{ area }}'s current blood supply sufficient? */}
-        <Section title={t("blood.table_header")}>
+        <Section
+          title={t("blood.table_header", { state: CountryAndStates[currentState] })}
+          date={last_updated}
+        >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
             <Heatmap
-              className="h-[420px]"
+              className="h-[420px] w-[600px]"
               title={t("blood.table_title")}
               hoverTarget="row"
               data={heatmap_bloodstock}
               axisLeft="state"
-              schema={BLOOD_SUPPLY_SCHEMA}
+              schema={BLOOD_SUPPLY_SCHEMA()}
               color={BLOOD_SUPPLY_COLOR}
               //menu={<MenuDropdown />}
             />
@@ -257,7 +262,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         </Section>
 
         {/* What are the latest blood donation trends in {{ area }}? */}
-        <Section title={t("blood.combine_header")} description={t("blood.combine_description")}>
+        <Section
+          title={t("blood.combine_header", { state: CountryAndStates[currentState] })}
+          description={t("blood.combine_description")}
+          date={last_updated}
+        >
           <div className="w-full space-y-4">
             <Timeseries
               className=" h-[350px] w-full pt-6"
@@ -295,16 +304,18 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               data={timeseries_all.x}
               onChange={(item: any) => setLimit([item.min, item.max])}
             />
-            <span className="text-sm text-dim">
-              Use this time slider to zoom in specific time range
-            </span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
         {/* Choropleth view of organ donar in Malaysia */}
-        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
+        <Section
+          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
+          description={t("covidnow.mmap_description")}
+          date={last_updated}
+        >
           <div>
             <Choropleth
-              className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
+              className={isMobile ? "h-[450px] w-auto" : "h-[500px] w-full"}
               enableScale={false}
               // colorScale="CHOROPLETH_BLUE_SCALE"
               colorScale="blues"
@@ -324,8 +335,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         </Section>
         {/* A breakdown of donations by key variables */}
         <Section
-          title="A breakdown of donations by key variables"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          title={t("blood.barmeter_header")}
+          description={t("blood.barmeter_description")}
+          date={last_updated}
         >
           <Tabs className="pb-4">
             {KEY_VARIABLES_SCHEMA.map(({ name, data }) => {
@@ -333,7 +345,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel key={name} name={name}>
                   <div className="grid w-full grid-cols-1 gap-12 lg:grid-cols-3">
                     <BarMeter
-                      title="Donations by Blood Type"
+                      title={t("blood.barmeter1_title")}
                       className="flex-col"
                       state={currentState}
                       data={data.blood_group}
@@ -341,7 +353,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       sort="desc"
                     />
                     <BarMeter
-                      title="Donations by Donation Type"
+                      title={t("blood.barmeter2_title")}
                       className="flex-col"
                       state={currentState}
                       data={data.donation_type}
@@ -349,10 +361,26 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       sort="desc"
                     />
                     <BarMeter
-                      title="Donations by Collection Location"
+                      title={t("blood.barmeter3_title")}
                       className="flex-col"
                       state={currentState}
                       data={data.location}
+                      layout="horizontal"
+                      sort="desc"
+                    />
+                    <BarMeter
+                      title={t("blood.barmeter4_title")}
+                      className="flex-col"
+                      state={currentState}
+                      data={data.donation_regularity}
+                      layout="horizontal"
+                      sort="desc"
+                    />
+                    <BarMeter
+                      title={t("blood.barmeter5_title")}
+                      className="flex-col"
+                      state={currentState}
+                      data={data.social_group}
                       layout="horizontal"
                       sort="desc"
                     />
@@ -364,7 +392,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         </Section>
 
         {/* How strong is the new donor recruitment in {{ area }}? */}
-        <Section title={t("blood.bar1_header")} description={t("blood.bar1_description")}>
+        <Section
+          title={t("blood.bar1_header", { state: CountryAndStates[currentState] })}
+          description={t("blood.bar1_description")}
+          date={last_updated}
+        >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
               <Tabs title={t("blood.bar1_title")} state={currentState}>
@@ -448,7 +480,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         </Section>
 
         {/* What proportion of the population in {{ area }} donates blood? */}
-        <Section title={t("blood.heatmap_header")} description={t("blood.heatmap_description")}>
+        <Section
+          title={t("blood.heatmap_header", { state: CountryAndStates[currentState] })}
+          description={t("blood.heatmap_description")}
+          date={last_updated}
+        >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full overflow-visible">
               <Tabs
@@ -459,14 +495,14 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name={t("blood.heatmap1_panel1")}>
                   <>
                     <Heatmap
-                      className="flex h-[140px] overflow-visible"
-                      data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
+                      data={heatmap_donorrate.capita}
                       subdata
                       axisLeft="default"
                       color="blues"
                     />
 
-                    <Heatmap
+                    {/* <Heatmap
                       className="flex h-[200px] overflow-visible"
                       title={t("blood.heatmap2_title")}
                       data={[
@@ -494,12 +530,20 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="blues"
-                    />
+                    /> */}
                   </>
                 </Panel>
                 <Panel name={t("blood.heatmap1_panel2")}>
                   <>
                     <Heatmap
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
+                      data={heatmap_donorrate.perc}
+                      subdata
+                      axisLeft="default"
+                      unitY="%"
+                      color="blues"
+                    />
+                    {/* <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
                       subdata
@@ -538,12 +582,20 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="blues"
-                    />
+                    /> */}
                   </>
                 </Panel>
                 <Panel name={t("blood.heatmap1_panel3")}>
                   <>
                     <Heatmap
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
+                      data={heatmap_donorrate.abs}
+                      subdata
+                      axisLeft="default"
+                      valueFormat="<-,.1~s"
+                      color="blues"
+                    />
+                    {/* <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
                       subdata
@@ -582,14 +634,14 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="blues"
-                    />
+                    /> */}
                   </>
                 </Panel>
               </Tabs>
             </div>
 
             <Heatmap
-              className="flex h-[600px] overflow-auto lg:overflow-visible "
+              className="flex h-[500px] w-[600px] overflow-auto lg:overflow-visible "
               title={t("blood.heatmap4_title")}
               state={currentState}
               //menu={<MenuDropdown />}
@@ -613,20 +665,24 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         </Section>
 
         {/* How is this data collected? */}
-        <Section title={t("blood.map_header")} description={t("blood.map_description")}>
+        <Section
+          title={t("blood.map_header")}
+          description={t("blood.map_description")}
+          date={last_updated}
+        >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full space-y-3">
-              <div className="flex justify-between">
+              <div className="flex flex-wrap justify-between">
                 <div className="flex items-center gap-4">
                   <MapPinIcon className="h-5 w-auto text-dim" />
-                  <h4>Zoom into my area</h4>
+                  <h4>{t("common.zoom")}</h4>
                 </div>
                 <Button
                   onClick={handleClearSelection}
                   disabled={!data.zoom_state}
                   icon={<ArrowPathIcon className="h-4 w-4" />}
                 >
-                  Clear Selection
+                  {t("common.clear_selection")}
                 </Button>
               </div>
               <StateDropdown
@@ -639,7 +695,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 width="w-full"
               />
               <Dropdown
-                placeholder={t("blood.map_facility")}
+                placeholder={t("placeholder.facility")}
                 onChange={item => setData("zoom_facility", item)}
                 selected={data.zoom_facility}
                 disabled={!data.zoom_state}
@@ -662,7 +718,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     title={t("blood.bar3_title")}
                     state={
                       <p className="text-sm text-dim">
-                        Data for {data.zoom_facility?.label}, {CountryAndStates[data.zoom_state]}
+                        {t("common.data_for", {
+                          state: `${data.zoom_facility?.label}, ${
+                            CountryAndStates[data.zoom_state]
+                          }`,
+                        })}
                       </p>
                     }
                     //menu={<MenuDropdown />}
@@ -694,7 +754,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                   title={t("blood.bar3_title")}
                   type="timeseries"
                   className="h-[300px] w-full pt-7"
-                  placeholder={t("blood.bar3_placeholder")}
+                  placeholder={t("placeholder.facility")}
                 />
               )}
             </div>
@@ -704,7 +764,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               title={
                 data.zoom_state && data.zoom_facility
                   ? `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`
-                  : "BBIS Centres in Malaysia"
+                  : t("blood.map_title")
               }
               zoom={data.zoom_facility ? 8 : 5}
               position={

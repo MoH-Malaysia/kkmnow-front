@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactElement } from "react";
 import { Tab } from "@headlessui/react";
 import { CountryAndStates } from "@lib/constants";
+import { useTranslation } from "next-i18next";
 
 interface TabsProps {
   children: Array<ReactElement>;
@@ -23,6 +24,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
   menu,
   onChange = () => {},
 }) => {
+  const { t } = useTranslation();
   return (
     <>
       <Tab.Group selectedIndex={current} onChange={onChange}>
@@ -34,15 +36,17 @@ const Tabs: FunctionComponent<TabsProps> = ({
               title
             )}
             {state && typeof state === "string" ? (
-              <p className="pt-4 text-sm text-dim">Data for {CountryAndStates[state]}</p>
+              <p className="pt-4 text-sm text-dim">
+                {t("common.data_for", { state: CountryAndStates[state] })}
+              </p>
             ) : (
               <>{state}</>
             )}
           </div>
 
-          <Tab.List className="flex flex-wrap items-start justify-between gap-[10px] lg:justify-end">
+          <Tab.List className="item-center flex flex-wrap justify-between gap-[10px] lg:items-start lg:justify-end">
             {controls}
-            <div className="flex flex-grow gap-3">
+            <div className="flex flex-grow flex-wrap gap-3">
               {children.map(({ props: { name } }, index) => (
                 <Tab
                   key={index}

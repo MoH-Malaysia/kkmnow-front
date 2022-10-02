@@ -14,6 +14,7 @@ const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: 
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 
 interface OrganDonationDashboardProps {
+  last_updated: number;
   timeseries_pledge: any;
   bar_age: any;
   bar_time: any;
@@ -23,6 +24,7 @@ interface OrganDonationDashboardProps {
 }
 
 const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = ({
+  last_updated,
   timeseries_pledge,
   bar_age,
   bar_time,
@@ -54,7 +56,9 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
     <>
       <Hero background="organ-banner">
         <div className="space-y-4 xl:w-2/3">
-          <span className="text-sm font-bold uppercase tracking-widest text-dim">health</span>
+          <span className="text-sm font-bold uppercase tracking-widest text-dim">
+            {t("organ.title")}
+          </span>
           <h3 className="text-black">{t("organ.title_header")}</h3>
           <p className="text-dim">
             {t("organ.title_description")}{" "}
@@ -75,13 +79,14 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
 
       <Container className="min-h-screen">
         <Section
-          title={t("organ.bar_header")}
+          title={t("organ.bar_header", { state: CountryAndStates[currentState] })}
           description={
             <p className="pt-2 text-dim">
               {t("organ.bar_description1")} <strong> {t("organ.bar_description2")}</strong>; when
               {t("organ.bar_description3")}
             </p>
           }
+          date={last_updated}
         >
           <div className="space-y-4">
             <Timeseries
@@ -115,14 +120,18 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               data={timeseries_pledge.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
-            <span className="text-sm text-dim">{t("organ.sub_tittle")}</span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
         {/* Choropleth view of organ donar in Malaysia */}
-        <Section title={t("covidnow.mmap_header")} description={t("covidnow.mmap_description")}>
+        <Section
+          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
+          description={t("covidnow.mmap_description")}
+          date={last_updated}
+        >
           <div>
             <Choropleth
-              className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
+              className={isMobile ? "h-[450px] w-auto" : "h-[500px] w-full"}
               enableScale={false}
               colorScale="greens"
               borderColor="#000"
@@ -141,7 +150,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
 
         {/* How strong is the new donor recruitment in {{ area }}? */}
-        <Section title={t("organ.bar1_header")} description={t("organ.bar1_description")}>
+        <Section
+          title={t("organ.bar1_header", { state: CountryAndStates[currentState] })}
+          description={t("organ.bar1_description")}
+          date={last_updated}
+        >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
               <Tabs
@@ -227,7 +240,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
 
         {/* What proportion of the population in {{ area }} donates blood? */}
-        <Section title={t("organ.heatmap_header")} description={t("organ.heatmap_description")}>
+        <Section
+          title={t("organ.heatmap_header", { state: CountryAndStates[currentState] })}
+          description={t("organ.heatmap_description")}
+          date={last_updated}
+        >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full">
               <Tabs
@@ -238,6 +255,13 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 <Panel name={t("organ.capita")}>
                   <>
                     <Heatmap
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
+                      data={heatmap_donorrate.capita}
+                      subdata
+                      axisLeft="default"
+                      color="greens"
+                    />
+                    {/* <Heatmap
                       className="flex h-[140px] overflow-visible"
                       data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
                       subdata
@@ -273,12 +297,20 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    />
+                    /> */}
                   </>
                 </Panel>
                 <Panel name={t("organ.heatmap1_panel2")}>
                   <>
                     <Heatmap
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
+                      data={heatmap_donorrate.perc}
+                      subdata
+                      axisLeft="default"
+                      color="greens"
+                      unitY="%"
+                    />
+                    {/* <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
                       subdata
@@ -317,12 +349,20 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    />
+                    /> */}
                   </>
                 </Panel>
                 <Panel name={t("organ.heatmap1_panel3")}>
                   <>
                     <Heatmap
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
+                      data={heatmap_donorrate.abs}
+                      subdata
+                      axisLeft="default"
+                      valueFormat="<-,.1~s"
+                      color="greens"
+                    />
+                    {/* <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
                       subdata
@@ -361,7 +401,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    />
+                    /> */}
                   </>
                 </Panel>
               </Tabs>
@@ -377,7 +417,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       labels: bar_reasons.all_time.x,
                       datasets: [
                         {
-                          label: "No. of Donors",
+                          label: t("organ.donor"),
                           data: bar_reasons.all_time.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
@@ -394,7 +434,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       labels: bar_reasons.last_month.x,
                       datasets: [
                         {
-                          label: "No. of Screenings",
+                          label: t("organ.donor"),
                           data: bar_reasons.last_month.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
@@ -409,7 +449,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
 
         {/* How is this data collected? */}
-        <Section title={t("organ.map_btm")} description={t("organ.map_desc")} />
+        <Section title={t("organ.map_btm")} description={t("organ.map_desc")} date={last_updated} />
       </Container>
     </>
   );
