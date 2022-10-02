@@ -6,14 +6,14 @@ interface DonutMeterProps {
 
 const DonutMeter: FunctionComponent<DonutMeterProps> = ({ value = 30 }) => {
   const color = () => {
-    if (value > 90) return "#DC2626";
-    if (value > 75) return "#FB8229";
-    if (value > 50) return "#FBBF24";
+    if (value >= 90) return "#DC2626";
+    if (value >= 75) return "#FB8229";
+    if (value >= 50) return "#FBBF24";
     else return "#22C55E";
   };
   return (
     <div
-      className="h-16 w-16"
+      className="h-14 w-14"
       role={"progressbar"}
       aria-valuenow={value}
       aria-valuemin={0}

@@ -23,7 +23,7 @@ const Section: FunctionComponent<SectionProps> = ({
   return (
     <section className={className}>
       <div className="pb-6">
-        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:justify-between">
           {title && typeof title === "string" ? <h4>{title}</h4> : title}
           {typeof date === "number" ? (
             <span className="text-right text-sm text-dim">

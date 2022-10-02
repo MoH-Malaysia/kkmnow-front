@@ -162,7 +162,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 <Panel name={t("peka.heatmap_panel1")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_screenrate.capita}
                       subdata
                       axisLeft="default"
@@ -211,7 +211,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 <Panel name={t("peka.heatmap_panel2")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_screenrate.perc}
                       subdata
                       axisLeft="default"
@@ -264,7 +264,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 <Panel name={t("peka.heatmap_panel3")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_screenrate.abs}
                       subdata
                       axisLeft="default"

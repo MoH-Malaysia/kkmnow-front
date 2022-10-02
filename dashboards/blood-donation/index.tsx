@@ -147,7 +147,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
             <Heatmap
-              className="h-[420px]"
+              className="h-[420px] w-[600px]"
               title={t("blood.table_title")}
               hoverTarget="row"
               data={heatmap_bloodstock}
@@ -479,7 +479,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name={t("blood.heatmap1_panel1")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_donorrate.capita}
                       subdata
                       axisLeft="default"
@@ -520,7 +520,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name={t("blood.heatmap1_panel2")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_donorrate.perc}
                       subdata
                       axisLeft="default"
@@ -572,7 +572,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name={t("blood.heatmap1_panel3")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_donorrate.abs}
                       subdata
                       axisLeft="default"
@@ -625,7 +625,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             </div>
 
             <Heatmap
-              className="flex h-[600px] overflow-auto lg:overflow-visible "
+              className="flex h-[500px] w-[600px] overflow-auto lg:overflow-visible "
               title={t("blood.heatmap4_title")}
               state={currentState}
               //menu={<MenuDropdown />}

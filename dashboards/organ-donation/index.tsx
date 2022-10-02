@@ -255,7 +255,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 <Panel name={t("organ.capita")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_donorrate.capita}
                       subdata
                       axisLeft="default"
@@ -303,7 +303,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 <Panel name={t("organ.heatmap1_panel2")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_donorrate.perc}
                       subdata
                       axisLeft="default"
@@ -355,7 +355,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 <Panel name={t("organ.heatmap1_panel3")}>
                   <>
                     <Heatmap
-                      className="flex h-[600px] overflow-visible"
+                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
                       data={heatmap_donorrate.abs}
                       subdata
                       axisLeft="default"
