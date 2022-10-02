@@ -417,6 +417,8 @@
     "barmeter1_title": "Derma mengikut kumpulan darah (fenotip)",
     "barmeter2_title": "Derma mengikut jenis penderma",
     "barmeter3_title": "Derma mengikut lokasi",
+    "barmeter4_title": "Donation by donor regularity (% of donations)",
+    "barmeter5_title": "Donation by social group",
     "bar1_header": "Seberapa kuat pengambilan penderma baharu di {{ state }}?",
     "bar1_description": "Pengambilan penderma baharu adalah penting untuk menggantikan penderma yang mencapai usia emas mereka dan berhenti menderma, serta menyokong populasi yang semakin meningkat.",
     "bar1_title": "Bilangan penderma baharu",

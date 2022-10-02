@@ -368,6 +368,22 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       layout="horizontal"
                       sort="desc"
                     />
+                    <BarMeter
+                      title={t("blood.barmeter4_title")}
+                      className="flex-col"
+                      state={currentState}
+                      data={data.donor_regularity}
+                      layout="horizontal"
+                      sort="desc"
+                    />
+                    <BarMeter
+                      title={t("blood.barmeter5_title")}
+                      className="flex-col"
+                      state={currentState}
+                      data={data.social_group}
+                      layout="horizontal"
+                      sort="desc"
+                    />
                   </div>
                 </Panel>
               );

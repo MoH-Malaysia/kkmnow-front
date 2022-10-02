@@ -418,6 +418,8 @@
     "barmeter1_title": "Donation by blood group (phenotype)",
     "barmeter2_title": "Donation by donor type",
     "barmeter3_title": "Donation by location",
+    "barmeter4_title": "Donation by donor regularity (% of donations)",
+    "barmeter5_title": "Donation by social group",
     "bar1_header": "How strong is the new donor recruitment in {{ state }}?",
     "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
     "bar1_title": "Number of new donors",
