@@ -23,6 +23,7 @@ const CovidIndex = ({
   timeseries_tests,
   timeseries_vents,
   util_chart,
+  statistics,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation("common");
 
@@ -42,6 +43,7 @@ const CovidIndex = ({
         timeseries_tests={timeseries_tests}
         timeseries_vents={timeseries_vents}
         util_chart={util_chart}
+        statistics={statistics}
       />
     </>
   );
@@ -76,6 +78,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       timeseries_tests: data.timeseries_tests,
       timeseries_vents: data.timeseries_vents,
       util_chart: data.util_chart,
+      statistics: data.statistics,
       ...i18n,
     },
   };

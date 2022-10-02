@@ -241,11 +241,30 @@
     "area_chart6_tooltip1": "Positivity Rate (%)",
     "area_chart6_tooltip2": "RTK",
     "area_chart6_tooltip3": "PCR",
-    "stats_death": "Total - Deaths",
-    "stats_death_tooltip": "Total - Deaths",
-    "stats_vent": "Active - Ventilated",
-    "stats_ventutil": "Active - Ventilated",
-    "stats_ventutil_tooltip": "",
+    "deaths": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "vent": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "icu": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "admitted": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "cases": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "tests": {
+      "annot1": "",
+      "annot2": ""
+    },
     "table_header": "How vaccinated against COVID-19 are we?",
     "table_subheader": "Vaccination Progress by State",
     "bar_chart_header": "How is vaccination influencing key epidemic indicators?",
@@ -272,8 +291,8 @@
     "table_cases": "Cases",
     "table_cases_posrate": "Positivity Rate",
     "table_cases_trend": "Cases Trend",
-    "cases": "Cases",
-    "deaths": "Deaths"
+    "opt_cases": "Cases",
+    "opt_deaths": "Deaths"
   },
   "vaccination": {
     "title": "COVID-19 Vaccination",

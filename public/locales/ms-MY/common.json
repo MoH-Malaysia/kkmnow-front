@@ -241,6 +241,30 @@
     "area_chart6_tooltip1": "Kadar Positiviti (%)",
     "area_chart6_tooltip2": "RTK",
     "area_chart6_tooltip3": "PCR",
+    "deaths": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "vent": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "icu": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "admitted": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "cases": {
+      "annot1": "",
+      "annot2": ""
+    },
+    "tests": {
+      "annot1": "",
+      "annot2": ""
+    },
     "table_header": "Sejauh manakah kita divaksinasi terhadap COVID-19?",
     "table_subheader": "Kemajuan Pemvaksinan mengikut Negeri",
     "bar_chart_header": "Bagaimanakah vaksinasi mempengaruhi penunjuk wabak utama?",
@@ -267,8 +291,8 @@
     "table_cases": "Kes",
     "table_cases_posrate": "Kadar Positif",
     "table_cases_trend": "Kadar Kes",
-    "cases": "Kes",
-    "deaths": "Kematian"
+    "opt_cases": "Cases",
+    "opt_deaths": "Deaths"
   },
   "vaccination": {
     "title": "Vaksin COVID-19",

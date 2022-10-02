@@ -40,6 +40,7 @@ interface CovidDashboardProps {
   timeseries_tests: any;
   timeseries_vents: any;
   util_chart: any;
+  statistics: any;
 }
 
 const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
@@ -55,6 +56,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
   timeseries_tests,
   timeseries_vents,
   util_chart,
+  statistics,
 }) => {
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
@@ -62,7 +64,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
   const { data, setData } = useData({
     show_indicator: {
-      label: t(`covid.${filterCaseDeath[0].value}`),
+      label: t(`covid.opt_${filterCaseDeath[0].value}`),
       value: filterCaseDeath[0].value,
     },
     filter_death: 0,
@@ -426,16 +428,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              //    stats={[
-              //     {
-              //       title: t("vaccination.daily"),
-              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
-              //     },
-              //     {
-              //       title: `${t("vaccination.total")}`,
-              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
-              //     },
-              //   ]}
+              stats={[
+                {
+                  title: t("covid.deaths.annot1"),
+                  value: `+${statistics.deaths.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.deaths.annot2"),
+                  value: `${statistics.deaths.annot2.toLocaleString()}`,
+                },
+              ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -472,16 +474,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               interval={interval_scale}
               // menu={<MenuDropdown />}
-              //   stats={[
-              //     {
-              //       title: t("vaccination.daily"),
-              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
-              //     },
-              //     {
-              //       title: `${t("vaccination.total")}`,
-              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
-              //     },
-              //   ]}
+              stats={[
+                {
+                  title: t("covid.vent.annot1"),
+                  value: `+${statistics.vent.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.vent.annot2"),
+                  value: `${statistics.vent.annot2.toLocaleString()}`,
+                },
+              ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -511,16 +513,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              //   stats={[
-              //     {
-              //       title: t("vaccination.daily"),
-              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
-              //     },
-              //     {
-              //       title: `${t("vaccination.total")}`,
-              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
-              //     },
-              //   ]}
+              stats={[
+                {
+                  title: t("covid.icu.annot1"),
+                  value: `+${statistics.icu.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.icu.annot2"),
+                  value: `${statistics.icu.annot2.toLocaleString()}`,
+                },
+              ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -550,16 +552,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              //   stats={[
-              //     {
-              //       title: t("vaccination.daily"),
-              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
-              //     },
-              //     {
-              //       title: `${t("vaccination.total")}`,
-              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
-              //     },
-              //   ]}
+              stats={[
+                {
+                  title: t("covid.admitted.annot1"),
+                  value: `+${statistics.admitted.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.admitted.annot2"),
+                  value: `${statistics.admitted.annot2.toLocaleString()}`,
+                },
+              ]}
               // enableLegend
               data={{
                 labels: filtered_timeline().x,
@@ -590,16 +592,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               // menu={<MenuDropdown />}
               interval={interval_scale}
               // enableLegend
-              //   stats={[
-              //     {
-              //       title: t("vaccination.daily"),
-              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
-              //     },
-              //     {
-              //       title: `${t("vaccination.total")}`,
-              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
-              //     },
-              //   ]}
+              stats={[
+                {
+                  title: t("covid.cases.annot1"),
+                  value: `+${statistics.cases.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.cases.annot2"),
+                  value: `${statistics.cases.annot2.toLocaleString()}`,
+                },
+              ]}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -628,16 +630,16 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               interval={interval_scale}
-              //   stats={[
-              //     {
-              //       title: t("vaccination.daily"),
-              //       value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
-              //     },
-              //     {
-              //       title: `${t("vaccination.total")}`,
-              //       value: `${stats_data.daily_primary.total.toLocaleString()}`,
-              //     },
-              //   ]}
+              stats={[
+                {
+                  title: t("covid.tests.annot1"),
+                  value: `+${statistics.tests.annot1.toLocaleString()}`,
+                },
+                {
+                  title: t("covid.tests.annot2"),
+                  value: `${statistics.tests.annot2.toLocaleString()}`,
+                },
+              ]}
               enableRightScale
               data={{
                 labels: filtered_timeline().x,
@@ -725,7 +727,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               <Dropdown
                 options={filterCaseDeath.map(option => {
                   return {
-                    label: t(`covid.${option.value}`),
+                    label: t(`covid.opt_${option.value}`),
                     value: option.value,
                   };
                 })}
