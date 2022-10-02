@@ -38,7 +38,7 @@ interface ChoroplethProps {
 }
 
 const Choropleth: FunctionComponent<ChoroplethProps> = ({
-  className = "w-full h-[400px]",
+  className = "h-[400px]",
   controls,
   menu,
   title,

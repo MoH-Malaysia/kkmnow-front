@@ -1,7 +1,7 @@
 /**
  * Blood Donation Page <Index>
  */
-import { Layout, Metadata, Modal, StateDropdown, StateModal } from "@components/index";
+import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
@@ -10,9 +10,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { DateTime } from "luxon";
 import { useTranslation } from "next-i18next";
 import { routes } from "@lib/routes";
-import Image from "next/image";
-import { statesOptions } from "@lib/options";
-import Link from "next/link";
 
 const BloodDonationIndex: Page = ({
   last_updated,
@@ -35,7 +32,7 @@ const BloodDonationIndex: Page = ({
   let vars: Record<string, any> = {};
   heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
     abs.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),
@@ -52,7 +49,7 @@ const BloodDonationIndex: Page = ({
       ],
     });
     capita.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),
@@ -71,7 +68,7 @@ const BloodDonationIndex: Page = ({
       ],
     });
     perc.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),

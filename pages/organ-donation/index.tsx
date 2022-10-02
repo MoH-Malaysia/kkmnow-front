@@ -25,9 +25,8 @@ const OrganDonationIndex = ({
     capita: any[] = [],
     perc: any[] = [];
   heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
-    if (item.x === "Overall") return;
     abs.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),
@@ -44,7 +43,7 @@ const OrganDonationIndex = ({
       ],
     });
     capita.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),
@@ -63,7 +62,7 @@ const OrganDonationIndex = ({
       ],
     });
     perc.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),

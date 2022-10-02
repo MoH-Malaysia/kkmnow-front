@@ -315,7 +315,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         >
           <div>
             <Choropleth
-              className={isMobile ? "h-[450px] w-full" : "h-[500px] w-full"}
+              className={isMobile ? "h-[450px] w-auto" : "h-[500px] w-full"}
               enableScale={false}
               // colorScale="CHOROPLETH_BLUE_SCALE"
               colorScale="blues"

@@ -25,9 +25,8 @@ const PekaB40State: Page = ({
     capita: any[] = [],
     perc: any[] = [];
   heatmap_screenrate.abs.male.data.forEach((item: any, index: number) => {
-    if (item.x === "Overall") return;
     abs.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),
@@ -45,7 +44,7 @@ const PekaB40State: Page = ({
       ],
     });
     capita.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),
@@ -64,7 +63,7 @@ const PekaB40State: Page = ({
       ],
     });
     perc.push({
-      id: item.x,
+      id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
         {
           x: t("blood.male"),

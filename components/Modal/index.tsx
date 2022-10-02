@@ -4,7 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 
 interface ModalProps {
   trigger?: (open: Function) => ReactElement;
-  children: ReactElement | ReactElement[];
+  children: (close: Function) => ReactElement | ReactElement[];
   title?: string | ReactElement;
 }
 
@@ -26,7 +26,7 @@ const Modal: FunctionComponent<ModalProps> = ({ trigger, title, children }) => {
                 </Dialog.Title>
                 <XMarkIcon onClick={() => setOpen(false)} className="h-5 w-5 text-dim" />
               </div>
-              {children}
+              {children(() => setOpen(false))}
             </Dialog.Panel>
           </div>
         </div>

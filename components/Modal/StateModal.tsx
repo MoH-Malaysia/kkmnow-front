@@ -33,8 +33,8 @@ const StateModal: FunctionComponent<StateModalProps> = ({ exclude, url, title })
     <Modal
       trigger={open => (
         <button
-          className={`fixed right-4 z-30 block h-14 w-14 transform rounded-[50%] border bg-white shadow-2xl transition-all lg:hidden ${
-            show ? "bottom-4" : "-bottom-14"
+          className={`fixed bottom-0 right-4 z-30 block h-14 w-14 transform rounded-[50%] border bg-white shadow-2xl transition-all lg:hidden ${
+            show ? "-translate-y-4" : "translate-y-12"
           }`}
           onClick={() => open()}
         >
@@ -47,24 +47,28 @@ const StateModal: FunctionComponent<StateModalProps> = ({ exclude, url, title })
       )}
       title={title ?? t("common.check_out")}
     >
-      <ul className="space-y-2">
-        {statesOptions
-          .filter(option => !exclude?.includes(option.value))
-          .map(state => (
-            <li className={`rounded px-2 py-1 ${state.value === currentState ? "bg-washed" : ""}`}>
-              <Link href={url.concat("/", state.value)}>
-                <a className="flex items-center space-x-4">
-                  <Image
-                    src={"/static/images/states/".concat(state.value, ".jpeg")}
-                    height={16}
-                    width={28}
-                  />
-                  <span>{state.label}</span>
-                </a>
-              </Link>
-            </li>
-          ))}
-      </ul>
+      {close => (
+        <ul className="space-y-2">
+          {statesOptions
+            .filter(option => !exclude?.includes(option.value))
+            .map(state => (
+              <li
+                className={`rounded px-2 py-1 ${state.value === currentState ? "bg-washed" : ""}`}
+              >
+                <Link href={url.concat("/", state.value)}>
+                  <a className="flex items-center space-x-4" onClick={() => close()}>
+                    <Image
+                      src={"/static/images/states/".concat(state.value, ".jpeg")}
+                      height={16}
+                      width={28}
+                    />
+                    <span>{state.label}</span>
+                  </a>
+                </Link>
+              </li>
+            ))}
+        </ul>
+      )}
     </Modal>
   );
 };
