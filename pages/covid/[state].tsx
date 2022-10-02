@@ -1,14 +1,16 @@
 /**
  * Covid Page <State>
  */
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
 import { CountryAndStates, STATES } from "@lib/constants";
+import { routes } from "@lib/routes";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
 
 const CovidState: Page = ({
   last_updated,
@@ -49,6 +51,21 @@ const CovidState: Page = ({
     </>
   );
 };
+
+CovidState.layout = page => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.COVID}
+        currentState={(useRouter().query.state as string) ?? "mys"}
+        exclude={["kvy"]}
+        hideOnScroll
+      />
+    }
+  >
+    {page}
+  </Layout>
+);
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
   let paths: Array<any> = [];

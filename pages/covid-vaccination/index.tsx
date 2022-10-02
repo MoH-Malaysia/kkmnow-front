@@ -5,8 +5,10 @@ import { InferGetStaticPropsType, GetStaticProps } from "next";
 import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
 import { get } from "@lib/api";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown } from "@components/index";
 import { useTranslation } from "next-i18next";
+import { JSXElementConstructor, ReactElement } from "react";
+import { routes } from "@lib/routes";
 
 const CovidVaccinationIndex = ({
   last_updated,
@@ -33,6 +35,12 @@ const CovidVaccinationIndex = ({
     </>
   );
 };
+
+CovidVaccinationIndex.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
+  <Layout stateSelector={<StateDropdown url={routes.COVID} currentState={"mys"} hideOnScroll />}>
+    {page}
+  </Layout>
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);

@@ -1,12 +1,14 @@
 /**
  * Covid Page <Index>
  */
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
+import { routes } from "@lib/routes";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { ReactElement, JSXElementConstructor, ReactFragment, ReactPortal } from "react";
 
 const CovidIndex = ({
   last_updated,
@@ -44,6 +46,16 @@ const CovidIndex = ({
     </>
   );
 };
+
+CovidIndex.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
+  <Layout
+    stateSelector={
+      <StateDropdown url={routes.COVID} currentState={"mys"} exclude={["kvy"]} hideOnScroll />
+    }
+  >
+    {page}
+  </Layout>
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);

@@ -1,15 +1,17 @@
 /**
  * Blood Donation Page <State>
  */
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { CountryAndStates, STATES } from "@lib/constants";
+import { routes } from "@lib/routes";
 import { Page } from "@lib/types";
 import { DateTime } from "luxon";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
 
 const BloodDonationState: Page = ({
   last_updated,
@@ -99,7 +101,11 @@ const BloodDonationState: Page = ({
         timeseries_bloodstock={timeseries_bloodstock}
         timeseries_facility={timeseries_facility}
         heatmap_bloodstock={heatmap_bloodstock}
-        heatmap_donorrate={heatmap_donorrate}
+        heatmap_donorrate={{
+          abs,
+          perc,
+          capita,
+        }}
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
@@ -110,6 +116,21 @@ const BloodDonationState: Page = ({
     </>
   );
 };
+
+BloodDonationState.layout = page => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.BLOOD_DONATION}
+        currentState={(useRouter().query.state as string) ?? "mys"}
+        exclude={["pjy", "pls", "lbn", "kvy"]}
+        hideOnScroll
+      />
+    }
+  >
+    {page}
+  </Layout>
+);
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
   let paths: Array<any> = [];

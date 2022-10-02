@@ -4,13 +4,16 @@
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import OrganDonationDashboard from "@dashboards/organ-donation";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown } from "@components/index";
 import { get } from "@lib/api";
 import { DateTime } from "luxon";
 import { CountryAndStates, STATES } from "@lib/constants";
 import { useTranslation } from "next-i18next";
+import { routes } from "@lib/routes";
+import { useRouter } from "next/router";
+import { ReactElement, JSXElementConstructor } from "react";
 
-const OrganDonationIndex = ({
+const OrganDonationState = ({
   last_updated,
   timeseries_pledge,
   bar_age,
@@ -104,6 +107,21 @@ const OrganDonationIndex = ({
   );
 };
 
+OrganDonationState.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.ORGAN_DONATION}
+        currentState={(useRouter().query.state as string) ?? "mys"}
+        exclude={["kvy"]}
+        hideOnScroll
+      />
+    }
+  >
+    {page}
+  </Layout>
+);
+
 export const getStaticPaths: GetStaticPaths = async () => {
   let paths: Array<any> = [];
   STATES.filter(item => !["kvy"].includes(item.key)).forEach(state => {
@@ -153,4 +171,4 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   };
 };
 
-export default OrganDonationIndex;
+export default OrganDonationState;

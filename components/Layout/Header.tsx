@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { FunctionComponent, ReactElement, useMemo, useState } from "react";
 import { useTranslation } from "next-i18next";
 import {
   HomeIcon,
@@ -23,7 +23,11 @@ import Dropdown from "@components/Dropdown";
 import Container from "@components/Container";
 import MegaMenu from "@components/Nav/MegaMenu";
 
-const Header = () => {
+interface HeaderProps {
+  stateSelector?: ReactElement;
+}
+
+const Header: FunctionComponent<HeaderProps> = ({ stateSelector }) => {
   const { t } = useTranslation("common");
   const { language, onLanguageChange } = useLanguage();
 
@@ -112,6 +116,7 @@ const Header = () => {
             </Nav>
           </div>
           <div className="flex items-center gap-4">
+            {stateSelector}
             {/* LANGUAGE DROPDOWN */}
             <Dropdown selected={language} onChange={onLanguageChange} options={languages} />
             {/* MOBILE NAV ICONS */}

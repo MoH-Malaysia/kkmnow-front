@@ -6,8 +6,11 @@ import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
 import { CountryAndStates, STATES } from "@lib/constants";
 import { get } from "@lib/api";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown } from "@components/index";
 import { useTranslation } from "next-i18next";
+import { routes } from "@lib/routes";
+import { useRouter } from "next/router";
+import { JSXElementConstructor, ReactElement } from "react";
 
 const CovidVaccinationState = ({
   last_updated,
@@ -36,6 +39,20 @@ const CovidVaccinationState = ({
     </>
   );
 };
+
+CovidVaccinationState.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.COVID_VAX}
+        currentState={(useRouter().query.state as string) ?? "mys"}
+        hideOnScroll
+      />
+    }
+  >
+    {page}
+  </Layout>
+);
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
   let paths: Array<any> = [];

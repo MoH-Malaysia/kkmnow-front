@@ -1,7 +1,7 @@
 /**
  * Blood Donation Page <Index>
  */
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { Page } from "@lib/types";
@@ -9,6 +9,7 @@ import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { DateTime } from "luxon";
 import { useTranslation } from "next-i18next";
+import { routes } from "@lib/routes";
 
 const BloodDonationIndex: Page = ({
   last_updated,
@@ -109,6 +110,21 @@ const BloodDonationIndex: Page = ({
     </>
   );
 };
+
+BloodDonationIndex.layout = page => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.BLOOD_DONATION}
+        currentState={"mys"}
+        exclude={["pjy", "pls", "lbn", "kvy"]}
+        hideOnScroll
+      />
+    }
+  >
+    {page}
+  </Layout>
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);

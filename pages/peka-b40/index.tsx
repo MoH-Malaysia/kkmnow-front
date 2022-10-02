@@ -1,12 +1,16 @@
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { get } from "@lib/api";
-import { Page } from "@lib/types";
+import { Page, ReactElement } from "@lib/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PekaB40Dashboard from "@dashboards/peka-b40";
 import Metadata from "@components/Metadata";
 import { useTranslation } from "next-i18next";
+import { StateDropdown } from "@components/index";
+import Layout from "@components/Layout";
+import { routes } from "@lib/routes";
+import { JSXElementConstructor } from "react";
 
-const PekaB40: Page = ({
+const PekaB40Index: Page = ({
   last_updated,
   timeseries_screenrate,
   heatmap_screenrate,
@@ -94,6 +98,16 @@ const PekaB40: Page = ({
   );
 };
 
+PekaB40Index.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
+  <Layout
+    stateSelector={
+      <StateDropdown url={routes.PEKA_B40} currentState={"mys"} exclude={["kvy"]} hideOnScroll />
+    }
+  >
+    {page}
+  </Layout>
+);
+
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
@@ -110,4 +124,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default PekaB40;
+export default PekaB40Index;

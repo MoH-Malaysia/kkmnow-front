@@ -4,10 +4,12 @@
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import OrganDonationDashboard from "@dashboards/organ-donation";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Metadata } from "@components/index";
+import { Layout, Metadata, StateDropdown } from "@components/index";
 import { get } from "@lib/api";
 import { DateTime } from "luxon";
 import { useTranslation } from "next-i18next";
+import { routes } from "@lib/routes";
+import { ReactElement, JSXElementConstructor } from "react";
 
 const OrganDonationIndex = ({
   last_updated,
@@ -98,6 +100,21 @@ const OrganDonationIndex = ({
     </>
   );
 };
+
+OrganDonationIndex.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.ORGAN_DONATION}
+        currentState={"mys"}
+        exclude={["kvy"]}
+        hideOnScroll
+      />
+    }
+  >
+    {page}
+  </Layout>
+);
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);

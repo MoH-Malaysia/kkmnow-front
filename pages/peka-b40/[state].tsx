@@ -1,11 +1,16 @@
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import { get } from "@lib/api";
-import { Page } from "@lib/types";
+import { Page, ReactElement } from "@lib/types";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PekaB40Dashboard from "@dashboards/peka-b40";
 import { CountryAndStates, STATES } from "@lib/constants";
 import Metadata from "@components/Metadata";
 import { useTranslation } from "next-i18next";
+import { StateDropdown } from "@components/index";
+import Layout from "@components/Layout";
+import { routes } from "@lib/routes";
+import { useRouter } from "next/router";
+import { JSXElementConstructor } from "react";
 
 const PekaB40State: Page = ({
   last_updated,
@@ -98,6 +103,21 @@ const PekaB40State: Page = ({
     </>
   );
 };
+
+PekaB40State.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
+  <Layout
+    stateSelector={
+      <StateDropdown
+        url={routes.PEKA_B40}
+        currentState={(useRouter().query.state as string) ?? "mys"}
+        exclude={["kvy"]}
+        hideOnScroll
+      />
+    }
+  >
+    {page}
+  </Layout>
+);
 
 export const getStaticPaths: GetStaticPaths = async () => {
   let paths: Array<any> = [];
