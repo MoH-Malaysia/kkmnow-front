@@ -120,18 +120,21 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
     },
     {
       name: "Vent.",
-      title: "Ventilator per 100K",
+      title: t("covid.utilisation_of", { param: "Vent." }).concat(" (%)"),
       data: snapshot_bar.util_vent,
+      unit: "%",
     },
     {
       name: "ICU",
-      title: "ICU per 100K",
+      title: t("covid.utilisation_of", { param: "ICU" }).concat(" (%)"),
       data: snapshot_bar.util_icu,
+      unit: "%",
     },
     {
       name: "Hosp.",
-      title: "Hospital per 100K",
+      title: t("covid.utilisation_of", { param: "Hosp." }).concat(" (%)"),
       data: snapshot_bar.util_hosp,
+      unit: "%",
     },
     {
       name: t("covid.tab_table4"),
@@ -399,7 +402,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 className="w-full"
                 onChange={value => setData("filter_state", value)}
               >
-                {BarTabsMenu.map(({ name, data }, index) => {
+                {BarTabsMenu.map(({ name, data, unit }, index) => {
                   return (
                     <Panel key={index} name={name}>
                       <BarMeter
@@ -410,6 +413,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                         layout="state-horizontal"
                         relative
                         sort="desc"
+                        unit={unit}
                       />
                     </Panel>
                   );

@@ -78,7 +78,7 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-    "home": {
+  "home": {
     "title": "Era baru bagi ketelusan dalam kerajaan",
     "description": "KKMNOW adalah kolaborasi antara Kementerian Kesihatan Malaysia dan Jabatan Perangkaan Malaysia untuk menginstitusikan ketelusan dan membawa data ke hujung jari segala rakyat Malaysia.",
     "timeline": {
@@ -118,7 +118,7 @@
     "web_devs": "pemaju web",
     "data_scientists": "data saintis",
     "project_leads": "petunjuk projek",
-        "dev": {
+    "dev": {
       "title": "Web Development Team",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
       "team": [
@@ -265,6 +265,7 @@
       "annot1": "Harian - Ujian Saringan",
       "annot2": "Kadar Positif"
     },
+    "utilisation_of": "Penggunaan {{ param }}",
     "table_header": "Lihatlah rumusan indikator utama",
     "table_subheader": "Rumusan",
     "bar_chart_header": "Bagaimanakah vaksinasi mempengaruhi indikator utama?",

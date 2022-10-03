@@ -78,7 +78,7 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-    "home": {
+  "home": {
     "title": "A new chapter for transparency in government",
     "description": "KKMNOW is a collaboration between the Ministry of Health and the Department of Statistics to institutionalise transparency and make data accessible for all.",
     "timeline": {
@@ -118,7 +118,7 @@
     "web_devs": "web developers",
     "data_scientists": "data scientists",
     "project_leads": "project leads",
-        "dev": {
+    "dev": {
       "title": "Web Development Team",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
       "team": [
@@ -265,6 +265,7 @@
       "annot1": "Daily - Tests",
       "annot2": "Positivity Rate (%)"
     },
+    "utilisation_of": "{{ param }} Utilisation",
     "table_header": "A snapshot of the latest indicators",
     "table_subheader": "Summary",
     "bar_chart_header": "How is vaccination influencing key epidemic indicators?",
