@@ -472,7 +472,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           </div>
         </Section>
 
-        {/* What proportion of the population in {{ area }} donates blood? */}
+        {/* 
+        // Data not ready.
+        What proportion of the population in {{ area }} donates blood? 
         <Section
           title={t("blood.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("blood.heatmap_description")}
@@ -495,7 +497,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       color="blues"
                     />
 
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[200px] overflow-visible"
                       title={t("blood.heatmap2_title")}
                       data={[
@@ -523,7 +525,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="blues"
-                    /> */}
+                    /> 
                   </>
                 </Panel>
 
@@ -630,7 +632,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       color="blues"
                     />
                   </>
-                </Panel> */}
+                </Panel> 
               </Tabs>
             </div>
 
@@ -657,6 +659,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             />
           </div>
         </Section>
+        */}
 
         {/* How is this data collected? */}
         <Section
