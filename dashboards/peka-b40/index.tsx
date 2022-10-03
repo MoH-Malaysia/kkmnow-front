@@ -203,7 +203,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     /> */}
                   </>
                 </Panel>
-                <Panel name={t("peka.heatmap_panel2")}>
+                {/* <Panel name={t("peka.heatmap_panel2")}>
                   <>
                     <Heatmap
                       className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
@@ -214,7 +214,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       unitY="%"
                     />
 
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_screenrate.perc.male, heatmap_screenrate.perc.female]}
                       subdata
@@ -253,7 +253,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    /> */}
+                    />
                   </>
                 </Panel>
                 <Panel name={t("peka.heatmap_panel3")}>
@@ -267,7 +267,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       color="red_purple"
                     />
 
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_screenrate.abs.male, heatmap_screenrate.abs.female]}
                       subdata
@@ -306,9 +306,9 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    /> */}
+                    />
                   </>
-                </Panel>
+                </Panel> */}
               </Tabs>
             </div>
 

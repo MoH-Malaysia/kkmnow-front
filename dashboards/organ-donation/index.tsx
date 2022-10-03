@@ -296,7 +296,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     /> */}
                   </>
                 </Panel>
-                <Panel name={t("organ.heatmap1_panel2")}>
+                {/* <Panel name={t("organ.heatmap1_panel2")}>
                   <>
                     <Heatmap
                       className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
@@ -306,7 +306,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       color="greens"
                       unitY="%"
                     />
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
                       subdata
@@ -345,7 +345,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    /> */}
+                    />
                   </>
                 </Panel>
                 <Panel name={t("organ.heatmap1_panel3")}>
@@ -358,7 +358,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       valueFormat="<-,.1~s"
                       color="greens"
                     />
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
                       subdata
@@ -397,9 +397,9 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    /> */}
+                    />
                   </>
-                </Panel>
+                </Panel> */}
               </Tabs>
             </div>
             {/* 
