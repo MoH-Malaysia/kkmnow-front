@@ -78,15 +78,6 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
   };
 
   const filtered_timeline = useCallback(filterTimeline, [data.minmax, timeseries_data]);
-  const interval_scale = useMemo(
-    () =>
-      filtered_timeline().x.length > 180
-        ? "month"
-        : filtered_timeline().x.length > 60
-        ? "week"
-        : "day",
-    [filtered_timeline().x]
-  );
 
   const renderFilterOptions = () => {
     switch (data.vax_tab) {
@@ -335,7 +326,6 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               stats={null}
-              interval={interval_scale}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [

@@ -89,10 +89,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   };
 
   const filtered_timeline = useCallback(filterTimeline, [limit, timeseries_all]);
-  const interval_scale = useMemo(
-    () => (filtered_timeline().x.length > 365 ? "month" : "day"),
-    [filtered_timeline().x]
-  );
 
   const handleClearSelection = () => {
     setData("zoom_state", undefined);
@@ -272,7 +268,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               className=" h-[350px] w-full pt-6"
               title={t("blood.combine_title")}
               state={currentState}
-              interval={interval_scale}
               //menu={<MenuDropdown />}
               round={filtered_timeline().x.length > 1095 ? "week" : "day"}
               stats={null}

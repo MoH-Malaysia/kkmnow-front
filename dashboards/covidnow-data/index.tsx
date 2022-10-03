@@ -46,15 +46,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   };
 
   const filtered_timeline = useCallback(filterTimeline, [limit]);
-  const interval_scale = useMemo(
-    () =>
-      filtered_timeline().x.length > 180
-        ? "month"
-        : filtered_timeline().x.length > 60
-        ? "week"
-        : "day",
-    [filtered_timeline().x]
-  );
 
   const worldMapConfig = [
     {
@@ -176,7 +167,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               <Timeseries
                 className="h-[350px] w-full pt-6"
                 title={t("covidnow.combine_title")}
-                interval={interval_scale}
                 // menu={<MenuDropdown />}
                 stats={null}
                 data={{

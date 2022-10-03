@@ -48,10 +48,6 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
     };
   }, [data.minmax, timeseries_pledge]);
 
-  const interval_scale = useMemo(
-    () => (filtered_timeline().x.length > 365 ? "month" : "day"),
-    [filtered_timeline().x]
-  );
   return (
     <>
       <Hero background="organ-banner">
@@ -93,7 +89,6 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               title={t("organ.bar_tittle")}
               className="h-[350px]"
               state={currentState}
-              interval={interval_scale}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [

@@ -47,11 +47,6 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
     };
   }, [data.minmax, timeseries_screenrate]);
 
-  const interval_scale = useMemo(
-    () => (filtered_timeline().x.length > 365 ? "month" : "day"),
-    [filtered_timeline().x]
-  );
-
   return (
     <>
       <Hero background="peka-banner">
@@ -90,7 +85,6 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               title="Daily Screens"
               className="h-[350px]"
               state={currentState}
-              interval={interval_scale}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [

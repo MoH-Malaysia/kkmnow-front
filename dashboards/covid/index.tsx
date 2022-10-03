@@ -102,15 +102,6 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
     timeseries_tests,
     timeseries_vents,
   ]);
-  const interval_scale = useMemo(
-    () =>
-      filtered_timeline().x.length > 180
-        ? "month"
-        : filtered_timeline().x.length > 60
-        ? "week"
-        : "day",
-    [filtered_timeline().x]
-  );
 
   const BarTabsMenu = [
     {
@@ -431,15 +422,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title1")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               stats={[
                 {
                   title: t("covid.deaths.annot1"),
-                  value: `+${statistics.deaths.annot1.toLocaleString()}`,
+                  value: statistics.deaths.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.deaths.annot2"),
-                  value: `${statistics.deaths.annot2.toLocaleString()}`,
+                  value: statistics.deaths.annot2.toLocaleString(),
                 },
               ]}
               // enableLegend
@@ -476,16 +466,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               className="h-[250px] w-full"
               title={t("covid.area_chart_title2")}
               state={currentState}
-              interval={interval_scale}
               // menu={<MenuDropdown />}
               stats={[
                 {
                   title: t("covid.vent.annot1"),
-                  value: `+${statistics.vent.annot1.toLocaleString()}`,
+                  value: statistics.vent.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.vent.annot2"),
-                  value: `${statistics.vent.annot2.toLocaleString()}`,
+                  value: (+statistics.vent.annot2.toFixed(1)).toLocaleString().concat("%"),
                 },
               ]}
               // enableLegend
@@ -516,15 +505,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title3")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               stats={[
                 {
                   title: t("covid.icu.annot1"),
-                  value: `+${statistics.icu.annot1.toLocaleString()}`,
+                  value: statistics.icu.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.icu.annot2"),
-                  value: `${statistics.icu.annot2.toLocaleString()}`,
+                  value: (+statistics.icu.annot2.toFixed(1)).toLocaleString().concat("%"),
                 },
               ]}
               // enableLegend
@@ -555,15 +543,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title4")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               stats={[
                 {
                   title: t("covid.admitted.annot1"),
-                  value: `+${statistics.admitted.annot1.toLocaleString()}`,
+                  value: statistics.admitted.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.admitted.annot2"),
-                  value: `${statistics.admitted.annot2.toLocaleString()}`,
+                  value: (+statistics.admitted.annot2.toFixed(1)).toLocaleString().concat("%"),
                 },
               ]}
               // enableLegend
@@ -594,16 +581,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title5")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               // enableLegend
               stats={[
                 {
                   title: t("covid.cases.annot1"),
-                  value: `+${statistics.cases.annot1.toLocaleString()}`,
+                  value: statistics.cases.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.cases.annot2"),
-                  value: `${statistics.cases.annot2.toLocaleString()}`,
+                  value: statistics.cases.annot2.toLocaleString(),
                 },
               ]}
               data={{
@@ -633,15 +619,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title6")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               stats={[
                 {
                   title: t("covid.tests.annot1"),
-                  value: `+${statistics.tests.annot1.toLocaleString()}`,
+                  value: statistics.tests.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.tests.annot2"),
-                  value: `${statistics.tests.annot2.toLocaleString()}`,
+                  value: (+statistics.tests.annot2.toFixed(1)).toLocaleString().concat("%"),
                 },
               ]}
               enableRightScale
@@ -656,6 +641,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     data: filtered_timeline().tests_posrate,
                     borderWidth: 1.5,
                     yAxisID: "y1",
+                    spanGaps: true,
                   },
                   {
                     type: "bar",
@@ -708,6 +694,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
           </div>
         </Section>
 
+        {/* Data not ready
         <Section
           title={t("covid.bar_chart_header")}
           description={t("covid.bar_chart_subheader")}
@@ -902,7 +889,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               </>
             </Panel>
           </Tabs>
-        </Section>
+        </Section> */}
       </Container>
     </>
   );
