@@ -107,7 +107,7 @@
         {
           "date": "5 Oct 2021",
           "title": "KKMNOW Launched 🎉",
-          "description": "Sampailah kita di sini. Portal ini akan sentiasa diperbaharui dengan dashboard baru, sejajar dengan peningkatan digitalisasi sistem kesihatan dan mutu analitik KKM."
+          "description": "Here we are. This site is meant to be a perpetual work-in-progress, with new dashboards to be rolled out as MoH expands its digitalisation and analytics."
         }
       ]
     }
@@ -403,7 +403,7 @@
   "blood": {
     "title": "HEALTHCARE PROGRAMS",
     "title_header": "Blood Donation",
-    "title_description": "A stable and high supply of blood is critical for a well-functioning public healthcare system. This dashboard, which gives you near real-time updates on key indicators related to blood transfusion services, is brought to you by the National Blood Centre. The data is collected via BBISv2, a vein-to-vein blood-tracking system used by 22 main collection centres in Malaysia.",
+    "title_description": "A stable and high supply of blood is critical for a well-functioning public healthcare system. This dashboard, which gives you near real-time updates on key indicators related to blood transfusion services, is brought to you by the National Blood Centre. The data is collected via the Blood Bank Information System (BBIS), a vein-to-vein blood-tracking system used by 22 main blood banks - and covers the majority of blood donations in Malaysia.",
     "title_link": "",
     "zoom": "Zoom into",
     "table_header": "Is {{ state }}'s current blood stock sufficient?",
@@ -427,9 +427,9 @@
     "type_other_perc": "Other",
     "location_mobile_perc": "Mobile centre",
     "location_centre_perc": "Donation centre",
-    "donations_regular_perc": "Regular",
-    "donations_irregular_perc": "Irregular",
-    "donations_new_perc": "New",
+    "donations_regular_perc": "Regular Donor",
+    "donations_irregular_perc": "Irregular Donor",
+    "donations_new_perc": "New Donor",
     "social_civilian_perc": "Civilian",
     "social_student_perc": "Student",
     "social_policearmy_perc": "Police & Army",
@@ -439,11 +439,11 @@
     "blood_o_perc": "O",
     "barmeter_header": "A breakdown of donations by key variables",
     "barmeter_description": "",
-    "barmeter1_title": "Donation by blood group",
-    "barmeter2_title": "Donation by donor type",
-    "barmeter3_title": "Donation by location",
-    "barmeter4_title": "Donation by donor regularity (% of donations)",
-    "barmeter5_title": "Donation by social group",
+    "barmeter1_title": "Blood group",
+    "barmeter2_title": "Donation type",
+    "barmeter3_title": "Donation location",
+    "barmeter4_title": "Donor regularity",
+    "barmeter5_title": "Social group",
     "bar1_header": "How strong is new donor recruitment in {{ state }}?",
     "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
     "bar1_title": "Number of new donors",
@@ -468,7 +468,7 @@
     "heatmap4_y": "Donated in",
     "map_header": "How is this data collected?",
     "map_title": "BBIS Centres in Malaysia",
-    "map_description": "Map showing locations of BBIS centres:",
+    "map_description": "The data is collected via the Blood Bank Information System (BBIS), a vein-to-vein blood-tracking system used by 22 main blood banks in Malaysia. There are several smaller collection sites which have not yet been integrated into BBIS.",
     "map_facility": "Select facility",
     "bar3_title": "Daily Donations",
     "bar3_tooltips1": "Donation Center",
@@ -541,15 +541,15 @@
     "choro_description": "choro_description",
     "bar1_header": "How strong is the new donor recruitment in {{ state }}?",
     "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
-    "bar1_title1": "Number of new donors",
+    "bar1_title1": "Newly-screened individuals",
     "annual": "Annual",
     "monthly": "Monthly",
     "bar_title2": "New donors by age group",
     "1year": "Past 1 year",
     "1month": "Past 1 month",
-    "heatmap_header": "What proportion of the population in {{ state }} donates blood?",
+    "heatmap_header": "What proportion of the eligible population in {{ state }} has been screened?",
     "heatmap_description": "To ensure a stable and high supply of blood, we need 10% of the eliglble population to donate at least 1 time per year.",
-    "heatmap_title": "Donor rates across key demographics",
+    "heatmap_title": "Screening rates across key demographics",
     "heatmap_panel1": "Per Capita",
     "heatmap_panel2": "% of Donations",
     "heatmap_panel3": "Absolute",
@@ -575,7 +575,7 @@
     "timeseries_line": "Moving Average",
     "timeseries_bar": "Daily Pledges",
     "table_header": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is vital to maintain a high and stable level of blood donations when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
-    "bar1_header": "How strong is the new donor recruitment in {{ state }}?",
+    "bar1_header": "How strong is new pledger recruitment in {{ state }}?",
     "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
     "bar_title": "Number of new donors",
     "annual": "Annual",
@@ -598,7 +598,7 @@
     "new_donor1": "Annual",
     "new_donor2": "Monthly",
     "map_btm": "How is this data collected?",
-    "map_desc": "Map showing locations of BBIS centres:",
-    "donor": "Donor+"
+    "map_desc": "Up until September 2020",
+    "donor": "Donor"
   }
 }
