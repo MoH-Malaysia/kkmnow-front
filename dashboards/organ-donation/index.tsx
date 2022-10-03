@@ -406,7 +406,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 </Panel>
               </Tabs>
             </div>
-
+            {/* 
             <div>
               <Tabs title={t("organ.bar1_title")} state={currentState}>
                 <Panel name={t("organ.annual")}>
@@ -444,7 +444,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                   />
                 </Panel>
               </Tabs>
-            </div>
+            </div> */}
           </div>
         </Section>
 
