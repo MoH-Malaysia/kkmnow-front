@@ -29,7 +29,11 @@ const CovidIndex = ({
 
   return (
     <>
-      <Metadata title={t("nav.megamenu.dashboards.covid_19")} keywords={""} />
+      <Metadata
+        title={t("nav.megamenu.dashboards.covid_19")}
+        description={t("covid.title_description1")}
+        keywords={""}
+      />
       <CovidDashboard
         last_updated={last_updated}
         bar_chart={bar_chart}

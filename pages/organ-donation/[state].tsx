@@ -87,6 +87,7 @@ const OrganDonationState = ({
     <>
       <Metadata
         title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.organ_donation"))}
+        description={t("organ.title_description")}
         keywords={""}
       />
       <OrganDonationDashboard

@@ -33,6 +33,7 @@ const CovidState: Page = ({
     <>
       <Metadata
         title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.covid_19"))}
+        description={t("covid.title_description1")}
         keywords={""}
       />
       <CovidDashboard
