@@ -42,7 +42,6 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
     facility: undefined,
   });
   const windowWidth = useWindowWidth();
-  const isMobile = windowWidth < BREAKPOINTS.MD;
   const { t } = useTranslation();
 
   return (
@@ -68,13 +67,11 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 className={"h-[500px] w-auto"}
                 colorScale="oranges"
                 enableScale={false}
-                projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-                projectionScaleSetting={isMobile ? 2200 : 3500}
                 data={choropleth_bed.map((item: any) => ({
                   id: CountryAndStates[item.state],
                   value: item.data.util_nonicu,
                 }))}
-                graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+                graphChoice="state"
                 unitY="%"
               />
             </Panel>
@@ -83,13 +80,11 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 className={"h-[500px] w-auto"}
                 colorScale="reds"
                 enableScale={false}
-                projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-                projectionScaleSetting={isMobile ? 2200 : 3500}
                 data={choropleth_bed.map((item: any) => ({
                   id: CountryAndStates[item.state],
                   value: item.data.util_icu,
                 }))}
-                graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+                graphChoice="state"
                 unitY="%"
               />
             </Panel>

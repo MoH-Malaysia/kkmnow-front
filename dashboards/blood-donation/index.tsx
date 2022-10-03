@@ -316,15 +316,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               colorScale="blues"
               borderColor="#000"
               borderWidth={0.5}
-              projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-              projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
               data={choropleth_malaysia_blood_donation.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],
                 value: item.data.perc,
               }))}
               unitY="%"
-              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+              graphChoice="state"
             />
           </div>
         </Section>

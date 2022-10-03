@@ -257,8 +257,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     colorScale="blues"
                     borderColor="#000"
                     borderWidth={0.5}
-                    projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-                    projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
                     data={choropleth_malaysia.map((item: any) => ({
                       id: CountryAndStates[item.state],
                       state: CountryAndStates[item.state],
@@ -266,7 +264,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                       value_real: item.data.views,
                     }))}
                     unitY={` ${t("covidnow.views").toLowerCase()}`}
-                    graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+                    graphChoice="state"
                   />
                 </div>
               </Panel>
