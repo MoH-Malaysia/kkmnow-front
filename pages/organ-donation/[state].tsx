@@ -168,6 +168,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       state: params?.state,
       choropleth_malaysia_organ_donation: data.choropleth_malaysia,
     },
+    revalidate: 300,
   };
 };
 
