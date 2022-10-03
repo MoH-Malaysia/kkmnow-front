@@ -712,7 +712,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     className="h-[300px] w-full pt-4"
                     title={t("blood.bar3_title")}
                     state={
-                      <p className="text-sm text-dim">
+                      <p className="pt-4 text-sm text-dim">
                         {t("common.data_for", {
                           state: `${data.zoom_facility?.label}, ${
                             CountryAndStates[data.zoom_state]
