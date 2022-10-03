@@ -422,6 +422,7 @@
     "area1_title": "Donation by donation type",
     "relative": "Relative",
     "type_wholeblood_perc": "Whole Blood",
+    "type_apheresis_perc": "Apheresis",
     "type_apheresis_plasma_perc": "Apheresis (Plasma)",
     "type_apheresis_platelet_perc": "Apheresis (Platelet)",
     "type_other_perc": "Other",
