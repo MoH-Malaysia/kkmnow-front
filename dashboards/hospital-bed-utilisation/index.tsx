@@ -41,7 +41,6 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
     state: undefined,
     facility: undefined,
   });
-  const windowWidth = useWindowWidth();
   const { t } = useTranslation();
 
   return (
@@ -92,6 +91,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
         </Section>
         <Section title={t("bed.table_header")} date={last_updated}>
           <Table
+            className="table-bed table-stripe"
             controls={setColumnFilters => (
               <>
                 <StateDropdown
