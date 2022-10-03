@@ -7,8 +7,8 @@
     "output": "Hasil",
     "disclaimer": "*Bukan terminal / konsol sebenar.",
     "500": {
-      "title": "Hmm, ada sesuatu yang tidak kena.",
-      "description": "Sila beritahu kami tentang kejadian ini",
+      "title": "Oh tidak! Ada sesuatu yang tidak kena.",
+      "description": "Sila beritahu kami tentang kejadian ini.",
       "reason": "Kod ralat: 500 -- Ralat server"
     },
     "404": {
@@ -27,8 +27,8 @@
     "in": " di ",
     "page_of": "{{ current }} daripada {{ total }}",
     "data_for": "Data untuk {{ state }}",
-    "data_of": "Data setakat {{ date }}",
-    "slider": "Lihat julat masa dengan terperinci",
+    "data_of": "Dikemaskini {{ date }}",
+    "slider": "Lihat julat masa terperinci",
     "zoom": "Pilih kawasan saya",
     "clear_selection": "Kosongkan pilihan",
     "no_entries": "Tiada data ditemui",
@@ -38,7 +38,7 @@
     "all": "Semua",
     "search": "Cari",
     "state": "Pilih negeri",
-    "state_first": "Pilih negeri terlebih dahulu!",
+    "state_first": "Pilih negeri terlebih dahulu",
     "district": "Pilih daerah",
     "facility": "Pilih fasiliti",
     "facility_type": "Pilih jenis fasiliti"
@@ -52,7 +52,7 @@
     "megamenu": {
       "categories": {
         "infectious_diseases": "Penyakit berjangkit",
-        "healthcare_resources": "Sumber Kesihatan",
+        "healthcare_resources": "Sumber Sistem Kesihatan",
         "healthcare_programs": "Program Kesihatan",
         "misc": "Digitalisasi"
       },
@@ -87,22 +87,22 @@
         {
           "date": "30 Jun 2021",
           "title": "GitHub CITF",
-          "description": "Khairy Jamaluddin launches open-data repository on national vaccination program, prompting wave of community-driven data products."
+          "description": "Khairy Jamaluddin melancarkan repositori data terbuka berkaitan program vaksinasi COVID-19, maka mencetuskan pelbagai produk data yang dihasilkan oleh komuniti umum."
         },
         {
           "date": "26 Jul 2021",
           "title": "GitHub KKM",
-          "description": "Tan Sri Noor Hisham, Director-General of Health, launches open-data repository covering key epidemic indicators such as deaths, hospitalisations, bed utilisation, and infections."
+          "description": "Tan Sri Noor Hisham, Ketua Pengarah Kesihatan, melancarkan repository data terbuka merangkumi indikator epidemik yang penting seperti kematian, kemasukan ke hospital, kadar penggunaan katil kospital, dan kes COVID-19."
         },
         {
           "date": "9 Sep 2021",
           "title": "Pelancaran COVIDNOW 🎉",
-          "description": "Khairy Jamaluddin, in new role as Minister of Health, launches open-data dashboard communicating key insights on the pandemic."
+          "description": "Khairy Jamaluddin, selaku Menteri Kesihatan yang baru, melancarkan dashboard data terbuka untuk memberi maklumat dan analisa terkini tentang pandemik COVID-19 di Malaysia."
         },
         {
           "date": "1 Apr 2022",
           "title": "Peralihan ke Fasa Endemik",
-          "description": "With the Omicron wave receding and the Malaysia-Singapore land border reopened, MoH begins planning an expansion of its open data initiatives beyond COVID-19."
+          "description": "Dengan ombak Omicron semakin surut dan sempadan darat antara Malaysia dan Singapura dibuka semula, KKM mula merancang perkembangan inisiatif data terbuka selain daripada data COVID-19."
         },
         {
           "date": "5 Okt 2021",
@@ -387,8 +387,8 @@
     "bar_title2": "Bahasa pada Peranti",
     "bar_title3": "Pelayar",
     "bar_title4": "Sistem Operasi (semua)",
-    "bar_title5": "Sistem Pengandalian (fon sahaja)",
-    "bar_title6": "Resolusi Skrin (fon sahaja)",
+    "bar_title5": "Sistem Operasi (mobil sahaja)",
+    "bar_title6": "Resolusi Skrin (mobil sahaja)",
     "days": {
       "Sunday": "Ahad",
       "Monday": "Isnin",
@@ -406,8 +406,8 @@
     "title_link": "",
     "zoom": "Data untuk",
     "table_header": "Adakah stok darah semasa {{ state }} mencukupi?",
-    "table_title": "Bekalan Darah mengikut Negeri",
-    "area_title": "Bekalan darah dari masa ke masa ",
+    "table_title": "Stok Darah mengikut Negeri",
+    "area_title": "Siri masa stok darah",
     "area_tooltip": "Petua alat untuk bekalan darah dari masa ke masa",
     "area_type1": "Jenis A",
     "area_type2": "Jenis B",
@@ -487,8 +487,8 @@
     "title_description": "Pusat Informatik Kesihatan (PIK) mengendalikan pangkalan data tentang semua fasiliti keshatan di Malaysia. Dashboard ini memaparkan data dalam cara yang memudahkan anda mencari sesebuah fasiliti, dan menggunakan data untuk menganalisa akses kepada fasiliti kesihatan. Dashboard ini akan diperkembangkan dari semasa ke semasa dengan data fasiliti swasta, serta data fasiliti yang lain seperti jenis perkhidmatan dan waktu menunggu.",
     "table_header": "Cari Fasiliti Kesihatan",
     "map_header": "Adakah akses kepada fasiliti kesihatan berbeza mengikut kawasan?",
-    "map_description1": "Jarak ke kemudahan penjagaan kesihatan terdekat bukanlah satu-satunya ukuran akses kepada penjagaan kesihatan. Terdapat badan penyelidikan moden dan berkembang yang menunjukkan pertukaran sukar yang terlibat dalam penyetempatan penjagaan kesihatan - contohnya, mempelbagaikan sumber merentas pelbagai kemudahan di sesuatu kawasan untuk mengurangkan masa perjalanan, atau menumpukan mereka di satu hospital untuk meningkatkan kualiti penjagaan.",
-    "map_description2": "Data yang dibentangkan di sini hanya menunjukkan satu aspek akses penjagaan kesihatan (kedekatan), dan bertujuan sebagai titik permulaan bagi penggubal dasar dan komuniti untuk mengadakan perbualan tentang akses.",
+    "map_description1": "Jarak ke fasiliti kesihatan terdekat bukanlah satu-satunya ukuran akses kepada perkhidmatan kesihatan. Penyelidikan moden menunjukkan penggubalan polisi dalam hal ini melibatkan pilihan yang  amat rumit - contohnya antara memperbanyakkan jumlah fasiliti di sesuatu kawasan untuk mengurangkan masa perjalanan, atau menumpukan fokus pada satu hospital hospital untuk meningkatkan kualiti penjagaan.",
+    "map_description2": "Data yang dipaparkan di sini hanya menunjukkan satu aspek akses secara visual (iaitu jarak), dan bertujuan sebagai titik permulaan bagi penggubal dasar dan komuniti umum untuk membincangkan akses kepada kesihatan.",
     "zoom": "Data untuk",
     "dropdown_placeholder1": "Pilih Daerah",
     "dropdown_placeholder2": "Pilih Jenis Fasiliti",
@@ -508,22 +508,22 @@
   "bed": {
     "title": "SUMBER SISTEM KESIHATAN",
     "title_header": "Penggunaan Katil Hospital",
-    "title_description": "The Health Informatics Centre (PIK) maintains a constantly-updated database on all healthcare facilities - both public and private - in Malaysia. This dashboard documents the data in a manner that eases the process of finding a healthcare facility for your needs, and builds on the dataset to analyse healthcare access. The analysis on access will be constantly enriched over time as we deepen the scope of the facilities dataset - for instance with data on services offered, waiting times, and healthare outcomes.",
-    "choro_header": "Bagaimanakah taburan geografi penggunaan katil hospital terkini di {{ state }}?",
-    "choro_description": "Darah menjejaskan 3 komponen - sel darah merah, platelet, dan plasma. Walaupun plasma boleh disimpan sehingga 1 tahun, sel darah merah hanya boleh disimpan sehingga 35 hari, dan plasma hanya sehingga 5 hari. Oleh itu,",
-    "tab_choro1": "Penjagaan Tidak Kritikal",
+    "title_description": "Penggunaan kapisiti hospital merupakan salah satu indikator paling penting yang dipantau oleh Kementerian Kesihatan Malaysia. Susulan pelaporan harian melalui sistem CPRC Hospital yang dibangunkan semasa pandemik, data penggunaan katil di peringkat hospital boleh didapati dengan segera. Dashboard ini memaparkan data tersebut, dan akan diperkembangan dengan data yang lebih lanjut tentang penggunaan dan peruntukan perkhidmatan di hospital.",
+    "choro_header": "Bagaimanakah penggunaan katil hospital terkini di Malaysia?",
+    "choro_description": "",
+    "tab_choro1": "Penjagaan Bukan Kritikal",
     "tab_choro2": "Penjagaan Kritikal (ICU)",
-    "table_header": "Penggunaan Katil Mengikut Fasiliti",
+    "table_header": "Kadar Penggunaan Katil Mengikut Fasiliti",
     "table_beds": "Katil Hospital",
     "table_icu": "Katil ICU",
     "table_beds_util": "Kadar Penggunaan Katil Hospital",
     "table_icu_util": "Kadar Penggunaan Katil ICU",
-    "table_noncrit": "Penjagaan tidak kritikal",
+    "table_noncrit": "Penjagaan bukan kritikal",
     "table_crit": "Penjagaan kritikal",
-    "timeseries_header": "Penggunaan Katil Hospital untuk {{ facility }}",
+    "timeseries_header": "Penggunaan Katil Hospital di {{ facility }}",
     "timeseries_beds": "Penggunaan Katil Hospital (penjagaan tidak kritikal)",
     "timeseries_icu": "Penggunaan Katil ICU (penjagaan kritikal)",
-    "timeseries_placeholder": "Pilih fasiliti dari jadual diatas",
+    "timeseries_placeholder": "Pilih fasiliti dari jadual di atas",
     "timeseries_utilrate": "Kadar Penggunaan (%)"
   },
   "peka": {

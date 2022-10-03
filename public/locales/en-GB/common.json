@@ -27,7 +27,7 @@
     "in": " in ",
     "page_of": "{{ current }} of {{ total }}",
     "data_for": "Data for {{ state }}",
-    "data_of": "Data as of {{ date }}",
+    "data_of": "Last updated {{ date }}",
     "slider": "Zoom into a specific range",
     "zoom": "Zoom into my area",
     "clear_selection": "Clear selection",
@@ -38,7 +38,7 @@
     "all": "All",
     "search": "Search",
     "state": "Select state",
-    "state_first": "Select a state first!",
+    "state_first": "Select a state first",
     "district": "Select district",
     "facility": "Select facility",
     "facility_type": "Select facility type"
@@ -107,7 +107,7 @@
         {
           "date": "5 Oct 2021",
           "title": "KKMNOW Launched 🎉",
-          "description": "Here we are. This site is meant to be a perpetual work-in-progress, with new dashboards and analysis to be rolled out as MoH expands its digitalisation and analytics."
+          "description": "Sampailah kita di sini. Portal ini akan sentiasa diperbaharui dengan dashboard baru, sejajar dengan peningkatan digitalisasi sistem kesihatan dan mutu analitik KKM."
         }
       ]
     }
@@ -406,8 +406,8 @@
     "title_link": "",
     "zoom": "Zoom into",
     "table_header": "Is {{ state }}'s current blood stock sufficient?",
-    "table_title": "Blood Supply by States",
-    "area_title": "Blood supply over time",
+    "table_title": "Blood Stock by States",
+    "area_title": "Blood Stock over Time",
     "area_tooltip": "Tooltip for Blood supply over time",
     "area_type1": "Type A",
     "area_type2": "Type B",
@@ -488,7 +488,7 @@
     "table_header": "Find A Healthcare Facility",
     "map_header": "How does access to healthcare facilities vary nationally?",
     "map_description1": "Distance to the nearest healthcare facility is not the only measure of access to healthcare. There is a modern and growing body of research demonstrating the tough tradeoffs involved in localisation of healthcare - for instance, diversifying resources across multiple facilities in an area to decrease travel time, or concentrating them in a single hospital to up the quality of care.",
-    "map_description2": "The data presented here only captures one aspect of healthcare access (proximity), and is intended as a starting point for policymakers and the community to have a conversation about access.",
+    "map_description2": "The data presented here visually captures only one aspect of healthcare access (proximity), and is intended as a starting point for policymakers and the community to have a conversation about access.",
     "zoom": "Zoom into my area",
     "dropdown_placeholder1": "Select District",
     "dropdown_placeholder2": "Select Facilty Type",
@@ -508,9 +508,9 @@
   "bed": {
     "title": "HEALTHCARE RESOURCES",
     "title_header": "Hospital Bed Utilisation",
-    "title_description": "The Health Informatics Centre (PIK) maintains a constantly-updated database on all healthcare faciltiies - both public and private - in Malaysia. This dashboard documents the data in a manner that eases the process of finding a healthcare facility for your needs, and builds on the dataset to analyse healthcare access. The analysis on the access will be constantly enriched over time as we deepen the scope of the facilities dataset - for instance with data on services offered, waiting times, and healthcare outcomes.",
-    "choro_header": "How does proximity to healthcare vary nationally?",
-    "choro_description": "Distance to the nearest healthcare facility is not the only measure of access to healthcare. There is a modern and growing body of research demonstrating the tough tradeoffs involved in localisation of healthcare - for instance, diversifying resources across multiple facilities in an area to decrease travel time, or concentrating them in a single hospital to up the quality of care.",
+    "title_description": "Hospital capacity utilisation is one of the most critical operational indicators monitored by the Ministry of Health. As a result of daily reporting via the CPRC Hospital system, which was developed during the pandemic, hospital-level data on bed utilisation is now available in a timely manner. This dashboard presents that data transparently, and will be enriched over time with further data on utilisation and provision of hospital-specific services.",
+    "choro_header": "How does hospital bed utilisation vary nationally?",
+    "choro_description": "",
     "tab_choro1": "Non-Critical Care",
     "tab_choro2": "Critical Care (ICU)",
     "table_header": "Hospital Bed Utilisation by Facility",
@@ -520,10 +520,10 @@
     "table_icu_util": "ICU Bed Utilisation",
     "table_noncrit": "Non-critical care",
     "table_crit": "Critical care",
-    "timeseries_header": "Bed Utilisation for {{ facility }}",
+    "timeseries_header": "Bed Utilisation at {{ facility }}",
     "timeseries_beds": "Hospital Bed Utilisation (non-critical care)",
     "timeseries_icu": "ICU Bed Utilisation (critical care)",
-    "timeseries_placeholder": "Select a facility from table above",
+    "timeseries_placeholder": "Select a facility from the table above",
     "timeseries_utilrate": "Utilisation rate (%)"
   },
   "peka": {
