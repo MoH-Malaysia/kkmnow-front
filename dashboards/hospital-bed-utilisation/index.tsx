@@ -161,6 +161,13 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 <Timeseries
                   className="h-[250px] w-full"
                   title={t("bed.timeseries_icu")}
+                  description={
+                    timeseries_facility[data.state][data.facility].line_util_icu.every(
+                      (item: number | null) => item === null
+                    )
+                      ? t("bed.timeseries_notavailable")
+                      : ""
+                  }
                   data={{
                     labels: timeseries_facility[data.state][data.facility].x,
                     datasets: [

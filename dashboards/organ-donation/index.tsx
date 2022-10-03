@@ -233,7 +233,9 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
           </div>
         </Section>
 
-        {/* What proportion of the population in {{ area }} donates blood? */}
+        {/* 
+        // Data not ready.
+        What proportion of the population in {{ area }} donates blood? 
         <Section
           title={t("organ.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("organ.heatmap_description")}
@@ -255,7 +257,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       color="greens"
                     />
-                    {/* <Heatmap
+                     <Heatmap
                       className="flex h-[140px] overflow-visible"
                       data={[heatmap_donorrate.capita.male, heatmap_donorrate.capita.female]}
                       subdata
@@ -291,10 +293,9 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    /> */}
-                  </>
+                    /> 
                 </Panel>
-                {/* <Panel name={t("organ.heatmap1_panel2")}>
+                 <Panel name={t("organ.heatmap1_panel2")}>
                   <>
                     <Heatmap
                       className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
@@ -397,10 +398,10 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       color="greens"
                     />
                   </>
-                </Panel> */}
+                </Panel> 
               </Tabs>
             </div>
-            {/* 
+            
             <div>
               <Tabs title={t("organ.bar1_title")} state={currentState}>
                 <Panel name={t("organ.annual")}>
@@ -438,9 +439,10 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                   />
                 </Panel>
               </Tabs>
-            </div> */}
+            </div> 
           </div>
         </Section>
+        */}
 
         {/* How is this data collected? */}
         <Section title={t("organ.map_btm")} description={t("organ.map_desc")} date={last_updated} />

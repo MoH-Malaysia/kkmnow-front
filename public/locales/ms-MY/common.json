@@ -527,7 +527,8 @@
     "timeseries_beds": "Penggunaan Katil Hospital (penjagaan tidak kritikal)",
     "timeseries_icu": "Penggunaan Katil ICU (penjagaan kritikal)",
     "timeseries_placeholder": "Pilih fasiliti dari jadual di atas",
-    "timeseries_utilrate": "Kadar Penggunaan (%)"
+    "timeseries_utilrate": "Kadar Penggunaan (%)",
+    "timeseries_notavailable": "Tiada data berkenaan."
   },
   "peka": {
     "title": "PROGRAM KESIHATAN",

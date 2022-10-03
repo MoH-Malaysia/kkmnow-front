@@ -16,7 +16,11 @@ const HospitalBedUtilisationPage: Page = ({
   const { t } = useTranslation();
   return (
     <>
-      <Metadata title={t("nav.megamenu.dashboards.hospital_bed_utilisation")} keywords={""} />
+      <Metadata
+        title={t("nav.megamenu.dashboards.hospital_bed_utilisation")}
+        description={t("bed.title_description")}
+        keywords={""}
+      />
       <HospitalBedUtilisationDashboard
         last_updated={last_updated}
         choropleth_bed={choropleth_bed}

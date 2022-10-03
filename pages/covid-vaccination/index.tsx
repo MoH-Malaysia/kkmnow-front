@@ -22,7 +22,11 @@ const CovidVaccinationIndex = ({
 
   return (
     <>
-      <Metadata title={t("nav.megamenu.dashboards.covid_19_vax")} keywords={""} />
+      <Metadata
+        title={t("nav.megamenu.dashboards.covid_19_vax")}
+        description={t("vaccination.title_description1")}
+        keywords={""}
+      />
 
       <CovidVaccinationDashboard
         last_updated={last_updated}

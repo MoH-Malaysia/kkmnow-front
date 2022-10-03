@@ -26,6 +26,7 @@ const CovidVaccinationState = ({
     <>
       <Metadata
         title={CountryAndStates[state].concat(" - ", t("nav.megamenu.dashboards.covid_19_vax"))}
+        description={t("vaccination.title_description1")}
         keywords={""}
       />
       <CovidVaccinationDashboard

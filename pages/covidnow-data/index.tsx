@@ -26,7 +26,11 @@ const CovidNowDataIndex: Page = ({
   });
   return (
     <>
-      <Metadata title={t("nav.megamenu.dashboards.covidnow_data")} keywords={""} />
+      <Metadata
+        title={t("nav.megamenu.dashboards.covidnow_data")}
+        description={t("covidnow.title_description")}
+        keywords={""}
+      />
 
       <CovidNowDashboard
         last_updated={last_updated}

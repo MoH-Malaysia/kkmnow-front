@@ -139,7 +139,9 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
           </div>
         </Section>
 
-        {/* What proportion of the population in {{ area }} donates blood? */}
+        {/* 
+        // Data not ready.
+        What proportion of the population in {{ area }} donates blood? 
         <Section
           title={t("peka.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("peka.heatmap_description")}
@@ -162,7 +164,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       color="red_purple"
                     />
 
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[140px] overflow-visible"
                       data={[heatmap_screenrate.capita.male, heatmap_screenrate.capita.female]}
                       subdata
@@ -198,10 +200,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    /> */}
+                    /> 
                   </>
                 </Panel>
-                {/* <Panel name={t("peka.heatmap_panel2")}>
+                <Panel name={t("peka.heatmap_panel2")}>
                   <>
                     <Heatmap
                       className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
@@ -306,7 +308,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       color="red_purple"
                     />
                   </>
-                </Panel> */}
+                 </Panel>
               </Tabs>
             </div>
 
@@ -350,6 +352,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             </div>
           </div>
         </Section>
+    */}
 
         {/* How is this data collected? */}
         <Section

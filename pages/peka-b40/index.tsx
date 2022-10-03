@@ -81,7 +81,11 @@ const PekaB40Index: Page = ({
   });
   return (
     <>
-      <Metadata title={t("nav.megamenu.dashboards.peka_b40")} keywords={""} />
+      <Metadata
+        title={t("nav.megamenu.dashboards.peka_b40")}
+        description={t("peka.title_description")}
+        keywords={""}
+      />
       <PekaB40Dashboard
         last_updated={last_updated}
         timeseries_screenrate={timeseries_screenrate}

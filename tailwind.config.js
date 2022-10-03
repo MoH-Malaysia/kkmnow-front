@@ -31,9 +31,6 @@ module.exports = {
       gridTemplateColumns: {
         14: "repeat(14, minmax(0, 1fr))",
       },
-      backgroundImage: {
-        "home-hero": "url('/static/images/home-hero.png')",
-      },
     },
   },
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/line-clamp")],

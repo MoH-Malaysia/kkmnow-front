@@ -97,7 +97,11 @@ const BloodDonationIndex: Page = ({
   });
   return (
     <>
-      <Metadata title={t("nav.megamenu.dashboards.blood_donation")} keywords={""} />
+      <Metadata
+        title={t("nav.megamenu.dashboards.blood_donation")}
+        description={t("blood.title_description")}
+        keywords={""}
+      />
       <BloodDonationDashboard
         last_updated={last_updated}
         timeseries_all={timeseries_all}

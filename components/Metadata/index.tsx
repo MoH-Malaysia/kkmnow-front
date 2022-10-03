@@ -4,22 +4,23 @@ import { useTranslation } from "next-i18next";
 
 interface MetadataProps {
   title?: string;
+  description?: string;
   keywords?: string;
 }
 
-const Metadata: FunctionComponent<MetadataProps> = ({ title, keywords }) => {
+const Metadata: FunctionComponent<MetadataProps> = ({ title, description, keywords }) => {
   const { t } = useTranslation();
 
   const META = {
     title: title ? title.concat(" | KKMNOW") : "KKMNOW",
     icon: "/favicon.ico",
-    description: t("header"),
+    description: description ? description : t("site.description"),
     author: "Ministry of Health & Department of Statistics Malaysia",
     themeColor: "#13293D",
     keywords: keywords ?? "kkmnow kementerian kesihatan covidnow statistics malaysia",
-    domain: "kawasanku.dosm.gov.my",
-    url: "https://kawasanku.dosm.gov.my",
-    image: "https://kawasanku.dosm.gov.my/static/jata_512.png",
+    domain: "data.moh.gov.my",
+    url: "https:/data.moh.gov.my",
+    image: "https://data.moh.gov.my/static/images/jata_512.png",
   };
 
   return (

@@ -525,7 +525,8 @@
     "timeseries_beds": "Hospital Bed Utilisation (non-critical care)",
     "timeseries_icu": "ICU Bed Utilisation (critical care)",
     "timeseries_placeholder": "Select a facility from the table above",
-    "timeseries_utilrate": "Utilisation rate (%)"
+    "timeseries_utilrate": "Utilisation rate (%)",
+    "timeseries_notavailable": "Data not available"
   },
   "peka": {
     "title": "HEALTHCARE PROGRAMS",

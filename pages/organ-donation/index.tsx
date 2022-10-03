@@ -82,7 +82,11 @@ const OrganDonationIndex = ({
   });
   return (
     <>
-      <Metadata title={t("nav.megamenu.dashboards.organ_donation")} keywords={""} />
+      <Metadata
+        title={t("nav.megamenu.dashboards.organ_donation")}
+        description={t("organ.title_description")}
+        keywords={""}
+      />
       <OrganDonationDashboard
         last_updated={last_updated}
         timeseries_pledge={timeseries_pledge}

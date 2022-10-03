@@ -18,7 +18,11 @@ const HealthcareFacilitiesIndex: Page = ({
   const { t } = useTranslation();
   return (
     <>
-      <Metadata title={t("nav.megamenu.dashboards.healthcare_facilities")} keywords={""} />
+      <Metadata
+        title={t("nav.megamenu.dashboards.healthcare_facilities")}
+        description={t("healthcare.title_description")}
+        keywords={""}
+      />
       <HealthcareFacilitiesDashboard
         last_updated={last_updated}
         facility_table={facility_table}
