@@ -30,7 +30,7 @@
 }
 
 .table th:first-child {
-  @apply w-40 text-left;
+  @apply w-44 text-left;
 }
 .table th:not(:first-child) {
   @apply w-[150px] lg:w-auto;
@@ -44,19 +44,26 @@
   @apply bg-slate-100;
 }
 
+.table-default th:first-child {
+  @apply w-auto;
+}
+
 .table-facility th,
-.table-bed th {
-  @apply pb-2;
+.table-bed th,
+.table-default th {
+  @apply py-2;
 }
 .table-facility th:nth-last-child(2) {
   @apply w-[500px];
 }
 .table-facility td,
-.table-bed td {
+.table-bed td,
+.table-default td {
   @apply border-r-outline;
 }
 .table-facility td:last-child,
-.table-bed td:last-child {
+.table-bed td:last-child,
+.table-default td:last-child {
   @apply border-r-black;
 }
 .table-bed th:nth-child(2) {

@@ -63,30 +63,25 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       },
     },
     {
-      id: "data",
-      columns: [
-        {
-          id: "data.users",
-          header: t("covidnow.user"),
-          accessorFn: (item: any) => numFormat(item.data.users, "standard"),
-          sortingFn: "localeNumber",
-          sortDescFirst: true,
-        },
-        {
-          id: "data.views",
-          header: t("covidnow.views"),
-          accessorFn: (item: any) => numFormat(item.data.views, "standard"),
-          sortingFn: "localeNumber",
-          sortDescFirst: true,
-        },
-        {
-          id: "data.views_perc",
-          header: t("covidnow.%_views"),
-          accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
-          sortingFn: "localeNumber",
-          sortDescFirst: true,
-        },
-      ],
+      id: "data.users",
+      header: t("covidnow.user"),
+      accessorFn: (item: any) => numFormat(item.data.users, "standard"),
+      sortingFn: "localeNumber",
+      sortDescFirst: true,
+    },
+    {
+      id: "data.views",
+      header: t("covidnow.views"),
+      accessorFn: (item: any) => numFormat(item.data.views, "standard"),
+      sortingFn: "localeNumber",
+      sortDescFirst: true,
+    },
+    {
+      id: "data.views_perc",
+      header: t("covidnow.%_views"),
+      accessorFn: (item: any) => Math.round(item.data.perc_views * 100) / 100 + "%",
+      sortingFn: "localeNumber",
+      sortDescFirst: true,
     },
   ];
 
@@ -112,33 +107,28 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
       },
     },
     {
-      id: "data",
-      columns: [
-        {
-          id: "data.total_user",
-          header: t("covidnow.user"),
-          accessorFn: (item: any) => numFormat(item.data.users, "standard"),
-          sortDescFirst: true,
-        },
-        {
-          id: "data.views",
-          header: t("covidnow.views"),
-          accessorFn: (item: any) => numFormat(item.data.views, "standard"),
-          sortDescFirst: true,
-        },
-        {
-          id: "data.views_perc",
-          header: t("covidnow.%_views"),
-          accessorFn: (item: any) => Math.round(item.data.views_perc * 100) / 100 + "%",
-          sortDescFirst: true,
-        },
-        {
-          id: "data.pop_perc",
-          header: t("covidnow.%_population"),
-          accessorFn: (item: any) => Math.round(item.data.pop_perc * 100) / 100 + "%",
-          sortDescFirst: true,
-        },
-      ],
+      id: "data.total_user",
+      header: t("covidnow.user"),
+      accessorFn: (item: any) => numFormat(item.data.users, "standard"),
+      sortDescFirst: true,
+    },
+    {
+      id: "data.views",
+      header: t("covidnow.views"),
+      accessorFn: (item: any) => numFormat(item.data.views, "standard"),
+      sortDescFirst: true,
+    },
+    {
+      id: "data.views_perc",
+      header: t("covidnow.%_views"),
+      accessorFn: (item: any) => Math.round(item.data.views_perc * 100) / 100 + "%",
+      sortDescFirst: true,
+    },
+    {
+      id: "data.pop_perc",
+      header: t("covidnow.%_population"),
+      accessorFn: (item: any) => Math.round(item.data.pop_perc * 100) / 100 + "%",
+      sortDescFirst: true,
     },
   ];
 
@@ -225,14 +215,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 </div>
               </Panel>
               <Panel key={1} name={`${t("covidnow.table")}`}>
-                <Table
-                  data={choropleth_world.map((items: any) => ({
-                    ...items,
-                    state: items.iso3.toLowerCase(),
-                  }))}
-                  config={worldMapConfig}
-                  enablePagination
-                />
+                <div className="mx-auto max-w-screen-lg">
+                  <Table
+                    className="table-stripe table-default"
+                    data={choropleth_world}
+                    config={worldMapConfig}
+                    enablePagination
+                  />
+                </div>
               </Panel>
             </Tabs>
           </div>
@@ -267,7 +257,13 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 </div>
               </Panel>
               <Panel key={1} name={`${t("covidnow.table")}`}>
-                <Table data={choropleth_malaysia} config={malaysiaMapConfig} />
+                <div className="mx-auto max-w-screen-lg">
+                  <Table
+                    className="table-stripe table-default"
+                    data={choropleth_malaysia}
+                    config={malaysiaMapConfig}
+                  />
+                </div>
               </Panel>
             </Tabs>
           </div>
