@@ -64,7 +64,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
     },
     {
       id: "data",
-      header: t("covidnow.statistics"),
       columns: [
         {
           id: "data.users",
@@ -114,7 +113,6 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
     },
     {
       id: "data",
-      header: t("covidnow.statistics"),
       columns: [
         {
           id: "data.total_user",

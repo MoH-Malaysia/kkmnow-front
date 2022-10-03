@@ -204,7 +204,7 @@ const Table: FunctionComponent<TableProps> = ({
               table.getRowModel().rows.map(row => {
                 return (
                   <tr key={row.id}>
-                    {row.getVisibleCells().map((cell: any) => {
+                    {row.getVisibleCells().map((cell: any, index: number) => {
                       const lastCellInGroup = cell.column.parent
                         ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
                         : cell.column;
@@ -227,7 +227,7 @@ const Table: FunctionComponent<TableProps> = ({
                           ? [scaleColor(cell.getValue() as number)]
                           : []),
                         ...(cell.getValue() === null ? ["bg-outline"] : []),
-                        cellClass,
+                        index !== 0 ? cellClass : "",
                       ].join(" ");
 
                       const unit = cell.column.columnDef.unit ?? undefined;
