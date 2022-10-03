@@ -28,6 +28,7 @@ interface TimeseriesProps {
   className?: string;
   menu?: ReactElement;
   title?: string;
+  description?: string;
   type?: keyof ChartTypeRegistry;
   controls?: ReactElement;
   data?: ChartData<keyof ChartTypeRegistry, any[], string | number>;
@@ -75,6 +76,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   className = "w-full h-[750px]", // manage CSS here
   menu,
   title,
+  description,
   controls,
   interval = "auto",
   unitY,
@@ -135,7 +137,9 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           intersect: false,
           callbacks: {
             label: function (item) {
-              return `${item.dataset.label}: ${+item.parsed.y.toFixed(0).toLocaleString()}`;
+              return `${item.dataset.label}: ${
+                item.parsed.y ? +item.parsed.y.toFixed(0).toLocaleString() : "-"
+              }`;
             },
           },
         },
@@ -254,7 +258,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           ticks: {
             padding: 6,
             callback: (value: string | number) => {
-              return numFormat(value as number).concat(unitY ?? "");
+              return value && numFormat(value as number).concat(unitY ?? "");
             },
             font: {
               family: "Inter",
@@ -304,6 +308,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
       {subheader && <div>{subheader}</div>}
 
       <div className={className}>{data && <Chart data={data} options={options} type={type} />}</div>
+      {description && <p className="text-sm text-dim">{description}</p>}
     </div>
   );
 };
