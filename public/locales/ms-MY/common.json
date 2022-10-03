@@ -78,13 +78,8 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-<<<<<<< HEAD
     "home": {
     "title": "Era baharu bagi ketelusan kerajaan",
-=======
-  "home": {
-    "title": "Era baru bagi ketelusan dalam kerajaan",
->>>>>>> 9c14fa5d7043ef6ba7accd1c9e0589ce8f9b1bc7
     "description": "KKMNOW adalah kolaborasi antara Kementerian Kesihatan Malaysia dan Jabatan Perangkaan Malaysia untuk menginstitusikan ketelusan dan membawa data ke hujung jari segala rakyat Malaysia.",
     "timeline": {
       "title": "Perjalanan kita ke KKMNOW",
