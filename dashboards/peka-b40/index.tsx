@@ -34,16 +34,16 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
-    minmax: [0, timeseries_screenrate.x.length - 1],
+    minmax: [timeseries_screenrate.x.length - 182, timeseries_screenrate.x.length - 1],
   });
 
   const { t } = useTranslation("common");
 
   const filtered_timeline = useCallback(() => {
     return {
-      x: timeseries_screenrate.x.slice(data.minmax[0], data.minmax[1]),
-      line: timeseries_screenrate.line.slice(data.minmax[0], data.minmax[1]),
-      daily: timeseries_screenrate.daily.slice(data.minmax[0], data.minmax[1]),
+      x: timeseries_screenrate.x.slice(data.minmax[0], data.minmax[1] + 1),
+      line: timeseries_screenrate.line.slice(data.minmax[0], data.minmax[1] + 1),
+      daily: timeseries_screenrate.daily.slice(data.minmax[0], data.minmax[1] + 1),
     };
   }, [data.minmax, timeseries_screenrate]);
 
@@ -108,6 +108,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             <Slider
               className="pt-7"
               type="range"
+              defaultValue={data.minmax}
               data={timeseries_screenrate.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />

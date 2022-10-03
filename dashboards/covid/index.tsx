@@ -75,21 +75,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
   const filterTimeline = () => {
     return {
-      x: timeseries_deaths.x.slice(data.minmax[0], data.minmax[1]),
-      deaths_line: timeseries_deaths.line.slice(data.minmax[0], data.minmax[1]),
-      deaths_inpatient: timeseries_deaths.deaths_inpatient.slice(data.minmax[0], data.minmax[1]),
-      deaths_broughtin: timeseries_deaths.deaths_brought_in.slice(data.minmax[0], data.minmax[1]),
-      vents_line: timeseries_vents.line.slice(data.minmax[0], data.minmax[1]),
-      vents_vent: timeseries_vents.vent.slice(data.minmax[0], data.minmax[1]),
-      icu_line: timeseries_icu.line.slice(data.minmax[0], data.minmax[1]),
-      icu_icu: timeseries_icu.icu.slice(data.minmax[0], data.minmax[1]),
-      admitted_line: timeseries_admitted.line.slice(data.minmax[0], data.minmax[1]),
-      admitted_admitted: timeseries_admitted.admitted.slice(data.minmax[0], data.minmax[1]),
-      cases_line: timeseries_cases.line.slice(data.minmax[0], data.minmax[1]),
-      cases_cases: timeseries_cases.cases.slice(data.minmax[0], data.minmax[1]),
-      tests_posrate: timeseries_tests.tooltip.slice(data.minmax[0], data.minmax[1]),
-      tests_rtk: timeseries_tests.tests_rtk.slice(data.minmax[0], data.minmax[1]),
-      tests_pcr: timeseries_tests.tests_pcr.slice(data.minmax[0], data.minmax[1]),
+      x: timeseries_deaths.x.slice(data.minmax[0], data.minmax[1] + 1),
+      deaths_line: timeseries_deaths.line.slice(data.minmax[0], data.minmax[1] + 1),
+      deaths_inpatient: timeseries_deaths.deaths_inpatient.slice(
+        data.minmax[0],
+        data.minmax[1] + 1
+      ),
+      deaths_broughtin: timeseries_deaths.deaths_brought_in.slice(
+        data.minmax[0],
+        data.minmax[1] + 1
+      ),
+      vents_line: timeseries_vents.line.slice(data.minmax[0], data.minmax[1] + 1),
+      vents_vent: timeseries_vents.vent.slice(data.minmax[0], data.minmax[1] + 1),
+      icu_line: timeseries_icu.line.slice(data.minmax[0], data.minmax[1] + 1),
+      icu_icu: timeseries_icu.icu.slice(data.minmax[0], data.minmax[1] + 1),
+      admitted_line: timeseries_admitted.line.slice(data.minmax[0], data.minmax[1] + 1),
+      admitted_admitted: timeseries_admitted.admitted.slice(data.minmax[0], data.minmax[1] + 1),
+      cases_line: timeseries_cases.line.slice(data.minmax[0], data.minmax[1] + 1),
+      cases_cases: timeseries_cases.cases.slice(data.minmax[0], data.minmax[1] + 1),
+      tests_posrate: timeseries_tests.tooltip.slice(data.minmax[0], data.minmax[1] + 1),
+      tests_rtk: timeseries_tests.tests_rtk.slice(data.minmax[0], data.minmax[1] + 1),
+      tests_pcr: timeseries_tests.tests_pcr.slice(data.minmax[0], data.minmax[1] + 1),
     };
   };
 

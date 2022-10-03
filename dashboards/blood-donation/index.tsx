@@ -69,7 +69,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
-  const [limit, setLimit] = useState([0, timeseries_all.x.length - 1] as [number, number]);
   const { data, setData } = useData({
     absolute_donation_type: false,
     absolute_blood_group: false,
@@ -77,18 +76,19 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
     absolute_location: false,
     zoom_state: currentState === "mys" ? undefined : currentState,
     zoom_facility: undefined,
+    minmax: [timeseries_all.x.length - 182, timeseries_all.x.length - 1],
   });
   const { t } = useTranslation("common");
 
   const filterTimeline = () => {
     return {
-      x: timeseries_all.x.slice(limit[0], limit[1]),
-      daily: timeseries_all.daily.slice(limit[0], limit[1]),
-      line_daily: timeseries_all.line_daily.slice(limit[0], limit[1]),
+      x: timeseries_all.x.slice(data.minmax[0], data.minmax[1] + 1),
+      daily: timeseries_all.daily.slice(data.minmax[0], data.minmax[1] + 1),
+      line_daily: timeseries_all.line_daily.slice(data.minmax[0], data.minmax[1] + 1),
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, [limit, timeseries_all]);
+  const filtered_timeline = useCallback(filterTimeline, [data.minmax, timeseries_all]);
 
   const handleClearSelection = () => {
     setData("zoom_state", undefined);
@@ -295,9 +295,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             <Slider
               className="pt-7"
               type="range"
-              defaultValue={limit}
+              defaultValue={data.minmax}
               data={timeseries_all.x}
-              onChange={(item: any) => setLimit([item.min, item.max])}
+              onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
             <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>

@@ -39,9 +39,9 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
 
   const filterTimeline = () => {
     return {
-      x: timeseries_chart.x.slice(limit[0], limit[1]),
-      y: timeseries_chart.y.slice(limit[0], limit[1]),
-      line: timeseries_chart.line.slice(limit[0], limit[1]),
+      x: timeseries_chart.x.slice(limit[0], limit[1] + 1),
+      y: timeseries_chart.y.slice(limit[0], limit[1] + 1),
+      line: timeseries_chart.line.slice(limit[0], limit[1] + 1),
     };
   };
 
