@@ -304,8 +304,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         </Section>
         {/* Choropleth view of organ donar in Malaysia */}
         <Section
-          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
-          description={t("covidnow.mmap_description")}
+          title={t("blood.choro_header")}
+          description={t("blood.choro_description")}
           date={last_updated}
         >
           <div>

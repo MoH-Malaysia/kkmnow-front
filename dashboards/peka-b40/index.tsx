@@ -116,8 +116,8 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         </Section>
         {/* Choropleth view of pekaB40 in Malaysia */}
         <Section
-          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
-          description={t("covidnow.mmap_description")}
+          title={t("peka.choro_header")}
+          description={t("peka.choro_description")}
           date={last_updated}
         >
           <div>

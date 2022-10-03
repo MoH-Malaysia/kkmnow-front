@@ -149,6 +149,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                   className="h-[250px] w-full"
                   title={t("bed.timeseries_beds")}
                   enableGridX={false}
+                  unitY="%"
                   data={{
                     labels: timeseries_facility[data.state][data.facility].x,
                     datasets: [
@@ -177,6 +178,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                       },
                     ],
                   }}
+                  unitY="%"
                   enableGridX={false}
                 />
               </>

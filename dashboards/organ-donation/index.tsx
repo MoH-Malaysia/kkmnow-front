@@ -86,7 +86,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         >
           <div className="space-y-4">
             <Timeseries
-              title={t("organ.bar_tittle")}
+              title={t("organ.timeseries_title")}
               className="h-[350px]"
               state={currentState}
               data={{
@@ -94,14 +94,14 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: t("organ.timeseries_line"),
                     data: filtered_timeline().line,
                     borderColor: ORGAN_COLOR[600],
                     borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "Daily Pledges",
+                    label: t("organ.timeseries_bar"),
                     data: filtered_timeline().daily,
                     backgroundColor: GRAYBAR_COLOR[100],
                   },
@@ -120,8 +120,8 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
         {/* Choropleth view of organ donar in Malaysia */}
         <Section
-          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
-          description={t("covidnow.mmap_description")}
+          title={t("organ.choro_header")}
+          description={t("organ.choro_description")}
           date={last_updated}
         >
           <div>
