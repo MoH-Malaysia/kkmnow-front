@@ -1,3 +1,7 @@
+.home-banner {
+  background: url("/static/images/home-hero.png") no-repeat;
+  background-size: cover;
+}
 .organ-banner {
   background: url("/static/images/banner/organ.svg") no-repeat;
   background-size: cover;

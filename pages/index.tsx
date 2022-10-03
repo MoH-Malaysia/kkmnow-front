@@ -41,7 +41,7 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Metadata keywords={""} />
 
       <Hero
-        background="bg-home-hero"
+        background="home-banner"
         className="relative flex min-h-[300px] flex-col items-center justify-center text-left md:text-center"
       >
         <h3 className="mb-3">{t("home.title")}</h3>
