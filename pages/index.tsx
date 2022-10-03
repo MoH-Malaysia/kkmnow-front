@@ -9,6 +9,8 @@ import { BREAKPOINTS } from "@lib/constants";
 import { useWindowWidth } from "@hooks/useWindowWidth";
 
 import { Hero, Container, Metadata } from "@components/index";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation();
@@ -76,11 +78,12 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                   <p className="mb-1 text-lg font-bold">{event.title}</p>
                   <p>{event.description}</p>
                 </div>
-
-                <img
-                  src={event.image}
-                  className="aspect-video h-[90px] w-auto place-self-start rounded-md border border-outline object-cover object-left-top xl:h-[120px]"
-                />
+                <Zoom>
+                  <img
+                    src={event.image}
+                    className="aspect-video h-[120px] w-auto place-self-start rounded-md border border-outline object-cover object-left-top lg:h-[120px] lg:w-[460px]"
+                  />
+                </Zoom>
               </div>
               {/* TIMELINE FOR TABLET DEVICES (768px and up) */}
               {!isMobile && (
