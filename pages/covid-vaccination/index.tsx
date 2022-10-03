@@ -58,6 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       stats_data: data.statistics,
       ...i18n,
     },
+    revalidate: 300,
   };
 };
 

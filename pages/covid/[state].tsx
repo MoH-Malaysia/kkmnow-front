@@ -116,6 +116,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       ...i18n,
       state: params?.state,
     },
+    revalidate: 300,
   };
 };
 

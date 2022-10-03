@@ -30,7 +30,7 @@ const Section: FunctionComponent<SectionProps> = ({
               {t("common.data_of", {
                 date: DateTime.fromMillis(date)
                   .setLocale(router.locale ?? router.defaultLocale!)
-                  .toFormat("dd MMM yyyy, hh:mm a"),
+                  .toFormat("dd MMM yyyy, HH:mm"),
               })}
             </span>
           ) : (

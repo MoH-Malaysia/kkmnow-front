@@ -121,6 +121,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       bar_age: data.barchart_ages,
       choropleth_malaysia_peka_b40: data.choropleth_malaysia,
     },
+    revalidate: 300,
   };
 };
 

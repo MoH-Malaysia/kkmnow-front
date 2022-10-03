@@ -100,6 +100,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
           <div className="mt-2">
             <Table
               data={facility_table}
+              className="table-facility table-stripe"
               config={FACILTIES_TABLE_SCHEMA()}
               controls={setColumnFilters => (
                 <>

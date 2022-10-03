@@ -44,6 +44,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       state_district_mapping: data.helpers.state_district_mapping,
       facility_types: data.helpers.facility_types,
     },
+    revalidate: 300,
   };
 };
 

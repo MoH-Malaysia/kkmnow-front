@@ -1,13 +1,6 @@
 import { FeatureAccessor, ResponsiveChoropleth } from "@nivo/geo";
-import { FunctionComponent, ReactElement, useState } from "react";
+import { FunctionComponent, ReactElement, useMemo, useState } from "react";
 import { ChartHeader } from "@components/index";
-import {
-  CHOROPLETH_RED_SCALE,
-  CHOROPLETH_GREEN_SCALE,
-  CHOROPLETH_BLUE_SCALE,
-  CHOROPLETH_RED_PURPLE_SCALE,
-  CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
-} from "@lib/constants";
 import ParliamentDesktop from "@lib/geojson/parlimen_desktop.json";
 import ParliamentMobile from "@lib/geojson/parlimen_mobile.json";
 import DunDesktop from "@lib/geojson/dun_desktop.json";
@@ -15,7 +8,9 @@ import DunMobile from "@lib/geojson/dun_mobile.json";
 import StateDesktop from "@lib/geojson/state_desktop.json";
 import StateMobile from "@lib/geojson/state_mobile.json";
 import { numFormat } from "@lib/helpers";
+import { BREAKPOINTS } from "@lib/constants";
 import { ColorInterpolatorId } from "@nivo/colors";
+import { useWindowWidth } from "@hooks/useWindowWidth";
 
 /**
  * Choropleth component
@@ -29,7 +24,7 @@ interface ChoroplethProps {
   data?: any;
   unitY?: string;
   enableScale?: boolean;
-  graphChoice?: any;
+  graphChoice?: "state" | "parliament" | "dun";
   colorScale?: ColorInterpolatorId | string[] | FeatureAccessor<any, string>;
   borderWidth?: any;
   borderColor?: any;
@@ -44,46 +39,56 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   title,
   data = dummyData,
   unitY,
-  enableScale = true,
-  graphChoice = "ParliamentDesktop",
+  graphChoice = "state",
   colorScale,
   borderWidth = 0.25,
   borderColor = "#13293d",
-  projectionTranslation = [0.65, 0.9] as [number, number],
-  projectionScaleSetting = 3500,
 }) => {
-  const graphChoices: any = {
-    ParliamentDesktop: ParliamentDesktop,
-    ParliamentMobile: ParliamentMobile,
-    DunDesktop: DunDesktop,
-    DunMobile: DunMobile,
-    StateDesktop: StateDesktop,
-    StateMobile: StateMobile,
-  };
+  const windowWidth = useWindowWidth();
+  const presets = useMemo(
+    () => ({
+      parliament: {
+        feature:
+          windowWidth < BREAKPOINTS.MD ? ParliamentMobile.features : ParliamentDesktop.features,
+        projectionScale: 3500,
+        projectionTranslation: [0.65, 0.9] as [number, number],
+      },
+      dun: {
+        feature: windowWidth < BREAKPOINTS.MD ? DunMobile.features : DunDesktop.features,
+        projectionScale: 3500,
+        projectionTranslation: [0.65, 0.9] as [number, number],
+      },
+      state: {
+        feature: windowWidth < BREAKPOINTS.MD ? StateMobile.features : StateDesktop.features,
+        projectionScale: windowWidth < BREAKPOINTS.MD ? windowWidth * 4.5 : 3500,
+        projectionTranslation:
+          windowWidth < BREAKPOINTS.MD
+            ? ([0.5, 1.0] as [number, number])
+            : ([0.65, 1.0] as [number, number]),
+      },
+    }),
+    [windowWidth]
+  );
 
-  const colorScales: any = {
-    CHOROPLETH_RED_SCALE: CHOROPLETH_RED_SCALE,
-    CHOROPLETH_GREEN_SCALE: CHOROPLETH_GREEN_SCALE,
-    CHOROPLETH_BLUE_SCALE: CHOROPLETH_BLUE_SCALE,
-    CHOROPLETH_RED_PURPLE_SCALE: CHOROPLETH_RED_PURPLE_SCALE,
-    CHOROPLETH_YELLOW_GREEN_BLUE_SCALE: CHOROPLETH_YELLOW_GREEN_BLUE_SCALE,
-  };
+  const config = useMemo(
+    () => ({
+      feature: presets[graphChoice].feature,
+      colors: colorScale,
+      projectionScale: presets[graphChoice].projectionScale,
+      projectionTranslation: presets[graphChoice].projectionTranslation,
+      borderWidth: borderWidth,
+      borderColor: borderColor,
+    }),
+    [colorScale, borderWidth, borderColor, windowWidth]
+  );
 
-  const [feature, setState] = useState(graphChoices[graphChoice].features);
-  const config = {
-    colors: colorScale,
-    projectionScale: projectionScaleSetting,
-    projectionTranslation: [0.65, 0.9] as [number, number],
-    borderWidth: borderWidth,
-    borderColor: borderColor,
-  };
   return (
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} />
       <div className={className}>
         <ResponsiveChoropleth
           data={data}
-          features={feature}
+          features={config.feature}
           margin={{ top: 10, right: 0, bottom: 0, left: 0 }}
           colors={config.colors}
           domain={[
@@ -99,7 +104,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
           unknownColor="#fff"
           projectionType="mercator"
           projectionScale={config.projectionScale}
-          projectionTranslation={projectionTranslation}
+          projectionTranslation={config.projectionTranslation}
           projectionRotation={[-114, 0, 0]}
           borderWidth={config.borderWidth}
           borderColor={config.borderColor}

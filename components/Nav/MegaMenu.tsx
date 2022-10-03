@@ -39,7 +39,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ icon, title, children }) => {
               />
             )}
           </div>
-          {isOpen && <div className="border-b">{children}</div>}
+          {isOpen && <div>{children}</div>}
         </>
       ) : (
         <Popover
@@ -73,7 +73,7 @@ const MegaMenu: React.FC<MegaMenuProps> = ({ icon, title, children }) => {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="fixed left-0 z-10 mt-3 w-screen">
+              <Popover.Panel className="fixed left-0 z-10 w-screen">
                 <div className="overflow-hidden border bg-white shadow-lg">{children}</div>
               </Popover.Panel>
             </Transition>

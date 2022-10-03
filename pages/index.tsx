@@ -15,12 +15,12 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
 
-  // TODO: update links with actual images
+  // TODO: update last image after launch day
   const imageArr = [
-    "/static/images/home-hero.png",
-    "/static/images/home-hero.png",
-    "/static/images/home-hero.png",
-    "/static/images/home-hero.png",
+    "/static/images/home-citfgithub.png",
+    "/static/images/home-mohgithub.png",
+    "/static/images/home-covidnow.png",
+    "/static/images/home-endemic.png",
     "/static/images/home-hero.png",
   ];
 
@@ -48,7 +48,7 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Container className="min-h-screen py-12">
         <h3 className="mb-8 md:text-center">{t("home.timeline.title")}</h3>
         {timeline.map((event, index) => (
-          <div className="flex gap-8">
+          <div className="flex gap-8 md:block md:gap-0">
             {/* TIMELINE FOR MOBILE DEVICES */}
             {isMobile && (
               <div className="w-4">
@@ -60,7 +60,7 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
             )}
             <div
               className={`
-              flex flex-col-reverse gap-1 md:flex-row md:gap-8
+              flex flex-col-reverse gap-1 md:flex-row
               ${index === 0 ? "" : ""} 
               ${index % 2 === 0 ? "" : "md:flex-row-reverse"}
             `}
@@ -68,7 +68,7 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
               {/* TITLE, DESCRIPTION, IMAGE */}
               <div
                 className={`
-                mb-12 flex w-full flex-col gap-6 md:w-1/2 lg:flex-row
+                mb-12 flex flex-col gap-6 md:w-[45%] lg:flex-row
                 ${index % 2 === 0 ? "md:text-right" : "lg:flex-row-reverse"}
               `}
               >
@@ -76,18 +76,15 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                   <p className="mb-1 text-lg font-bold">{event.title}</p>
                   <p>{event.description}</p>
                 </div>
-                <div className="min-h-[90px] min-w-[120px]">
-                  <Image
-                    width={120}
-                    height={90}
-                    src={event.image}
-                    className="rounded-md object-cover"
-                  />
-                </div>
+
+                <img
+                  src={event.image}
+                  className="aspect-video h-[90px] w-auto place-self-start rounded-md border border-outline object-cover object-left-top xl:h-[120px]"
+                />
               </div>
               {/* TIMELINE FOR TABLET DEVICES (768px and up) */}
               {!isMobile && (
-                <div className="w-[80px]">
+                <div className="w-[10%]">
                   <div className="relative flex h-full items-center justify-center pt-1">
                     <div className="absolute top-1 z-10 h-4 w-4 rounded-full bg-black" />
                     <div className="absolute top-3 w-[80px] border-t border-black" />
@@ -96,7 +93,7 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                 </div>
               )}
               {/* DATE */}
-              <div className={`w-full md:w-1/2 ${index % 2 === 0 ? "" : "md:text-right"}`}>
+              <div className={`w-[45%] ${index % 2 === 0 ? "" : "md:text-right"}`}>
                 <p className="text-dim">{event.date}</p>
               </div>
             </div>
@@ -114,7 +111,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       ...translation,
     },
-    revalidate: 1,
+    revalidate: 300,
   };
 };
 

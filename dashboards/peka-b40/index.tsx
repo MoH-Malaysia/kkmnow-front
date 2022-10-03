@@ -34,23 +34,18 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
-    minmax: [0, timeseries_screenrate.x.length - 1],
+    minmax: [timeseries_screenrate.x.length - 182, timeseries_screenrate.x.length - 1],
   });
 
   const { t } = useTranslation("common");
 
   const filtered_timeline = useCallback(() => {
     return {
-      x: timeseries_screenrate.x.slice(data.minmax[0], data.minmax[1]),
-      line: timeseries_screenrate.line.slice(data.minmax[0], data.minmax[1]),
-      daily: timeseries_screenrate.daily.slice(data.minmax[0], data.minmax[1]),
+      x: timeseries_screenrate.x.slice(data.minmax[0], data.minmax[1] + 1),
+      line: timeseries_screenrate.line.slice(data.minmax[0], data.minmax[1] + 1),
+      daily: timeseries_screenrate.daily.slice(data.minmax[0], data.minmax[1] + 1),
     };
   }, [data.minmax, timeseries_screenrate]);
-
-  const interval_scale = useMemo(
-    () => (filtered_timeline().x.length > 365 ? "month" : "day"),
-    [filtered_timeline().x]
-  );
 
   return (
     <>
@@ -90,7 +85,6 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               title="Daily Screens"
               className="h-[350px]"
               state={currentState}
-              interval={interval_scale}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
@@ -114,6 +108,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             <Slider
               className="pt-7"
               type="range"
+              defaultValue={data.minmax}
               data={timeseries_screenrate.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
@@ -122,8 +117,8 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         </Section>
         {/* Choropleth view of pekaB40 in Malaysia */}
         <Section
-          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
-          description={t("covidnow.mmap_description")}
+          title={t("peka.choro_header")}
+          description={t("peka.choro_description")}
           date={last_updated}
         >
           <div>
@@ -133,15 +128,13 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               colorScale="purples"
               borderColor="#000"
               borderWidth={0.5}
-              projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-              projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
               data={choropleth_malaysia_peka_b40.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],
                 value: item.data.perc,
               }))}
               unitY="%"
-              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+              graphChoice="state"
             />
           </div>
         </Section>
@@ -208,7 +201,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     /> */}
                   </>
                 </Panel>
-                <Panel name={t("peka.heatmap_panel2")}>
+                {/* <Panel name={t("peka.heatmap_panel2")}>
                   <>
                     <Heatmap
                       className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
@@ -219,7 +212,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       unitY="%"
                     />
 
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_screenrate.perc.male, heatmap_screenrate.perc.female]}
                       subdata
@@ -258,7 +251,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    /> */}
+                    />
                   </>
                 </Panel>
                 <Panel name={t("peka.heatmap_panel3")}>
@@ -272,7 +265,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       color="red_purple"
                     />
 
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_screenrate.abs.male, heatmap_screenrate.abs.female]}
                       subdata
@@ -311,9 +304,9 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    /> */}
+                    />
                   </>
-                </Panel>
+                </Panel> */}
               </Tabs>
             </div>
 

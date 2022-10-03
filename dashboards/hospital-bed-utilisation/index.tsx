@@ -41,8 +41,6 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
     state: undefined,
     facility: undefined,
   });
-  const windowWidth = useWindowWidth();
-  const isMobile = windowWidth < BREAKPOINTS.MD;
   const { t } = useTranslation();
 
   return (
@@ -68,13 +66,11 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 className={"h-[500px] w-auto"}
                 colorScale="oranges"
                 enableScale={false}
-                projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-                projectionScaleSetting={isMobile ? 2200 : 3500}
                 data={choropleth_bed.map((item: any) => ({
                   id: CountryAndStates[item.state],
                   value: item.data.util_nonicu,
                 }))}
-                graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+                graphChoice="state"
                 unitY="%"
               />
             </Panel>
@@ -83,13 +79,11 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 className={"h-[500px] w-auto"}
                 colorScale="reds"
                 enableScale={false}
-                projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-                projectionScaleSetting={isMobile ? 2200 : 3500}
                 data={choropleth_bed.map((item: any) => ({
                   id: CountryAndStates[item.state],
                   value: item.data.util_icu,
                 }))}
-                graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+                graphChoice="state"
                 unitY="%"
               />
             </Panel>
@@ -97,6 +91,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
         </Section>
         <Section title={t("bed.table_header")} date={last_updated}>
           <Table
+            className="table-bed table-stripe"
             controls={setColumnFilters => (
               <>
                 <StateDropdown
@@ -149,6 +144,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                   className="h-[250px] w-full"
                   title={t("bed.timeseries_beds")}
                   enableGridX={false}
+                  unitY="%"
                   data={{
                     labels: timeseries_facility[data.state][data.facility].x,
                     datasets: [
@@ -177,6 +173,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                       },
                     ],
                   }}
+                  unitY="%"
                   enableGridX={false}
                 />
               </>

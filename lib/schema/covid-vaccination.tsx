@@ -23,7 +23,7 @@ export const VACCINE_TABLE_SCHEMA = () => {
                   height={12}
                   alt={CountryAndStates[state]}
                 />
-                <span className="text-sm">{CountryAndStates[state]}</span>
+                <span className="block text-sm">{CountryAndStates[state]}</span>
               </div>
             );
           },
@@ -163,7 +163,7 @@ export const VACCINE_TABLE_SCHEMA = () => {
         },
         {
           id: "total",
-          header: t("vaccination.tab_table2"),
+          //   header: t("vaccination.tab_table2"),
           columns: [
             {
               id: "total.perc_dose1",
@@ -218,7 +218,7 @@ export const VACCINE_TABLE_SCHEMA = () => {
         },
         {
           id: "adult",
-          header: t("vaccination.tab_table3"),
+          //   header: t("vaccination.tab_table3"),
           columns: [
             {
               id: "adult.perc_dose1",
@@ -273,7 +273,7 @@ export const VACCINE_TABLE_SCHEMA = () => {
         },
         {
           id: "adolescent",
-          header: "Adolescents",
+          //   header: "Adolescents",
           columns: [
             {
               id: "adol.perc_dose1",
@@ -322,7 +322,7 @@ export const VACCINE_TABLE_SCHEMA = () => {
         },
         {
           id: "children",
-          header: t("vaccination.tab_table5"),
+          //   header: t("vaccination.tab_table5"),
           columns: [
             {
               id: "child.perc_dose1",

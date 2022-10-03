@@ -166,6 +166,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       map_facility: data.map_facility,
       choropleth_malaysia_blood_donation: data.choropleth_malaysia,
     },
+    revalidate: 300,
   };
 };
 

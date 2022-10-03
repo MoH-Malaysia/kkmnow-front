@@ -48,7 +48,7 @@ const Header: FunctionComponent<HeaderProps> = ({ stateSelector }) => {
     {
       title: t("nav.megamenu.categories.healthcare_resources"),
       list: [
-        { title: t("nav.megamenu.dashboards.healthcare_facilities"), link: routes.HEALTHCARE },
+        { title: t("nav.megamenu.dashboards.healthcare_facilities"), link: routes.FACILITIES },
         { title: t("nav.megamenu.dashboards.hospital_bed_utilisation"), link: routes.HOSPITAL_BED },
       ],
     },
@@ -65,7 +65,7 @@ const Header: FunctionComponent<HeaderProps> = ({ stateSelector }) => {
     },
     {
       title: t("nav.megamenu.categories.misc"),
-      list: [{ title: t("nav.megamenu.dashboards.covidnow_data"), link: routes.COVIDNOW_STATS }],
+      list: [{ title: t("nav.megamenu.dashboards.covidnow_data"), link: routes.COVIDNOW_DATA }],
     },
   ];
 

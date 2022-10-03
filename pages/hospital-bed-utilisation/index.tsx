@@ -42,6 +42,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       timeseries_facility: data.timeseries_facility,
       timeseries_state: data.table_state,
     },
+    revalidate: 300,
   };
 };
 
