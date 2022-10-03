@@ -37,21 +37,17 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
-    minmax: [0, timeseries_pledge.x.length - 1],
+    minmax: [timeseries_pledge.x.length - 182, timeseries_pledge.x.length - 1],
   });
   const { t } = useTranslation("common");
   const filtered_timeline = useCallback(() => {
     return {
-      x: timeseries_pledge.x.slice(data.minmax[0], data.minmax[1]),
-      line: timeseries_pledge.line.slice(data.minmax[0], data.minmax[1]),
-      daily: timeseries_pledge.daily.slice(data.minmax[0], data.minmax[1]),
+      x: timeseries_pledge.x.slice(data.minmax[0], data.minmax[1] + 1),
+      line: timeseries_pledge.line.slice(data.minmax[0], data.minmax[1] + 1),
+      daily: timeseries_pledge.daily.slice(data.minmax[0], data.minmax[1] + 1),
     };
   }, [data.minmax, timeseries_pledge]);
 
-  const interval_scale = useMemo(
-    () => (filtered_timeline().x.length > 365 ? "month" : "day"),
-    [filtered_timeline().x]
-  );
   return (
     <>
       <Hero background="organ-banner">
@@ -90,23 +86,22 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         >
           <div className="space-y-4">
             <Timeseries
-              title={t("organ.bar_tittle")}
+              title={t("organ.timeseries_title")}
               className="h-[350px]"
               state={currentState}
-              interval={interval_scale}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: t("organ.timeseries_line"),
                     data: filtered_timeline().line,
                     borderColor: ORGAN_COLOR[600],
                     borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "Daily Pledges",
+                    label: t("organ.timeseries_bar"),
                     data: filtered_timeline().daily,
                     backgroundColor: GRAYBAR_COLOR[100],
                   },
@@ -117,6 +112,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
             <Slider
               className="pt-7"
               type="range"
+              defaultValue={data.minmax}
               data={timeseries_pledge.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
@@ -125,8 +121,8 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
         {/* Choropleth view of organ donar in Malaysia */}
         <Section
-          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
-          description={t("covidnow.mmap_description")}
+          title={t("organ.choro_header")}
+          description={t("organ.choro_description")}
           date={last_updated}
         >
           <div>
@@ -136,15 +132,13 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               colorScale="greens"
               borderColor="#000"
               borderWidth={0.5}
-              projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-              projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
               data={choropleth_malaysia_organ_donation.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],
                 value: item.data.perc,
               }))}
               unitY="%"
-              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+              graphChoice="state"
             />
           </div>
         </Section>
@@ -300,7 +294,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                     /> */}
                   </>
                 </Panel>
-                <Panel name={t("organ.heatmap1_panel2")}>
+                {/* <Panel name={t("organ.heatmap1_panel2")}>
                   <>
                     <Heatmap
                       className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
@@ -310,7 +304,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       color="greens"
                       unitY="%"
                     />
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
                       subdata
@@ -349,7 +343,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    /> */}
+                    />
                   </>
                 </Panel>
                 <Panel name={t("organ.heatmap1_panel3")}>
@@ -362,7 +356,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       valueFormat="<-,.1~s"
                       color="greens"
                     />
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
                       subdata
@@ -401,9 +395,9 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="greens"
-                    /> */}
+                    />
                   </>
-                </Panel>
+                </Panel> */}
               </Tabs>
             </div>
             {/* 

@@ -60,33 +60,24 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
 
   const filterTimeline = () => {
     return {
-      x: timeseries_data.x.slice(data.minmax[0], data.minmax[1]),
-      line_stacked: timeseries_data.line_stacked.slice(data.minmax[0], data.minmax[1]),
-      primary: timeseries_data.primary.slice(data.minmax[0], data.minmax[1]),
-      booster: timeseries_data.booster.slice(data.minmax[0], data.minmax[1]),
-      booster2: timeseries_data.booster2.slice(data.minmax[0], data.minmax[1]),
-      adult: timeseries_data.adult.slice(data.minmax[0], data.minmax[1]),
-      adol: timeseries_data.adol.slice(data.minmax[0], data.minmax[1]),
-      child: timeseries_data.child.slice(data.minmax[0], data.minmax[1]),
-      line_primary: timeseries_data.line_primary.slice(data.minmax[0], data.minmax[1]),
-      line_booster: timeseries_data.line_booster.slice(data.minmax[0], data.minmax[1]),
-      line_booster2: timeseries_data.line_booster2.slice(data.minmax[0], data.minmax[1]),
-      line_adult: timeseries_data.line_adult.slice(data.minmax[0], data.minmax[1]),
-      line_adol: timeseries_data.line_adol.slice(data.minmax[0], data.minmax[1]),
-      line_child: timeseries_data.line_child.slice(data.minmax[0], data.minmax[1]),
+      x: timeseries_data.x.slice(data.minmax[0], data.minmax[1] + 1),
+      line_stacked: timeseries_data.line_stacked.slice(data.minmax[0], data.minmax[1] + 1),
+      primary: timeseries_data.primary.slice(data.minmax[0], data.minmax[1] + 1),
+      booster: timeseries_data.booster.slice(data.minmax[0], data.minmax[1] + 1),
+      booster2: timeseries_data.booster2.slice(data.minmax[0], data.minmax[1] + 1),
+      adult: timeseries_data.adult.slice(data.minmax[0], data.minmax[1] + 1),
+      adol: timeseries_data.adol.slice(data.minmax[0], data.minmax[1] + 1),
+      child: timeseries_data.child.slice(data.minmax[0], data.minmax[1] + 1),
+      line_primary: timeseries_data.line_primary.slice(data.minmax[0], data.minmax[1] + 1),
+      line_booster: timeseries_data.line_booster.slice(data.minmax[0], data.minmax[1] + 1),
+      line_booster2: timeseries_data.line_booster2.slice(data.minmax[0], data.minmax[1] + 1),
+      line_adult: timeseries_data.line_adult.slice(data.minmax[0], data.minmax[1] + 1),
+      line_adol: timeseries_data.line_adol.slice(data.minmax[0], data.minmax[1] + 1),
+      line_child: timeseries_data.line_child.slice(data.minmax[0], data.minmax[1] + 1),
     };
   };
 
   const filtered_timeline = useCallback(filterTimeline, [data.minmax, timeseries_data]);
-  const interval_scale = useMemo(
-    () =>
-      filtered_timeline().x.length > 180
-        ? "month"
-        : filtered_timeline().x.length > 60
-        ? "week"
-        : "day",
-    [filtered_timeline().x]
-  );
 
   const renderFilterOptions = () => {
     switch (data.vax_tab) {
@@ -335,7 +326,6 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               state={currentState}
               // menu={<MenuDropdown />}
               stats={null}
-              interval={interval_scale}
               data={{
                 labels: filtered_timeline().x,
                 datasets: [

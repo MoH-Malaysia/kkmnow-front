@@ -138,6 +138,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       heatmap_donorrate: data.heatmap_pledgerrate,
       choropleth_malaysia_organ_donation: data.choropleth_malaysia,
     },
+    revalidate: 300,
   };
 };
 

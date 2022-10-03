@@ -78,7 +78,7 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-    "home": {
+  "home": {
     "title": "Era baharu bagi ketelusan kerajaan",
     "description": "KKMNOW adalah kolaborasi antara Kementerian Kesihatan Malaysia dan Jabatan Perangkaan Malaysia untuk menginstitusikan ketelusan dan membawa data ke hujung jari segala rakyat Malaysia.",
     "timeline": {
@@ -421,6 +421,8 @@
     "combine_tooltip2": "Harian",
     "area1_title": "Pendermaan mengikut jenis derma",
     "relative": "Relatif",
+    "choro_header": "choro_header",
+    "choro_description": "choro_description",
     "type_wholeblood_perc": "Kesuluruhan darah",
     "type_apheresis_plasma_perc": "Aferesis (Plasma)",
     "type_apheresis_platelet_perc": "Aferesis (Platelet)",
@@ -537,6 +539,8 @@
     "screening_description1": "Darah menjejaskan 3 komponen - sel darah merah, platelet, dan plasma. Walaupun plasma boleh disimpan sehingga 1 tahun, sel darah merah hanya boleh disimpan sehingga 35 hari, dan plasma hanya sehingga 5 hari. Oleh itu,",
     "screening_description2": "adalah penting untuk mengekalkan tahap derma darah yang tinggi dan stabil",
     "screening_description3": ";  apabila aktiviti derma darah rendah atau tidak menentu, perkhidmatan penjagaan kesihatan yang bergantung kepada pemindahan darah mungkin mula mengalami tekanan.",
+    "choro_header": "choro_header",
+    "choro_description": "choro_description",
     "bar1_header": "Seberapa kuat pengambilan penderma baharu di {{ state }}?",
     "bar1_description": "Pengambilan penderma baharu adalah penting untuk menggantikan penderma yang mencapai usia emas mereka dan berhenti menderma, serta menyokong populasi yang semakin meningkat.",
     "bar1_title1": "Individu yang baru disaring",
@@ -569,7 +573,11 @@
     "bar_description1": "Darah menjejaskan 3 komponen - sel darah merah, platelet, dan plasma. Walaupun plasma boleh disimpan sehingga 1 tahun, sel darah merah hanya boleh disimpan sehingga 35 hari, dan plasma hanya sehingga 5 hari. Oleh itu,",
     "bar_description2": "adalah penting untuk mengekalkan tahap derma darah yang tinggi dan stabil",
     "bar_description3": ";  apabila aktiviti derma darah rendah atau tidak menentu, perkhidmatan penjagaan kesihatan yang bergantung kepada pemindahan darah mungkin mula mengalami tekanan.",
-    "bar_tittle": "Ikrar Harian",
+    "timeseries_title": "Ikrar Harian",
+    "timeseries_line": "Purata Bergerak",
+    "timeseries_bar": "Ikrar Harian",
+    "choro_header": "choro_header",
+    "choro_description": "choro_description",
     "table_header": "Darah menjejaskan 3 komponen - sel darah merah, platelet, dan plasma. Walaupun plasma boleh disimpan sehingga 1 tahun, sel darah merah hanya boleh disimpan sehingga 35 hari, dan plasma hanya sehingga 5 hari. Oleh itu, adalah penting untuk mengekalkan tahap derma darah yang tinggi dan stabil ; apabila aktiviti derma darah rendah atau tidak menentu, perkhidmatan penjagaan kesihatan yang bergantung kepada pemindahan darah mungkin mula mengalami tekanan.",
     "bar1_header": "Seberapa kuat pengambilan penderma baharu di {{ state }}?",
     "bar1_description": "Pengambilan penderma baharu adalah penting untuk menggantikan penderma yang mencapai usia emas mereka dan berhenti menderma, serta menyokong populasi yang semakin meningkat.",

@@ -1,10 +1,10 @@
-import { FunctionComponent, ReactElement } from "react";
+import { FunctionComponent, ReactElement, useMemo } from "react";
 import { Tab } from "@headlessui/react";
 import { CountryAndStates } from "@lib/constants";
 import { useTranslation } from "next-i18next";
 
 interface TabsProps {
-  children: Array<ReactElement>;
+  children: ReactElement | Array<ReactElement>;
   className?: string;
   current?: number;
   state?: string | ReactElement;
@@ -25,6 +25,10 @@ const Tabs: FunctionComponent<TabsProps> = ({
   onChange = () => {},
 }) => {
   const { t } = useTranslation();
+
+  const _children = useMemo(() => {
+    return Array.isArray(children) ? children : [children];
+  }, [children]);
   return (
     <>
       <Tab.Group selectedIndex={current} onChange={onChange}>
@@ -47,7 +51,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
           <Tab.List className="item-center flex flex-wrap justify-between gap-[10px] lg:items-start lg:justify-end">
             {controls}
             <div className="flex flex-grow flex-wrap gap-3">
-              {children.map(({ props: { name } }, index) => (
+              {_children.map(({ props: { name } }, index) => (
                 <Tab
                   key={index}
                   className={({ selected }) =>
@@ -66,7 +70,7 @@ const Tabs: FunctionComponent<TabsProps> = ({
         </div>
 
         <Tab.Panels className="w-full">
-          {children.map(({ props: { children } }, index) => (
+          {_children.map(({ props: { children } }, index) => (
             <Tab.Panel key={index}>{children}</Tab.Panel>
           ))}
         </Tab.Panels>

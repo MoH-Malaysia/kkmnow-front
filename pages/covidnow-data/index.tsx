@@ -59,6 +59,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       choropleth_malaysia: data2.data.choropleth_malaysia,
       choropleth_world: data2.data.choropleth_world,
     },
+    revalidate: 300,
   };
 };
 

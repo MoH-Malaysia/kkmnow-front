@@ -30,12 +30,42 @@
 }
 
 .table th:first-child {
-  @apply w-60;
+  @apply w-44 text-left;
 }
 .table th:not(:first-child) {
-  @apply w-[350px] lg:w-auto;
+  @apply w-[150px] lg:w-auto;
 }
 
 .table tr:first-child {
   @apply border-t-black;
+}
+
+.table-stripe tr:nth-child(even) {
+  @apply bg-slate-100;
+}
+
+.table-default th:first-child {
+  @apply w-auto;
+}
+
+.table-facility th,
+.table-bed th,
+.table-default th {
+  @apply py-2;
+}
+.table-facility th:nth-last-child(2) {
+  @apply w-[500px];
+}
+.table-facility td,
+.table-bed td,
+.table-default td {
+  @apply border-r-outline;
+}
+.table-facility td:last-child,
+.table-bed td:last-child,
+.table-default td:last-child {
+  @apply border-r-black;
+}
+.table-bed th:nth-child(2) {
+  @apply w-[500px];
 }

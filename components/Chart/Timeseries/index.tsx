@@ -36,6 +36,7 @@ interface TimeseriesProps {
   subheader?: ReactElement;
   interval?:
     | false
+    | "auto"
     | "millisecond"
     | "second"
     | "minute"
@@ -75,7 +76,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   menu,
   title,
   controls,
-  interval = "month",
+  interval = "auto",
   unitY,
   round,
   mode = "stacked",
@@ -215,7 +216,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
         x: {
           type: "time",
           time: {
-            unit: interval,
+            unit: interval === "auto" ? autoScale : interval,
             round: round,
             displayFormats: {
               quarter: "MMM",
@@ -288,6 +289,13 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
       },
     };
   }, [data]);
+
+  const autoScale = useMemo(
+    () =>
+      data.labels &&
+      (data.labels.length > 180 ? "month" : data.labels.length > 60 ? "week" : "day"),
+    [data.labels]
+  );
 
   return (
     <div className="space-y-2">

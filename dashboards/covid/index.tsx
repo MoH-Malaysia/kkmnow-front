@@ -75,21 +75,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
 
   const filterTimeline = () => {
     return {
-      x: timeseries_deaths.x.slice(data.minmax[0], data.minmax[1]),
-      deaths_line: timeseries_deaths.line.slice(data.minmax[0], data.minmax[1]),
-      deaths_inpatient: timeseries_deaths.deaths_inpatient.slice(data.minmax[0], data.minmax[1]),
-      deaths_broughtin: timeseries_deaths.deaths_brought_in.slice(data.minmax[0], data.minmax[1]),
-      vents_line: timeseries_vents.line.slice(data.minmax[0], data.minmax[1]),
-      vents_vent: timeseries_vents.vent.slice(data.minmax[0], data.minmax[1]),
-      icu_line: timeseries_icu.line.slice(data.minmax[0], data.minmax[1]),
-      icu_icu: timeseries_icu.icu.slice(data.minmax[0], data.minmax[1]),
-      admitted_line: timeseries_admitted.line.slice(data.minmax[0], data.minmax[1]),
-      admitted_admitted: timeseries_admitted.admitted.slice(data.minmax[0], data.minmax[1]),
-      cases_line: timeseries_cases.line.slice(data.minmax[0], data.minmax[1]),
-      cases_cases: timeseries_cases.cases.slice(data.minmax[0], data.minmax[1]),
-      tests_posrate: timeseries_tests.tooltip.slice(data.minmax[0], data.minmax[1]),
-      tests_rtk: timeseries_tests.tests_rtk.slice(data.minmax[0], data.minmax[1]),
-      tests_pcr: timeseries_tests.tests_pcr.slice(data.minmax[0], data.minmax[1]),
+      x: timeseries_deaths.x.slice(data.minmax[0], data.minmax[1] + 1),
+      deaths_line: timeseries_deaths.line.slice(data.minmax[0], data.minmax[1] + 1),
+      deaths_inpatient: timeseries_deaths.deaths_inpatient.slice(
+        data.minmax[0],
+        data.minmax[1] + 1
+      ),
+      deaths_broughtin: timeseries_deaths.deaths_brought_in.slice(
+        data.minmax[0],
+        data.minmax[1] + 1
+      ),
+      vents_line: timeseries_vents.line.slice(data.minmax[0], data.minmax[1] + 1),
+      vents_vent: timeseries_vents.vent.slice(data.minmax[0], data.minmax[1] + 1),
+      icu_line: timeseries_icu.line.slice(data.minmax[0], data.minmax[1] + 1),
+      icu_icu: timeseries_icu.icu.slice(data.minmax[0], data.minmax[1] + 1),
+      admitted_line: timeseries_admitted.line.slice(data.minmax[0], data.minmax[1] + 1),
+      admitted_admitted: timeseries_admitted.admitted.slice(data.minmax[0], data.minmax[1] + 1),
+      cases_line: timeseries_cases.line.slice(data.minmax[0], data.minmax[1] + 1),
+      cases_cases: timeseries_cases.cases.slice(data.minmax[0], data.minmax[1] + 1),
+      tests_posrate: timeseries_tests.tooltip.slice(data.minmax[0], data.minmax[1] + 1),
+      tests_rtk: timeseries_tests.tests_rtk.slice(data.minmax[0], data.minmax[1] + 1),
+      tests_pcr: timeseries_tests.tests_pcr.slice(data.minmax[0], data.minmax[1] + 1),
     };
   };
 
@@ -102,15 +108,6 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
     timeseries_tests,
     timeseries_vents,
   ]);
-  const interval_scale = useMemo(
-    () =>
-      filtered_timeline().x.length > 180
-        ? "month"
-        : filtered_timeline().x.length > 60
-        ? "week"
-        : "day",
-    [filtered_timeline().x]
-  );
 
   const BarTabsMenu = [
     {
@@ -431,15 +428,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title1")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               stats={[
                 {
                   title: t("covid.deaths.annot1"),
-                  value: `+${statistics.deaths.annot1.toLocaleString()}`,
+                  value: statistics.deaths.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.deaths.annot2"),
-                  value: `${statistics.deaths.annot2.toLocaleString()}`,
+                  value: statistics.deaths.annot2.toLocaleString(),
                 },
               ]}
               // enableLegend
@@ -476,16 +472,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               className="h-[250px] w-full"
               title={t("covid.area_chart_title2")}
               state={currentState}
-              interval={interval_scale}
               // menu={<MenuDropdown />}
               stats={[
                 {
                   title: t("covid.vent.annot1"),
-                  value: `+${statistics.vent.annot1.toLocaleString()}`,
+                  value: statistics.vent.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.vent.annot2"),
-                  value: `${statistics.vent.annot2.toLocaleString()}`,
+                  value: (+statistics.vent.annot2.toFixed(1)).toLocaleString().concat("%"),
                 },
               ]}
               // enableLegend
@@ -516,15 +511,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title3")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               stats={[
                 {
                   title: t("covid.icu.annot1"),
-                  value: `+${statistics.icu.annot1.toLocaleString()}`,
+                  value: statistics.icu.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.icu.annot2"),
-                  value: `${statistics.icu.annot2.toLocaleString()}`,
+                  value: (+statistics.icu.annot2.toFixed(1)).toLocaleString().concat("%"),
                 },
               ]}
               // enableLegend
@@ -555,15 +549,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title4")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               stats={[
                 {
                   title: t("covid.admitted.annot1"),
-                  value: `+${statistics.admitted.annot1.toLocaleString()}`,
+                  value: statistics.admitted.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.admitted.annot2"),
-                  value: `${statistics.admitted.annot2.toLocaleString()}`,
+                  value: (+statistics.admitted.annot2.toFixed(1)).toLocaleString().concat("%"),
                 },
               ]}
               // enableLegend
@@ -594,16 +587,15 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title5")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               // enableLegend
               stats={[
                 {
                   title: t("covid.cases.annot1"),
-                  value: `+${statistics.cases.annot1.toLocaleString()}`,
+                  value: statistics.cases.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.cases.annot2"),
-                  value: `${statistics.cases.annot2.toLocaleString()}`,
+                  value: statistics.cases.annot2.toLocaleString(),
                 },
               ]}
               data={{
@@ -633,15 +625,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               title={t("covid.area_chart_title6")}
               state={currentState}
               // menu={<MenuDropdown />}
-              interval={interval_scale}
               stats={[
                 {
                   title: t("covid.tests.annot1"),
-                  value: `+${statistics.tests.annot1.toLocaleString()}`,
+                  value: statistics.tests.annot1.toLocaleString(),
                 },
                 {
                   title: t("covid.tests.annot2"),
-                  value: `${statistics.tests.annot2.toLocaleString()}`,
+                  value: (+statistics.tests.annot2.toFixed(1)).toLocaleString().concat("%"),
                 },
               ]}
               enableRightScale
@@ -656,6 +647,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     data: filtered_timeline().tests_posrate,
                     borderWidth: 1.5,
                     yAxisID: "y1",
+                    spanGaps: true,
                   },
                   {
                     type: "bar",
@@ -708,6 +700,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
           </div>
         </Section>
 
+        {/* Data not ready
         <Section
           title={t("covid.bar_chart_header")}
           description={t("covid.bar_chart_subheader")}
@@ -902,7 +895,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               </>
             </Panel>
           </Tabs>
-        </Section>
+        </Section> */}
       </Container>
     </>
   );

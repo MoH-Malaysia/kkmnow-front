@@ -76,14 +76,11 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
                   <p className="mb-1 text-lg font-bold">{event.title}</p>
                   <p>{event.description}</p>
                 </div>
-                <div className="min-h-[90px] min-w-[120px]">
-                  <Image
-                    width={120}
-                    height={90}
-                    src={event.image}
-                    className="rounded-md object-cover"
-                  />
-                </div>
+
+                <img
+                  src={event.image}
+                  className="aspect-video h-[90px] w-auto place-self-start rounded-md border border-outline object-cover object-left-top xl:h-[120px]"
+                />
               </div>
               {/* TIMELINE FOR TABLET DEVICES (768px and up) */}
               {!isMobile && (
@@ -114,7 +111,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       ...translation,
     },
-    revalidate: 1,
+    revalidate: 300,
   };
 };
 

@@ -69,7 +69,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
-  const [limit, setLimit] = useState([0, timeseries_all.x.length - 1] as [number, number]);
   const { data, setData } = useData({
     absolute_donation_type: false,
     absolute_blood_group: false,
@@ -77,22 +76,19 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
     absolute_location: false,
     zoom_state: currentState === "mys" ? undefined : currentState,
     zoom_facility: undefined,
+    minmax: [timeseries_all.x.length - 182, timeseries_all.x.length - 1],
   });
   const { t } = useTranslation("common");
 
   const filterTimeline = () => {
     return {
-      x: timeseries_all.x.slice(limit[0], limit[1]),
-      daily: timeseries_all.daily.slice(limit[0], limit[1]),
-      line_daily: timeseries_all.line_daily.slice(limit[0], limit[1]),
+      x: timeseries_all.x.slice(data.minmax[0], data.minmax[1] + 1),
+      daily: timeseries_all.daily.slice(data.minmax[0], data.minmax[1] + 1),
+      line_daily: timeseries_all.line_daily.slice(data.minmax[0], data.minmax[1] + 1),
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, [limit, timeseries_all]);
-  const interval_scale = useMemo(
-    () => (filtered_timeline().x.length > 365 ? "month" : "day"),
-    [filtered_timeline().x]
-  );
+  const filtered_timeline = useCallback(filterTimeline, [data.minmax, timeseries_all]);
 
   const handleClearSelection = () => {
     setData("zoom_state", undefined);
@@ -272,7 +268,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               className=" h-[350px] w-full pt-6"
               title={t("blood.combine_title")}
               state={currentState}
-              interval={interval_scale}
               //menu={<MenuDropdown />}
               round={filtered_timeline().x.length > 1095 ? "week" : "day"}
               stats={null}
@@ -300,17 +295,17 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             <Slider
               className="pt-7"
               type="range"
-              defaultValue={limit}
+              defaultValue={data.minmax}
               data={timeseries_all.x}
-              onChange={(item: any) => setLimit([item.min, item.max])}
+              onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
             <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
         {/* Choropleth view of organ donar in Malaysia */}
         <Section
-          title={t("covidnow.mmap_header", { state: t("state.kvy") })}
-          description={t("covidnow.mmap_description")}
+          title={t("blood.choro_header")}
+          description={t("blood.choro_description")}
           date={last_updated}
         >
           <div>
@@ -321,15 +316,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               colorScale="blues"
               borderColor="#000"
               borderWidth={0.5}
-              projectionTranslation={isMobile ? [0.5, 1.0] : [0.65, 1.0]}
-              projectionScaleSetting={isMobile ? windowWidth * 4.5 : 3500}
               data={choropleth_malaysia_blood_donation.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],
                 value: item.data.perc,
               }))}
               unitY="%"
-              graphChoice={isMobile ? "StateMobile" : "StateDesktop"}
+              graphChoice="state"
             />
           </div>
         </Section>
@@ -533,7 +526,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     /> */}
                   </>
                 </Panel>
-                <Panel name={t("blood.heatmap1_panel2")}>
+
+                {/* <Panel name={t("blood.heatmap1_panel2")}>
                   <>
                     <Heatmap
                       className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
@@ -543,7 +537,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       unitY="%"
                       color="blues"
                     />
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
                       data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
                       subdata
@@ -582,7 +576,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="blues"
-                    /> */}
+                    />
                   </>
                 </Panel>
                 <Panel name={t("blood.heatmap1_panel3")}>
@@ -595,7 +589,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       valueFormat="<-,.1~s"
                       color="blues"
                     />
-                    {/* <Heatmap
+                    <Heatmap
                       className="flex h-[150px] overflow-visible"
                       data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
                       subdata
@@ -634,9 +628,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       axisLeft="default"
                       axisTop={null}
                       color="blues"
-                    /> */}
+                    />
                   </>
-                </Panel>
+                </Panel> */}
               </Tabs>
             </div>
 
@@ -717,7 +711,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     className="h-[300px] w-full pt-4"
                     title={t("blood.bar3_title")}
                     state={
-                      <p className="text-sm text-dim">
+                      <p className="pt-4 text-sm text-dim">
                         {t("common.data_for", {
                           state: `${data.zoom_facility?.label}, ${
                             CountryAndStates[data.zoom_state]

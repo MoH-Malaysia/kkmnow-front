@@ -14,12 +14,12 @@ export const HOSPITAL_TABLE_SCHEMA = (onClick?: (item: any) => void) => {
         const state = item.getValue() as string;
         return (
           <div className="flex items-center gap-2">
-            <Image
+            {/* <Image
               src={`/static/images/states/${state}.jpeg`}
               width={20}
               height={12}
               alt={CountryAndStates[state]}
-            />
+            /> */}
             <span className="text-sm">{CountryAndStates[state]}</span>
           </div>
         );
