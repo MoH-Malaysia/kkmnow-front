@@ -2,7 +2,7 @@
 const withPlugins = require("next-compose-plugins");
 
 const { i18n } = require("./next-i18next.config");
-const withGraphql = require("next-plugin-graphql");
+// const withGraphql = require("next-plugin-graphql");
 const withPWA = require("next-pwa")({
   dest: "public",
 });
@@ -19,7 +19,7 @@ module.exports = withPlugins(
         },
       },
     ],
-    [withGraphql],
+    // [withGraphql],
   ],
   {
     i18n,
