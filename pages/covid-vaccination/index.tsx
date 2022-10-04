@@ -43,7 +43,7 @@ const CovidVaccinationIndex = ({
 
 CovidVaccinationIndex.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
   <Layout stateSelector={<StateDropdown url={routes.COVID} currentState={"mys"} hideOnScroll />}>
-    <StateModal url={routes.COVID_VAX} />
+    <StateModal url={routes.COVID_VAX} exclude={["kvy"]} />
     {page}
   </Layout>
 );
