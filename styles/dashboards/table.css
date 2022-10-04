@@ -1,5 +1,5 @@
 .table {
-  @apply relative w-full max-w-full table-fixed border-collapse border-spacing-0;
+  @apply relative table-fixed border-collapse border-spacing-0 lg:w-full lg:max-w-full;
 }
 
 .table-responsive {
