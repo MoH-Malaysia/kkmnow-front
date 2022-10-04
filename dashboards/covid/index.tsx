@@ -447,7 +447,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     label: `${t("covid.area_chart_tooltip1")}`,
                     pointRadius: 0,
                     data: filtered_timeline().deaths_line,
-                    borderColor: COVID_COLOR[300],
+                    borderColor: "#0F172A",
                     borderWidth: 1.5,
                   },
                   {
