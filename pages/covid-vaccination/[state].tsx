@@ -52,7 +52,7 @@ CovidVaccinationState.layout = (page: ReactElement<any, string | JSXElementConst
       />
     }
   >
-    <StateModal url={routes.COVID_VAX} />
+    <StateModal url={routes.COVID_VAX} exclude={["kvy"]} />
     {page}
   </Layout>
 );

@@ -30,15 +30,10 @@ export default async function handler(
         await res.revalidate(routes[route]);
         await revalidateMany(res, route, ["pjy", "pls", "lbn", "kvy"]);
         break;
-      case "COVID":
-      case "ORGAN_DONATION":
-      case "PEKA_B40":
+
+      default:
         await res.revalidate(routes[route]);
         await revalidateMany(res, route, ["kvy"]);
-        break;
-      case "COVID_VAX":
-        await res.revalidate(routes[route]);
-        await revalidateMany(res, route);
         break;
     }
 
