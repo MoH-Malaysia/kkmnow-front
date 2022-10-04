@@ -11,6 +11,7 @@ import { useTranslation } from "next-i18next";
 import { routes } from "@lib/routes";
 import { useRouter } from "next/router";
 import { JSXElementConstructor, ReactElement } from "react";
+import { sortMsiaFirst } from "@lib/helpers";
 
 const CovidVaccinationState = ({
   last_updated,
@@ -82,7 +83,8 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
-  const { data } = await get("/kkmnow", { dashboard: "covid_vax", state: params?.state }); // fetch static data here
+  const { data } = await get("/kkmnow", { dashboard: "covid_vax", state: params?.state });
+  data.snapshot = sortMsiaFirst(data.snapshot, "state");
 
   return {
     props: {

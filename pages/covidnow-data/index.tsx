@@ -4,6 +4,7 @@
 import { Metadata } from "@components/index";
 import CovidNowDashboard from "@dashboards/covidnow-data";
 import { get } from "@lib/api";
+import { sortMsiaFirst } from "@lib/helpers";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useTranslation } from "next-i18next";
@@ -47,21 +48,22 @@ const CovidNowDataIndex: Page = ({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
-  const data2 = await get("/kkmnow", { dashboard: "covid_now" }); // fetch static data here
+  const { data } = await get("/kkmnow", { dashboard: "covid_now" }); // fetch static data here
+  data.choropleth_malaysia = sortMsiaFirst(data.choropleth_malaysia, "state");
 
   const sortingArr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  let heatmap_chart = Object.values(data2.data.heatmap).sort((a: any, b: any) => {
+  let heatmap_chart = Object.values(data.heatmap).sort((a: any, b: any) => {
     return sortingArr.indexOf(a.id) - sortingArr.indexOf(b.id);
   });
   return {
     props: {
       ...i18n,
       last_updated: new Date().valueOf(),
-      timeseries_chart: data2.data.timeseries,
+      timeseries_chart: data.timeseries,
       heatmap_chart: heatmap_chart,
-      barmeter_chart: data2.data.bar_chart,
-      choropleth_malaysia: data2.data.choropleth_malaysia,
-      choropleth_world: data2.data.choropleth_world,
+      barmeter_chart: data.bar_chart,
+      choropleth_malaysia: data.choropleth_malaysia,
+      choropleth_world: data.choropleth_world,
     },
     revalidate: 300,
   };
