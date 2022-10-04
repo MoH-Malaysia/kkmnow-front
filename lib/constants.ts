@@ -35,7 +35,7 @@ export const STATES: Array<Record<string, any>> = [
   },
   {
     key: "lbn",
-    name: "Labuan",
+    name: "W.P. Labuan",
   },
   {
     key: "mlk",
@@ -63,7 +63,7 @@ export const STATES: Array<Record<string, any>> = [
   },
   {
     key: "pjy",
-    name: "Putrajaya",
+    name: "W.P. Putrajaya",
   },
   {
     key: "sbh",

@@ -161,8 +161,10 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                       {t("vaccination.dose1")} -
                       <Tooltip
                         trigger={
-                          <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].dose1.perc as number).toFixed(1)}%
+                          <span className="whitespace-pre underline decoration-dashed underline-offset-4">
+                            {" " +
+                              (waffle_data[data.filter_age.value].dose1.perc as number).toFixed(1)}
+                            %
                           </span>
                         }
                       >
@@ -197,8 +199,10 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                       {t("vaccination.dose2")} -
                       <Tooltip
                         trigger={
-                          <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}%
+                          <span className="whitespace-pre underline decoration-dashed underline-offset-4">
+                            {" " +
+                              (waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}
+                            %
                           </span>
                         }
                       >
@@ -230,19 +234,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                   className="aspect-square w-full lg:h-[250px] lg:w-auto"
                   title={
                     <div className="flex self-center text-base font-bold">
-                      {t("vaccination.booster1")} -
-                      <Tooltip
-                        trigger={
-                          <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].booster1.perc as number).toFixed(
-                              1
-                            )}
-                            %
-                          </span>
-                        }
-                      >
-                        {t("vaccination.tooltips_booster1")}
-                      </Tooltip>
+                      {t("vaccination.booster1")} -{" "}
+                      {(waffle_data[data.filter_age.value].booster1.perc as number).toFixed(1)}%
                     </div>
                   }
                   color="#228F3A"
@@ -270,18 +263,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                   title={
                     <div className="flex self-center text-base font-bold">
                       {t("vaccination.booster2")} -{" "}
-                      <Tooltip
-                        trigger={
-                          <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].booster2.perc as number).toFixed(
-                              1
-                            )}
-                            %
-                          </span>
-                        }
-                      >
-                        {t("vaccination.tooltips_booster2")}
-                      </Tooltip>
+                      {(waffle_data[data.filter_age.value].booster2.perc as number).toFixed(1)}%
                     </div>
                   }
                   color="#135523"
@@ -308,7 +290,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             </Panel>
             <Panel name={t("vaccination.filter_dose")}>
               <BarMeter
-                className="flex h-[320px] w-full justify-between"
+                className="flex h-auto w-full flex-col justify-between lg:h-[320px] lg:flex-row"
                 data={barmeter_data[data.filter_dose.value]}
                 xKey="id"
                 unit="%"
