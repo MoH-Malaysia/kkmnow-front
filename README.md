@@ -59,7 +59,7 @@ Please make sure to update tests as appropriate.
 
 This project is licensed under the terms of the [MIT license](https://github.com/MoH-Malaysia/kkmnow-front/blob/main/LICENSE.md).
 
-## Authors
+## Contributors
 
 - Irfan Ismail [@irfancoder](https://github.com/irfancoder)
 - Chris Low [@itschrislow](https://github.com/itschrislow)
