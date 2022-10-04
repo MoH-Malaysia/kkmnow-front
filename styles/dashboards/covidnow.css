@@ -33,7 +33,7 @@
   @apply w-44 text-left;
 }
 .table th:not(:first-child) {
-  @apply w-[150px] lg:w-auto;
+  @apply w-[350px] lg:w-auto;
 }
 
 .table tr:first-child {
@@ -53,6 +53,11 @@
 .table-default th {
   @apply py-2;
 }
+
+.table-bed th:not(:first-child) {
+  @apply w-[200px] lg:w-auto;
+}
+
 .table-facility th:nth-last-child(2) {
   @apply w-[500px];
 }

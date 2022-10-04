@@ -64,7 +64,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
             <div className="flex justify-between">
               <p>{item[xKey]}</p>
               <p className="text-dim">
-                {+(item[yKey] as number).toFixed(1)}
+                {(item[yKey] as number).toFixed(1)}
                 {unit}
               </p>
             </div>
@@ -100,7 +100,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
 
             <div className="flex flex-grow items-center gap-2">
               <p className="w-[40px] text-sm text-dim">
-                {+(item[yKey] as number).toFixed(1)}
+                {(item[yKey] as number).toFixed(1)}
                 {unit}
               </p>
               <div className="h-2.5 flex-grow overflow-x-hidden bg-washed">
@@ -124,7 +124,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
               key={item[xKey].concat(`_${index}`)}
             >
               <p>
-                {+(item[yKey] as number).toFixed(1)}
+                {(item[yKey] as number).toFixed(1)}
                 {unit}
               </p>
               <div className="relative flex h-[80%] w-8 overflow-x-hidden bg-washed">
@@ -142,7 +142,7 @@ const BarMeter: FunctionComponent<BarMeterProps> = ({
               <div className="flex justify-between">
                 <p>{item[xKey]}</p>
                 <p className="text-dim">
-                  {+(item[yKey] as number).toFixed(1)}
+                  {(item[yKey] as number).toFixed(1)}
                   {unit}
                 </p>
               </div>
