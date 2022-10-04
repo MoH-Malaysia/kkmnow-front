@@ -353,7 +353,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 setData("minmax", [item.min, item.max])
               }
             />
-            <span className="text-sm text-dim">{t("vaccination.combine_slider")}</span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
 
