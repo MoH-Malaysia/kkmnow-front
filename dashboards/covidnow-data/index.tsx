@@ -199,9 +199,10 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               <Panel key={0} name={`${t("covidnow.heatmap")}`}>
                 <div className="grid grid-cols-1 ">
                   <ChoroplethWorld
-                    className={isMobile ? "h-[300px] w-full" : "h-[500px] w-full"}
+                    className={isMobile ? "h-[300px] w-full" : "h-[510px] w-full"}
                     enableScale={false}
-                    projectionScaleSetting={isMobile ? 65 : 125}
+                    projectionScaleSetting={isMobile ? 65 : 110}
+                    projectionTranslationSetting={isMobile ? [0.5, 0.75] : [0.5, 0.68]}
                     unitY={` ${t("covidnow.views").toLowerCase()}`}
                     xKey="properties.name_short"
                     data={choropleth_world.map((item: any) => {
@@ -221,6 +222,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     data={choropleth_world}
                     config={worldMapConfig}
                     enablePagination
+                    enableSticky
                   />
                 </div>
               </Panel>
@@ -233,13 +235,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           title={t("covidnow.mmap_header", { state: t("state.kvy") })}
           description={t("covidnow.mmap_description")}
           date={last_updated}
+          className={isMobile ? "border-b pt-12" : "border-b py-12"}
         >
           <div>
             <Tabs className="flex flex-wrap justify-end gap-2" title={t("covidnow.mmap_title")}>
               <Panel key={0} name={`${t("covidnow.heatmap")}`}>
                 <div className="grid grid-cols-1 ">
                   <Choropleth
-                    className={isMobile ? "h-[450px] w-auto" : "h-[500px] w-full"}
+                    className={isMobile ? "h-[400px] w-auto" : "h-[500px] w-full"}
                     enableScale={false}
                     // colorScale="CHOROPLETH_BLUE_SCALE"
                     colorScale="blues"
@@ -262,6 +265,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     className="table-stripe table-default"
                     data={choropleth_malaysia}
                     config={malaysiaMapConfig}
+                    enableSticky
                   />
                 </div>
               </Panel>

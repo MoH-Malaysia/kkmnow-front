@@ -183,11 +183,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               <div>
                 <p className="text-dim">{t("covid.donut1")}</p>
                 <Tooltip
-                  trigger={
-                    <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                  trigger={open => (
+                    <span
+                      className="text-2xl font-medium underline decoration-dashed underline-offset-4"
+                      onClick={() => open()}
+                    >
                       {+util_chart.util_vent.toFixed(1)}%
                     </span>
-                  }
+                  )}
                 >
                   {t("covid.donut1_tooltips")}
                 </Tooltip>
@@ -198,11 +201,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               <div>
                 <p className="text-dim">{t("covid.donut2")}</p>
                 <Tooltip
-                  trigger={
-                    <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                  trigger={open => (
+                    <span
+                      className="text-2xl font-medium underline decoration-dashed underline-offset-4"
+                      onClick={() => open()}
+                    >
                       {+util_chart.util_icu.toFixed(1)}%
                     </span>
-                  }
+                  )}
                 >
                   {t("covid.donut2_tooltips")}
                 </Tooltip>
@@ -213,11 +219,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               <div>
                 <p className="text-dim">{t("covid.donut3")}</p>
                 <Tooltip
-                  trigger={
-                    <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                  trigger={open => (
+                    <span
+                      className="text-2xl font-medium underline decoration-dashed underline-offset-4"
+                      onClick={() => open()}
+                    >
                       {+util_chart.util_hosp.toFixed(1)}%
                     </span>
-                  }
+                  )}
                 >
                   {t("covid.donut3_tooltips")}
                 </Tooltip>
@@ -229,11 +238,14 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 <div>
                   <p className="text-dim">{t("covid.donut4")}</p>
                   <Tooltip
-                    trigger={
-                      <span className="text-2xl font-medium underline decoration-dashed underline-offset-4">
+                    trigger={open => (
+                      <span
+                        className="text-2xl font-medium underline decoration-dashed underline-offset-4"
+                        onClick={() => open()}
+                      >
                         {util_chart.util_pkrc && +util_chart.util_pkrc.toFixed(1)}%
                       </span>
-                    }
+                    )}
                   >
                     {t("covid.donut4_tooltips")}
                   </Tooltip>
@@ -447,7 +459,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     label: `${t("covid.area_chart_tooltip1")}`,
                     pointRadius: 0,
                     data: filtered_timeline().deaths_line,
-                    borderColor: COVID_COLOR[300],
+                    borderColor: "#0F172A",
                     borderWidth: 1.5,
                   },
                   {
@@ -692,7 +704,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               {COVID_TABLE_SCHEMA().map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
-                    <Table data={snapshot_table} config={menu.config} />
+                    <Table data={snapshot_table} config={menu.config} enableSticky />
                   </Panel>
                 );
               })}

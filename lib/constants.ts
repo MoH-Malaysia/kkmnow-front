@@ -35,7 +35,7 @@ export const STATES: Array<Record<string, any>> = [
   },
   {
     key: "lbn",
-    name: "Labuan",
+    name: "W.P. Labuan",
   },
   {
     key: "mlk",
@@ -63,7 +63,7 @@ export const STATES: Array<Record<string, any>> = [
   },
   {
     key: "pjy",
-    name: "Putrajaya",
+    name: "W.P. Putrajaya",
   },
   {
     key: "sbh",
@@ -169,7 +169,7 @@ export const BLOOD_DONATION_COLOR: Array<string> = [
 // COVID COLORS
 export const COVID_COLOR: Record<number, string> = {
   100: "#2563EB4D",
-  200: "#5384EF",
+  200: "#6BABFA",
   300: "#2563EB",
 };
 // COVIDVAX COLORS

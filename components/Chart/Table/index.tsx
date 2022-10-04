@@ -40,6 +40,7 @@ interface TableProps {
   data?: any;
   config?: Array<any>;
   enablePagination?: boolean;
+  enableSticky?: boolean;
 }
 
 const relativeColor = (delta: number, inverse: boolean = false) => {
@@ -77,6 +78,7 @@ const Table: FunctionComponent<TableProps> = ({
   controls,
   search,
   enablePagination = false,
+  enableSticky,
   cellClass = "text-right",
 }) => {
   const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
@@ -142,7 +144,7 @@ const Table: FunctionComponent<TableProps> = ({
         </div>
       )}
       <div className="table-responsive">
-        <table className={`table ${className}`}>
+        <table className={`table ${className} ${enableSticky ? "table-sticky-first" : ""}`}>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
@@ -154,7 +156,7 @@ const Table: FunctionComponent<TableProps> = ({
                           {...{
                             className: [
                               header.subHeaders.length < 1
-                                ? "select-none flex gap-1 text-sm justify-end text-right pr-1"
+                                ? "select-none flex gap-1 text-sm justify-between text-left px-2"
                                 : !header.column.columnDef.header
                                 ? "hidden"
                                 : "text-end pr-2",
@@ -170,7 +172,9 @@ const Table: FunctionComponent<TableProps> = ({
                               {flexRender(header.column.columnDef.header, header.getContext())}
                             </p>
                             {header.column.columnDef?.subheader && (
-                              <p className="text-dim">{header.column.columnDef?.subheader}</p>
+                              <p className="text-left text-dim">
+                                {header.column.columnDef?.subheader}
+                              </p>
                             )}
                           </div>
                           {header.subHeaders.length < 1 && (

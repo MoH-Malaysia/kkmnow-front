@@ -5,20 +5,19 @@ import { Fragment, FunctionComponent, useState } from "react";
 import { BREAKPOINTS } from "@lib/constants";
 
 type TooltipProps = {
-  trigger?: React.ReactNode;
+  trigger?: (open: () => void) => React.ReactNode;
   children: React.ReactNode;
 };
 
 const Tooltip: FunctionComponent<TooltipProps> = ({ trigger, children }) => {
   const width = useWindowWidth();
-  const isMobile = width < BREAKPOINTS.SM;
 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="tooltip w-fit">
       {trigger ? (
-        trigger
+        trigger(() => setIsOpen(true))
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +26,7 @@ const Tooltip: FunctionComponent<TooltipProps> = ({ trigger, children }) => {
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth="2"
-          onClick={() => (isMobile ? setIsOpen(true) : null)}
+          onClick={() => (width < BREAKPOINTS.SM ? setIsOpen(true) : null)}
         >
           <path
             strokeLinecap="round"
@@ -36,7 +35,8 @@ const Tooltip: FunctionComponent<TooltipProps> = ({ trigger, children }) => {
           />
         </svg>
       )}
-      {!isMobile ? (
+
+      {width > BREAKPOINTS.MD ? (
         <div className="tooltip-content">{children}</div>
       ) : (
         <Transition.Root show={isOpen} as={Fragment}>

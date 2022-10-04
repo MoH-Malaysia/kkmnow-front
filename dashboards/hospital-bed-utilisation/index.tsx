@@ -64,7 +64,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
             <Panel key={0} name={t("bed.tab_choro1")}>
               <Choropleth
                 className={"h-[500px] w-auto"}
-                colorScale="oranges"
+                colorScale="OrRd"
                 enableScale={false}
                 data={choropleth_bed.map((item: any) => ({
                   id: CountryAndStates[item.state],

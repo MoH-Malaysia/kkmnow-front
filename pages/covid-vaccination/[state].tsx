@@ -11,6 +11,7 @@ import { useTranslation } from "next-i18next";
 import { routes } from "@lib/routes";
 import { useRouter } from "next/router";
 import { JSXElementConstructor, ReactElement } from "react";
+import { sortMsiaFirst } from "@lib/helpers";
 
 const CovidVaccinationState = ({
   last_updated,
@@ -51,14 +52,14 @@ CovidVaccinationState.layout = (page: ReactElement<any, string | JSXElementConst
       />
     }
   >
-    <StateModal url={routes.COVID_VAX} />
+    <StateModal url={routes.COVID_VAX} exclude={["kvy"]} />
     {page}
   </Layout>
 );
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
   let paths: Array<any> = [];
-  STATES.forEach(state => {
+  STATES.filter(item => !["kvy"].includes(item.key)).forEach(state => {
     paths = paths.concat([
       {
         params: {
@@ -82,7 +83,8 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
-  const { data } = await get("/kkmnow", { dashboard: "covid_vax", state: params?.state }); // fetch static data here
+  const { data } = await get("/kkmnow", { dashboard: "covid_vax", state: params?.state });
+  data.snapshot = sortMsiaFirst(data.snapshot, "state");
 
   return {
     props: {

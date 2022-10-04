@@ -133,7 +133,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
 
           <div className="flex w-full items-center gap-4">
             <p className="text-sm font-bold text-dim">{t("vaccination.zoom")}</p>
-            <StateDropdown url={routes.COVID_VAX} currentState={currentState} />
+            <StateDropdown url={routes.COVID_VAX} currentState={currentState} exclude={["kvy"]} />
           </div>
         </div>
       </Hero>
@@ -160,11 +160,16 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     <div className="flex self-center text-base font-bold">
                       {t("vaccination.dose1")} -
                       <Tooltip
-                        trigger={
-                          <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].dose1.perc as number).toFixed(1)}%
+                        trigger={open => (
+                          <span
+                            className="whitespace-pre underline decoration-dashed underline-offset-4"
+                            onClick={() => open()}
+                          >
+                            {" " +
+                              (waffle_data[data.filter_age.value].dose1.perc as number).toFixed(1)}
+                            %
                           </span>
-                        }
+                        )}
                       >
                         {t("vaccination.tooltips_dose1")}
                       </Tooltip>
@@ -196,11 +201,16 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     <div className="flex self-center text-base font-bold">
                       {t("vaccination.dose2")} -
                       <Tooltip
-                        trigger={
-                          <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}%
+                        trigger={open => (
+                          <span
+                            className="whitespace-pre underline decoration-dashed underline-offset-4"
+                            onClick={() => open()}
+                          >
+                            {" " +
+                              (waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}
+                            %
                           </span>
-                        }
+                        )}
                       >
                         {t("vaccination.tooltips_dose2")}
                       </Tooltip>
@@ -230,19 +240,8 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                   className="aspect-square w-full lg:h-[250px] lg:w-auto"
                   title={
                     <div className="flex self-center text-base font-bold">
-                      {t("vaccination.booster1")} -
-                      <Tooltip
-                        trigger={
-                          <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].booster1.perc as number).toFixed(
-                              1
-                            )}
-                            %
-                          </span>
-                        }
-                      >
-                        {t("vaccination.tooltips_booster1")}
-                      </Tooltip>
+                      {t("vaccination.booster1")} -{" "}
+                      {(waffle_data[data.filter_age.value].booster1.perc as number).toFixed(1)}%
                     </div>
                   }
                   color="#228F3A"
@@ -270,18 +269,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                   title={
                     <div className="flex self-center text-base font-bold">
                       {t("vaccination.booster2")} -{" "}
-                      <Tooltip
-                        trigger={
-                          <span className="underline decoration-dashed underline-offset-4">
-                            {(waffle_data[data.filter_age.value].booster2.perc as number).toFixed(
-                              1
-                            )}
-                            %
-                          </span>
-                        }
-                      >
-                        {t("vaccination.tooltips_booster2")}
-                      </Tooltip>
+                      {(waffle_data[data.filter_age.value].booster2.perc as number).toFixed(1)}%
                     </div>
                   }
                   color="#135523"
@@ -308,7 +296,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             </Panel>
             <Panel name={t("vaccination.filter_dose")}>
               <BarMeter
-                className="flex h-[320px] w-full justify-between"
+                className="flex h-auto w-full flex-col justify-between lg:h-[320px] lg:flex-row"
                 data={barmeter_data[data.filter_dose.value]}
                 xKey="id"
                 unit="%"
@@ -371,7 +359,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 setData("minmax", [item.min, item.max])
               }
             />
-            <span className="text-sm text-dim">{t("vaccination.combine_slider")}</span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
 
@@ -607,7 +595,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               {VACCINE_TABLE_SCHEMA().map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
-                    <Table data={table_data} config={menu.config} />
+                    <Table data={table_data} config={menu.config} enableSticky />
                   </Panel>
                 );
               })}

@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "KKMNOW",
-    "description": "KKMNOW is a collaboration between the Ministry of Health and the Department of Statistics to institutionalise transparency and make data accessible for all."
+    "description": "KKMNOW is a collaboration between the Ministry of Health Malaysia and the Department of Statistics Malaysia to institutionalise transparency and make data accessible for all."
   },
   "error": {
     "output": "Output",
@@ -92,7 +92,7 @@
         {
           "date": "26 Jul 2021",
           "title": "MOH GitHub",
-          "description": "Tan Sri Noor Hisham, Director-General of Health, launches open-data repository covering key epidemic indicators such as deaths, hospitalisations, bed utilisation, and infections."
+          "description": "Tan Sri Dato’ Seri Dr Noor Hisham bin Abdullah, Director-General of Health, launches open-data repository covering key indicators on COVID-19."
         },
         {
           "date": "9 Sep 2021",
@@ -102,10 +102,10 @@
         {
           "date": "1 Apr 2022",
           "title": "Transition to Endemicity",
-          "description": "With the Omicron wave receding and the Malaysia-Singapore land border reopened, MoH begins planning an expansion of its open data initiatives beyond COVID-19."
+          "description": "With the Omicron wave receding, MoH begins planning an expansion of its open data initiatives and analytics beyond COVID-19."
         },
         {
-          "date": "5 Oct 2021",
+          "date": "5 Oct 2022",
           "title": "KKMNOW Launched 🎉",
           "description": "Here we are. This site is meant to be a perpetual work-in-progress, with new dashboards to be rolled out as MoH expands its digitalisation and analytics."
         }
@@ -120,75 +120,15 @@
     "project_leads": "project leads",
     "dev": {
       "title": "Web Development Team",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-      "team": [
-        {
-          "name": "Irfan Ismail",
-          "title": "Frontend Engineer",
-          "image": "irfan.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/irfanismail96/"
-        },
-        {
-          "name": "Low Kai-Hsin",
-          "title": "Frontend Engineer",
-          "image": "chris.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/itschrislow/"
-        },
-        {
-          "name": "Goh Manfye",
-          "title": "Frontend Engineer",
-          "image": "manfye.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/manfyegoh/"
-        },
-        {
-          "name": "Roshen Maghhan",
-          "title": "Backend Engineer",
-          "image": "roshen.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/roshen-maghhan-831b3498/"
-        },
-        {
-          "name": "Lim Sheng Han",
-          "title": "Backend Engineer",
-          "image": "shenghan.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/shenghan/"
-        },
-        {
-          "name": "Sanbron Liong",
-          "title": "UI/UX Designer",
-          "image": "sanbron.png",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/sanbronliong/"
-        }
-      ]
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
     },
     "data": {
       "title": "Data Team",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-      "team": [
-        {
-          "name": "John Doe",
-          "title": "Data Scientist",
-          "image": "chris.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed."
-        }
-      ]
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
     },
     "project": {
       "title": "Project Leads",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-      "team": [
-        {
-          "name": "Jane Doe",
-          "title": "Project Lead",
-          "image": "chris.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed."
-        }
-      ]
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
     }
   },
   "covid": {
@@ -403,7 +343,7 @@
   "blood": {
     "title": "HEALTHCARE PROGRAMS",
     "title_header": "Blood Donation",
-    "title_description": "A stable and high supply of blood is critical for a well-functioning public healthcare system. This dashboard, which gives you near real-time updates on key indicators related to blood transfusion services, is brought to you by the National Blood Centre. The data is collected via the Blood Bank Information System (BBIS), a vein-to-vein blood-tracking system used by 22 main blood banks - and covers the majority of blood donations in Malaysia.",
+    "title_description": "A stable and high supply of blood is critical for a well-functioning public healthcare system. This dashboard, which gives you near real-time updates on key indicators related to blood transfusion services, is brought to you by the National Blood Centre. The data is collected via the Blood Bank Information System v2 (BBISv2), a vein-to-vein blood-tracking system used by 22 main blood collection sites under MoH - and covers the majority of blood donations in Malaysia.",
     "title_link": "",
     "zoom": "Zoom into",
     "table_header": "Is {{ state }}'s current blood stock sufficient?",
@@ -415,35 +355,39 @@
     "area_type3": "Type AB",
     "area_type4": "Type O",
     "combine_header": "What are the latest blood donation trends in {{ state }}?",
-    "combine_description": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is vital to maintain a high and stable level of blood donations; when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
+    "combine_description": "Blood compromises 3 main components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 3 years, red blood cells can be only stored for up to 42 days, and platelets only for up to 5 days. Therefore, it is vital to maintain a high and stable level of blood donations; when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may be negatively affected.",
     "combine_title": "Daily Donations",
     "combine_tooltip1": "7d avg",
     "combine_tooltip2": "Daily",
     "area1_title": "Donation by donation type",
     "relative": "Relative",
-    "type_wholeblood_perc": "Whole Blood",
-    "type_apheresis_plasma_perc": "Apheresis (Plasma)",
-    "type_apheresis_platelet_perc": "Apheresis (Platelet)",
+    "choro_header": "How do blood donor rates differ across the country?",
+    "choro_description": "This data shows the % of the population aged 17-65 in each state which has donated at least once in the past year.",
+    "type_wholeblood_perc": "Whole blood",
+    "type_apheresis_perc": "Apheresis",
+    "type_apheresis_plasma_perc": "Apheresis (plasma)",
+    "type_apheresis_platelet_perc": "Apheresis (platelet)",
     "type_other_perc": "Other",
-    "location_mobile_perc": "Mobile centre",
+    "location_mobile_perc": "Mobile",
     "location_centre_perc": "Donation centre",
-    "donations_regular_perc": "Regular Donor",
-    "donations_irregular_perc": "Irregular Donor",
-    "donations_new_perc": "New Donor",
+    "donations_regular_perc": "Regular donor (donated within 2y)",
+    "donations_irregular_perc": "Lapsed donor (donation > 2y ago)",
+    "donations_new_perc": "New donor",
     "social_civilian_perc": "Civilian",
     "social_student_perc": "Student",
-    "social_policearmy_perc": "Police & Army",
+    "social_policearmy_perc": "Uniformed bodies",
     "blood_ab_perc": "AB",
     "blood_b_perc": "B",
     "blood_a_perc": "A",
     "blood_o_perc": "O",
     "barmeter_header": "A breakdown of donations by key variables",
     "barmeter_description": "",
-    "barmeter1_title": "Blood group",
-    "barmeter2_title": "Donation type",
-    "barmeter3_title": "Donation location",
-    "barmeter4_title": "Donor regularity",
-    "barmeter5_title": "Social group",
+    "barmeter1_title": "Blood Group",
+    "barmeter1_title_tooltip": "This data largely reflects the population prevalence of each blood type, rather than certain blood groups being more likely to donate.",
+    "barmeter2_title": "Donation Type",
+    "barmeter3_title": "Donation Location",
+    "barmeter4_title": "Donor Regularity",
+    "barmeter5_title": "Social Group",
     "bar1_header": "How strong is new donor recruitment in {{ state }}?",
     "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
     "bar1_title": "Number of new donors",
@@ -468,7 +412,7 @@
     "heatmap4_y": "Donated in",
     "map_header": "How is this data collected?",
     "map_title": "BBIS Centres in Malaysia",
-    "map_description": "The data is collected via the Blood Bank Information System (BBIS), a vein-to-vein blood-tracking system used by 22 main blood banks in Malaysia. There are several smaller collection sites which have not yet been integrated into BBIS.",
+    "map_description": "The data is collected via the Blood Bank Information System v2 (BBISv2), a vein-to-vein blood-tracking system used by 22 main blood collection sites under MoH - and covers the majority of blood donations in Malaysia. There are several collection sites which have not yet been integrated into BBISv2.",
     "map_facility": "Select facility",
     "bar3_title": "Daily Donations",
     "bar3_tooltips1": "Donation Center",
@@ -509,7 +453,7 @@
   "bed": {
     "title": "HEALTHCARE RESOURCES",
     "title_header": "Hospital Bed Utilisation",
-    "title_description": "Hospital capacity utilisation is one of the most critical operational indicators monitored by the Ministry of Health. As a result of daily reporting via the CPRC Hospital system, which was developed during the pandemic, hospital-level data on bed utilisation is now available in a timely manner. This dashboard presents that data transparently, and will be enriched over time with further data on utilisation and provision of hospital-specific services.",
+    "title_description": "Hospital capacity utilisation is one of the most critical operational indicators monitored by the Ministry of Health. As a result of the Medical Development Division's pandemic work to increase reporting sophistication, hospital-level data on bed utilisation is now available in a timely manner. This dashboard presents that data transparently, and will be enriched over time with further data on utilisation and provision of hospital-specific services.",
     "choro_header": "How does hospital bed utilisation vary nationally?",
     "choro_description": "",
     "tab_choro1": "Non-Critical Care",
@@ -531,15 +475,18 @@
   "peka": {
     "title": "HEALTHCARE PROGRAMS",
     "title_header": "PeKa B40",
-    "title_description": "PeKa B40 is a MoH initiative which aims to sustain the healthcare needs of low income groups by focusing on non-communicable diseases (NCDs). Recipients of the Bantuan Prihatin Rakyat (previously known as Bantuan Sara Hidup) and their spouses aged 40 and above are automatically eligible for free health screenings. This dashboard, which gives you near-real-time updates on PeKa B40 screenings, is brought to you by",
-    "title_link": "ProtectHealth Corporation (PHCorp).",
-    "title_description2": ", a fully-owned subsidiary of the Ministry of Health.",
+    "title_description": "PeKa B40 is a MoH initiative which aims to sustain the healthcare needs of low income groups by focusing on non-communicable diseases (NCDs). Recipients of the Bantuan Prihatin Rakyat (previously known as Bantuan Sara Hidup) and their spouses aged 40 and above are automatically eligible for free health screenings. This dashboard, which gives you near-real-time updates on PeKa B40 screenings, is brought to you by ProtectHealth Corporation.",
+    "title_link": "",
+    "title_description2": "",
     "screening_header": "What are the latest screening trends in {{ state }}?",
-    "screening_description1": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is ",
-    "screening_description2": "vital to maintain a high and stable level of blood donations",
-    "screening_description3": "; when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
-    "choro_header": "choro_header",
-    "choro_description": "choro_description",
+    "screening_description1": "Health screening is vital to ensure early detection of non-communicable diseases.",
+    "screening_description2": "",
+    "screening_description3": "",
+    "timeseries_title": "Daily Screenings",
+    "timeseries_line": "7d avg",
+    "timeseries_bar": "Daily Screenings",
+    "choro_header": "How do screening rates differ across the country?",
+    "choro_description": "This data shows the % of the population eligible for PeKa B40 screening in each state which has been screened at least once.",
     "bar1_header": "How strong is the new donor recruitment in {{ state }}?",
     "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
     "bar1_title1": "Newly-screened individuals",
@@ -559,25 +506,27 @@
     "bar2_title1": "Motivation: Why do people pledge to donate organs?",
     "bar2_x": "Number of new donors",
     "map_header": "How is this data collected?",
-    "map_description": "Map showing locations of BBIS centres:",
+    "map_description": "(placeholder)",
     "screening": "Screening"
   },
   "organ": {
     "title": "HEALTHCARE PROGRAMS",
     "title_header": "Organ Donation",
-    "title_description": "A stable and high supply of blood is critical for a well-functioning public healthcare system. This dashboard, which gives you near-real-time updates on key indicators related to blood transfusion services, is brought to you by the",
-    "title_link": "National Blood Centre (PDN)",
+    "title_description": "The National Transplant Resource Centre has conducted Organ Donor Pledge registrations since 1997. However, some of the data was collected and recorded manually. The data shown here reflects  records from 2009 which could be digitalised and consolidated with the new pledges collected via MySejahtera. MoH is committed to ensuring the delivery of comprehensive healthcare information to the rakyat.",
+    "title_link": "",
     "zoom": "Zoom into",
     "bar_header": "What are the latest organ pledger trends in {{ state }}?",
-    "bar_description1": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is ",
-    "bar_description2": "vital to maintain a high and stable level of blood donations",
-    "bar_description3": "; when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
+    "bar_description1": "On 6 September 2022, a digital Organ Donor Pledge was launched on MySejahtera. The recent spike in pledges is attributable to this digitalisation effort.",
+    "bar_description2": "",
+    "bar_description3": "",
     "timeseries_title": "Daily Pledges",
-    "timeseries_line": "Moving Average",
+    "timeseries_line": "7d avg",
     "timeseries_bar": "Daily Pledges",
     "table_header": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is vital to maintain a high and stable level of blood donations when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
+    "choro_header": "How do organ pledger rates differ across the country?",
+    "choro_description": "This data shows the % of the total population in each state which has pledged to donate their organs.",
     "bar1_header": "How strong is new pledger recruitment in {{ state }}?",
-    "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
+    "bar1_description": "To meet Malaysia's healthcare needs, it is vital to recruit as many new pledgers as possible.",
     "bar_title": "Number of new donors",
     "annual": "Annual",
     "monthly": "Monthly",
@@ -599,7 +548,7 @@
     "new_donor1": "Annual",
     "new_donor2": "Monthly",
     "map_btm": "How is this data collected?",
-    "map_desc": "Up until September 2020",
+    "map_desc": "(placeholder)",
     "donor": "Donor"
   }
 }

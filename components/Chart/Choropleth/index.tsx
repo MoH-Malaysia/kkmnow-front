@@ -25,7 +25,7 @@ interface ChoroplethProps {
   unitY?: string;
   enableScale?: boolean;
   graphChoice?: "state" | "parliament" | "dun";
-  colorScale?: ColorInterpolatorId | string[] | FeatureAccessor<any, string>;
+  colorScale?: ColorInterpolatorId | string[] | FeatureAccessor<any, string> | string;
   borderWidth?: any;
   borderColor?: any;
   projectionTranslation?: any;
@@ -89,7 +89,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
         <ResponsiveChoropleth
           data={data}
           features={config.feature}
-          margin={{ top: 10, right: 0, bottom: 0, left: 0 }}
+          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           colors={config.colors}
           domain={[
             Math.min.apply(

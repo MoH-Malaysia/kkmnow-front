@@ -9,6 +9,7 @@ import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import { useTranslation } from "next-i18next";
 import { JSXElementConstructor, ReactElement } from "react";
 import { routes } from "@lib/routes";
+import { sortMsiaFirst } from "@lib/helpers";
 
 const CovidVaccinationIndex = ({
   last_updated,
@@ -42,7 +43,7 @@ const CovidVaccinationIndex = ({
 
 CovidVaccinationIndex.layout = (page: ReactElement<any, string | JSXElementConstructor<any>>) => (
   <Layout stateSelector={<StateDropdown url={routes.COVID} currentState={"mys"} hideOnScroll />}>
-    <StateModal url={routes.COVID_VAX} />
+    <StateModal url={routes.COVID_VAX} exclude={["kvy"]} />
     {page}
   </Layout>
 );
@@ -51,6 +52,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
   const { data } = await get("/kkmnow", { dashboard: "covid_vax", state: "mys" }); // fetch static data here
+  data.snapshot = sortMsiaFirst(data.snapshot, "state");
 
   return {
     props: {

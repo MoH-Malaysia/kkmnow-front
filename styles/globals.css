@@ -3,9 +3,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* DASHBOARDS CSS */
-@import "./dashboards/kawasanku.css";
-@import "./dashboards/covidnow.css";
+/* MODULE CSS */
+@import "./dashboards/general.css";
+@import "./dashboards/table.css";
 @import "./dashboards/banner.css";
 
 @layer base {

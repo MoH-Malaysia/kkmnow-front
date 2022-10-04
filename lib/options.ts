@@ -1,4 +1,5 @@
 import { MALAYSIA, STATES } from "./constants";
+import { sortMsiaFirst } from "./helpers";
 
 export const languages = [
   { label: "English", value: "en-GB" },
@@ -43,7 +44,7 @@ export const filterDoseOptions = [
   { label: "2nd Booster", value: "booster2" },
 ];
 
-export const statesOptions = [MALAYSIA].concat(STATES).map(state => ({
+export const statesOptions = [MALAYSIA].concat(sortMsiaFirst(STATES, "key")).map(state => ({
   label: state.name,
   value: state.key,
 }));

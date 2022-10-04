@@ -82,7 +82,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         >
           <div className="space-y-4">
             <Timeseries
-              title="Daily Screens"
+              title={t("peka.timeseries_title")}
               className="h-[350px]"
               state={currentState}
               data={{
@@ -90,14 +90,14 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: t("peka.timeseries_line"),
                     data: filtered_timeline().line,
                     borderColor: PEKA_COLOR[600],
                     borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "Daily Screens",
+                    label: t("peka.timeseries_bar"),
                     data: filtered_timeline().daily,
                     backgroundColor: GRAYBAR_COLOR[100],
                   },
@@ -120,10 +120,11 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
           title={t("peka.choro_header")}
           description={t("peka.choro_description")}
           date={last_updated}
+          className={isMobile ? "border-b pt-12" : "border-b py-12"}
         >
           <div>
             <Choropleth
-              className={isMobile ? "h-[450px] w-auto" : "h-[500px] w-full"}
+              className={isMobile ? "h-[400px] w-auto" : "h-[500px] w-full"}
               enableScale={false}
               colorScale="purples"
               borderColor="#000"
@@ -352,14 +353,15 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             </div>
           </div>
         </Section>
-    */}
+   
 
-        {/* How is this data collected? */}
+       // How is this data collected? 
         <Section
           title={t("peka.map_header")}
           description={t("peka.map_description")}
           date={last_updated}
         />
+        */}
       </Container>
     </>
   );

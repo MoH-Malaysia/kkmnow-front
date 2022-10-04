@@ -3,6 +3,7 @@ import { OptionType } from "@components/types";
 import { TFunction } from "next-i18next";
 import uniqueId from "lodash/uniqueId";
 import { DateTime } from "luxon";
+import { CountryAndStates } from "./constants";
 
 export const isObjEqual = (obj1: any, obj2: any) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -60,6 +61,21 @@ export const numFormat = (value: number, type?: any): string => {
  * @returns Date string
  */
 export const toDate = (millis: number) => DateTime.fromMillis(millis).toFormat("dd MMM yyyy");
+
+/**
+ * Sorts array of states alphabetically in a dataset, with Malaysia as first entry.
+ * @param array Array of objects with state field
+ * @param key Denote state
+ * @returns Sorted array of states
+ */
+export const sortMsiaFirst = (array: Array<any>, key: string): Array<any> => {
+  return array.sort((a: any, b: any) => {
+    if (a[key] === "mys") {
+      return -1;
+    }
+    return (CountryAndStates[a[key]] as string).localeCompare(CountryAndStates[b[key]]);
+  });
+};
 
 export const handleSelectMultipleDropdown = (
   selectedOption: OptionType,
