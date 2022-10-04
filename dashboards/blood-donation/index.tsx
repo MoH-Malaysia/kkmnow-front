@@ -309,10 +309,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           title={t("blood.choro_header")}
           description={t("blood.choro_description")}
           date={last_updated}
+          className={isMobile ? "border-b pt-12" : "border-b py-12"}
         >
           <div>
             <Choropleth
-              className={isMobile ? "h-[450px] w-auto" : "h-[500px] w-full"}
+              className={isMobile ? "h-[400px] w-auto" : "h-[500px] w-full"}
               enableScale={false}
               // colorScale="CHOROPLETH_BLUE_SCALE"
               colorScale="blues"
