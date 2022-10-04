@@ -120,10 +120,11 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
           title={t("peka.choro_header")}
           description={t("peka.choro_description")}
           date={last_updated}
+          className={isMobile ? "border-b pt-12" : "border-b py-12"}
         >
           <div>
             <Choropleth
-              className={isMobile ? "h-[450px] w-auto" : "h-[500px] w-full"}
+              className={isMobile ? "h-[400px] w-auto" : "h-[500px] w-full"}
               enableScale={false}
               colorScale="purples"
               borderColor="#000"
