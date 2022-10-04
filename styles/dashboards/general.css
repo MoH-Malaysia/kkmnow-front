@@ -84,13 +84,6 @@
 
 .donut-meter::before {
   content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 75%;
-  height: 75%;
   transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: white;
-  transition: all 0.2s ease;
+  @apply absolute top-1/2 left-1/2 h-[75%] w-[75%] rounded-[50%] bg-white transition-all;
 }

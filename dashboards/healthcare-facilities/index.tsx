@@ -75,7 +75,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       district: data.zoom_district.label.toLowerCase().replaceAll(" ", "-"),
     });
 
-    setData("map_markers", result.locations);
+    setData("map_markers", Array.isArray(result.locations) ? result.locations : []);
     // setData("bar_distances_within", result.distances_within);
     // setData("bar_distances_between", result.distances_between);
   };
