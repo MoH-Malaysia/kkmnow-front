@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "KKMNOW",
-    "description": "KKMNOW is a collaboration between the Ministry of Health and the Department of Statistics to institutionalise transparency and make data accessible for all."
+    "description": "KKMNOW is a collaboration between the Ministry of Health Malaysia and the Department of Statistics Malaysia to institutionalise transparency and make data accessible for all."
   },
   "error": {
     "output": "Output",
@@ -78,7 +78,7 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-  "home": {
+    "home": {
     "title": "A new chapter for transparency in government",
     "description": "KKMNOW is a collaboration between the Ministry of Health and the Department of Statistics to institutionalise transparency and make data accessible for all.",
     "timeline": {
@@ -92,7 +92,7 @@
         {
           "date": "26 Jul 2021",
           "title": "MOH GitHub",
-          "description": "Tan Sri Noor Hisham, Director-General of Health, launches open-data repository covering key epidemic indicators such as deaths, hospitalisations, bed utilisation, and infections."
+          "description": "Tan Sri Dato’ Seri Dr Noor Hisham bin Abdullah, Director-General of Health, launches open-data repository covering key epidemic indicators such as deaths, hospitalisations, bed utilisation, and infections."
         },
         {
           "date": "9 Sep 2021",
@@ -118,7 +118,7 @@
     "web_devs": "web developers",
     "data_scientists": "data scientists",
     "project_leads": "project leads",
-    "dev": {
+        "dev": {
       "title": "Web Development Team",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
       "team": [
@@ -403,7 +403,7 @@
   "blood": {
     "title": "HEALTHCARE PROGRAMS",
     "title_header": "Blood Donation",
-    "title_description": "A stable and high supply of blood is critical for a well-functioning public healthcare system. This dashboard, which gives you near real-time updates on key indicators related to blood transfusion services, is brought to you by the National Blood Centre. The data is collected via the Blood Bank Information System (BBIS), a vein-to-vein blood-tracking system used by 22 main blood banks - and covers the majority of blood donations in Malaysia.",
+    "title_description": "A stable and high supply of blood is critical for a well-functioning public healthcare system. This dashboard, which gives you near real-time updates on key indicators related to blood transfusion services, is brought to you by the National Blood Centre. The data is collected via the Blood Bank Information System v2 (BBISv2), a vein-to-vein blood-tracking system used by 22 main blood collection sites under MoH - and covers the majority of blood donations in Malaysia.",
     "title_link": "",
     "zoom": "Zoom into",
     "table_header": "Is {{ state }}'s current blood stock sufficient?",
@@ -415,25 +415,27 @@
     "area_type3": "Type AB",
     "area_type4": "Type O",
     "combine_header": "What are the latest blood donation trends in {{ state }}?",
-    "combine_description": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is vital to maintain a high and stable level of blood donations; when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
+    "combine_description": "\nBlood compromises 3 main components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 3 years, red blood cells can be only stored for up to 42 days, and platelets only for up to 5 days. Therefore, it is vital to maintain a high and stable level of blood donations; when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may be negatively affected.",
     "combine_title": "Daily Donations",
     "combine_tooltip1": "7d avg",
     "combine_tooltip2": "Daily",
     "area1_title": "Donation by donation type",
     "relative": "Relative",
+    "choro_header": "How do blood donor rates differ across the country?",
+    "choro_description": "This data shows the % of the population aged 17-65 in each state which has donated at least once in the past year.",
     "type_wholeblood_perc": "Whole Blood",
     "type_apheresis_perc": "Apheresis",
     "type_apheresis_plasma_perc": "Apheresis (Plasma)",
     "type_apheresis_platelet_perc": "Apheresis (Platelet)",
     "type_other_perc": "Other",
-    "location_mobile_perc": "Mobile centre",
+    "location_mobile_perc": "Mobile",
     "location_centre_perc": "Donation centre",
-    "donations_regular_perc": "Regular Donor",
-    "donations_irregular_perc": "Irregular Donor",
+    "donations_regular_perc": "Regular Donor (donated within 2y)",
+    "donations_irregular_perc": "Lapsed Donor (donation > 2y ago)",
     "donations_new_perc": "New Donor",
     "social_civilian_perc": "Civilian",
     "social_student_perc": "Student",
-    "social_policearmy_perc": "Police & Army",
+    "social_policearmy_perc": "Uniformed Bodies",
     "blood_ab_perc": "AB",
     "blood_b_perc": "B",
     "blood_a_perc": "A",
@@ -469,7 +471,7 @@
     "heatmap4_y": "Donated in",
     "map_header": "How is this data collected?",
     "map_title": "BBIS Centres in Malaysia",
-    "map_description": "The data is collected via the Blood Bank Information System (BBIS), a vein-to-vein blood-tracking system used by 22 main blood banks in Malaysia. There are several smaller collection sites which have not yet been integrated into BBIS.",
+    "map_description": "The data is collected via the Blood Bank Information System v2 (BBISv2), a vein-to-vein blood-tracking system used by 22 main blood collection sites under MoH - and covers the majority of blood donations in Malaysia. There are several collection sites which have not yet been integrated into BBISv2.",
     "map_facility": "Select facility",
     "bar3_title": "Daily Donations",
     "bar3_tooltips1": "Donation Center",
@@ -510,7 +512,7 @@
   "bed": {
     "title": "HEALTHCARE RESOURCES",
     "title_header": "Hospital Bed Utilisation",
-    "title_description": "Hospital capacity utilisation is one of the most critical operational indicators monitored by the Ministry of Health. As a result of daily reporting via the CPRC Hospital system, which was developed during the pandemic, hospital-level data on bed utilisation is now available in a timely manner. This dashboard presents that data transparently, and will be enriched over time with further data on utilisation and provision of hospital-specific services.",
+    "title_description": "Hospital capacity utilisation is one of the most critical operational indicators monitored by the Ministry of Health. As a result of the Medical Development Division's pandemic work to increase reporting sophistication, hospital-level data on bed utilisation is now available in a timely manner. This dashboard presents that data transparently, and will be enriched over time with further data on utilisation and provision of hospital-specific services.",
     "choro_header": "How does hospital bed utilisation vary nationally?",
     "choro_description": "",
     "tab_choro1": "Non-Critical Care",
@@ -539,8 +541,8 @@
     "screening_description1": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is ",
     "screening_description2": "vital to maintain a high and stable level of blood donations",
     "screening_description3": "; when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
-    "choro_header": "choro_header",
-    "choro_description": "choro_description",
+    "choro_header": "How do screening rates differ across the country?",
+    "choro_description": "This data shows the % of the population eligible for PeKa B40 screening in each state which has been screened at least once.",
     "bar1_header": "How strong is the new donor recruitment in {{ state }}?",
     "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
     "bar1_title1": "Newly-screened individuals",
@@ -577,6 +579,8 @@
     "timeseries_line": "Moving Average",
     "timeseries_bar": "Daily Pledges",
     "table_header": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is vital to maintain a high and stable level of blood donations when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
+    "choro_header": "How do organ pledger rates differ across the country?",
+    "choro_description": "This data shows the % of the total population in each state which has pledged to donate their organs.",
     "bar1_header": "How strong is new pledger recruitment in {{ state }}?",
     "bar1_description": "Recruitment of new donors is vital to replace donors who reach their golden years and stop donating, as well as to support a growing population.",
     "bar_title": "Number of new donors",
