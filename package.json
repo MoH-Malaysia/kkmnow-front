@@ -1,5 +1,8 @@
 {
+  "name": "kkmnow-front",
   "private": true,
+  "description": "KKMNOW is a collaboration between the Ministry of Health Malaysia and the Department of Statistics Malaysia to institutionalise transparency and make data accessible for all.",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
