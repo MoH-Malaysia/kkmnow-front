@@ -4,13 +4,12 @@ This is the frontend repo for KKMNOW. KKMNOW is a collaboration between the Mini
 
 ---
 
-## Table of Content
+## Table of Contents
 
 - [Installation](#installation)
 - [Commands to Know](#commands-to-know)
 - [Development Workflow](#development-workflow)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
