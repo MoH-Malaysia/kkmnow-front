@@ -78,7 +78,7 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-    "home": {
+  "home": {
     "title": "A new chapter for transparency in government",
     "description": "KKMNOW is a collaboration between the Ministry of Health and the Department of Statistics to institutionalise transparency and make data accessible for all.",
     "timeline": {
@@ -118,7 +118,7 @@
     "web_devs": "web developers",
     "data_scientists": "data scientists",
     "project_leads": "project leads",
-        "dev": {
+    "dev": {
       "title": "Web Development Team",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
       "team": [
@@ -541,6 +541,9 @@
     "screening_description1": "Blood compromises 3 components - red blood cells, platelets, and plasma. Although plasma can be stored for up to 1 year, red blood cells can be only stored for up to 35 days, and plasma only for up to 5 days. Therefore, it is ",
     "screening_description2": "vital to maintain a high and stable level of blood donations",
     "screening_description3": "; when blood donation activity is low or volatile, healthcare services that depend upon blood transfusions may start to come under stress.",
+    "timeseries_title": "timeseries_title",
+    "timeseries_line": "timeseries_line",
+    "timeseries_bar": "timeseries_bar",
     "choro_header": "How do screening rates differ across the country?",
     "choro_description": "This data shows the % of the population eligible for PeKa B40 screening in each state which has been screened at least once.",
     "bar1_header": "How strong is the new donor recruitment in {{ state }}?",

@@ -78,7 +78,7 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-    "home": {
+  "home": {
     "title": "Era baharu bagi ketelusan kerajaan",
     "description": "KKMNOW adalah kolaborasi antara Kementerian Kesihatan Malaysia dan Jabatan Perangkaan Malaysia untuk menginstitusikan ketelusan dan membawa data ke hujung jari segala rakyat Malaysia.",
     "timeline": {
@@ -118,7 +118,7 @@
     "web_devs": "pemaju web",
     "data_scientists": "data saintis",
     "project_leads": "petunjuk projek",
-        "dev": {
+    "dev": {
       "title": "Web Development Team",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
       "team": [
@@ -541,6 +541,9 @@
     "screening_description1": "Darah menjejaskan 3 komponen - sel darah merah, platelet, dan plasma. Walaupun plasma boleh disimpan sehingga 1 tahun, sel darah merah hanya boleh disimpan sehingga 35 hari, dan plasma hanya sehingga 5 hari. Oleh itu,",
     "screening_description2": "adalah penting untuk mengekalkan tahap derma darah yang tinggi dan stabil",
     "screening_description3": ";  apabila aktiviti derma darah rendah atau tidak menentu, perkhidmatan penjagaan kesihatan yang bergantung kepada pemindahan darah mungkin mula mengalami tekanan.",
+    "timeseries_title": "timeseries_title",
+    "timeseries_line": "timeseries_line",
+    "timeseries_bar": "timeseries_bar",
     "choro_header": "Bagaimanakan kadar saringan berbeza di seluruh negara?",
     "choro_description": "Data ini menunjukkan % daripada populasi yang layak untuk saringan kesihatan PeKa B40 yang telah disaring sekurang-kurangnya sekali.",
     "bar1_header": "Seberapa kuat pengambilan penderma baharu di {{ state }}?",

@@ -82,7 +82,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         >
           <div className="space-y-4">
             <Timeseries
-              title="Daily Screens"
+              title={t("peka.timeseries_title")}
               className="h-[350px]"
               state={currentState}
               data={{
@@ -90,14 +90,14 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 datasets: [
                   {
                     type: "line",
-                    label: "Moving Average (MA)",
+                    label: t("peka.timeseries_line"),
                     data: filtered_timeline().line,
                     borderColor: PEKA_COLOR[600],
                     borderWidth: 1.5,
                   },
                   {
                     type: "bar",
-                    label: "Daily Screens",
+                    label: t("peka.timeseries_bar"),
                     data: filtered_timeline().daily,
                     backgroundColor: GRAYBAR_COLOR[100],
                   },
