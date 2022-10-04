@@ -11,7 +11,7 @@ This is the frontend repo for KKMNOW. KKMNOW is a collaboration between the Mini
 - [Development Workflow](#development-workflow)
 - [Contributing](#contributing)
 - [License](#license)
-- [Developers](#contributing)
+- [Contributors](#contributors)
 
 ## Installation
 
@@ -57,11 +57,11 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the [MIT license](https://github.com/MoH-Malaysia/kkmnow-front/blob/main/LICENSE.md).
 
 ## Authors
 
-- [irfancoder](https://github.com/irfancoder) (lead)
-- [itschrislow](https://github.com/itschrislow)
-- [manfye](https://github.com/manfye)
-- [shenghann](https://github.com/shenghann)
+- Irfan Ismail [@irfancoder](https://github.com/irfancoder)
+- Chris Low [@itschrislow](https://github.com/itschrislow)
+- Manfye Goh [@manfye](https://github.com/manfye)
+- Sheng Han [@shenghann](https://github.com/shenghann)
