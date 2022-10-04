@@ -133,7 +133,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
 
           <div className="flex w-full items-center gap-4">
             <p className="text-sm font-bold text-dim">{t("vaccination.zoom")}</p>
-            <StateDropdown url={routes.COVID_VAX} currentState={currentState} />
+            <StateDropdown url={routes.COVID_VAX} currentState={currentState} exclude={["kvy"]} />
           </div>
         </div>
       </Hero>

@@ -59,7 +59,7 @@ CovidVaccinationState.layout = (page: ReactElement<any, string | JSXElementConst
 
 export const getStaticPaths: GetStaticPaths = async ctx => {
   let paths: Array<any> = [];
-  STATES.forEach(state => {
+  STATES.filter(item => !["kvy"].includes(item.key)).forEach(state => {
     paths = paths.concat([
       {
         params: {
