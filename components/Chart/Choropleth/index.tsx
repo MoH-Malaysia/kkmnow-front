@@ -11,6 +11,7 @@ import { numFormat } from "@lib/helpers";
 import { BREAKPOINTS } from "@lib/constants";
 import { ColorInterpolatorId } from "@nivo/colors";
 import { useWindowWidth } from "@hooks/useWindowWidth";
+import { useTranslation } from "next-i18next";
 
 /**
  * Choropleth component
@@ -44,6 +45,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
   borderWidth = 0.25,
   borderColor = "#13293d",
 }) => {
+  const { t } = useTranslation();
   const windowWidth = useWindowWidth();
   const presets = useMemo(
     () => ({
@@ -112,10 +114,18 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
             return data?.id ? (
               <div className="nivo-tooltip">
                 {data.id}:{" "}
-                {data.value_real
-                  ? numFormat(data.value_real, "standard")
-                  : numFormat(data.value, "standard")}
-                {unitY}
+                {data.value === null ? (
+                  t("common.no_data")
+                ) : data.value_real ? (
+                  <>
+                    {numFormat(data.value_real, "standard")} {unitY}
+                  </>
+                ) : (
+                  <>
+                    {numFormat(data.value, "standard")}
+                    {unitY}
+                  </>
+                )}
               </div>
             ) : (
               <></>

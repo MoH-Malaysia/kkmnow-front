@@ -32,7 +32,8 @@
     "zoom": "Pilih kawasan saya",
     "clear_selection": "Kosongkan pilihan",
     "no_entries": "Tiada data ditemui",
-    "check_out": "Lihat data"
+    "check_out": "Lihat data",
+    "no_data": "Tiada data"
   },
   "placeholder": {
     "all": "Semua",

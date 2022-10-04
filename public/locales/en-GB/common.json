@@ -32,7 +32,8 @@
     "zoom": "Zoom into my area",
     "clear_selection": "Clear selection",
     "no_entries": "No entries found",
-    "check_out": "Check out"
+    "check_out": "Check out",
+    "no_data": "No data"
   },
   "placeholder": {
     "all": "All",
