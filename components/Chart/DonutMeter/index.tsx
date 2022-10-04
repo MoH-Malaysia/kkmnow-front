@@ -12,15 +12,16 @@ const DonutMeter: FunctionComponent<DonutMeterProps> = ({ value = 30 }) => {
     else return "#22C55E";
   };
   return (
-    <div
-      className="min-h-[56px] min-w-[56px]"
+    <figure
+      className="donut-meter relative min-h-[56px] min-w-[56px] rounded-[50%] bg-white"
       role={"progressbar"}
       aria-valuenow={value}
       aria-valuemin={0}
       aria-valuemax={100}
       style={{
-        background: `radial-gradient(closest-side, white 75%, transparent 0 100%, white 0),
-            conic-gradient(${color()} ${value}%, rgb(226 232 240)  0)`,
+        backgroundImage: `conic-gradient(${color()} 0turn, ${color()} ${(value / 100).toFixed(
+          2
+        )}turn, rgb(226 232 240) ${(value / 100).toFixed(2)}turn, rgb(226 232 240)  1turn)`,
       }}
     />
   );

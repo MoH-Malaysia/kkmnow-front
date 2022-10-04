@@ -371,11 +371,14 @@ const Stats: FunctionComponent<StatsProps> = ({ data, className }) => {
           <p className="text-sm text-dim">{title}</p>
           {tooltip ? (
             <Tooltip
-              trigger={
-                <h4 className="font-medium underline decoration-dashed underline-offset-4">
+              trigger={open => (
+                <h4
+                  className="font-medium underline decoration-dashed underline-offset-4"
+                  onClick={() => open()}
+                >
                   {value}
                 </h4>
-              }
+              )}
             >
               <span className="text-sm">{tooltip}</span>
             </Tooltip>

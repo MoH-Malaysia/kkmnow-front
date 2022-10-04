@@ -160,13 +160,16 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     <div className="flex self-center text-base font-bold">
                       {t("vaccination.dose1")} -
                       <Tooltip
-                        trigger={
-                          <span className="whitespace-pre underline decoration-dashed underline-offset-4">
+                        trigger={open => (
+                          <span
+                            className="whitespace-pre underline decoration-dashed underline-offset-4"
+                            onClick={() => open()}
+                          >
                             {" " +
                               (waffle_data[data.filter_age.value].dose1.perc as number).toFixed(1)}
                             %
                           </span>
-                        }
+                        )}
                       >
                         {t("vaccination.tooltips_dose1")}
                       </Tooltip>
@@ -198,13 +201,16 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     <div className="flex self-center text-base font-bold">
                       {t("vaccination.dose2")} -
                       <Tooltip
-                        trigger={
-                          <span className="whitespace-pre underline decoration-dashed underline-offset-4">
+                        trigger={open => (
+                          <span
+                            className="whitespace-pre underline decoration-dashed underline-offset-4"
+                            onClick={() => open()}
+                          >
                             {" " +
                               (waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}
                             %
                           </span>
-                        }
+                        )}
                       >
                         {t("vaccination.tooltips_dose2")}
                       </Tooltip>
@@ -353,7 +359,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                 setData("minmax", [item.min, item.max])
               }
             />
-            <span className="text-sm text-dim">{t("vaccination.combine_slider")}</span>
+            <span className="text-sm text-dim">{t("common.slider")}</span>
           </div>
         </Section>
 
@@ -589,7 +595,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               {VACCINE_TABLE_SCHEMA().map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
-                    <Table data={table_data} config={menu.config} />
+                    <Table data={table_data} config={menu.config} enableSticky />
                   </Panel>
                 );
               })}

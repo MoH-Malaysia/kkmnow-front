@@ -73,7 +73,6 @@ export const sortMsiaFirst = (array: Array<any>, key: string): Array<any> => {
     if (a[key] === "mys") {
       return -1;
     }
-
     return (CountryAndStates[a[key]] as string).localeCompare(CountryAndStates[b[key]]);
   });
 };

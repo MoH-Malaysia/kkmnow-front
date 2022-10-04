@@ -343,11 +343,14 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     <BarMeter
                       title={
                         <Tooltip
-                          trigger={
-                            <span className="text-base font-bold underline decoration-dashed underline-offset-4">
+                          trigger={open => (
+                            <span
+                              className="text-base font-bold underline decoration-dashed underline-offset-4"
+                              onClick={() => open()}
+                            >
                               {t("blood.barmeter1_title")}
                             </span>
-                          }
+                          )}
                         >
                           {t("blood.barmeter1_title_tooltip")}
                         </Tooltip>

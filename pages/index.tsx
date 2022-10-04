@@ -22,8 +22,8 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
     "/static/images/home-citfgithub.png",
     "/static/images/home-mohgithub.png",
     "/static/images/home-covidnow.png",
-    "/static/images/home-endemic.png",
-    "/static/images/home-hero.png",
+    "/static/images/home-endemic.jpg",
+    "/static/images/home-kkmnow.png",
   ];
 
   const content: { date: string; title: string; description: string }[] = t(

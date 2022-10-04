@@ -120,75 +120,15 @@
     "project_leads": "petunjuk projek",
     "dev": {
       "title": "Web Development Team",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-      "team": [
-        {
-          "name": "Irfan Ismail",
-          "title": "Frontend Engineer",
-          "image": "irfan.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/irfanismail96/"
-        },
-        {
-          "name": "Low Kai-Hsin",
-          "title": "Frontend Engineer",
-          "image": "chris.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/itschrislow/"
-        },
-        {
-          "name": "Goh Manfye",
-          "title": "Frontend Engineer",
-          "image": "manfye.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/manfyegoh/"
-        },
-        {
-          "name": "Roshen Maghhan",
-          "title": "Backend Engineer",
-          "image": "roshen.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/roshen-maghhan-831b3498/"
-        },
-        {
-          "name": "Lim Sheng Han",
-          "title": "Backend Engineer",
-          "image": "shenghan.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/shenghan/"
-        },
-        {
-          "name": "Sanbron Liong",
-          "title": "UI/UX Designer",
-          "image": "sanbron.png",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed.",
-          "linkedin": "https://www.linkedin.com/in/sanbronliong/"
-        }
-      ]
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
     },
     "data": {
       "title": "Data Team",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-      "team": [
-        {
-          "name": "John Doe",
-          "title": "Data Scientist",
-          "image": "chris.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed."
-        }
-      ]
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
     },
     "project": {
       "title": "Project Leads",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-      "team": [
-        {
-          "name": "Jane Doe",
-          "title": "Project Lead",
-          "image": "chris.jpg",
-          "quote": "Beware Man, for he is the Devil's pawn. Alone among God's primates, he kills for sport or lust or greed."
-        }
-      ]
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
     }
   },
   "covid": {

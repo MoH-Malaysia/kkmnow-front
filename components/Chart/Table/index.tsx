@@ -40,6 +40,7 @@ interface TableProps {
   data?: any;
   config?: Array<any>;
   enablePagination?: boolean;
+  enableSticky?: boolean;
 }
 
 const relativeColor = (delta: number, inverse: boolean = false) => {
@@ -77,6 +78,7 @@ const Table: FunctionComponent<TableProps> = ({
   controls,
   search,
   enablePagination = false,
+  enableSticky,
   cellClass = "text-right",
 }) => {
   const columns = useMemo<ColumnDef<Record<string, any>>[]>(() => config, []);
@@ -142,7 +144,7 @@ const Table: FunctionComponent<TableProps> = ({
         </div>
       )}
       <div className="table-responsive">
-        <table className={`table ${className}`}>
+        <table className={`table ${className} ${enableSticky ? "table-sticky-first" : ""}`}>
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>

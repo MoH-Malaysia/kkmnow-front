@@ -222,6 +222,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     data={choropleth_world}
                     config={worldMapConfig}
                     enablePagination
+                    enableSticky
                   />
                 </div>
               </Panel>
@@ -264,6 +265,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     className="table-stripe table-default"
                     data={choropleth_malaysia}
                     config={malaysiaMapConfig}
+                    enableSticky
                   />
                 </div>
               </Panel>
