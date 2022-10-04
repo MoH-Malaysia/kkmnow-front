@@ -1,10 +1,12 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    CMS_URL: string;
-    CMS_GRAPHQL_URL: string;
-    CMS_WEBHOOK_KEY: string;
-    NEXT_PUBLIC_CMS_URL: string;
-    NEXT_PUBLIC_CMS_GRAPHQL_URL: string;
+    APP_URL: string;
+    REVALIDATE_TOKEN: string;
+
+    NEXT_PUBLIC_AUTHORIZATION_TOKEN: string;
+    NEXT_PUBLIC_API_URL: string;
+    NEXT_PUBLIC_GMAP_API_KEY: string;
+    NEXT_PUBLIC_MAPTILER_API_KEY: string;
   }
 }
 
