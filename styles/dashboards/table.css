@@ -59,10 +59,10 @@
 }
 
 .table-facility th:nth-last-child(2) {
-  @apply w-[500px];
+  @apply w-[500px] lg:w-[25%];
 }
 .table-facility th:first-child {
-  @apply w-[350px];
+  @apply w-[350px] lg:w-[20%];
 }
 .table-facility td,
 .table-bed td,
@@ -75,5 +75,5 @@
   @apply border-r-black;
 }
 .table-bed th:nth-child(2) {
-  @apply w-[500px];
+  @apply w-[400px] lg:w-[30%];
 }
