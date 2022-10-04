@@ -137,7 +137,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       </Hero>
       <Container className="min-h-screen">
         {/* Is {{ area }}'s current blood supply sufficient? */}
-        <Section
+        {/*
+        // Data not ready
+         <Section
           title={t("blood.table_header", { state: CountryAndStates[currentState] })}
           date={last_updated}
         >
@@ -255,7 +257,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               </Tabs>
             </div>
           </div>
-        </Section>
+        </Section> */}
 
         {/* What are the latest blood donation trends in {{ area }}? */}
         <Section

@@ -444,8 +444,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
         */}
 
-        {/* How is this data collected? */}
+        {/* 
+        // Data not ready
+         How is this data collected? 
         <Section title={t("organ.map_btm")} description={t("organ.map_desc")} date={last_updated} />
+        */}
       </Container>
     </>
   );

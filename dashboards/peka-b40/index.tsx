@@ -352,14 +352,15 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             </div>
           </div>
         </Section>
-    */}
+   
 
-        {/* How is this data collected? */}
+       // How is this data collected? 
         <Section
           title={t("peka.map_header")}
           description={t("peka.map_description")}
           date={last_updated}
         />
+        */}
       </Container>
     </>
   );
