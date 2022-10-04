@@ -61,6 +61,9 @@
 .table-facility th:nth-last-child(2) {
   @apply w-[500px];
 }
+.table-facility th:first-child {
+  @apply w-[350px];
+}
 .table-facility td,
 .table-bed td,
 .table-default td {
