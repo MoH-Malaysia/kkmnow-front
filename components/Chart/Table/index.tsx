@@ -154,7 +154,7 @@ const Table: FunctionComponent<TableProps> = ({
                           {...{
                             className: [
                               header.subHeaders.length < 1
-                                ? "select-none flex gap-1 text-sm justify-end text-right pr-1"
+                                ? "select-none flex gap-1 text-sm justify-between text-left px-2"
                                 : !header.column.columnDef.header
                                 ? "hidden"
                                 : "text-end pr-2",
@@ -170,7 +170,9 @@ const Table: FunctionComponent<TableProps> = ({
                               {flexRender(header.column.columnDef.header, header.getContext())}
                             </p>
                             {header.column.columnDef?.subheader && (
-                              <p className="text-dim">{header.column.columnDef?.subheader}</p>
+                              <p className="text-left text-dim">
+                                {header.column.columnDef?.subheader}
+                              </p>
                             )}
                           </div>
                           {header.subHeaders.length < 1 && (

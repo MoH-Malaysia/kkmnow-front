@@ -5,6 +5,7 @@ import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
 import { CountryAndStates, STATES } from "@lib/constants";
+import { sortMsiaFirst } from "@lib/helpers";
 import { routes } from "@lib/routes";
 import { Page } from "@lib/types";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
@@ -97,7 +98,8 @@ export const getStaticPaths: GetStaticPaths = async ctx => {
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
-  const { data } = await get("/kkmnow", { dashboard: "covid_epid", state: params?.state }); // fetch static data here
+  const { data } = await get("/kkmnow", { dashboard: "covid_epid", state: params?.state });
+  data.snapshot_table = sortMsiaFirst(data.snapshot_table, "state");
 
   return {
     props: {
@@ -114,8 +116,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       timeseries_vents: data.timeseries_vents,
       util_chart: data.util_chart,
       statistics: data.statistics,
-      ...i18n,
       state: params?.state,
+      ...i18n,
     },
     revalidate: 300,
   };

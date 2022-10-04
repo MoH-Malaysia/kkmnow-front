@@ -6,6 +6,12 @@ export const FACILTIES_TABLE_SCHEMA = () => {
   const { t } = useTranslation();
   return [
     {
+      header: t("common.name"),
+      sortDescFirst: true,
+      accessorKey: "data.name",
+      id: "name",
+    },
+    {
       header: t("common.state"),
       id: "state",
       accessorKey: "state",
@@ -46,12 +52,6 @@ export const FACILTIES_TABLE_SCHEMA = () => {
       accessorFn: (item: any) => t("healthcare.".concat(item.data.type)), /// "data.type",
       id: "type",
       enableSorting: false,
-    },
-    {
-      header: t("common.name"),
-      sortDescFirst: true,
-      accessorKey: "data.name",
-      id: "name",
     },
     {
       header: t("healthcare.table_address"),

@@ -137,7 +137,9 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       </Hero>
       <Container className="min-h-screen">
         {/* Is {{ area }}'s current blood supply sufficient? */}
-        <Section
+        {/*
+        // Data not ready
+         <Section
           title={t("blood.table_header", { state: CountryAndStates[currentState] })}
           date={last_updated}
         >
@@ -255,7 +257,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               </Tabs>
             </div>
           </div>
-        </Section>
+        </Section> */}
 
         {/* What are the latest blood donation trends in {{ area }}? */}
         <Section
@@ -338,11 +340,22 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel key={name} name={name}>
                   <div className="grid w-full grid-cols-1 gap-12 lg:grid-cols-3">
                     <BarMeter
-                      title={t("blood.barmeter1_title")}
+                      title={
+                        <Tooltip
+                          trigger={
+                            <span className="text-base font-bold underline decoration-dashed underline-offset-4">
+                              {t("blood.barmeter1_title")}
+                            </span>
+                          }
+                        >
+                          {t("blood.barmeter1_title_tooltip")}
+                        </Tooltip>
+                      }
                       className="flex-col"
                       state={currentState}
                       data={data.blood_group}
                       layout="horizontal"
+                      unit="%"
                       sort="desc"
                     />
                     <BarMeter
@@ -351,6 +364,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       state={currentState}
                       data={data.donation_type}
                       layout="horizontal"
+                      unit="%"
                       sort="desc"
                     />
                     <BarMeter
@@ -359,6 +373,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       state={currentState}
                       data={data.location}
                       layout="horizontal"
+                      unit="%"
                       sort="desc"
                     />
                     <BarMeter
@@ -367,6 +382,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       state={currentState}
                       data={data.donation_regularity}
                       layout="horizontal"
+                      unit="%"
                       sort="desc"
                     />
                     <BarMeter
@@ -375,6 +391,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       state={currentState}
                       data={data.social_group}
                       layout="horizontal"
+                      unit="%"
                       sort="desc"
                     />
                   </div>

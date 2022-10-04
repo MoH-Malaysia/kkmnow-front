@@ -78,7 +78,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
           title={t("organ.bar_header", { state: CountryAndStates[currentState] })}
           description={
             <p className="pt-2 text-dim">
-              {t("organ.bar_description1")} <strong> {t("organ.bar_description2")}</strong>; when
+              {t("organ.bar_description1")} <strong> {t("organ.bar_description2")}</strong>
               {t("organ.bar_description3")}
             </p>
           }
@@ -444,8 +444,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         </Section>
         */}
 
-        {/* How is this data collected? */}
+        {/* 
+        // Data not ready
+         How is this data collected? 
         <Section title={t("organ.map_btm")} description={t("organ.map_desc")} date={last_updated} />
+        */}
       </Container>
     </>
   );

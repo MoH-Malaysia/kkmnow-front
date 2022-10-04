@@ -25,7 +25,7 @@ interface ChoroplethProps {
   unitY?: string;
   enableScale?: boolean;
   graphChoice?: "state" | "parliament" | "dun";
-  colorScale?: ColorInterpolatorId | string[] | FeatureAccessor<any, string>;
+  colorScale?: ColorInterpolatorId | string[] | FeatureAccessor<any, string> | string;
   borderWidth?: any;
   borderColor?: any;
   projectionTranslation?: any;

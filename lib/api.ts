@@ -2,6 +2,9 @@ import axios, { AxiosResponse } from "axios";
 
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  headers: {
+    Authorization: process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN,
+  },
 });
 
 /**

@@ -4,6 +4,8 @@
 import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import CovidDashboard from "@dashboards/covid";
 import { get } from "@lib/api";
+import { CountryAndStates } from "@lib/constants";
+import { sortMsiaFirst } from "@lib/helpers";
 import { routes } from "@lib/routes";
 import { InferGetStaticPropsType, GetStaticProps } from "next";
 import { useTranslation } from "next-i18next";
@@ -67,6 +69,7 @@ CovidIndex.layout = (page: ReactElement<any, string | JSXElementConstructor<any>
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
   const { data } = await get("/kkmnow", { dashboard: "covid_epid", state: "mys" }); // fetch static data here
+  data.snapshot_table = sortMsiaFirst(data.snapshot_table, "state");
 
   return {
     props: {

@@ -13,7 +13,7 @@ const DonutMeter: FunctionComponent<DonutMeterProps> = ({ value = 30 }) => {
   };
   return (
     <div
-      className="h-14 w-14"
+      className="min-h-[56px] min-w-[56px]"
       role={"progressbar"}
       aria-valuenow={value}
       aria-valuemin={0}
