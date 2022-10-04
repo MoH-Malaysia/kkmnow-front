@@ -71,8 +71,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       dashboard: "facilities",
       table: "false",
       state: data.zoom_state,
-      fac_type: data.zoom_facility_type.label.toLowerCase(),
-      district: data.zoom_district.label.toLowerCase().replace(" ", "-"),
+      fac_type: data.zoom_facility_type.value.toLowerCase(),
+      district: data.zoom_district.label.toLowerCase().replaceAll(" ", "-"),
     });
 
     setData("map_markers", result.locations);
@@ -148,7 +148,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                     onChange={selected => {
                       setData("table_facility_type", selected);
                       setColumnFilters(state =>
-                        state.concat({ id: "type", value: selected.value })
+                        state.concat({ id: "type", value: selected.label })
                       );
                     }}
                     width="w-full"
