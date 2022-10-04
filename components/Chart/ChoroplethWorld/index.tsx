@@ -18,6 +18,7 @@ interface ChoroplethProps {
   unitY?: string;
   enableScale?: boolean;
   projectionScaleSetting?: number;
+  projectionTranslationSetting?: [number, number];
 }
 
 const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
@@ -29,13 +30,14 @@ const ChoroplethWorld: FunctionComponent<ChoroplethProps> = ({
   unitY,
   enableScale = true,
   projectionScaleSetting = 125,
+  projectionTranslationSetting = [0.5, 0.68],
   xKey,
 }) => {
   const [feature, setState] = useState(WorldDesktop.features);
   const config = {
     colors: CHOROPLETH_BLUE_SCALE,
     projectionScale: projectionScaleSetting,
-    projectionTranslation: [0.5, 0.75] as [number, number],
+    projectionTranslation: projectionTranslationSetting,
     borderWidth: 0.25,
     borderColor: "#13293d",
   };
