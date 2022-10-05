@@ -30,9 +30,11 @@ class MyDocument extends Document {
             integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
             crossOrigin=""
           />
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_KEYS}`}`></script>
-
-          <script
+           <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_KEYS}`}
+          />
+       <script
             dangerouslySetInnerHTML={{
               __html: `
             window.dataLayer = window.dataLayer || [];
