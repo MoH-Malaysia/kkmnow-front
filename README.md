@@ -17,7 +17,7 @@ Please use `yarn` to manage dependencies.
 
 ```bash
 # NPM
-git clone git@github.com:dosm-malaysia/kkmnow-front.git
+git clone git@github.com:moh-malaysia/kkmnow-front.git
 yarn install
 yarn prepare
 cp .env.example .env
