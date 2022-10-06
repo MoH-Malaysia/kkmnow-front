@@ -299,7 +299,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   const autoScale = useMemo(
     () =>
       data.labels &&
-      (data.labels.length > 180 ? "month" : data.labels.length > 60 ? "week" : "day"),
+      (data.labels.length > 360 ? "month" : data.labels.length > 120 ? "week" : "day"),
     [data.labels]
   );
   const autoRound = useMemo(
