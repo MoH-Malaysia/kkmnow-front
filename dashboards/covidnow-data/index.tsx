@@ -199,7 +199,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               <Panel key={0} name={`${t("covidnow.heatmap")}`}>
                 <div className="grid grid-cols-1 ">
                   <ChoroplethWorld
-                    className={isMobile ? "h-[300px] w-full" : "h-[510px] w-full"}
+                    className="h-[300px] w-auto lg:h-[510px] lg:w-full"
                     enableScale={false}
                     projectionScaleSetting={isMobile ? 65 : 110}
                     projectionTranslationSetting={isMobile ? [0.5, 0.75] : [0.5, 0.68]}
@@ -242,7 +242,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               <Panel key={0} name={`${t("covidnow.heatmap")}`}>
                 <div className="grid grid-cols-1 ">
                   <Choropleth
-                    className={isMobile ? "h-[400px] w-auto" : "h-[500px] w-full"}
+                    className={"h-[400px] w-auto lg:h-[500px] lg:w-full"}
                     enableScale={false}
                     // colorScale="CHOROPLETH_BLUE_SCALE"
                     colorScale="blues"

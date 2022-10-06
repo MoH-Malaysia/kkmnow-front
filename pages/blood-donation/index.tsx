@@ -154,6 +154,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
 
+  //   console.log(data.choropleth_malaysia);
+  //   data.choropleth_malaysia = data.choropleth_malaysia.map(item =>
+  //     item.data.perc !== null ? item : { ...item, ...{ data: { perc: undefined } } }
+  //   );
+
   return {
     props: {
       ...i18n,
