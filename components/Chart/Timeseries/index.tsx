@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useMemo } from "react";
+import { FunctionComponent, ReactElement, useMemo, useCallback } from "react";
 import { ChartHeader, Tooltip } from "@components/index";
 
 import {
@@ -49,6 +49,7 @@ interface TimeseriesProps {
     | "year";
   round?:
     | false
+    | "auto"
     | "millisecond"
     | "second"
     | "minute"
@@ -80,7 +81,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   controls,
   interval = "auto",
   unitY,
-  round,
+  round = "day",
   mode = "stacked",
   data = dummy,
   stats,
@@ -110,7 +111,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
     AnnotationPlugin
   );
 
-  const options = useMemo((): ChartCrosshairOption => {
+  const options = useCallback((): ChartCrosshairOption => {
     return {
       responsive: true,
       maintainAspectRatio: false,
@@ -161,7 +162,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
                   hour: data.labels!.length - 1,
                   day: data.labels!.length - 1,
                 };
-                const xIndex = round ? INDEXES[round] : data.labels!.length - 1;
+                const xIndex = round && round !== "auto" ? INDEXES[round] : data.labels!.length - 1;
                 const yIndex = data.labels!.length - 1;
                 return {
                   type: "label",
@@ -221,7 +222,8 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           type: "time",
           time: {
             unit: interval === "auto" ? autoScale : interval,
-            round: round,
+            round: round === "auto" ? autoRound : round,
+
             displayFormats: {
               quarter: "MMM",
               month: "MMM",
@@ -300,14 +302,19 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
       (data.labels.length > 180 ? "month" : data.labels.length > 60 ? "week" : "day"),
     [data.labels]
   );
+  const autoRound = useMemo(
+    () => data.labels && (data.labels.length > 720 ? "week" : "day"),
+    [data.labels]
+  );
 
   return (
     <div className="space-y-2">
       <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       {stats && <Stats data={stats}></Stats>}
       {subheader && <div>{subheader}</div>}
-
-      <div className={className}>{data && <Chart data={data} options={options} type={type} />}</div>
+      <div className={className}>
+        {data && <Chart data={data} options={options()} type={type} />}
+      </div>
       {description && <p className="text-sm text-dim">{description}</p>}
     </div>
   );

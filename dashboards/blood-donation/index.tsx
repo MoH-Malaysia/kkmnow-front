@@ -271,7 +271,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               title={t("blood.combine_title")}
               state={currentState}
               //menu={<MenuDropdown />}
-              round={filtered_timeline().x.length > 1095 ? "week" : "day"}
               stats={null}
               data={{
                 labels: filtered_timeline().x,
