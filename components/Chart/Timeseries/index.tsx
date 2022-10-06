@@ -392,18 +392,3 @@ const Stats: FunctionComponent<StatsProps> = ({ data, className }) => {
 };
 
 export default Timeseries;
-
-// const locations: {
-//   [state]: {
-//     [district]: {
-//       [facility-type]: [
-//         {
-//           name: "Hospital Whatever";
-//           lat: number;
-//           lon: number;
-//         },
-//         // { ... }
-//       ];
-//     };
-//   };
-// };

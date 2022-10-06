@@ -54,11 +54,13 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
           windowWidth < BREAKPOINTS.MD ? ParliamentMobile.features : ParliamentDesktop.features,
         projectionScale: 3500,
         projectionTranslation: [0.65, 0.9] as [number, number],
+        margin: { top: 0, right: 0, bottom: 0, left: 0 },
       },
       dun: {
         feature: windowWidth < BREAKPOINTS.MD ? DunMobile.features : DunDesktop.features,
         projectionScale: 3500,
         projectionTranslation: [0.65, 0.9] as [number, number],
+        margin: { top: 0, right: 0, bottom: 0, left: 0 },
       },
       state: {
         feature: windowWidth < BREAKPOINTS.MD ? StateMobile.features : StateDesktop.features,
@@ -67,6 +69,10 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
           windowWidth < BREAKPOINTS.MD
             ? ([0.5, 1.0] as [number, number])
             : ([0.65, 1.0] as [number, number]),
+        margin:
+          windowWidth < BREAKPOINTS.MD
+            ? { top: -30, right: 0, bottom: 0, left: 0 }
+            : { top: 0, right: 0, bottom: 0, left: 0 },
       },
     }),
     [windowWidth]
@@ -76,6 +82,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
     () => ({
       feature: presets[graphChoice].feature,
       colors: colorScale,
+      margin: presets[graphChoice].margin,
       projectionScale: presets[graphChoice].projectionScale,
       projectionTranslation: presets[graphChoice].projectionTranslation,
       borderWidth: borderWidth,
@@ -91,7 +98,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
         <ResponsiveChoropleth
           data={data}
           features={config.feature}
-          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+          margin={config.margin}
           colors={config.colors}
           domain={[
             Math.min.apply(
@@ -114,7 +121,7 @@ const Choropleth: FunctionComponent<ChoroplethProps> = ({
             return data?.id ? (
               <div className="nivo-tooltip">
                 {data.id}:{" "}
-                {data.value === null ? (
+                {data.value === -1 ? (
                   t("common.no_data")
                 ) : data.value_real ? (
                   <>
