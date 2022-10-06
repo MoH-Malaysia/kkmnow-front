@@ -16,7 +16,6 @@ import { FunctionComponent } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { HOSPITAL_TABLE_SCHEMA } from "@lib/schema/hospital-bed-utilisation";
-import { useWindowWidth } from "@hooks/useWindowWidth";
 import { useTranslation } from "next-i18next";
 
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
@@ -63,7 +62,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
           <Tabs className="flex flex-wrap justify-end gap-2">
             <Panel key={0} name={t("bed.tab_choro1")}>
               <Choropleth
-                className={"h-[500px] w-auto"}
+                className={"h-[400px] w-auto lg:h-[500px] lg:w-full"}
                 colorScale="OrRd"
                 enableScale={false}
                 data={choropleth_bed.map((item: any) => ({
@@ -76,7 +75,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
             </Panel>
             <Panel key={1} name={t("bed.tab_choro2")}>
               <Choropleth
-                className={"h-[500px] w-auto"}
+                className={"h-[400px] w-auto lg:h-[500px] lg:w-full"}
                 colorScale="reds"
                 enableScale={false}
                 data={choropleth_bed.map((item: any) => ({

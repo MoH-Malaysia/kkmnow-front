@@ -271,7 +271,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               title={t("blood.combine_title")}
               state={currentState}
               //menu={<MenuDropdown />}
-              round={filtered_timeline().x.length > 1095 ? "week" : "day"}
               stats={null}
               data={{
                 labels: filtered_timeline().x,
@@ -322,7 +321,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               data={choropleth_malaysia_blood_donation.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],
-                value: item.data.perc,
+                value: item.data.perc === null ? -1 : item.data.perc,
               }))}
               unitY="%"
               graphChoice="state"

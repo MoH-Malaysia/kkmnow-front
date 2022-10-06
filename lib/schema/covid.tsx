@@ -45,7 +45,8 @@ export const COVID_TABLE_SCHEMA = () => {
               header: "Per 100K",
               subheader: t("covid.table_past14d"),
               sortDescFirst: true,
-              accessorFn: (item: any) => numFormat(item.deaths.deaths_100k, "standard"),
+              accessorFn: (item: any) =>
+                item.deaths.deaths_trend && item.deaths.deaths_100k.toFixed(1),
               sortingFn: "localeNumber",
             },
             {
@@ -54,7 +55,7 @@ export const COVID_TABLE_SCHEMA = () => {
               subheader: t("covid.table_past14d"),
               sortDescFirst: true,
               accessorFn: (item: any) =>
-                item.deaths.deaths_trend && +item.deaths.deaths_trend.toFixed(1),
+                item.deaths.deaths_trend && item.deaths.deaths_trend.toFixed(1),
               relative: true,
               inverse: true,
               unit: "%",
@@ -78,7 +79,7 @@ export const COVID_TABLE_SCHEMA = () => {
               header: t("covid.table_admission_util"),
               sortDescFirst: true,
               accessorFn: (item: any) =>
-                item.admitted.util_hosp && +item.admitted.util_hosp.toFixed(1),
+                item.admitted.util_hosp && item.admitted.util_hosp.toFixed(1),
               unit: "%",
             },
             {
@@ -88,7 +89,7 @@ export const COVID_TABLE_SCHEMA = () => {
               sortDescFirst: true,
               accessorFn: (item: any) =>
                 item.admitted.admitted_trend !== null
-                  ? +item.admitted.admitted_trend.toFixed(1)
+                  ? item.admitted.admitted_trend.toFixed(1)
                   : item.admitted.admitted_trend,
               relative: true,
               inverse: true,
@@ -112,14 +113,14 @@ export const COVID_TABLE_SCHEMA = () => {
               header: "Per 100K",
               subheader: t("covid.table_past14d"),
               sortDescFirst: true,
-              accessorFn: (item: any) => numFormat(item.cases.cases_100k, "standard"),
+              accessorFn: (item: any) => item.cases.cases_100k && item.cases.cases_100k.toFixed(1),
               sortingFn: "localeNumber",
             },
             {
               id: "cases.cases_posrate",
               header: t("covid.table_cases_posrate"),
               sortDescFirst: true,
-              accessorFn: (item: any) => +item.cases.cases_posrate.toFixed(1),
+              accessorFn: (item: any) => item.cases.cases_posrate.toFixed(1),
               unit: "%",
             },
             {
@@ -127,7 +128,7 @@ export const COVID_TABLE_SCHEMA = () => {
               header: t("covid.table_cases_trend"),
               subheader: t("covid.table_past14d"),
               sortDescFirst: true,
-              accessorFn: (item: any) => +item.cases.cases_trend.toFixed(1),
+              accessorFn: (item: any) => item.cases.cases_trend.toFixed(1),
               relative: true,
               inverse: true,
               unit: "%",
@@ -185,7 +186,7 @@ export const COVID_TABLE_SCHEMA = () => {
               sortDescFirst: true,
               accessorFn: (item: any) =>
                 item.deaths.deaths_trend !== null
-                  ? +item.deaths.deaths_trend.toFixed(1)
+                  ? item.deaths.deaths_trend.toFixed(1)
                   : item.deaths.deaths_trend,
               relative: true,
               inverse: true,
@@ -234,7 +235,7 @@ export const COVID_TABLE_SCHEMA = () => {
               header: t("covid.table_admission_util"),
               sortDescFirst: true,
               accessorFn: (item: any) =>
-                item.admitted.util_hosp && +item.admitted.util_hosp.toFixed(1),
+                item.admitted.util_hosp && item.admitted.util_hosp.toFixed(1),
               unit: "%",
             },
             {
@@ -244,7 +245,7 @@ export const COVID_TABLE_SCHEMA = () => {
               sortDescFirst: true,
               accessorFn: (item: any) =>
                 item.admitted.admitted_trend !== null
-                  ? +item.admitted.admitted_trend.toFixed(1)
+                  ? item.admitted.admitted_trend.toFixed(1)
                   : item.admitted.admitted_trend,
               relative: true,
               inverse: true,
@@ -293,7 +294,7 @@ export const COVID_TABLE_SCHEMA = () => {
               header: "Per 100K",
               subheader: t("covid.table_past14d"),
               sortDescFirst: true,
-              accessorFn: (item: any) => numFormat(item.cases.cases_100k, "standard"),
+              accessorFn: (item: any) => item.cases.cases_100k && item.cases.cases_100k.toFixed(1),
               sortingFn: "localeNumber",
             },
             {
@@ -308,7 +309,7 @@ export const COVID_TABLE_SCHEMA = () => {
               header: t("covid.table_cases_trend"),
               subheader: t("covid.table_past14d"),
               sortDescFirst: true,
-              accessorFn: (item: any) => +item.cases.cases_trend.toFixed(1),
+              accessorFn: (item: any) => item.cases.cases_trend.toFixed(1),
               relative: true,
               inverse: true,
               unit: "%",

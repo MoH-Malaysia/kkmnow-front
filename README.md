@@ -4,14 +4,12 @@ This is the frontend repo for KKMNOW. KKMNOW is a collaboration between the Mini
 
 ---
 
-## Table of Content
+## Table of Contents
 
 - [Installation](#installation)
 - [Commands to Know](#commands-to-know)
 - [Development Workflow](#development-workflow)
 - [Contributing](#contributing)
-- [License](#license)
-- [Developers](#contributing)
 
 ## Installation
 
@@ -19,7 +17,7 @@ Please use `yarn` to manage dependencies.
 
 ```bash
 # NPM
-git clone git@github.com:dosm-malaysia/kkmnow-front.git
+git clone git@github.com:moh-malaysia/kkmnow-front.git
 yarn install
 yarn prepare
 cp .env.example .env
@@ -54,14 +52,3 @@ yarn prepare
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
-
-## License
-
-This project is licensed under the terms of the MIT license.
-
-## Authors
-
-- [irfancoder](https://github.com/irfancoder) (lead)
-- [itschrislow](https://github.com/itschrislow)
-- [manfye](https://github.com/manfye)
-- [shenghann](https://github.com/shenghann)
