@@ -1,3 +1,4 @@
+import path from "path";
 module.exports = {
   i18n: {
     defaultLocale: "en-GB",
