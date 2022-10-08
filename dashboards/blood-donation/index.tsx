@@ -776,36 +776,43 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               )}
             </div>
 
-            <OSMapWrapper
-              className="h-[460px] w-full rounded-xl"
-              title={
-                data.zoom_state && data.zoom_facility
-                  ? `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`
-                  : t("blood.map_title")
-              }
-              zoom={data.zoom_facility ? 8 : 5}
-              position={
-                data.zoom_facility && data.zoom_state
-                  ? [
-                      map_facility[data.zoom_state][data.zoom_facility.label].lat,
-                      map_facility[data.zoom_state][data.zoom_facility.label].lon,
-                    ]
-                  : undefined
-              }
-              markers={
-                data.zoom_facility && data.zoom_state
-                  ? [
-                      {
-                        name: `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`,
-                        position: [
-                          map_facility[data.zoom_state][data.zoom_facility.label].lat,
-                          map_facility[data.zoom_state][data.zoom_facility.label].lon,
-                        ],
-                      },
-                    ]
-                  : []
-              }
-            />
+            {data.zoom_facility && data.zoom_state ? (
+              <OSMapWrapper
+                className="h-[460px] w-full rounded-xl"
+                title={
+                  data.zoom_state && data.zoom_facility
+                    ? `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`
+                    : t("blood.map_title")
+                }
+                zoom={data.zoom_facility ? 8 : 5}
+                position={
+                  data.zoom_facility && data.zoom_state
+                    ? [
+                        map_facility[data.zoom_state][data.zoom_facility.label].lat,
+                        map_facility[data.zoom_state][data.zoom_facility.label].lon,
+                      ]
+                    : undefined
+                }
+                markers={
+                  data.zoom_facility && data.zoom_state
+                    ? [
+                        {
+                          name: `${data.zoom_facility.label}, ${CountryAndStates[data.zoom_state]}`,
+                          position: [
+                            map_facility[data.zoom_state][data.zoom_facility.label].lat,
+                            map_facility[data.zoom_state][data.zoom_facility.label].lon,
+                          ],
+                        },
+                      ]
+                    : []
+                }
+              />
+            ) : (
+              <img
+                src="/static/images/osm_placeholder.png"
+                className="h-[460px] w-full rounded-xl"
+              />
+            )}
           </div>
         </Section>
       </Container>
