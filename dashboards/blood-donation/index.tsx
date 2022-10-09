@@ -807,6 +807,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     : []
                 }
               />
+            ) : isMobile ? (
+              <img
+                src="/static/images/osm_placeholder_mobile.png"
+                className="h-[460px] w-full rounded-xl"
+              />
             ) : (
               <img
                 src="/static/images/osm_placeholder.png"
