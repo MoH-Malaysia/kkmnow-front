@@ -15,13 +15,14 @@ import {
 } from "@components/index";
 import { ArrowPathIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { useData } from "@hooks/useData";
-import { CountryAndStates, GRAYBAR_COLOR } from "@lib/constants";
+import { CountryAndStates, BREAKPOINTS } from "@lib/constants";
 import { FACILTIES_TABLE_SCHEMA } from "@lib/schema/healthcare-facilities";
 import dynamic from "next/dynamic";
 import { FunctionComponent, useEffect } from "react";
 import { OptionType } from "@components/types";
 import { useTranslation } from "next-i18next";
 import { get } from "@lib/api";
+import { useWindowWidth } from "@hooks/useWindowWidth";
 
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
@@ -50,6 +51,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     // bar_distances_between: undefined,
   });
   const { t } = useTranslation("common");
+  const windowWidth = useWindowWidth();
+  const isMobile = windowWidth < BREAKPOINTS.MD;
 
   const handleClearSelection = () => {
     setData("zoom_state", undefined);
@@ -244,26 +247,38 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
             </div>
           </Section>
           <div className="col-span-1 lg:col-span-2">
-            <OSMapWrapper
-              title={`${
-                data.zoom_facility_type
-                  ? data.zoom_facility_type.label.concat(t("common.in"))
-                  : t("healthcare.map_title")
-              } ${data.zoom_district ? data.zoom_district.label + ", " : ""} ${
-                CountryAndStates[data.zoom_state ?? "mys"]
-              }`}
-              position={
-                data.map_markers.length
-                  ? [data.map_markers[0].lat, data.map_markers[0].lon]
-                  : undefined
-              }
-              zoom={data.map_markers.length ? 9 : undefined}
-              markers={data.map_markers.map((marker: any) => ({
-                name: marker.name,
-                position: [marker.lat, marker.lon],
-              }))}
-              className="h-[520px] w-full rounded-xl"
-            />
+            {data.zoom_facility_type && data.zoom_state && data.zoom_district ? (
+              <OSMapWrapper
+                title={`${
+                  data.zoom_facility_type
+                    ? data.zoom_facility_type.label.concat(t("common.in"))
+                    : t("healthcare.map_title")
+                } ${data.zoom_district ? data.zoom_district.label + ", " : ""} ${
+                  CountryAndStates[data.zoom_state ?? "mys"]
+                }`}
+                position={
+                  data.map_markers.length
+                    ? [data.map_markers[0].lat, data.map_markers[0].lon]
+                    : undefined
+                }
+                zoom={data.map_markers.length ? 9 : undefined}
+                markers={data.map_markers.map((marker: any) => ({
+                  name: marker.name,
+                  position: [marker.lat, marker.lon],
+                }))}
+                className="h-[520px] w-full rounded-xl"
+              />
+            ) : isMobile ? (
+              <img
+                src="/static/images/osm_placeholder_mobile.png"
+                className="h-[460px] w-full rounded-xl"
+              />
+            ) : (
+              <img
+                src="/static/images/osm_placeholder_long.png"
+                className="h-[460px] w-full rounded-xl"
+              />
+            )}
           </div>
         </div>
 
