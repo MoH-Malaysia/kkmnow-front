@@ -23,25 +23,25 @@
         {
           "name": "Home",
           "short_name": "Home",
-          "description": "KKM Now",
+          "description": "KKMNow",
           "url": "/",
           "icons": [
             { "src": "/static/images/icons/android-chrome-192x192.png", "sizes": "192x192" }
           ]
         },
         {
-          "name": "Covid Now",
-          "short_name": "Covid Now",
-          "description": "CovidNow Dashboard",
+          "name": "COVID-19",
+          "short_name": "COVID-19",
+          "description": "COVID-19 Dashboard",
           "url": "/covid",
           "icons": [
             { "src": "/static/images/icons/covidnow.png", "sizes": "192x192" }
           ]
         },
         {
-          "name": "Covid Vaccination",
-          "short_name": "Covid Vaccination",
-          "description": "Covid Vaccination Dashboard",
+          "name": "COVID-19 Vaccination",
+          "short_name": "COVID-19 Vaccination",
+          "description": "COVID-19 Vaccination Dashboard",
           "url": "/covid-vaccination",
           "icons": [
             { "src": "/static/images/icons/covidvax.png", "sizes": "192x192" }
