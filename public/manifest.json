@@ -35,7 +35,7 @@
           "description": "CovidNow Dashboard",
           "url": "/covid",
           "icons": [
-            { "src": "/static/images/icons/android-chrome-192x192.png", "sizes": "192x192" }
+            { "src": "/static/images/icons/covidnow.png", "sizes": "192x192" }
           ]
         },
         {
@@ -44,7 +44,7 @@
           "description": "Covid Vaccination Dashboard",
           "url": "/covid-vaccination",
           "icons": [
-            { "src": "/static/images/icons/android-chrome-192x192.png", "sizes": "192x192" }
+            { "src": "/static/images/icons/covidvax.png", "sizes": "192x192" }
           ]
         },
         {
@@ -53,7 +53,7 @@
           "description": "Blood Donation Dashboard",
           "url": "/blood-donation",
           "icons": [
-            { "src": "/static/images/icons/android-chrome-192x192.png", "sizes": "192x192" }
+            { "src": "/static/images/icons/blood.png", "sizes": "192x192" }
           ]
         },
         {
@@ -62,7 +62,7 @@
           "description": "Organ Donation Dashboard",
           "url": "/organ-donation",
           "icons": [
-            { "src": "/icons/android-chrome-192x192.png", "sizes": "192x192" }
+            { "src": "/static/images/icons/organ.png", "sizes": "192x192" }
           ]
         }
       ],
