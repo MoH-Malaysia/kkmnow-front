@@ -99,7 +99,6 @@ const BloodDonationIndex: Page = ({
     }, {});
   });
 
-  console.log(vars);
   return (
     <>
       <Metadata
