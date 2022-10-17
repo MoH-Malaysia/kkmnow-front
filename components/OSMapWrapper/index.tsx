@@ -5,6 +5,7 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 type OSMapWrapperProps = {
   className?: string;
   title?: string | ReactElement;
+  date?: string;
   position?: LatLngExpression;
   zoom?: number;
   markers?: MarkerProp[];
@@ -18,13 +19,17 @@ type MarkerProp = {
 const OSMapWrapper: FunctionComponent<OSMapWrapperProps> = ({
   className = "h-[400px] w-full",
   title,
+  date,
   position = [5.1420589, 109.618149], // default - Malaysia
   zoom = 5,
   markers = dummy,
 }) => {
   return (
     <div>
-      <h4 className="mb-5">{title}</h4>
+      <div className="flex items-baseline justify-between pb-5">
+        <h4>{title}</h4>
+        {date && <p className="text-sm text-dim">{date}</p>}
+      </div>
 
       <MapContainer
         className={`rounded-xl ${className} z-0`}

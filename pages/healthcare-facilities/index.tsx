@@ -35,7 +35,9 @@ const HealthcareFacilitiesIndex: Page = ({
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
-  const { data } = await get("/kkmnow", { dashboard: "facilities" });
+  const {
+    data: { helpers },
+  } = await get("/kkmnow", { dashboard: "facilities" });
   const {
     data: { facilities_table },
   } = await get("/kkmnow", { dashboard: "facilities_table" });
@@ -45,8 +47,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...i18n,
       last_updated: new Date().valueOf(),
       facility_table: facilities_table,
-      state_district_mapping: data.helpers.state_district_mapping,
-      facility_types: data.helpers.facility_types,
+      state_district_mapping: helpers.data.state_district_mapping,
+      facility_types: helpers.data.facility_types,
     },
     revalidate: 300,
   };
