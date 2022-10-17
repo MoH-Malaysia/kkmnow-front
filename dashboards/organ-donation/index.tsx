@@ -239,7 +239,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
           </div>
         </Section>
         {/* What proportion of the population in {{ area }} donates blood?  */}
-        <Section
+        {/* <Section
           title={t("organ.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("organ.heatmap_description")}
           date={heatmap_donorrate.data_as_of}
@@ -389,7 +389,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
             <div>
               <Tabs title={t("organ.bar1_title")} state={currentState}>
                 <Panel name={t("organ.annual")}>
-                  {/* <Bar
+                  <Bar
                     className="h-[500px]"
                     layout="horizontal"
                     data={{
@@ -403,10 +403,10 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       ],
                     }}
                     enableGridY={false}
-                  /> */}
+                  />
                 </Panel>
                 <Panel name={t("organ.monthly")}>
-                  {/* <Bar
+                  <Bar
                     className="h-[500px]"
                     layout="horizontal"
                     data={{
@@ -420,14 +420,14 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                       ],
                     }}
                     enableGridY={false}
-                  /> */}
+                  />
                 </Panel>
               </Tabs>
             </div>
           </div>
-        </Section>
+        </Section> */}
         {/* How is this data collected? */}
-        <Section title={t("organ.map_btm")} description={t("organ.map_desc")} />
+        {/* <Section title={t("organ.map_btm")} description={t("organ.map_desc")} /> */}
       </Container>
     </>
   );

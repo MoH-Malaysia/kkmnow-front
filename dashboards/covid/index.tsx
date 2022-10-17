@@ -720,7 +720,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* How is vaccination influencing key epidemic indidcators? */}
-        <Section
+        {/* <Section
           title={t("covid.bar_chart_header")}
           description={t("covid.bar_chart_subheader")}
           date={bar_chart.data_as_of}
@@ -914,7 +914,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               </>
             </Panel>
           </Tabs>
-        </Section>
+        </Section> */}
       </Container>
     </>
   );

@@ -143,7 +143,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       </Hero>
       <Container className="min-h-screen">
         {/* Is {{ area }}'s current blood supply sufficient? */}
-        <Section
+        {/* <Section
           title={t("blood.table_header", { state: CountryAndStates[currentState] })}
           date={heatmap_bloodstock.data_as_of}
         >
@@ -264,7 +264,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               </Tabs>
             </div>
           </div>
-        </Section>
+        </Section> */}
 
         {/* What are the latest blood donation trends in {{ area }}? */}
         <Section
@@ -500,7 +500,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         </Section>
 
         {/* What proportion of the population in {{ area }} donates blood?  */}
-        <Section
+        {/* <Section
           title={t("blood.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("blood.heatmap_description")}
           date={heatmap_donorrate.data_as_of}
@@ -670,7 +670,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               colorMax={35}
             />
           </div>
-        </Section>
+        </Section> */}
 
         {/* How is this data collected? */}
         <Section

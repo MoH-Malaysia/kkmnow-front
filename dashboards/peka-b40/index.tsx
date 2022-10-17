@@ -149,7 +149,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
           </div>
         </Section>
         {/* What proportion of the population in {{ area }} donates blood? */}
-        <Section
+        {/* <Section
           title={t("peka.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("peka.heatmap_description")}
           date={heatmap_screenrate.data_as_of}
@@ -338,9 +338,9 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               </Tabs>
             </div>
           </div>
-        </Section>
+        </Section> */}
         {/* // How is this data collected?  */}
-        <Section title={t("peka.map_header")} description={t("peka.map_description")} />
+        {/* <Section title={t("peka.map_header")} description={t("peka.map_description")} /> */}
       </Container>
     </>
   );
