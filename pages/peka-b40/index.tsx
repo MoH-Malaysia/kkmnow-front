@@ -21,7 +21,7 @@ const PekaB40Index: Page = ({
   let abs: any[] = [],
     capita: any[] = [],
     perc: any[] = [];
-  heatmap_screenrate.abs.male.data.forEach((item: any, index: number) => {
+  heatmap_screenrate.data.abs.male.data.forEach((item: any, index: number) => {
     abs.push({
       id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
@@ -31,12 +31,13 @@ const PekaB40Index: Page = ({
         },
         {
           x: t("blood.female"),
-          y: heatmap_screenrate.abs.female.data[index].y,
+          y: heatmap_screenrate.data.abs.female.data[index].y,
         },
         {
           x: t("blood.overall"),
           y:
-            heatmap_screenrate.abs.male.data[index].y + heatmap_screenrate.abs.female.data[index].y,
+            heatmap_screenrate.data.abs.male.data[index].y +
+            heatmap_screenrate.data.abs.female.data[index].y,
         },
       ],
     });
@@ -45,17 +46,17 @@ const PekaB40Index: Page = ({
       data: [
         {
           x: t("blood.male"),
-          y: heatmap_screenrate.capita.male.data[index].y,
+          y: heatmap_screenrate.data.capita.male.data[index].y,
         },
         {
           x: t("blood.female"),
-          y: heatmap_screenrate.capita.female.data[index].y,
+          y: heatmap_screenrate.data.capita.female.data[index].y,
         },
         {
           x: t("blood.overall"),
           y:
-            heatmap_screenrate.capita.female.data[index].y +
-            heatmap_screenrate.capita.male.data[index].y,
+            heatmap_screenrate.data.capita.female.data[index].y +
+            heatmap_screenrate.data.capita.male.data[index].y,
         },
       ],
     });
@@ -64,17 +65,17 @@ const PekaB40Index: Page = ({
       data: [
         {
           x: t("blood.male"),
-          y: heatmap_screenrate.perc.male.data[index].y,
+          y: heatmap_screenrate.data.perc.male.data[index].y,
         },
         {
           x: t("blood.female"),
-          y: heatmap_screenrate.perc.female.data[index].y,
+          y: heatmap_screenrate.data.perc.female.data[index].y,
         },
         {
           x: t("blood.overall"),
           y:
-            heatmap_screenrate.perc.female.data[index].y +
-            heatmap_screenrate.perc.male.data[index].y,
+            heatmap_screenrate.data.perc.female.data[index].y +
+            heatmap_screenrate.data.perc.male.data[index].y,
         },
       ],
     });
@@ -90,9 +91,12 @@ const PekaB40Index: Page = ({
         last_updated={last_updated}
         timeseries_screenrate={timeseries_screenrate}
         heatmap_screenrate={{
-          abs,
-          perc,
-          capita,
+          data_as_of: heatmap_screenrate.data_as_of,
+          data: {
+            abs,
+            perc,
+            capita,
+          },
         }}
         bar_age={bar_age}
         choropleth_malaysia_peka_b40={choropleth_malaysia_peka_b40}
