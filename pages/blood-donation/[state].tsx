@@ -34,7 +34,7 @@ const BloodDonationState: Page = ({
     perc: any[] = [];
   let vars: Record<string, any> = {};
 
-  heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
+  heatmap_donorrate.data.abs.male.data.forEach((item: any, index: number) => {
     abs.push({
       id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
@@ -44,11 +44,13 @@ const BloodDonationState: Page = ({
         },
         {
           x: t("blood.female"),
-          y: heatmap_donorrate.abs.female.data[index].y,
+          y: heatmap_donorrate.data.abs.female.data[index].y,
         },
         {
           x: t("blood.overall"),
-          y: heatmap_donorrate.abs.male.data[index].y + heatmap_donorrate.abs.female.data[index].y,
+          y:
+            heatmap_donorrate.data.abs.male.data[index].y +
+            heatmap_donorrate.data.abs.female.data[index].y,
         },
       ],
     });
@@ -57,17 +59,17 @@ const BloodDonationState: Page = ({
       data: [
         {
           x: t("blood.male"),
-          y: heatmap_donorrate.capita.male.data[index].y,
+          y: heatmap_donorrate.data.capita.male.data[index].y,
         },
         {
           x: t("blood.female"),
-          y: heatmap_donorrate.capita.female.data[index].y,
+          y: heatmap_donorrate.data.capita.female.data[index].y,
         },
         {
           x: t("blood.overall"),
           y:
-            heatmap_donorrate.capita.female.data[index].y +
-            heatmap_donorrate.capita.male.data[index].y,
+            heatmap_donorrate.data.capita.female.data[index].y +
+            heatmap_donorrate.data.capita.male.data[index].y,
         },
       ],
     });
@@ -76,22 +78,23 @@ const BloodDonationState: Page = ({
       data: [
         {
           x: t("blood.male"),
-          y: heatmap_donorrate.perc.male.data[index].y,
+          y: heatmap_donorrate.data.perc.male.data[index].y,
         },
         {
           x: t("blood.female"),
-          y: heatmap_donorrate.perc.female.data[index].y,
+          y: heatmap_donorrate.data.perc.female.data[index].y,
         },
         {
           x: t("blood.overall"),
           y:
-            heatmap_donorrate.perc.female.data[index].y + heatmap_donorrate.perc.male.data[index].y,
+            heatmap_donorrate.data.perc.female.data[index].y +
+            heatmap_donorrate.data.perc.male.data[index].y,
         },
       ],
     });
   });
 
-  Object.entries(barchart_variables).forEach(([key, values]: [string, any]) => {
+  Object.entries(barchart_variables.data).forEach(([key, values]: [string, any]) => {
     vars[key] = Object.entries(values).reduce((previous, current: [string, any]) => {
       return {
         ...previous,
@@ -113,15 +116,21 @@ const BloodDonationState: Page = ({
         timeseries_facility={timeseries_facility}
         heatmap_bloodstock={heatmap_bloodstock}
         heatmap_donorrate={{
-          abs,
-          perc,
-          capita,
+          data_as_of: heatmap_donorrate.data_as_of,
+          data: {
+            abs,
+            perc,
+            capita,
+          },
         }}
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
         map_facility={map_facility}
-        barchart_variables={vars}
+        barchart_variables={{
+          data_as_of: barchart_variables.data_as_of,
+          data: vars,
+        }}
         choropleth_malaysia_blood_donation={choropleth_malaysia_blood_donation}
       />
     </>
@@ -172,11 +181,11 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const { data } = await get("/kkmnow", { dashboard: "blood_donation", state: params?.state }); // fetch static data here
 
   // transfrom:
-  Object.values(data.heatmap_retention).forEach((item: any) => {
+  Object.values(data.heatmap_retention.data).forEach((item: any) => {
     item.data = item.data.filter((_item: any) => _item.y !== null);
   });
 
-  data.bar_chart_time.monthly.x = data.bar_chart_time.monthly.x.map((item: any) => {
+  data.bar_chart_time.data.monthly.x = data.bar_chart_time.data.monthly.x.map((item: any) => {
     const period = DateTime.fromFormat(item, "yyyy-MM-dd");
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
