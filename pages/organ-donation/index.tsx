@@ -24,7 +24,7 @@ const OrganDonationIndex = ({
   let abs: any[] = [],
     capita: any[] = [],
     perc: any[] = [];
-  heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
+  heatmap_donorrate.data.abs.male.data.forEach((item: any, index: number) => {
     abs.push({
       id: item.x === "Overall" ? t("blood.overall") : item.x,
       data: [
@@ -34,11 +34,13 @@ const OrganDonationIndex = ({
         },
         {
           x: t("blood.female"),
-          y: heatmap_donorrate.abs.female.data[index].y,
+          y: heatmap_donorrate.data.abs.female.data[index].y,
         },
         {
           x: t("blood.overall"),
-          y: heatmap_donorrate.abs.male.data[index].y + heatmap_donorrate.abs.female.data[index].y,
+          y:
+            heatmap_donorrate.data.abs.male.data[index].y +
+            heatmap_donorrate.data.abs.female.data[index].y,
         },
       ],
     });
@@ -47,17 +49,17 @@ const OrganDonationIndex = ({
       data: [
         {
           x: t("blood.male"),
-          y: heatmap_donorrate.capita.male.data[index].y,
+          y: heatmap_donorrate.data.capita.male.data[index].y,
         },
         {
           x: t("blood.female"),
-          y: heatmap_donorrate.capita.female.data[index].y,
+          y: heatmap_donorrate.data.capita.female.data[index].y,
         },
         {
           x: t("blood.overall"),
           y:
-            heatmap_donorrate.capita.female.data[index].y +
-            heatmap_donorrate.capita.male.data[index].y,
+            heatmap_donorrate.data.capita.female.data[index].y +
+            heatmap_donorrate.data.capita.male.data[index].y,
         },
       ],
     });
@@ -66,16 +68,17 @@ const OrganDonationIndex = ({
       data: [
         {
           x: t("blood.male"),
-          y: heatmap_donorrate.perc.male.data[index].y,
+          y: heatmap_donorrate.data.perc.male.data[index].y,
         },
         {
           x: t("blood.female"),
-          y: heatmap_donorrate.perc.female.data[index].y,
+          y: heatmap_donorrate.data.perc.female.data[index].y,
         },
         {
           x: t("blood.overall"),
           y:
-            heatmap_donorrate.perc.female.data[index].y + heatmap_donorrate.perc.male.data[index].y,
+            heatmap_donorrate.data.perc.female.data[index].y +
+            heatmap_donorrate.data.perc.male.data[index].y,
         },
       ],
     });
@@ -94,9 +97,12 @@ const OrganDonationIndex = ({
         bar_time={bar_time}
         bar_reasons={bar_reasons}
         heatmap_donorrate={{
-          abs,
-          perc,
-          capita,
+          data_as_of: heatmap_donorrate.data.data_as_of,
+          data: {
+            abs,
+            perc,
+            capita,
+          },
         }}
         choropleth_malaysia_organ_donation={choropleth_malaysia_organ_donation}
       />
@@ -126,7 +132,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const { data } = await get("/kkmnow", { dashboard: "organ_donation", state: "mys" });
 
   // transform:
-  data.barchart_time.monthly.x = data.barchart_time.monthly.x.map((item: any) => {
+  data.barchart_time.data.monthly.x = data.barchart_time.data.monthly.x.map((item: any) => {
     const period = DateTime.fromFormat(item, "yyyy-MM-dd");
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { FunctionComponent, useCallback, useMemo } from "react";
 import { routes } from "@lib/routes";
 import { useTranslation } from "next-i18next";
+import { DateTime } from "luxon";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -37,14 +38,14 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
-    minmax: [timeseries_pledge.x.length - 182, timeseries_pledge.x.length - 1],
+    minmax: [timeseries_pledge.data.x.length - 182, timeseries_pledge.data.x.length - 1],
   });
   const { t } = useTranslation("common");
   const filtered_timeline = useCallback(() => {
     return {
-      x: timeseries_pledge.x.slice(data.minmax[0], data.minmax[1] + 1),
-      line: timeseries_pledge.line.slice(data.minmax[0], data.minmax[1] + 1),
-      daily: timeseries_pledge.daily.slice(data.minmax[0], data.minmax[1] + 1),
+      x: timeseries_pledge.data.x.slice(data.minmax[0], data.minmax[1] + 1),
+      line: timeseries_pledge.data.line.slice(data.minmax[0], data.minmax[1] + 1),
+      daily: timeseries_pledge.data.daily.slice(data.minmax[0], data.minmax[1] + 1),
     };
   }, [data.minmax, timeseries_pledge]);
 
@@ -67,6 +68,14 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
             currentState={currentState}
             exclude={["kvy"]}
           />
+
+          <p className="text-sm text-dim">
+            {t("common.last_updated", {
+              date: DateTime.fromMillis(last_updated)
+                .setLocale(router.locale ?? router.defaultLocale!)
+                .toFormat("dd MMM yyyy, HH:mm"),
+            })}
+          </p>
         </div>
       </Hero>
 
@@ -79,7 +88,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               {t("organ.bar_description3")}
             </p>
           }
-          date={last_updated}
+          date={timeseries_pledge.data_as_of}
         >
           <div className="space-y-4">
             <Timeseries
@@ -110,7 +119,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               className="pt-7"
               type="range"
               defaultValue={data.minmax}
-              data={timeseries_pledge.x}
+              data={timeseries_pledge.data.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
             <span className="text-sm text-dim">{t("common.slider")}</span>
@@ -120,7 +129,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         <Section
           title={t("organ.choro_header")}
           description={t("organ.choro_description")}
-          date={last_updated}
+          date={choropleth_malaysia_organ_donation.data_as_of}
           className={isMobile ? "border-b pt-12" : "border-b py-12"}
         >
           <div>
@@ -130,7 +139,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               colorScale="greens"
               borderColor="#000"
               borderWidth={0.5}
-              data={choropleth_malaysia_organ_donation.map((item: any) => ({
+              data={choropleth_malaysia_organ_donation.data.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],
                 value: item.data.perc,
@@ -145,7 +154,7 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
         <Section
           title={t("organ.bar1_header", { state: CountryAndStates[currentState] })}
           description={t("organ.bar1_description")}
-          date={last_updated}
+          date={bar_time.data_as_of}
         >
           <div className="grid w-full grid-cols-1 gap-12 xl:grid-cols-2">
             <div>
@@ -158,11 +167,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                   <Bar
                     className="h-[250px]"
                     data={{
-                      labels: bar_time.annual.x,
+                      labels: bar_time.data.annual.x,
                       datasets: [
                         {
                           label: "New Donors",
-                          data: bar_time.annual.y,
+                          data: bar_time.data.annual.y,
                           backgroundColor: GRAYBAR_COLOR[200],
                         },
                       ],
@@ -174,11 +183,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                   <Bar
                     className="h-[250px]"
                     data={{
-                      labels: bar_time.monthly.x,
+                      labels: bar_time.data.monthly.x,
                       datasets: [
                         {
                           label: "New Donors",
-                          data: bar_time.monthly.y,
+                          data: bar_time.data.monthly.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
                       ],
@@ -198,11 +207,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                   <Bar
                     className="h-[250px]"
                     data={{
-                      labels: bar_age.past_year.x,
+                      labels: bar_age.data.past_year.x,
                       datasets: [
                         {
                           label: "New Donors",
-                          data: bar_age.past_year.y,
+                          data: bar_age.data.past_year.y,
                           backgroundColor: GRAYBAR_COLOR[200],
                         },
                       ],
@@ -214,11 +223,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
                   <Bar
                     className="h-[250px]"
                     data={{
-                      labels: bar_age.past_month.x,
+                      labels: bar_age.data.past_month.x,
                       datasets: [
                         {
                           label: "New Donors",
-                          data: bar_age.past_month.y,
+                          data: bar_age.data.past_month.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
                       ],
