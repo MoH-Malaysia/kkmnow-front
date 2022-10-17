@@ -25,6 +25,7 @@
     "previous": "Sebelum",
     "next": "Seterusnya",
     "in": " di ",
+    "yr": "thn",
     "page_of": "{{ current }} daripada {{ total }}",
     "data_for": "Data untuk {{ state }}",
     "data_of": "Data setakat {{ date }}",

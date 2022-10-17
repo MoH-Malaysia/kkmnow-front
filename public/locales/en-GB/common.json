@@ -25,6 +25,7 @@
     "previous": "Previous",
     "next": "Next",
     "in": " in ",
+    "yr": "yr",
     "page_of": "{{ current }} of {{ total }}",
     "data_for": "Data for {{ state }}",
     "data_of": "Data as of {{ date }}",

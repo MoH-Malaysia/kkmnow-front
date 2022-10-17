@@ -143,18 +143,16 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       </Hero>
       <Container className="min-h-screen">
         {/* Is {{ area }}'s current blood supply sufficient? */}
-        {/*
-        // Data not ready
-         <Section
+        <Section
           title={t("blood.table_header", { state: CountryAndStates[currentState] })}
-          date={last_updated}
+          date={heatmap_bloodstock.data_as_of}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
             <Heatmap
               className="h-[420px] w-[600px]"
               title={t("blood.table_title")}
               hoverTarget="row"
-              data={heatmap_bloodstock}
+              data={heatmap_bloodstock.data}
               axisLeft="state"
               schema={BLOOD_SUPPLY_SCHEMA()}
               color={BLOOD_SUPPLY_COLOR}
@@ -164,11 +162,14 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               <Tabs
                 title={
                   <Tooltip
-                    trigger={
-                      <span className="text-lg font-bold underline decoration-dashed underline-offset-4">
+                    trigger={open => (
+                      <span
+                        className="font-bold underline decoration-dashed underline-offset-4"
+                        onClick={() => open()}
+                      >
                         {t("blood.area_title")}
                       </span>
-                    }
+                    )}
                   >
                     {t("blood.area_tooltip")}
                   </Tooltip>
@@ -181,13 +182,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     className="h-[350px] w-full"
                     interval="week"
                     data={{
-                      labels: ttimeseries_bloodstock.data.x,
+                      labels: timeseries_bloodstock.data.x,
                       datasets: [
                         {
                           type: "line",
                           label: `${t("blood.area_type1")}`,
                           pointRadius: 0,
-                          data: ttimeseries_bloodstock.data.type_a,
+                          data: timeseries_bloodstock.data.type_a,
                           backgroundColor: BLOOD_COLOR[100],
                           fill: true,
                           borderWidth: 0,
@@ -202,13 +203,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     className="h-[350px] w-full"
                     interval="week"
                     data={{
-                      labels: ttimeseries_bloodstock.data.x,
+                      labels: timeseries_bloodstock.data.x,
                       datasets: [
                         {
                           type: "line",
                           label: `${t("blood.area_type2")}`,
                           pointRadius: 0,
-                          data: ttimeseries_bloodstock.data.type_b,
+                          data: timeseries_bloodstock.data.type_b,
                           backgroundColor: BLOOD_COLOR[200],
                           fill: true,
                           borderWidth: 0,
@@ -223,13 +224,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     className="h-[350px] w-full"
                     interval="week"
                     data={{
-                      labels: ttimeseries_bloodstock.data.x,
+                      labels: timeseries_bloodstock.data.x,
                       datasets: [
                         {
                           type: "line",
                           label: `${t("blood.area_type3")}`,
                           pointRadius: 0,
-                          data: ttimeseries_bloodstock.data.type_ab,
+                          data: timeseries_bloodstock.data.type_ab,
                           backgroundColor: BLOOD_COLOR[300],
                           fill: true,
                           borderWidth: 0,
@@ -244,13 +245,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     className="h-[350px] w-full"
                     interval="week"
                     data={{
-                      labels: ttimeseries_bloodstock.data.x,
+                      labels: timeseries_bloodstock.data.x,
                       datasets: [
                         {
                           type: "line",
                           label: `${t("blood.area_type4")}`,
                           pointRadius: 0,
-                          data: ttimeseries_bloodstock.data.type_o,
+                          data: timeseries_bloodstock.data.type_o,
                           backgroundColor: BLOOD_COLOR[400],
                           fill: true,
                           borderWidth: 0,
@@ -263,7 +264,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               </Tabs>
             </div>
           </div>
-        </Section> */}
+        </Section>
 
         {/* What are the latest blood donation trends in {{ area }}? */}
         <Section
@@ -498,13 +499,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
           </div>
         </Section>
 
-        {/* 
-        // Data not ready.
-        What proportion of the population in {{ area }} donates blood? 
+        {/* What proportion of the population in {{ area }} donates blood?  */}
         <Section
           title={t("blood.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("blood.heatmap_description")}
-          date={last_updated}
+          date={heatmap_donorrate.data_as_of}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full overflow-visible">
@@ -516,21 +515,24 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name={t("blood.heatmap1_panel1")}>
                   <>
                     <Heatmap
-                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
-                      data={heatmap_donorrate.capita}
+                      className="flex h-[160px] overflow-visible"
+                      data={[
+                        heatmap_donorrate.data.capita.male,
+                        heatmap_donorrate.data.capita.female,
+                      ]}
                       subdata
                       axisLeft="default"
                       color="blues"
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[240px] overflow-visible"
                       title={t("blood.heatmap2_title")}
                       data={[
-                        heatmap_donorrate.capita.male_chinese,
-                        heatmap_donorrate.capita.male_indian,
-                        heatmap_donorrate.capita.male_bumi,
-                        heatmap_donorrate.capita.male_other,
+                        heatmap_donorrate.data.capita.male_chinese,
+                        heatmap_donorrate.data.capita.male_indian,
+                        heatmap_donorrate.data.capita.male_bumi,
+                        heatmap_donorrate.data.capita.male_other,
                       ]}
                       subdata
                       axisLeft="default"
@@ -539,35 +541,27 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[240px] overflow-visible"
                       title={t("blood.heatmap3_title")}
                       data={[
-                        heatmap_donorrate.capita.female_chinese,
-                        heatmap_donorrate.capita.female_indian,
-                        heatmap_donorrate.capita.female_bumi,
-                        heatmap_donorrate.capita.female_other,
+                        heatmap_donorrate.data.capita.female_chinese,
+                        heatmap_donorrate.data.capita.female_indian,
+                        heatmap_donorrate.data.capita.female_bumi,
+                        heatmap_donorrate.data.capita.female_other,
                       ]}
                       subdata
                       axisLeft="default"
                       axisTop={null}
                       color="blues"
-                    /> 
+                    />
                   </>
                 </Panel>
 
-                {/* <Panel name={t("blood.heatmap1_panel2")}>
+                <Panel name={t("blood.heatmap1_panel2")}>
                   <>
                     <Heatmap
-                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
-                      data={heatmap_donorrate.perc}
-                      subdata
-                      axisLeft="default"
-                      unitY="%"
-                      color="blues"
-                    />
-                    <Heatmap
-                      className="flex h-[150px] overflow-auto lg:overflow-visible"
-                      data={[heatmap_donorrate.perc.male, heatmap_donorrate.perc.female]}
+                      className="flex h-[160px] overflow-auto lg:overflow-visible"
+                      data={[heatmap_donorrate.data.perc.male, heatmap_donorrate.data.perc.female]}
                       subdata
                       axisLeft="default"
                       unitY="%"
@@ -575,13 +569,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[240px] overflow-visible"
                       title={t("blood.heatmap2_title")}
                       data={[
-                        heatmap_donorrate.perc.male_chinese,
-                        heatmap_donorrate.perc.male_indian,
-                        heatmap_donorrate.perc.male_bumi,
-                        heatmap_donorrate.perc.male_other,
+                        heatmap_donorrate.data.perc.male_chinese,
+                        heatmap_donorrate.data.perc.male_indian,
+                        heatmap_donorrate.data.perc.male_bumi,
+                        heatmap_donorrate.data.perc.male_other,
                       ]}
                       subdata
                       unitY="%"
@@ -591,13 +585,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[240px] overflow-visible"
                       title={t("blood.heatmap3_title")}
                       data={[
-                        heatmap_donorrate.perc.female_chinese,
-                        heatmap_donorrate.perc.female_indian,
-                        heatmap_donorrate.perc.female_bumi,
-                        heatmap_donorrate.perc.female_other,
+                        heatmap_donorrate.data.perc.female_chinese,
+                        heatmap_donorrate.data.perc.female_indian,
+                        heatmap_donorrate.data.perc.female_bumi,
+                        heatmap_donorrate.data.perc.female_other,
                       ]}
                       subdata
                       unitY="%"
@@ -610,16 +604,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 <Panel name={t("blood.heatmap1_panel3")}>
                   <>
                     <Heatmap
-                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
-                      data={heatmap_donorrate.abs}
-                      subdata
-                      axisLeft="default"
-                      valueFormat="<-,.1~s"
-                      color="blues"
-                    />
-                    <Heatmap
-                      className="flex h-[150px] overflow-visible"
-                      data={[heatmap_donorrate.abs.male, heatmap_donorrate.abs.female]}
+                      className="flex h-[160px] overflow-visible"
+                      data={[heatmap_donorrate.data.abs.male, heatmap_donorrate.data.abs.female]}
                       subdata
                       axisLeft="default"
                       valueFormat="<-,.1~s"
@@ -627,13 +613,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[240px] overflow-visible"
                       title={t("blood.heatmap2_title")}
                       data={[
-                        heatmap_donorrate.abs.male_chinese,
-                        heatmap_donorrate.abs.male_indian,
-                        heatmap_donorrate.abs.male_bumi,
-                        heatmap_donorrate.abs.male_other,
+                        heatmap_donorrate.data.abs.male_chinese,
+                        heatmap_donorrate.data.abs.male_indian,
+                        heatmap_donorrate.data.abs.male_bumi,
+                        heatmap_donorrate.data.abs.male_other,
                       ]}
                       subdata
                       valueFormat="<-,.2~s"
@@ -643,13 +629,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[240px] overflow-visible"
                       title={t("blood.heatmap3_title")}
                       data={[
-                        heatmap_donorrate.abs.female_chinese,
-                        heatmap_donorrate.abs.female_indian,
-                        heatmap_donorrate.abs.female_bumi,
-                        heatmap_donorrate.abs.female_other,
+                        heatmap_donorrate.data.abs.female_chinese,
+                        heatmap_donorrate.data.abs.female_indian,
+                        heatmap_donorrate.data.abs.female_bumi,
+                        heatmap_donorrate.data.abs.female_other,
                       ]}
                       subdata
                       valueFormat="<-,.1~s"
@@ -658,18 +644,18 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       color="blues"
                     />
                   </>
-                </Panel> 
+                </Panel>
               </Tabs>
             </div>
 
             <Heatmap
-              className="flex h-[500px] w-[600px] overflow-auto lg:overflow-visible "
+              className="flex h-[640px] w-[600px] overflow-auto lg:overflow-visible "
               title={t("blood.heatmap4_title")}
               state={currentState}
               //menu={<MenuDropdown />}
-              data={heatmap_retention}
+              data={heatmap_retention.data}
               unitY="%"
-              unitX="yr"
+              unitX={t("common.yr")}
               axisLeft={{
                 ticksPosition: "before",
                 tickSize: 0,
@@ -685,7 +671,6 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
             />
           </div>
         </Section>
-        */}
 
         {/* How is this data collected? */}
         <Section

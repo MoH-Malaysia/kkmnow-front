@@ -191,7 +191,9 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
               tooltip={({ cell }) => {
                 return (
                   <div className="nivo-tooltip flex gap-2 overflow-visible">
-                    <span>{cell.serieId}:</span>
+                    <span>
+                      {axisLeft === "state" ? CountryAndStates[cell.serieId] : cell.serieId}:
+                    </span>
                     <span>
                       <strong>
                         {cell.data.x}
@@ -228,7 +230,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
           </div>
 
           {subdata && (
-            <div className="aspect-auto h-full w-[28%]">
+            <div className="aspect-auto h-full w-[15%]">
               <ResponsiveHeatMap
                 data={formatted.subdata}
                 margin={{
@@ -237,7 +239,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                   bottom: 30,
                   left: 30,
                 }}
-                hoverTarget={hoverTarget}
+                hoverTarget={"row"}
                 valueFormat={valueFormat}
                 axisTop={
                   axisTop !== undefined
