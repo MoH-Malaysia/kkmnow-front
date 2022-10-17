@@ -21,68 +21,7 @@ const OrganDonationIndex = ({
   choropleth_malaysia_organ_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation();
-  let abs: any[] = [],
-    capita: any[] = [],
-    perc: any[] = [];
-  heatmap_donorrate.data.abs.male.data.forEach((item: any, index: number) => {
-    abs.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: item.y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.data.abs.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.data.abs.male.data[index].y +
-            heatmap_donorrate.data.abs.female.data[index].y,
-        },
-      ],
-    });
-    capita.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: heatmap_donorrate.data.capita.male.data[index].y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.data.capita.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.data.capita.female.data[index].y +
-            heatmap_donorrate.data.capita.male.data[index].y,
-        },
-      ],
-    });
-    perc.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: heatmap_donorrate.data.perc.male.data[index].y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.data.perc.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.data.perc.female.data[index].y +
-            heatmap_donorrate.data.perc.male.data[index].y,
-        },
-      ],
-    });
-  });
+
   return (
     <>
       <Metadata
@@ -96,14 +35,7 @@ const OrganDonationIndex = ({
         bar_age={bar_age}
         bar_time={bar_time}
         bar_reasons={bar_reasons}
-        heatmap_donorrate={{
-          data_as_of: heatmap_donorrate.data.data_as_of,
-          data: {
-            abs,
-            perc,
-            capita,
-          },
-        }}
+        heatmap_donorrate={heatmap_donorrate}
         choropleth_malaysia_organ_donation={choropleth_malaysia_organ_donation}
       />
     </>
