@@ -62,14 +62,11 @@ const OrganDonationDashboard: FunctionComponent<OrganDonationDashboardProps> = (
               {t("organ.title_link")}
             </a>
           </p>
-          <div className="flex w-full items-center gap-4">
-            <p className="text-sm font-bold text-dim">{t("organ.zoom")}</p>
-            <StateDropdown
-              url={routes.ORGAN_DONATION}
-              currentState={currentState}
-              exclude={["kvy"]}
-            />
-          </div>
+          <StateDropdown
+            url={routes.ORGAN_DONATION}
+            currentState={currentState}
+            exclude={["kvy"]}
+          />
         </div>
       </Hero>
 

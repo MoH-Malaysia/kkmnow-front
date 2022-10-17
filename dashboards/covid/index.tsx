@@ -159,10 +159,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             </a>
           </p>
 
-          <div className="flex w-full items-center gap-4">
-            <p className="text-sm font-bold text-dim">{t("covid.zoom")}</p>
-            <StateDropdown url={routes.COVID} currentState={currentState} exclude={["kvy"]} />
-          </div>
+          <StateDropdown url={routes.COVID} currentState={currentState} exclude={["kvy"]} />
         </div>
       </Hero>
 

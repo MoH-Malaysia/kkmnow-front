@@ -62,10 +62,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             </a>
             {t("peka.title_description2")}
           </p>
-          <div className="flex w-full items-center gap-4">
-            <p className="text-sm font-bold text-dim">{t("covid.zoom")}</p>
-            <StateDropdown url={routes.PEKA_B40} currentState={currentState} exclude={["kvy"]} />
-          </div>
+          {/* <div className="flex w-full items-center gap-4">
+            <p className="text-sm font-bold text-dim">{t("covid.zoom")}</p> */}
+          <StateDropdown url={routes.PEKA_B40} currentState={currentState} exclude={["kvy"]} />
+          {/* </div> */}
         </div>
       </Hero>
 

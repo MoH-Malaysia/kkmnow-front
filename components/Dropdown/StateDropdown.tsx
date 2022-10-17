@@ -43,7 +43,7 @@ const StateDropdown: FunctionComponent<StateDropdownProps> = ({
   const show = useMemo(() => scroll.scrollY > 300, [scroll.scrollY]);
 
   return (
-    <div className={!hideOnScroll ? "block" : show ? "hidden lg:block" : "hidden"}>
+    <div className={!hideOnScroll ? `block ${width}` : show ? "hidden lg:block" : "hidden"}>
       <Dropdown
         onChange={selected => (onChange ? onChange(selected) : redirect(selected))}
         disabled={disabled}
