@@ -99,7 +99,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
   const { data } = await get("/kkmnow", { dashboard: "covid_epid", state: params?.state });
-  data.snapshot_table = sortMsiaFirst(data.snapshot_table, "state");
+  data.snapshot_table.data = sortMsiaFirst(data.snapshot_table.data, "state");
 
   return {
     props: {

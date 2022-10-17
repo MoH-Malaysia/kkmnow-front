@@ -27,7 +27,8 @@
     "in": " di ",
     "page_of": "{{ current }} daripada {{ total }}",
     "data_for": "Data untuk {{ state }}",
-    "data_of": "Dikemaskini {{ date }}",
+    "data_of": "Data setakat {{ date }}",
+    "last_updated": "Dikemaskini {{ date }}",
     "slider": "",
     "zoom": "Pilih kawasan saya",
     "clear_selection": "Kosongkan pilihan",
@@ -79,7 +80,7 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-    "home": {
+  "home": {
     "title": "Era baharu bagi ketelusan kerajaan",
     "description": "KKMNOW adalah kolaborasi antara Kementerian Kesihatan Malaysia dan Jabatan Perangkaan Malaysia untuk menginstitusikan ketelusan dan membawa data ke hujung jari segala rakyat Malaysia.",
     "timeline": {

@@ -27,7 +27,8 @@
     "in": " in ",
     "page_of": "{{ current }} of {{ total }}",
     "data_for": "Data for {{ state }}",
-    "data_of": "Last updated {{ date }}",
+    "data_of": "Data as of {{ date }}",
+    "last_updated": "Last updated {{ date }}",
     "slider": "",
     "zoom": "Zoom into my area",
     "clear_selection": "Clear selection",
@@ -79,7 +80,7 @@
     "github": "MoH GitHub",
     "google_cloud": "MoH Google Cloud"
   },
-    "home": {
+  "home": {
     "title": "A new chapter for transparency in government",
     "description": "KKMNOW is a collaboration between the Ministry of Health Malaysia and the Department of Statistics Malaysia to institutionalise transparency and make data accessible for all.",
     "timeline": {
