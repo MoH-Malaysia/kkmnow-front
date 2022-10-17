@@ -29,70 +29,7 @@ const BloodDonationState: Page = ({
   choropleth_malaysia_blood_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation("common");
-  let abs: any[] = [],
-    capita: any[] = [],
-    perc: any[] = [];
   let vars: Record<string, any> = {};
-
-  heatmap_donorrate.data.abs.male.data.forEach((item: any, index: number) => {
-    abs.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: item.y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.data.abs.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.data.abs.male.data[index].y +
-            heatmap_donorrate.data.abs.female.data[index].y,
-        },
-      ],
-    });
-    capita.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: heatmap_donorrate.data.capita.male.data[index].y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.data.capita.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.data.capita.female.data[index].y +
-            heatmap_donorrate.data.capita.male.data[index].y,
-        },
-      ],
-    });
-    perc.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: heatmap_donorrate.data.perc.male.data[index].y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.data.perc.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.data.perc.female.data[index].y +
-            heatmap_donorrate.data.perc.male.data[index].y,
-        },
-      ],
-    });
-  });
 
   Object.entries(barchart_variables.data).forEach(([key, values]: [string, any]) => {
     vars[key] = Object.entries(values).reduce((previous, current: [string, any]) => {
@@ -115,14 +52,7 @@ const BloodDonationState: Page = ({
         timeseries_bloodstock={timeseries_bloodstock}
         timeseries_facility={timeseries_facility}
         heatmap_bloodstock={heatmap_bloodstock}
-        heatmap_donorrate={{
-          data_as_of: heatmap_donorrate.data_as_of,
-          data: {
-            abs,
-            perc,
-            capita,
-          },
-        }}
+        heatmap_donorrate={heatmap_donorrate}
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}

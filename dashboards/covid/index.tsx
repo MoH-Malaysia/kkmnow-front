@@ -12,7 +12,7 @@ import {
   Slider,
 } from "@components/index";
 import Image from "next/image";
-import { FunctionComponent, useCallback, useMemo } from "react";
+import { FunctionComponent, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
@@ -719,11 +719,11 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
           </div>
         </Section>
 
-        {/* Data not ready
+        {/* How is vaccination influencing key epidemic indidcators? */}
         <Section
           title={t("covid.bar_chart_header")}
           description={t("covid.bar_chart_subheader")}
-          date={last_updated}
+          date={bar_chart.data_as_of}
         >
           <Tabs
             title={
@@ -761,29 +761,29 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       <Bar
                         className="h-[450px]"
                         data={{
-                          labels: bar_chart.cases.capita.x,
+                          labels: bar_chart.data.cases.capita.x,
                           datasets: [
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
-                              data: bar_chart.cases.capita.unvax,
+                              data: bar_chart.data.cases.capita.unvax,
                               backgroundColor: COVID_COLOR[100],
                               stack: "1",
                             },
                             {
                               label: `${t("covid.bar_chart2_label2")}`,
-                              data: bar_chart.cases.capita.partialvax,
+                              data: bar_chart.data.cases.capita.partialvax,
                               backgroundColor: COVID_COLOR[200],
                               stack: "2",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
-                              data: bar_chart.cases.capita.fullvax,
+                              data: bar_chart.data.cases.capita.fullvax,
                               backgroundColor: COVID_COLOR[300],
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
-                              data: bar_chart.cases.capita.boosted,
+                              data: bar_chart.data.cases.capita.boosted,
                               backgroundColor: COVID_COLOR[300],
                               stack: "4",
                             },
@@ -797,29 +797,29 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       <Bar
                         className="h-[450px]"
                         data={{
-                          labels: bar_chart.deaths.capita.x,
+                          labels: bar_chart.data.deaths.capita.x,
                           datasets: [
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
-                              data: bar_chart.deaths.capita.unvax,
+                              data: bar_chart.data.deaths.capita.unvax,
                               backgroundColor: COVID_COLOR[100],
                               stack: "1",
                             },
                             {
                               label: `${t("covid.bar_chart2_label2")}`,
-                              data: bar_chart.deaths.capita.partialvax,
+                              data: bar_chart.data.deaths.capita.partialvax,
                               backgroundColor: COVID_COLOR[200],
                               stack: "2",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
-                              data: bar_chart.deaths.capita.fullvax,
+                              data: bar_chart.data.deaths.capita.fullvax,
                               backgroundColor: COVID_COLOR[300],
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
-                              data: bar_chart.deaths.capita.boosted,
+                              data: bar_chart.data.deaths.capita.boosted,
                               backgroundColor: COVID_COLOR[300],
                               stack: "4",
                             },
@@ -841,29 +841,29 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       <Bar
                         className="h-[450px]"
                         data={{
-                          labels: bar_chart.cases.abs.x,
+                          labels: bar_chart.data.cases.abs.x,
                           datasets: [
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
-                              data: bar_chart.cases.abs.unvax,
+                              data: bar_chart.data.cases.abs.unvax,
                               backgroundColor: COVID_COLOR[100],
                               stack: "1",
                             },
                             {
                               label: `${t("covid.bar_chart2_label2")}`,
-                              data: bar_chart.cases.abs.partialvax,
+                              data: bar_chart.data.cases.abs.partialvax,
                               backgroundColor: COVID_COLOR[200],
                               stack: "2",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
-                              data: bar_chart.cases.abs.fullvax,
+                              data: bar_chart.data.cases.abs.fullvax,
                               backgroundColor: COVID_COLOR[300],
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
-                              data: bar_chart.cases.abs.boosted,
+                              data: bar_chart.data.cases.abs.boosted,
                               backgroundColor: COVID_COLOR[300],
                               stack: "4",
                             },
@@ -877,29 +877,29 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                       <Bar
                         className="h-[450px]"
                         data={{
-                          labels: bar_chart.deaths.abs.x,
+                          labels: bar_chart.data.deaths.abs.x,
                           datasets: [
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
-                              data: bar_chart.deaths.abs.unvax,
+                              data: bar_chart.data.deaths.abs.unvax,
                               backgroundColor: COVID_COLOR[100],
                               stack: "1",
                             },
                             {
                               label: `${t("covid.bar_chart2_label2")}`,
-                              data: bar_chart.deaths.abs.partialvax,
+                              data: bar_chart.data.deaths.abs.partialvax,
                               backgroundColor: COVID_COLOR[200],
                               stack: "2",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
-                              data: bar_chart.deaths.abs.fullvax,
+                              data: bar_chart.data.deaths.abs.fullvax,
                               backgroundColor: COVID_COLOR[300],
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
-                              data: bar_chart.deaths.abs.boosted,
+                              data: bar_chart.data.deaths.abs.boosted,
                               backgroundColor: COVID_COLOR[300],
                               stack: "4",
                             },
@@ -914,7 +914,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               </>
             </Panel>
           </Tabs>
-        </Section> */}
+        </Section>
       </Container>
     </>
   );
