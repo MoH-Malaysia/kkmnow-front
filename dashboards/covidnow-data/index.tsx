@@ -6,6 +6,8 @@ import { FunctionComponent, useCallback, useMemo, useState } from "react";
 import { numFormat } from "@lib/helpers";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
+import { DateTime } from "luxon";
+import { useRouter } from "next/router";
 
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
@@ -16,32 +18,33 @@ const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
 
 interface CovidNOWDashboardProps {
   last_updated: number;
-  barmeter_chart: any;
-  timeseries_chart: any;
-  heatmap_chart: any;
+  barmeter: any;
+  timeseries: any;
+  heatmap: any;
   choropleth_world: any;
   choropleth_malaysia: any;
 }
 
 const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
   last_updated,
-  timeseries_chart,
-  heatmap_chart,
-  barmeter_chart,
+  timeseries,
+  heatmap,
+  barmeter,
   choropleth_world,
   choropleth_malaysia,
 }) => {
-  const [limit, setLimit] = useState([0, timeseries_chart.x.length - 1]);
+  const [limit, setLimit] = useState([0, timeseries.data.x.length - 1]);
 
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
+  const router = useRouter();
   const { t } = useTranslation("common");
 
   const filterTimeline = () => {
     return {
-      x: timeseries_chart.x.slice(limit[0], limit[1] + 1),
-      y: timeseries_chart.y.slice(limit[0], limit[1] + 1),
-      line: timeseries_chart.line.slice(limit[0], limit[1] + 1),
+      x: timeseries.data.x.slice(limit[0], limit[1] + 1),
+      y: timeseries.data.y.slice(limit[0], limit[1] + 1),
+      line: timeseries.data.line.slice(limit[0], limit[1] + 1),
     };
   };
 
@@ -141,6 +144,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
           </span>
           <h3 className="text-black">{t("covidnow.title_header")}</h3>
           <p className="text-dim">{t("covidnow.title_description")}</p>
+
+          <p className="text-sm text-dim">
+            {t("common.last_updated", {
+              date: DateTime.fromMillis(last_updated)
+                .setLocale(router.locale ?? router.defaultLocale!)
+                .toFormat("dd MMM yyyy, HH:mm"),
+            })}
+          </p>
         </div>
       </Hero>
       <Container className="min-h-screen">
@@ -148,7 +159,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.combine_header")}
           description={t("covidnow.combine_description")}
-          date={last_updated}
+          date={timeseries.data_as_of}
         >
           <div className="flex w-full flex-col gap-12">
             <div className="space-y-4">
@@ -181,7 +192,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
               <Slider
                 className="pt-7"
                 type="range"
-                data={timeseries_chart.x}
+                data={timeseries.data.x}
                 onChange={(item: any) => setLimit([item.min, item.max])}
               />
               <span className="text-sm text-dim">{t("common.slider")}</span>
@@ -192,7 +203,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.wmap_header")}
           description={t("covidnow.wmap_description")}
-          date={last_updated}
+          date={choropleth_world.data_as_of}
         >
           <div>
             <Tabs className="flex flex-wrap justify-end gap-2" title={t("covidnow.wmap_title")}>
@@ -205,7 +216,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     projectionTranslationSetting={isMobile ? [0.5, 0.75] : [0.5, 0.68]}
                     unitY={` ${t("covidnow.views").toLowerCase()}`}
                     xKey="properties.name_short"
-                    data={choropleth_world.map((item: any) => {
+                    data={choropleth_world.data.map((item: any) => {
                       return {
                         id: item.iso3,
                         value_real: item.data.views,
@@ -219,7 +230,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 <div className="mx-auto max-w-screen-lg">
                   <Table
                     className="table-stripe table-default"
-                    data={choropleth_world}
+                    data={choropleth_world.data}
                     config={worldMapConfig}
                     enablePagination
                     enableSticky
@@ -234,7 +245,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.mmap_header", { state: t("state.kvy") })}
           description={t("covidnow.mmap_description")}
-          date={last_updated}
+          date={choropleth_malaysia.data_as_of}
           className={isMobile ? "border-b pt-12" : "border-b py-12"}
         >
           <div>
@@ -248,7 +259,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                     colorScale="blues"
                     borderColor="#000"
                     borderWidth={0.5}
-                    data={choropleth_malaysia.map((item: any) => ({
+                    data={choropleth_malaysia.data.map((item: any) => ({
                       id: CountryAndStates[item.state],
                       state: CountryAndStates[item.state],
                       value: item.data.views_log,
@@ -263,7 +274,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
                 <div className="mx-auto max-w-screen-lg">
                   <Table
                     className="table-stripe table-default"
-                    data={choropleth_malaysia}
+                    data={choropleth_malaysia.data}
                     config={malaysiaMapConfig}
                     enableSticky
                   />
@@ -277,14 +288,14 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.heatmap_header")}
           description={t("covidnow.heatmap_description")}
-          date={last_updated}
+          date={heatmap.data_as_of}
         >
           <div className="grid grid-cols-1 gap-12">
             <Heatmap
               className="flex h-[500px] w-[1500px] overflow-auto pt-7 lg:w-auto lg:overflow-visible"
               title={t("covidnow.heatmap_title")}
               //   menu={<MenuDropdown />}
-              data={heatmap_chart}
+              data={heatmap.data}
               axisLeft="default"
               unitY={` ${t("covidnow.views").toLowerCase()}`}
               valueFormat=" >-.2s"
@@ -297,13 +308,13 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.bar_header")}
           description={t("covidnow.bar_description")}
-          date={last_updated}
+          date={barmeter.data.data_as_of}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-3">
             <div className="w-full space-y-4">
               <BarMeter
                 className="block space-y-2"
-                data={barmeter_chart.device_type}
+                data={barmeter.data.device_type}
                 yKey="y"
                 xKey="x"
                 title={t("covidnow.bar_title1")}
@@ -314,7 +325,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
             <div className="w-full space-y-4">
               <BarMeter
                 className="block space-y-2"
-                data={barmeter_chart.device_language}
+                data={barmeter.data.device_language}
                 yKey="y"
                 xKey="x"
                 title={t("covidnow.bar_title2")}
@@ -326,7 +337,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
             <div className="w-full space-y-4">
               <BarMeter
                 className="block space-y-2"
-                data={barmeter_chart.browser}
+                data={barmeter.data.browser}
                 yKey="y"
                 xKey="x"
                 title={t("covidnow.bar_title3")}
@@ -339,7 +350,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
             <div className="w-full space-y-4">
               <BarMeter
                 className="block space-y-2"
-                data={barmeter_chart.os}
+                data={barmeter.data.os}
                 yKey="y"
                 xKey="x"
                 title={t("covidnow.bar_title4")}
@@ -350,7 +361,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
             <div className="w-full space-y-4">
               <BarMeter
                 className="block space-y-2"
-                data={barmeter_chart.os_mobile}
+                data={barmeter.data.os_mobile}
                 yKey="y"
                 xKey="x"
                 title={t("covidnow.bar_title5")}
@@ -361,7 +372,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
             <div className="w-full space-y-4">
               <BarMeter
                 className="block space-y-2"
-                data={barmeter_chart.mobile_screensize}
+                data={barmeter.data.mobile_screensize}
                 yKey="y"
                 title={t("covidnow.bar_title6")}
                 xKey="x"

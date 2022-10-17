@@ -13,11 +13,11 @@ import { sortMsiaFirst } from "@lib/helpers";
 
 const CovidVaccinationIndex = ({
   last_updated,
-  waffle_data,
-  table_data,
-  barmeter_data,
-  timeseries_data,
-  stats_data,
+  waffle,
+  table,
+  barmeter,
+  timeseries,
+  statistics,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation("common");
 
@@ -31,11 +31,11 @@ const CovidVaccinationIndex = ({
 
       <CovidVaccinationDashboard
         last_updated={last_updated}
-        waffle_data={waffle_data}
-        table_data={table_data}
-        barmeter_data={barmeter_data}
-        timeseries_data={timeseries_data}
-        stats_data={stats_data}
+        waffle={waffle}
+        table={table}
+        barmeter={barmeter}
+        timeseries={timeseries}
+        statistics={statistics}
       />
     </>
   );
@@ -52,16 +52,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
 
   const { data } = await get("/kkmnow", { dashboard: "covid_vax", state: "mys" }); // fetch static data here
-  data.snapshot = sortMsiaFirst(data.snapshot, "state");
+  data.snapshot.data = sortMsiaFirst(data.snapshot.data, "state");
 
   return {
     props: {
       last_updated: new Date().valueOf(),
-      waffle_data: data.waffle,
-      barmeter_data: data.bar_chart,
-      table_data: data.snapshot,
-      timeseries_data: data.timeseries,
-      stats_data: data.statistics,
+      waffle: data.waffle,
+      barmeter: data.bar_chart,
+      table: data.snapshot,
+      timeseries: data.timeseries,
+      statistics: data.statistics,
       ...i18n,
     },
     revalidate: 300,

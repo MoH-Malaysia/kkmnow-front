@@ -1,5 +1,5 @@
-import { FunctionComponent, useCallback, useMemo } from "react";
-import { Hero, Container, Tabs, Panel, Slider, Section, StateDropdown } from "@components/index";
+import { FunctionComponent, useCallback } from "react";
+import { Hero, Container, Slider, Section, StateDropdown, Tabs, Panel } from "@components/index";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { useWindowWidth } from "@hooks/useWindowWidth";
@@ -8,6 +8,7 @@ import { GRAYBAR_COLOR, PEKA_COLOR, CountryAndStates, BREAKPOINTS } from "@lib/c
 import { useRouter } from "next/router";
 import { routes } from "@lib/routes";
 import { useTranslation } from "next-i18next";
+import { DateTime } from "luxon";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const Heatmap = dynamic(() => import("@components/Chart/Heatmap"), { ssr: false });
@@ -34,16 +35,16 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
   const { data, setData } = useData({
-    minmax: [timeseries_screenrate.x.length - 182, timeseries_screenrate.x.length - 1],
+    minmax: [timeseries_screenrate.data.x.length - 182, timeseries_screenrate.data.x.length - 1],
   });
 
   const { t } = useTranslation("common");
 
   const filtered_timeline = useCallback(() => {
     return {
-      x: timeseries_screenrate.x.slice(data.minmax[0], data.minmax[1] + 1),
-      line: timeseries_screenrate.line.slice(data.minmax[0], data.minmax[1] + 1),
-      daily: timeseries_screenrate.daily.slice(data.minmax[0], data.minmax[1] + 1),
+      x: timeseries_screenrate.data.x.slice(data.minmax[0], data.minmax[1] + 1),
+      line: timeseries_screenrate.data.line.slice(data.minmax[0], data.minmax[1] + 1),
+      daily: timeseries_screenrate.data.daily.slice(data.minmax[0], data.minmax[1] + 1),
     };
   }, [data.minmax, timeseries_screenrate]);
 
@@ -62,10 +63,18 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             </a>
             {t("peka.title_description2")}
           </p>
-          <div className="flex w-full items-center gap-4">
-            <p className="text-sm font-bold text-dim">{t("covid.zoom")}</p>
-            <StateDropdown url={routes.PEKA_B40} currentState={currentState} exclude={["kvy"]} />
-          </div>
+          {/* <div className="flex w-full items-center gap-4">
+            <p className="text-sm font-bold text-dim">{t("covid.zoom")}</p> */}
+          <StateDropdown url={routes.PEKA_B40} currentState={currentState} exclude={["kvy"]} />
+          {/* </div> */}
+
+          <p className="text-sm text-dim">
+            {t("common.last_updated", {
+              date: DateTime.fromMillis(last_updated)
+                .setLocale(router.locale ?? router.defaultLocale!)
+                .toFormat("dd MMM yyyy, HH:mm"),
+            })}
+          </p>
         </div>
       </Hero>
 
@@ -78,7 +87,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               {t("peka.screening_description3")}
             </p>
           }
-          date={last_updated}
+          date={timeseries_screenrate.data_as_of}
         >
           <div className="space-y-4">
             <Timeseries
@@ -109,7 +118,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               className="pt-7"
               type="range"
               defaultValue={data.minmax}
-              data={timeseries_screenrate.x}
+              data={timeseries_screenrate.data.x}
               onChange={(item: any) => setData("minmax", [item.min, item.max])}
             />
             <span className="text-sm text-dim">{t("common.slider")}</span>
@@ -119,7 +128,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
         <Section
           title={t("peka.choro_header")}
           description={t("peka.choro_description")}
-          date={last_updated}
+          date={choropleth_malaysia_peka_b40.data_as_of}
           className={isMobile ? "border-b pt-12" : "border-b py-12"}
         >
           <div>
@@ -129,7 +138,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               colorScale="purples"
               borderColor="#000"
               borderWidth={0.5}
-              data={choropleth_malaysia_peka_b40.map((item: any) => ({
+              data={choropleth_malaysia_peka_b40.data.map((item: any) => ({
                 id: CountryAndStates[item.state],
                 state: CountryAndStates[item.state],
                 value: item.data.perc,
@@ -139,14 +148,11 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
             />
           </div>
         </Section>
-
-        {/* 
-        // Data not ready.
-        What proportion of the population in {{ area }} donates blood? 
-        <Section
+        {/* What proportion of the population in {{ area }} donates blood? */}
+        {/* <Section
           title={t("peka.heatmap_header", { state: CountryAndStates[currentState] })}
           description={t("peka.heatmap_description")}
-          date={last_updated}
+          date={heatmap_screenrate.data_as_of}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2">
             <div className="w-full">
@@ -158,16 +164,11 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 <Panel name={t("peka.heatmap_panel1")}>
                   <>
                     <Heatmap
-                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
-                      data={heatmap_screenrate.capita}
-                      subdata
-                      axisLeft="default"
-                      color="red_purple"
-                    />
-
-                    <Heatmap
                       className="flex h-[140px] overflow-visible"
-                      data={[heatmap_screenrate.capita.male, heatmap_screenrate.capita.female]}
+                      data={[
+                        heatmap_screenrate.data.capita.male,
+                        heatmap_screenrate.data.capita.female,
+                      ]}
                       subdata
                       axisLeft="default"
                       color="red_purple"
@@ -177,10 +178,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       className="flex h-[200px] overflow-visible"
                       title="Male"
                       data={[
-                        heatmap_screenrate.capita.male_chinese,
-                        heatmap_screenrate.capita.male_indian,
-                        heatmap_screenrate.capita.male_bumi,
-                        heatmap_screenrate.capita.male_other,
+                        heatmap_screenrate.data.capita.male_chinese,
+                        heatmap_screenrate.data.capita.male_indian,
+                        heatmap_screenrate.data.capita.male_bumi,
+                        heatmap_screenrate.data.capita.male_other,
                       ]}
                       subdata
                       axisLeft="default"
@@ -192,32 +193,26 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       className="flex h-[200px] overflow-visible"
                       title="Female"
                       data={[
-                        heatmap_screenrate.capita.female_chinese,
-                        heatmap_screenrate.capita.female_indian,
-                        heatmap_screenrate.capita.female_bumi,
-                        heatmap_screenrate.capita.female_other,
+                        heatmap_screenrate.data.capita.female_chinese,
+                        heatmap_screenrate.data.capita.female_indian,
+                        heatmap_screenrate.data.capita.female_bumi,
+                        heatmap_screenrate.data.capita.female_other,
                       ]}
                       subdata
                       axisLeft="default"
                       axisTop={null}
                       color="red_purple"
-                    /> 
+                    />
                   </>
                 </Panel>
                 <Panel name={t("peka.heatmap_panel2")}>
                   <>
                     <Heatmap
-                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
-                      data={heatmap_screenrate.perc}
-                      subdata
-                      axisLeft="default"
-                      color="red_purple"
-                      unitY="%"
-                    />
-
-                    <Heatmap
                       className="flex h-[150px] overflow-auto lg:overflow-visible"
-                      data={[heatmap_screenrate.perc.male, heatmap_screenrate.perc.female]}
+                      data={[
+                        heatmap_screenrate.data.perc.male,
+                        heatmap_screenrate.data.perc.female,
+                      ]}
                       subdata
                       axisLeft="default"
                       unitY="%"
@@ -228,10 +223,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       className="flex h-[200px] overflow-visible"
                       title="Male"
                       data={[
-                        heatmap_screenrate.perc.male_chinese,
-                        heatmap_screenrate.perc.male_indian,
-                        heatmap_screenrate.perc.male_bumi,
-                        heatmap_screenrate.perc.male_other,
+                        heatmap_screenrate.data.perc.male_chinese,
+                        heatmap_screenrate.data.perc.male_indian,
+                        heatmap_screenrate.data.perc.male_bumi,
+                        heatmap_screenrate.data.perc.male_other,
                       ]}
                       subdata
                       unitY="%"
@@ -244,10 +239,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       className="flex h-[200px] overflow-visible"
                       title="Female"
                       data={[
-                        heatmap_screenrate.perc.female_chinese,
-                        heatmap_screenrate.perc.female_indian,
-                        heatmap_screenrate.perc.female_bumi,
-                        heatmap_screenrate.perc.female_other,
+                        heatmap_screenrate.data.perc.female_chinese,
+                        heatmap_screenrate.data.perc.female_indian,
+                        heatmap_screenrate.data.perc.female_bumi,
+                        heatmap_screenrate.data.perc.female_other,
                       ]}
                       subdata
                       unitY="%"
@@ -260,17 +255,8 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                 <Panel name={t("peka.heatmap_panel3")}>
                   <>
                     <Heatmap
-                      className="mx-auto flex h-[500px] overflow-visible lg:w-[500px]"
-                      data={heatmap_screenrate.abs}
-                      subdata
-                      axisLeft="default"
-                      valueFormat="<-,.1~s"
-                      color="red_purple"
-                    />
-
-                    <Heatmap
                       className="flex h-[150px] overflow-visible"
-                      data={[heatmap_screenrate.abs.male, heatmap_screenrate.abs.female]}
+                      data={[heatmap_screenrate.data.abs.male, heatmap_screenrate.data.abs.female]}
                       subdata
                       axisLeft="default"
                       valueFormat="<-,.1~s"
@@ -281,10 +267,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       className="flex h-[200px] overflow-visible"
                       title="Male"
                       data={[
-                        heatmap_screenrate.abs.male_chinese,
-                        heatmap_screenrate.abs.male_indian,
-                        heatmap_screenrate.abs.male_bumi,
-                        heatmap_screenrate.abs.male_other,
+                        heatmap_screenrate.data.abs.male_chinese,
+                        heatmap_screenrate.data.abs.male_indian,
+                        heatmap_screenrate.data.abs.male_bumi,
+                        heatmap_screenrate.data.abs.male_other,
                       ]}
                       subdata
                       valueFormat="<-,.2~s"
@@ -297,10 +283,10 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       className="flex h-[200px] overflow-visible"
                       title="Female"
                       data={[
-                        heatmap_screenrate.abs.female_chinese,
-                        heatmap_screenrate.abs.female_indian,
-                        heatmap_screenrate.abs.female_bumi,
-                        heatmap_screenrate.abs.female_other,
+                        heatmap_screenrate.data.abs.female_chinese,
+                        heatmap_screenrate.data.abs.female_indian,
+                        heatmap_screenrate.data.abs.female_bumi,
+                        heatmap_screenrate.data.abs.female_other,
                       ]}
                       subdata
                       valueFormat="<-,.1~s"
@@ -309,7 +295,7 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                       color="red_purple"
                     />
                   </>
-                 </Panel>
+                </Panel>
               </Tabs>
             </div>
 
@@ -320,11 +306,11 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     className="h-[500px]"
                     layout="horizontal"
                     data={{
-                      labels: bar_age.last_year.x,
+                      labels: bar_age.data.last_year.x,
                       datasets: [
                         {
                           label: t("peka.screening"),
-                          data: bar_age.last_year.y,
+                          data: bar_age.data.last_year.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
                       ],
@@ -337,11 +323,11 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
                     className="h-[500px]"
                     layout="horizontal"
                     data={{
-                      labels: bar_age.last_year.x,
+                      labels: bar_age.data.last_year.x,
                       datasets: [
                         {
                           label: t("peka.screening"),
-                          data: bar_age.last_year.y,
+                          data: bar_age.data.last_year.y,
                           backgroundColor: GRAYBAR_COLOR[100],
                         },
                       ],
@@ -352,16 +338,9 @@ const PekaB40Dashboard: FunctionComponent<PekaB40DashboardProps> = ({
               </Tabs>
             </div>
           </div>
-        </Section>
-   
-
-       // How is this data collected? 
-        <Section
-          title={t("peka.map_header")}
-          description={t("peka.map_description")}
-          date={last_updated}
-        />
-        */}
+        </Section> */}
+        {/* // How is this data collected?  */}
+        {/* <Section title={t("peka.map_header")} description={t("peka.map_description")} /> */}
       </Container>
     </>
   );

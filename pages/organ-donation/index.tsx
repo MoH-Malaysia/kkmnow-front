@@ -21,65 +21,7 @@ const OrganDonationIndex = ({
   choropleth_malaysia_organ_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation();
-  let abs: any[] = [],
-    capita: any[] = [],
-    perc: any[] = [];
-  heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
-    abs.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: item.y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.abs.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y: heatmap_donorrate.abs.male.data[index].y + heatmap_donorrate.abs.female.data[index].y,
-        },
-      ],
-    });
-    capita.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: heatmap_donorrate.capita.male.data[index].y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.capita.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.capita.female.data[index].y +
-            heatmap_donorrate.capita.male.data[index].y,
-        },
-      ],
-    });
-    perc.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: heatmap_donorrate.perc.male.data[index].y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.perc.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.perc.female.data[index].y + heatmap_donorrate.perc.male.data[index].y,
-        },
-      ],
-    });
-  });
+
   return (
     <>
       <Metadata
@@ -93,11 +35,7 @@ const OrganDonationIndex = ({
         bar_age={bar_age}
         bar_time={bar_time}
         bar_reasons={bar_reasons}
-        heatmap_donorrate={{
-          abs,
-          perc,
-          capita,
-        }}
+        heatmap_donorrate={heatmap_donorrate}
         choropleth_malaysia_organ_donation={choropleth_malaysia_organ_donation}
       />
     </>
@@ -126,7 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const { data } = await get("/kkmnow", { dashboard: "organ_donation", state: "mys" });
 
   // transform:
-  data.barchart_time.monthly.x = data.barchart_time.monthly.x.map((item: any) => {
+  data.barchart_time.data.monthly.x = data.barchart_time.data.monthly.x.map((item: any) => {
     const period = DateTime.fromFormat(item, "yyyy-MM-dd");
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
