@@ -308,7 +308,7 @@ const CovidNowDashboard: FunctionComponent<CovidNOWDashboardProps> = ({
         <Section
           title={t("covidnow.bar_header")}
           description={t("covidnow.bar_description")}
-          date={barmeter.data.data_as_of}
+          date={barmeter.data_as_of}
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-3">
             <div className="w-full space-y-4">
