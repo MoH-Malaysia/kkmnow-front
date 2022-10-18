@@ -69,7 +69,7 @@ CovidIndex.layout = (page: ReactElement<any, string | JSXElementConstructor<any>
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const i18n = await serverSideTranslations(locale!, ["common"]);
   const { data } = await get("/kkmnow", { dashboard: "covid_epid", state: "mys" }); // fetch static data here
-  data.snapshot_table = sortMsiaFirst(data.snapshot_table, "state");
+  data.snapshot_table.data = sortMsiaFirst(data.snapshot_table.data, "state");
 
   return {
     props: {

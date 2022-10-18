@@ -20,6 +20,7 @@ import { CountryAndStates, COVIDVAX_COLOR, GRAYBAR_COLOR } from "@lib/constants"
 import { useRouter } from "next/router";
 import { routes } from "@lib/routes";
 import { useTranslation } from "next-i18next";
+import { DateTime } from "luxon";
 
 const Timeseries = dynamic(() => import("@components/Chart/Timeseries"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
@@ -27,20 +28,20 @@ const Waffle = dynamic(() => import("@components/Chart/Waffle"), { ssr: false })
 
 interface CovidVaccinationProps {
   last_updated: number;
-  waffle_data: Array<any>;
-  barmeter_data: Array<any>;
-  table_data: Array<any>;
-  timeseries_data: any;
-  stats_data: Record<string, any>;
+  waffle: any;
+  barmeter: any;
+  table: any;
+  timeseries: any;
+  statistics: any;
 }
 
 const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
   last_updated,
-  waffle_data,
-  table_data,
-  barmeter_data,
-  timeseries_data,
-  stats_data,
+  waffle,
+  table,
+  barmeter,
+  timeseries,
+  statistics,
 }) => {
   const router = useRouter();
   const { t } = useTranslation("common");
@@ -55,29 +56,29 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
       label: t(`vaccination.${filterAgeOptions[0].value}`),
       value: filterAgeOptions[0].value,
     },
-    minmax: [timeseries_data.x.length - 182, timeseries_data.x.length - 1], // [6months ago, today]
+    minmax: [timeseries.data.x.length - 182, timeseries.data.x.length - 1], // [6months ago, today]
   });
 
   const filterTimeline = () => {
     return {
-      x: timeseries_data.x.slice(data.minmax[0], data.minmax[1] + 1),
-      line_stacked: timeseries_data.line_stacked.slice(data.minmax[0], data.minmax[1] + 1),
-      primary: timeseries_data.primary.slice(data.minmax[0], data.minmax[1] + 1),
-      booster: timeseries_data.booster.slice(data.minmax[0], data.minmax[1] + 1),
-      booster2: timeseries_data.booster2.slice(data.minmax[0], data.minmax[1] + 1),
-      adult: timeseries_data.adult.slice(data.minmax[0], data.minmax[1] + 1),
-      adol: timeseries_data.adol.slice(data.minmax[0], data.minmax[1] + 1),
-      child: timeseries_data.child.slice(data.minmax[0], data.minmax[1] + 1),
-      line_primary: timeseries_data.line_primary.slice(data.minmax[0], data.minmax[1] + 1),
-      line_booster: timeseries_data.line_booster.slice(data.minmax[0], data.minmax[1] + 1),
-      line_booster2: timeseries_data.line_booster2.slice(data.minmax[0], data.minmax[1] + 1),
-      line_adult: timeseries_data.line_adult.slice(data.minmax[0], data.minmax[1] + 1),
-      line_adol: timeseries_data.line_adol.slice(data.minmax[0], data.minmax[1] + 1),
-      line_child: timeseries_data.line_child.slice(data.minmax[0], data.minmax[1] + 1),
+      x: timeseries.data.x.slice(data.minmax[0], data.minmax[1] + 1),
+      line_stacked: timeseries.data.line_stacked.slice(data.minmax[0], data.minmax[1] + 1),
+      primary: timeseries.data.primary.slice(data.minmax[0], data.minmax[1] + 1),
+      booster: timeseries.data.booster.slice(data.minmax[0], data.minmax[1] + 1),
+      booster2: timeseries.data.booster2.slice(data.minmax[0], data.minmax[1] + 1),
+      adult: timeseries.data.adult.slice(data.minmax[0], data.minmax[1] + 1),
+      adol: timeseries.data.adol.slice(data.minmax[0], data.minmax[1] + 1),
+      child: timeseries.data.child.slice(data.minmax[0], data.minmax[1] + 1),
+      line_primary: timeseries.data.line_primary.slice(data.minmax[0], data.minmax[1] + 1),
+      line_booster: timeseries.data.line_booster.slice(data.minmax[0], data.minmax[1] + 1),
+      line_booster2: timeseries.data.line_booster2.slice(data.minmax[0], data.minmax[1] + 1),
+      line_adult: timeseries.data.line_adult.slice(data.minmax[0], data.minmax[1] + 1),
+      line_adol: timeseries.data.line_adol.slice(data.minmax[0], data.minmax[1] + 1),
+      line_child: timeseries.data.line_child.slice(data.minmax[0], data.minmax[1] + 1),
     };
   };
 
-  const filtered_timeline = useCallback(filterTimeline, [data.minmax, timeseries_data]);
+  const filtered_timeline = useCallback(filterTimeline, [data.minmax, timeseries]);
 
   const renderFilterOptions = () => {
     switch (data.vax_tab) {
@@ -131,15 +132,20 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             </a>
           </p>
 
-          <div className="flex w-full items-center gap-4">
-            <p className="text-sm font-bold text-dim">{t("vaccination.zoom")}</p>
-            <StateDropdown url={routes.COVID_VAX} currentState={currentState} exclude={["kvy"]} />
-          </div>
+          <StateDropdown url={routes.COVID_VAX} currentState={currentState} exclude={["kvy"]} />
+
+          <p className="text-sm text-dim">
+            {t("common.last_updated", {
+              date: DateTime.fromMillis(last_updated)
+                .setLocale(router.locale ?? router.defaultLocale!)
+                .toFormat("dd MMM yyyy, HH:mm"),
+            })}
+          </p>
         </div>
       </Hero>
 
       <Container className="min-h-screen">
-        <Section title={t("vaccination.waffle_header")} date={last_updated}>
+        <Section title={t("vaccination.waffle_header")} date={waffle.data_as_of}>
           <Tabs
             state={
               <p className="text-dim">
@@ -166,7 +172,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                             onClick={() => open()}
                           >
                             {" " +
-                              (waffle_data[data.filter_age.value].dose1.perc as number).toFixed(1)}
+                              (waffle.data[data.filter_age.value].dose1.perc as number).toFixed(1)}
                             %
                           </span>
                         )}
@@ -176,21 +182,21 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     </div>
                   }
                   color="#9FE8B1"
-                  data={waffle_data[data.filter_age.value].dose1.data}
+                  data={waffle.data[data.filter_age.value].dose1.data}
                 >
                   <div className="text-dim">
                     <p>
                       {t("vaccination.total")} -{" "}
                       <span className="font-medium text-black">
                         {(
-                          waffle_data[data.filter_age.value].dose1.total as number
+                          waffle.data[data.filter_age.value].dose1.total as number
                         ).toLocaleString()}
                       </span>
                     </p>
                     <p>
                       {t("vaccination.daily")} -{" "}
                       <span className="font-medium text-black">
-                        {waffle_data[data.filter_age.value].dose1.daily}
+                        {waffle.data[data.filter_age.value].dose1.daily}
                       </span>
                     </p>
                   </div>
@@ -207,7 +213,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                             onClick={() => open()}
                           >
                             {" " +
-                              (waffle_data[data.filter_age.value].dose2.perc as number).toFixed(1)}
+                              (waffle.data[data.filter_age.value].dose2.perc as number).toFixed(1)}
                             %
                           </span>
                         )}
@@ -217,21 +223,21 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                     </div>
                   }
                   color="#31C752"
-                  data={waffle_data[data.filter_age.value].dose2.data}
+                  data={waffle.data[data.filter_age.value].dose2.data}
                 >
                   <div className="text-dim">
                     <p>
                       {t("vaccination.total")} -{" "}
                       <span className="font-medium text-black">
                         {(
-                          waffle_data[data.filter_age.value].dose2.total as number
+                          waffle.data[data.filter_age.value].dose2.total as number
                         ).toLocaleString()}
                       </span>
                     </p>
                     <p>
                       {t("vaccination.daily")} -{" "}
                       <span className="font-medium text-black">
-                        {waffle_data[data.filter_age.value].dose2.daily}
+                        {waffle.data[data.filter_age.value].dose2.daily}
                       </span>
                     </p>
                   </div>
@@ -241,25 +247,25 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                   title={
                     <div className="flex self-center text-base font-bold">
                       {t("vaccination.booster1")} -{" "}
-                      {(waffle_data[data.filter_age.value].booster1.perc as number).toFixed(1)}%
+                      {(waffle.data[data.filter_age.value].booster1.perc as number).toFixed(1)}%
                     </div>
                   }
                   color="#228F3A"
-                  data={waffle_data[data.filter_age.value].booster1.data}
+                  data={waffle.data[data.filter_age.value].booster1.data}
                 >
                   <div className="text-dim">
                     <p>
                       {t("vaccination.total")} -{" "}
                       <span className="font-medium text-black">
                         {(
-                          waffle_data[data.filter_age.value].booster1.total as number
+                          waffle.data[data.filter_age.value].booster1.total as number
                         ).toLocaleString()}
                       </span>
                     </p>
                     <p>
                       {t("vaccination.daily")} -{" "}
                       <span className="font-medium text-black">
-                        {waffle_data[data.filter_age.value].booster1.daily}
+                        {waffle.data[data.filter_age.value].booster1.daily}
                       </span>
                     </p>
                   </div>
@@ -269,25 +275,25 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
                   title={
                     <div className="flex self-center text-base font-bold">
                       {t("vaccination.booster2")} -{" "}
-                      {(waffle_data[data.filter_age.value].booster2.perc as number).toFixed(1)}%
+                      {(waffle.data[data.filter_age.value].booster2.perc as number).toFixed(1)}%
                     </div>
                   }
                   color="#135523"
-                  data={waffle_data[data.filter_age.value].booster2.data}
+                  data={waffle.data[data.filter_age.value].booster2.data}
                 >
                   <div className="text-dim">
                     <p>
                       {t("vaccination.total")} -{" "}
                       <span className="font-medium text-black">
                         {(
-                          waffle_data[data.filter_age.value].booster2.total as number
+                          waffle.data[data.filter_age.value].booster2.total as number
                         ).toLocaleString()}
                       </span>
                     </p>
                     <p>
                       {t("vaccination.daily")}-{" "}
                       <span className="font-medium text-black">
-                        {waffle_data[data.filter_age.value].booster2.daily}
+                        {waffle.data[data.filter_age.value].booster2.daily}
                       </span>
                     </p>
                   </div>
@@ -297,7 +303,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Panel name={t("vaccination.filter_dose")}>
               <BarMeter
                 className="flex h-auto w-full flex-col justify-between lg:h-[320px] lg:flex-row"
-                data={barmeter_data[data.filter_dose.value]}
+                data={barmeter.data[data.filter_dose.value]}
                 xKey="id"
                 unit="%"
               />
@@ -306,7 +312,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* What is the current state of the COVID-19 vaccination program? */}
-        <Section title={t("vaccination.combine_header")} date={last_updated}>
+        <Section title={t("vaccination.combine_header")} date={timeseries.data_as_of}>
           <div className="space-y-4">
             <Timeseries
               className="h-[350px] w-full pt-6"
@@ -353,7 +359,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
             <Slider
               className="pt-7"
               type="range"
-              data={timeseries_data.x}
+              data={timeseries.data.x}
               defaultValue={data.minmax}
               onChange={(item: { min: number; max: number }) =>
                 setData("minmax", [item.min, item.max])
@@ -364,7 +370,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* How are COVID-19 key indicators trending */}
-        <Section title={t("vaccination.area_chart_header")} date={last_updated}>
+        <Section title={t("vaccination.area_chart_header")} date={timeseries.data_as_of}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
               title={t("vaccination.area_chart_title1")}
@@ -394,11 +400,11 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: t("vaccination.daily"),
-                  value: `+${stats_data.daily_primary.latest.toLocaleString()}`,
+                  value: `+${statistics.data.daily_primary.latest.toLocaleString()}`,
                 },
                 {
                   title: `${t("vaccination.total")}`,
-                  value: `${stats_data.daily_primary.total.toLocaleString()}`,
+                  value: `${statistics.data.daily_primary.total.toLocaleString()}`,
                 },
               ]}
             />
@@ -430,11 +436,11 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: t("vaccination.daily"),
-                  value: `+${stats_data.daily_booster.latest.toLocaleString()}`,
+                  value: `+${statistics.data.daily_booster.latest.toLocaleString()}`,
                 },
                 {
                   title: `${t("vaccination.total")}`,
-                  value: `${stats_data.daily_booster.total.toLocaleString()}`,
+                  value: `${statistics.data.daily_booster.total.toLocaleString()}`,
                 },
               ]}
             />
@@ -466,11 +472,11 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: t("vaccination.daily"),
-                  value: `+${stats_data.daily_booster2.latest.toLocaleString()}`,
+                  value: `+${statistics.data.daily_booster2.latest.toLocaleString()}`,
                 },
                 {
                   title: `${t("vaccination.total")}`,
-                  value: `${stats_data.daily_booster2.total.toLocaleString()}`,
+                  value: `${statistics.data.daily_booster2.total.toLocaleString()}`,
                 },
               ]}
             />
@@ -502,11 +508,11 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: t("vaccination.daily"),
-                  value: `+${stats_data.daily_adult.latest.toLocaleString()}`,
+                  value: `+${statistics.data.daily_adult.latest.toLocaleString()}`,
                 },
                 {
                   title: `${t("vaccination.total")}`,
-                  value: `${stats_data.daily_adult.total.toLocaleString()}`,
+                  value: `${statistics.data.daily_adult.total.toLocaleString()}`,
                 },
               ]}
             />
@@ -538,11 +544,11 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: t("vaccination.daily"),
-                  value: `+${stats_data.daily_adol.latest.toLocaleString()}`,
+                  value: `+${statistics.data.daily_adol.latest.toLocaleString()}`,
                 },
                 {
                   title: `${t("vaccination.total")}`,
-                  value: `${stats_data.daily_adol.total.toLocaleString()}`,
+                  value: `${statistics.data.daily_adol.total.toLocaleString()}`,
                 },
               ]}
             />
@@ -574,11 +580,11 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               stats={[
                 {
                   title: t("vaccination.daily"),
-                  value: `+${stats_data.daily_child.latest.toLocaleString()}`,
+                  value: `+${statistics.data.daily_child.latest.toLocaleString()}`,
                 },
                 {
                   title: `${t("vaccination.total")}`,
-                  value: `${stats_data.daily_child.total.toLocaleString()}`,
+                  value: `${statistics.data.daily_child.total.toLocaleString()}`,
                 },
               ]}
             />
@@ -586,7 +592,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* Which states are best vaccinated against COVID-19? */}
-        <Section title={t("vaccination.table_header")} date={last_updated}>
+        <Section title={t("vaccination.table_header")} date={statistics.data_as_of}>
           <div>
             <Tabs
               className="flex flex-wrap justify-end gap-2 pb-4"
@@ -595,7 +601,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
               {VACCINE_TABLE_SCHEMA().map((menu, index) => {
                 return (
                   <Panel key={index} name={menu.name}>
-                    <Table data={table_data} config={menu.config} enableSticky />
+                    <Table data={table.data} config={menu.config} enableSticky />
                   </Panel>
                 );
               })}

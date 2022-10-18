@@ -17,6 +17,8 @@ import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { HOSPITAL_TABLE_SCHEMA } from "@lib/schema/hospital-bed-utilisation";
 import { useTranslation } from "next-i18next";
+import { DateTime } from "luxon";
+import { useRouter } from "next/router";
 
 const Choropleth = dynamic(() => import("@components/Chart/Choropleth"), { ssr: false });
 const Table = dynamic(() => import("@components/Chart/Table"), { ssr: false });
@@ -41,6 +43,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
     facility: undefined,
   });
   const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <>
@@ -51,13 +54,21 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
           </span>
           <h3 className="text-black">{t("bed.title_header")}</h3>
           <p className="text-dim">{t("bed.title_description")}</p>
+
+          <p className="text-sm text-dim">
+            {t("common.last_updated", {
+              date: DateTime.fromMillis(last_updated)
+                .setLocale(router.locale ?? router.defaultLocale!)
+                .toFormat("dd MMM yyyy, HH:mm"),
+            })}
+          </p>
         </div>
       </Hero>
       <Container className="min-h-screen">
         <Section
           title={t("bed.choro_header", { state: CountryAndStates["mys"] })}
           description={t("bed.choro_description")}
-          date={last_updated}
+          date={choropleth_bed.data_as_of}
         >
           <Tabs className="flex flex-wrap justify-end gap-2">
             <Panel key={0} name={t("bed.tab_choro1")}>
@@ -65,7 +76,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 className={"h-[400px] w-auto lg:h-[500px] lg:w-full"}
                 colorScale="OrRd"
                 enableScale={false}
-                data={choropleth_bed.map((item: any) => ({
+                data={choropleth_bed.data.map((item: any) => ({
                   id: CountryAndStates[item.state],
                   value: item.data.util_nonicu,
                 }))}
@@ -78,7 +89,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 className={"h-[400px] w-auto lg:h-[500px] lg:w-full"}
                 colorScale="reds"
                 enableScale={false}
-                data={choropleth_bed.map((item: any) => ({
+                data={choropleth_bed.data.map((item: any) => ({
                   id: CountryAndStates[item.state],
                   value: item.data.util_icu,
                 }))}
@@ -88,7 +99,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
             </Panel>
           </Tabs>
         </Section>
-        <Section title={t("bed.table_header")} date={last_updated}>
+        <Section title={t("bed.table_header")} date={table_facility.data_as_of}>
           <Table
             className="table-bed table-stripe"
             controls={setColumnFilters => (
@@ -124,7 +135,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                 onChange={query => setGlobalFilter(query ?? "")}
               />
             )}
-            data={table_facility}
+            data={table_facility.data}
             config={HOSPITAL_TABLE_SCHEMA(({ state, facility }) => {
               setData("state", state);
               setData("facility", facility);
@@ -134,7 +145,7 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
         </Section>
         <Section
           title={t("bed.timeseries_header", { facility: data.facility ?? "Malaysia" })}
-          date={last_updated}
+          date={timeseries_facility.data_as_of}
         >
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
             {data.state && data.facility ? (
@@ -145,12 +156,12 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                   enableGridX={false}
                   unitY="%"
                   data={{
-                    labels: timeseries_facility[data.state][data.facility].x,
+                    labels: timeseries_facility.data[data.state][data.facility].x,
                     datasets: [
                       {
                         type: "line",
                         label: t("bed.timeseries_utilrate"),
-                        data: timeseries_facility[data.state][data.facility].line_util_non_icu,
+                        data: timeseries_facility.data[data.state][data.facility].line_util_non_icu,
                         borderColor: "#DC2626",
                         borderWidth: 1.5,
                       },
@@ -161,19 +172,19 @@ const HospitalBedUtilisationDashboard: FunctionComponent<HospitalBedUtilisationD
                   className="h-[250px] w-full"
                   title={t("bed.timeseries_icu")}
                   description={
-                    timeseries_facility[data.state][data.facility].line_util_icu.every(
+                    timeseries_facility.data[data.state][data.facility].line_util_icu.every(
                       (item: number | null) => item === null
                     )
                       ? t("bed.timeseries_notavailable")
                       : ""
                   }
                   data={{
-                    labels: timeseries_facility[data.state][data.facility].x,
+                    labels: timeseries_facility.data[data.state][data.facility].x,
                     datasets: [
                       {
                         type: "line",
                         label: t("bed.timeseries_utilrate"),
-                        data: timeseries_facility[data.state][data.facility].line_util_icu,
+                        data: timeseries_facility.data[data.state][data.facility].line_util_icu,
                         borderColor: "#DC2626",
                         borderWidth: 1.5,
                       },

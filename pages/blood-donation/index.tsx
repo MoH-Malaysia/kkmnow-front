@@ -26,68 +26,9 @@ const BloodDonationIndex: Page = ({
   choropleth_malaysia_blood_donation,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation("common");
-  let abs: any[] = [],
-    capita: any[] = [],
-    perc: any[] = [];
   let vars: Record<string, any> = {};
-  heatmap_donorrate.abs.male.data.forEach((item: any, index: number) => {
-    abs.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: item.y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.abs.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y: heatmap_donorrate.abs.male.data[index].y + heatmap_donorrate.abs.female.data[index].y,
-        },
-      ],
-    });
-    capita.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: heatmap_donorrate.capita.male.data[index].y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.capita.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.capita.female.data[index].y +
-            heatmap_donorrate.capita.male.data[index].y,
-        },
-      ],
-    });
-    perc.push({
-      id: item.x === "Overall" ? t("blood.overall") : item.x,
-      data: [
-        {
-          x: t("blood.male"),
-          y: heatmap_donorrate.perc.male.data[index].y,
-        },
-        {
-          x: t("blood.female"),
-          y: heatmap_donorrate.perc.female.data[index].y,
-        },
-        {
-          x: t("blood.overall"),
-          y:
-            heatmap_donorrate.perc.female.data[index].y + heatmap_donorrate.perc.male.data[index].y,
-        },
-      ],
-    });
-  });
 
-  Object.entries(barchart_variables).forEach(([key, values]: [string, any]) => {
+  Object.entries(barchart_variables.data).forEach(([key, values]: [string, any]) => {
     vars[key] = Object.entries(values).reduce((previous, current: [string, any]) => {
       return {
         ...previous,
@@ -95,6 +36,7 @@ const BloodDonationIndex: Page = ({
       };
     }, {});
   });
+
   return (
     <>
       <Metadata
@@ -108,15 +50,14 @@ const BloodDonationIndex: Page = ({
         timeseries_bloodstock={timeseries_bloodstock}
         timeseries_facility={timeseries_facility}
         heatmap_bloodstock={heatmap_bloodstock}
-        heatmap_donorrate={{
-          abs,
-          perc,
-          capita,
-        }}
+        heatmap_donorrate={heatmap_donorrate}
         heatmap_retention={heatmap_retention}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
-        barchart_variables={vars}
+        barchart_variables={{
+          data_as_of: barchart_variables.data_as_of,
+          data: vars,
+        }}
         map_facility={map_facility}
         choropleth_malaysia_blood_donation={choropleth_malaysia_blood_donation}
       />
@@ -145,19 +86,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const { data } = await get("/kkmnow", { dashboard: "blood_donation", state: "mys" }); // fetch static data here
 
   // transfrom:
-  Object.values(data.heatmap_retention).forEach((item: any) => {
+  Object.values(data.heatmap_retention.data).forEach((item: any) => {
     item.data = item.data.filter((_item: any) => _item.y !== null);
   });
 
-  data.bar_chart_time.monthly.x = data.bar_chart_time.monthly.x.map((item: any) => {
+  data.bar_chart_time.data.monthly.x = data.bar_chart_time.data.monthly.x.map((item: any) => {
     const period = DateTime.fromFormat(item, "yyyy-MM-dd");
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
-
-  //   console.log(data.choropleth_malaysia);
-  //   data.choropleth_malaysia = data.choropleth_malaysia.map(item =>
-  //     item.data.perc !== null ? item : { ...item, ...{ data: { perc: undefined } } }
-  //   );
 
   return {
     props: {

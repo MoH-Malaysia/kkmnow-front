@@ -53,6 +53,7 @@ const StateModal: FunctionComponent<StateModalProps> = ({ exclude, url, title })
             .filter(option => !exclude?.includes(option.value))
             .map(state => (
               <li
+                key={state.value}
                 className={`rounded px-2 py-1 ${state.value === currentState ? "bg-washed" : ""}`}
               >
                 <Link href={url.concat("/", state.value)}>

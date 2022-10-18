@@ -23,6 +23,8 @@ import { OptionType } from "@components/types";
 import { useTranslation } from "next-i18next";
 import { get } from "@lib/api";
 import { useWindowWidth } from "@hooks/useWindowWidth";
+import { DateTime } from "luxon";
+import { useRouter } from "next/router";
 
 const OSMapWrapper = dynamic(() => import("@components/OSMapWrapper"), { ssr: false });
 
@@ -47,10 +49,12 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     table_district: undefined,
     table_facility_type: undefined,
     map_markers: [],
+    map_timestamp: undefined,
     // bar_distances_within: undefined,
     // bar_distances_between: undefined,
   });
   const { t } = useTranslation("common");
+  const router = useRouter();
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
 
@@ -59,6 +63,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
     setData("zoom_facility_type", undefined);
     setData("zoom_district", undefined);
     setData("map_markers", []);
+    setData("map_timestamp", undefined);
     // setData("bar_distances_within", undefined);
     // setData("bar_distances_between", undefined);
   };
@@ -66,6 +71,7 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
   const fetchProximities = async () => {
     if (!data.zoom_state || !data.zoom_facility_type || !data.zoom_district) {
       setData("map_markers", []);
+      setData("map_timestamp", undefined);
       //   setData("bar_distances_within", []);
       //   setData("bar_distances_district", []);
       return;
@@ -78,7 +84,8 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
       district: data.zoom_district.label.toLowerCase().replaceAll(" ", "-"),
     });
 
-    setData("map_markers", Array.isArray(result.locations) ? result.locations : []);
+    setData("map_markers", Array.isArray(result.locations.data) ? result.locations.data : []);
+    setData("map_timestamp", result.locations.data_as_of);
     // setData("bar_distances_within", result.distances_within);
     // setData("bar_distances_between", result.distances_between);
   };
@@ -96,13 +103,21 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
           </span>
           <h3 className="text-black">{t("healthcare.title_header")}</h3>
           <p className="text-dim">{t("healthcare.title_description")}</p>
+
+          <p className="text-sm text-dim">
+            {t("common.last_updated", {
+              date: DateTime.fromMillis(last_updated)
+                .setLocale(router.locale ?? router.defaultLocale!)
+                .toFormat("dd MMM yyyy, HH:mm"),
+            })}
+          </p>
         </div>
       </Hero>
       <Container className="min-h-screen">
-        <Section title={t("healthcare.table_header")} date={last_updated}>
+        <Section title={t("healthcare.table_header")} date={facility_table.data_as_of}>
           <div className="mt-2">
             <Table
-              data={facility_table}
+              data={facility_table.data}
               className="table-facility table-stripe"
               config={FACILTIES_TABLE_SCHEMA()}
               controls={setColumnFilters => (
@@ -256,6 +271,11 @@ const HealthcareFacilitiesDashboard: FunctionComponent<HealthcareFacilitiesDashb
                 } ${data.zoom_district ? data.zoom_district.label + ", " : ""} ${
                   CountryAndStates[data.zoom_state ?? "mys"]
                 }`}
+                date={t("common.data_of", {
+                  date: DateTime.fromSQL(data.map_timestamp)
+                    .setLocale(router.locale ?? router.defaultLocale!)
+                    .toFormat("dd MMM yyyy, HH:mm"),
+                })}
                 position={
                   data.map_markers.length
                     ? [data.map_markers[0].lat, data.map_markers[0].lon]

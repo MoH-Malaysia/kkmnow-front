@@ -100,7 +100,7 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
           <Listbox.Options
             className={`
               absolute right-0 z-10 mt-1 max-h-60 overflow-auto rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
-              ${width ?? "w-full"}
+              ${width}
             `}
           >
             {/* DESCRIPTION */}

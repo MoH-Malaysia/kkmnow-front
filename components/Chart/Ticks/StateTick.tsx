@@ -2,16 +2,15 @@ import { AxisTickProps } from "@nivo/axes";
 import { CountryAndStates } from "@lib/constants";
 
 const StateTick = (tick: AxisTickProps<string>) => {
+  console.log(tick);
   return (
     <g transform={`translate(${tick.x - 150},${tick.y})`}>
       <image
         x={-28}
         y={-6}
-        href={`/static/images/states/${Object.keys(CountryAndStates).find(
-          o => CountryAndStates[o] === tick.value
-        )}.jpeg`}
+        href={`/static/images/states/${tick.value}.jpeg`}
         style={{ width: "18px" }}
-      ></image>
+      />
       <text
         textAnchor="start"
         dominantBaseline="middle"
@@ -20,7 +19,7 @@ const StateTick = (tick: AxisTickProps<string>) => {
           textAlign: "left",
         }}
       >
-        {tick.value}
+        {CountryAndStates[tick.value]}
       </text>
     </g>
   );
