@@ -48,6 +48,7 @@ CovidVaccinationState.layout = (page: ReactElement<any, string | JSXElementConst
       <StateDropdown
         url={routes.COVID_VAX}
         currentState={(useRouter().query.state as string) ?? "mys"}
+        exclude={["kvy"]}
         hideOnScroll
       />
     }
