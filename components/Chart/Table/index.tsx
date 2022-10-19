@@ -61,9 +61,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(row.getValue(columnId), value);
 
   // Store the itemRank info
-  addMeta({
-    itemRank,
-  });
+  addMeta({ itemRank });
 
   // Return if the item should be filtered in/out
   return itemRank.passed;
@@ -212,35 +210,31 @@ const Table: FunctionComponent<TableProps> = ({
                       const lastCellInGroup = cell.column.parent
                         ? cell.column.parent?.columns[cell.column.parent?.columns.length - 1]
                         : cell.column;
+                      const value = cell.getValue();
+                      const unit = cell.column.columnDef.unit ?? undefined;
+                      const inverse = cell.column.columnDef.inverse ?? undefined;
+                      const relative = cell.column.columnDef.relative ?? undefined;
+                      const scale = cell.column.columnDef.scale ?? undefined;
 
                       const classNames = [
                         ...(cell.row.original.state === "mys" ? ["bg-outline"] : []),
                         ...(lastCellInGroup.id === cell.column.id
                           ? ["text-xs border-r-black"]
                           : []),
-                        ...(cell.column.columnDef.relative
-                          ? [
-                              relativeColor(
-                                cell.getValue() as number,
-                                cell.column.columnDef.inverse
-                              ),
-                              "bg-opacity-20",
-                            ]
+                        ...(relative
+                          ? [relativeColor(value as number, inverse), "bg-opacity-20"]
                           : []),
-                        ...(cell.column.columnDef.scale
-                          ? [scaleColor(cell.getValue() as number)]
-                          : []),
-                        ...(cell.getValue() === null ? ["bg-outline"] : []),
+                        ...(scale ? [scaleColor(value as number)] : []),
+                        ...(value === null ? ["bg-outline"] : []),
                         index !== 0 ? cellClass : "",
                       ].join(" ");
-
-                      const unit = cell.column.columnDef.unit ?? undefined;
 
                       return (
                         <td key={cell.id} className={classNames}>
                           <div>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            {cell.getValue() !== null ? unit : "-"}
+                            {value !== null && unit}
+                            {value === null && relative && "-"}
                           </div>
                         </td>
                       );
@@ -274,9 +268,6 @@ const Table: FunctionComponent<TableProps> = ({
               current: table.getState().pagination.pageIndex + 1,
               total: table.getPageCount(),
             })}
-            {/* <div>Page</div>
-            <span className="font-medium">{table.getState().pagination.pageIndex + 1}</span> of{" "}
-            {table.getPageCount()} */}
           </span>
           <button
             className="flex flex-row gap-2 rounded border py-1 px-2 disabled:bg-slate-100 disabled:opacity-50"
