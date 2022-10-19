@@ -440,7 +440,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* How are COVID-19 key indicators trending */}
-        <Section title={t("covid.area_chart_header")} date={statistics.data_as_of}>
+        <Section title={t("covid.area_chart_header")} date={timeseries_deaths.data_as_of}>
           <div className="grid grid-cols-1 gap-12 pb-6 lg:grid-cols-2 xl:grid-cols-3">
             <Timeseries
               className="h-[250px] w-full"
