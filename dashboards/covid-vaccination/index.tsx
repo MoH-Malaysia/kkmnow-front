@@ -592,7 +592,7 @@ const CovidVaccinationDashboard: FunctionComponent<CovidVaccinationProps> = ({
         </Section>
 
         {/* Which states are best vaccinated against COVID-19? */}
-        <Section title={t("vaccination.table_header")} date={statistics.data_as_of}>
+        <Section title={t("vaccination.table_header")} date={table.data_as_of}>
           <div>
             <Tabs
               className="flex flex-wrap justify-end gap-2 pb-4"

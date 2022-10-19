@@ -34,10 +34,10 @@ const StateDropdown: FunctionComponent<StateDropdownProps> = ({
   const scroll = useWindowScroll();
   const redirect = (selected: OptionType) => {
     if (selected.value === "mys") {
-      url && router.push(url);
+      url && router.push(url, undefined, { scroll: false });
       return;
     }
-    url && router.push(`${url}/${selected.value}`);
+    url && router.push(`${url}/${selected.value}`, undefined, { scroll: false });
   };
 
   const show = useMemo(() => scroll.scrollY > 300, [scroll.scrollY]);
