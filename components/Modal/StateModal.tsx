@@ -56,7 +56,7 @@ const StateModal: FunctionComponent<StateModalProps> = ({ exclude, url, title })
                 key={state.value}
                 className={`rounded px-2 py-1 ${state.value === currentState ? "bg-washed" : ""}`}
               >
-                <Link href={url.concat("/", state.value)}>
+                <Link href={url.concat("/", state.value)} scroll={false}>
                   <a className="flex items-center space-x-4" onClick={() => close()}>
                     <Image
                       src={"/static/images/states/".concat(state.value, ".jpeg")}

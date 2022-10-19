@@ -9,7 +9,7 @@ type NavItemProps = {
 
 const NavItem: FunctionComponent<NavItemProps> = ({ icon, title, link }) => {
   return (
-    <Link href={link}>
+    <Link href={link} scroll={false}>
       <div className="flex items-center gap-2 rounded-md bg-white px-2 py-2 text-sm font-medium hover:cursor-pointer hover:bg-washed md:py-[6px]">
         {icon}
         {title}
