@@ -775,7 +775,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
-                              data: bar_chart.data.cases.capita.fullvax,
+                              data: bar_chart.data.cases.capita.fullyvax,
                               backgroundColor: "#D1D5DB",
                               stack: "3",
                             },
@@ -807,7 +807,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
-                              data: bar_chart.data.deaths.capita.fullvax,
+                              data: bar_chart.data.deaths.capita.fullyvax,
                               backgroundColor: "#D1D5DB",
                               stack: "3",
                             },
@@ -847,7 +847,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
-                              data: bar_chart.data.cases.abs.fullvax,
+                              data: bar_chart.data.cases.abs.fullyvax,
                               backgroundColor: "#D1D5DB",
                               stack: "3",
                             },
@@ -879,7 +879,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
-                              data: bar_chart.data.deaths.abs.fullvax,
+                              data: bar_chart.data.deaths.abs.fullyvax,
                               backgroundColor: "#D1D5DB",
                               stack: "3",
                             },
