@@ -52,6 +52,17 @@ const Bar: FunctionComponent<BarProps> = ({
   maxY,
 }) => {
   const isVertical = useMemo(() => layout === "vertical", [layout]);
+
+  const plugin = {
+    id: "increase-legend-spacing",
+    beforeInit(chart: any) {
+      const originalFit = chart.legend.fit;
+      chart.legend.fit = function fit() {
+        originalFit.bind(chart.legend)();
+        this.height += 24;
+      };
+    },
+  };
   ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, ChartTooltip);
 
   const options: BarCrosshairOption = {
@@ -60,8 +71,8 @@ const Bar: FunctionComponent<BarProps> = ({
     responsive: true,
     plugins: {
       legend: {
+        position: "top",
         display: enableLegend,
-        position: "chartArea" as const,
         align: "start",
       },
       tooltip: {
@@ -70,6 +81,11 @@ const Bar: FunctionComponent<BarProps> = ({
         },
       },
       crosshair: false,
+    },
+    layout: {
+      padding: {
+        top: 20,
+      },
     },
     scales: {
       x: {
@@ -123,7 +139,7 @@ const Bar: FunctionComponent<BarProps> = ({
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} state={state} />
       <div className={className}>
-        <BarCanvas data={data} options={options} />
+        <BarCanvas data={data} options={options} plugins={[plugin]} />
       </div>
     </div>
   );

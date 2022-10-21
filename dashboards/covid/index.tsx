@@ -12,16 +12,17 @@ import {
   Slider,
 } from "@components/index";
 import Image from "next/image";
-import { FunctionComponent, useCallback } from "react";
+import { FunctionComponent, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
-import { CountryAndStates, COVID_COLOR } from "@lib/constants";
+import { BLOOD_COLOR, BREAKPOINTS, CountryAndStates, COVID_COLOR } from "@lib/constants";
 import { routes } from "@lib/routes";
 import { COVID_TABLE_SCHEMA } from "@lib/schema/covid";
 import { filterCaseDeath } from "@lib/options";
 import { useTranslation } from "next-i18next";
 import { DateTime } from "luxon";
+import { useWindowWidth } from "@hooks/useWindowWidth";
 
 const Bar = dynamic(() => import("@components/Chart/Bar"), { ssr: false });
 const BarMeter = dynamic(() => import("@components/Chart/BarMeter"), { ssr: false });
@@ -62,6 +63,9 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
   const router = useRouter();
   const currentState = (router.query.state as string) ?? "mys";
   const { t } = useTranslation("common");
+  const windowWidth = useWindowWidth();
+
+  const isMobile = useMemo(() => windowWidth < BREAKPOINTS.MD, [windowWidth]);
 
   const { data, setData } = useData({
     show_indicator: {
@@ -720,7 +724,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
         </Section>
 
         {/* How is vaccination influencing key epidemic indidcators? */}
-        {/* <Section
+        <Section
           title={t("covid.bar_chart_header")}
           description={t("covid.bar_chart_subheader")}
           date={bar_chart.data_as_of}
@@ -766,31 +770,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.cases.capita.unvax,
-                              backgroundColor: COVID_COLOR[100],
+                              backgroundColor: BLOOD_COLOR[300],
                               stack: "1",
-                            },
-                            {
-                              label: `${t("covid.bar_chart2_label2")}`,
-                              data: bar_chart.data.cases.capita.partialvax,
-                              backgroundColor: COVID_COLOR[200],
-                              stack: "2",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.data.cases.capita.fullvax,
-                              backgroundColor: COVID_COLOR[300],
+                              backgroundColor: "#D1D5DB",
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.cases.capita.boosted,
-                              backgroundColor: COVID_COLOR[300],
+                              backgroundColor: "#2563EB",
                               stack: "4",
                             },
                           ],
                         }}
-                        // enableLegend
-                        enableGridX={false}
+                        enableLegend
+                        layout={isMobile ? "horizontal" : "vertical"}
+                        enableGridX={isMobile}
+                        enableGridY={!isMobile}
                       />
                     ),
                     deaths: (
@@ -802,31 +802,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.deaths.capita.unvax,
-                              backgroundColor: COVID_COLOR[100],
+                              backgroundColor: BLOOD_COLOR[300],
                               stack: "1",
-                            },
-                            {
-                              label: `${t("covid.bar_chart2_label2")}`,
-                              data: bar_chart.data.deaths.capita.partialvax,
-                              backgroundColor: COVID_COLOR[200],
-                              stack: "2",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.data.deaths.capita.fullvax,
-                              backgroundColor: COVID_COLOR[300],
+                              backgroundColor: "#D1D5DB",
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.deaths.capita.boosted,
-                              backgroundColor: COVID_COLOR[300],
+                              backgroundColor: "#2563EB",
                               stack: "4",
                             },
                           ],
                         }}
-                        // enableLegend
-                        enableGridX={false}
+                        enableLegend
+                        layout={isMobile ? "horizontal" : "vertical"}
+                        enableGridX={isMobile}
+                        enableGridY={!isMobile}
                       />
                     ),
                   }[data.show_indicator.value as string]
@@ -846,31 +842,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.cases.abs.unvax,
-                              backgroundColor: COVID_COLOR[100],
+                              backgroundColor: BLOOD_COLOR[300],
                               stack: "1",
-                            },
-                            {
-                              label: `${t("covid.bar_chart2_label2")}`,
-                              data: bar_chart.data.cases.abs.partialvax,
-                              backgroundColor: COVID_COLOR[200],
-                              stack: "2",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.data.cases.abs.fullvax,
-                              backgroundColor: COVID_COLOR[300],
+                              backgroundColor: "#D1D5DB",
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.cases.abs.boosted,
-                              backgroundColor: COVID_COLOR[300],
+                              backgroundColor: "#2563EB",
                               stack: "4",
                             },
                           ],
                         }}
-                        // enableLegend
-                        enableGridX={false}
+                        layout={isMobile ? "horizontal" : "vertical"}
+                        enableLegend
+                        enableGridX={isMobile}
+                        enableGridY={!isMobile}
                       />
                     ),
                     deaths: (
@@ -882,31 +874,27 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.deaths.abs.unvax,
-                              backgroundColor: COVID_COLOR[100],
+                              backgroundColor: BLOOD_COLOR[300],
                               stack: "1",
-                            },
-                            {
-                              label: `${t("covid.bar_chart2_label2")}`,
-                              data: bar_chart.data.deaths.abs.partialvax,
-                              backgroundColor: COVID_COLOR[200],
-                              stack: "2",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.data.deaths.abs.fullvax,
-                              backgroundColor: COVID_COLOR[300],
+                              backgroundColor: "#D1D5DB",
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.deaths.abs.boosted,
-                              backgroundColor: COVID_COLOR[300],
+                              backgroundColor: "#2563EB",
                               stack: "4",
                             },
                           ],
                         }}
-                        // enableLegend
-                        enableGridX={false}
+                        layout={isMobile ? "horizontal" : "vertical"}
+                        enableLegend
+                        enableGridX={isMobile}
+                        enableGridY={!isMobile}
                       />
                     ),
                   }[data.show_indicator.value as string]
@@ -914,7 +902,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
               </>
             </Panel>
           </Tabs>
-        </Section> */}
+        </Section>
       </Container>
     </>
   );
