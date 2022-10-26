@@ -152,7 +152,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               className="h-[420px] w-[600px]"
               title={t("blood.table_title")}
               hoverTarget="row"
-              data={heatmap_bloodstock.data}
+              data={Object.values(heatmap_bloodstock.data)}
               axisLeft="state"
               schema={BLOOD_SUPPLY_SCHEMA()}
               color={BLOOD_SUPPLY_COLOR}
@@ -647,13 +647,12 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 </Panel>
               </Tabs>
             </div>
-
             <Heatmap
               className="flex h-[550px] w-[600px] overflow-auto lg:overflow-visible "
               title={t("blood.heatmap4_title")}
               state={currentState}
               //menu={<MenuDropdown />}
-              data={heatmap_retention.data}
+              data={Object.values(heatmap_retention.data)}
               unitY="%"
               unitX={t("common.yr")}
               axisLeft={{
