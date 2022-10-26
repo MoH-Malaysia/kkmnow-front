@@ -67,6 +67,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   choropleth_malaysia_blood_donation,
 }) => {
   const router = useRouter();
+  const { bsot } = router.query;
   const windowWidth = useWindowWidth();
   const isMobile = windowWidth < BREAKPOINTS.MD;
   const currentState = (router.query.state as string) ?? "mys";
@@ -110,6 +111,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
       data: barchart_variables.data.past_year,
     },
   ];
+
+  const BLOOD_TABMAP: string[] = ["A", "B", "AB", "O"];
 
   return (
     <>
@@ -156,12 +159,16 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               axisLeft="state"
               schema={BLOOD_SUPPLY_SCHEMA()}
               color={[...BLOOD_SUPPLY_COLOR].reverse()}
+              onClick={(id, x) =>
+                router.push(`/blood-donation/${id}?bsot=${x}`, undefined, { scroll: false })
+              }
               //menu={<MenuDropdown />}
             />
             <div>
               <Tabs
                 title={t("blood.area_title")}
                 state={currentState}
+                current={bsot ? BLOOD_TABMAP.indexOf(bsot as string) : 0}
                 //menu={<MenuDropdown />}
               >
                 <Panel name={t("blood.area_type1")}>

@@ -29,6 +29,7 @@ interface HeatmapProps {
   axisLeft?: AxisProps<any> | "state" | "default";
   axisTop?: AxisProps<any> | null;
   legend?: LegendTitle;
+  onClick?: (id: string, x: string, y: number | null | undefined) => void;
 }
 
 type LegendTitle = {
@@ -57,6 +58,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
   axisLeft,
   axisTop,
   legend,
+  onClick,
 }) => {
   const get = (
     props: { id: any; serieId: any; data: any; formattedValue: any; color?: any },
@@ -222,6 +224,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                   },
                 },
               }}
+              onClick={cell => onClick && onClick(cell.serieId, cell.data.x, cell.data.y)}
               colors={getColorScheme()}
               emptyColor="#555555"
               animate={false}
