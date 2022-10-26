@@ -12,6 +12,7 @@ import {
 import { Bar as BarCanvas } from "react-chartjs-2";
 import { numFormat } from "@lib/helpers";
 import { BarCrosshairOption } from "@lib/types";
+import { GRAYBAR_COLOR } from "@lib/constants";
 
 interface BarProps {
   className?: string;
@@ -24,6 +25,7 @@ interface BarProps {
   type?: "category" | "linear" | "logarithmic";
   unitX?: string;
   unitY?: string;
+  decimal?: number;
   minY?: number;
   maxY?: number;
   enableLegend?: boolean;
@@ -48,6 +50,7 @@ const Bar: FunctionComponent<BarProps> = ({
   enableStack = false,
   enableGridX = true,
   enableGridY = true,
+  decimal = 1,
   minY,
   maxY,
 }) => {
@@ -74,10 +77,25 @@ const Bar: FunctionComponent<BarProps> = ({
         position: "top",
         display: enableLegend,
         align: "start",
+        labels: {
+          font: {
+            family: "Inter",
+            weight: "500",
+          },
+          boxWidth: 24,
+          color: GRAYBAR_COLOR[300],
+        },
       },
       tooltip: {
         bodyFont: {
           family: "Inter",
+        },
+        callbacks: {
+          label: function (item) {
+            return `${item.dataset.label}: ${
+              item.parsed.y ? numFormat(item.parsed.y, "standard", decimal) : "-"
+            }`;
+          },
         },
       },
       crosshair: false,

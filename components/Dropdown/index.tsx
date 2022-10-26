@@ -64,7 +64,7 @@ const Dropdown = <L extends string | number | ReactElement = string, V = string>
             ${
               disabled
                 ? "pointer-events-none bg-outline text-dim"
-                : "hover:border-outlineHover focus:bg-washed focus:outline-none focus-visible:ring-0"
+                : "hover:border-outlineHover focus:outline-none focus-visible:ring-0"
             }
             ${width}
           `}

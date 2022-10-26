@@ -16,7 +16,13 @@ import { FunctionComponent, useCallback, useMemo } from "react";
 import dynamic from "next/dynamic";
 import { useData } from "@hooks/useData";
 import { useRouter } from "next/router";
-import { BLOOD_COLOR, BREAKPOINTS, CountryAndStates, COVID_COLOR } from "@lib/constants";
+import {
+  BLOOD_COLOR,
+  BREAKPOINTS,
+  CountryAndStates,
+  COVID_COLOR,
+  GRAYBAR_COLOR,
+} from "@lib/constants";
 import { routes } from "@lib/routes";
 import { COVID_TABLE_SCHEMA } from "@lib/schema/covid";
 import { filterCaseDeath } from "@lib/options";
@@ -72,9 +78,8 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
       label: t(`covid.opt_${filterCaseDeath[0].value}`),
       value: filterCaseDeath[0].value,
     },
-    filter_death: 0,
+    filter_type: 0,
     filter_state: 0,
-    filter_cases: 0,
     minmax: [timeseries_deaths.data.x.length - 182, timeseries_deaths.data.x.length - 1],
   });
 
@@ -470,7 +475,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     label: `${t("covid.area_chart_tooltip1")}`,
                     pointRadius: 0,
                     data: filtered_timeline().deaths_line,
-                    borderColor: "#0F172A",
+                    borderColor: GRAYBAR_COLOR[300],
                     borderWidth: 1.5,
                   },
                   {
@@ -666,7 +671,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                     type: "line",
                     label: `${t("covid.area_chart6_tooltip1")}`,
                     pointRadius: 0,
-                    borderColor: "#0F172A",
+                    borderColor: GRAYBAR_COLOR[300],
                     data: filtered_timeline().tests_posrate,
                     borderWidth: 1.5,
                     yAxisID: "y1",
@@ -733,11 +738,11 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
             title={
               {
                 cases:
-                  data.filter_cases === 0
+                  data.filter_type === 0
                     ? `${t("covid.bar_chart_cases1")}`
                     : `${t("covid.bar_chart_cases2")}`,
                 deaths:
-                  data.filter_deaths === 0
+                  data.filter_type === 0
                     ? `${t("covid.bar_chart_Deaths1")}`
                     : `${t("covid.bar_chart_Deaths2")}`,
               }[data.show_indicator.value as string]
@@ -755,7 +760,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                 onChange={e => setData("show_indicator", e)}
               />
             }
-            onChange={value => setData("filter_death", value)}
+            onChange={value => setData("filter_type", value)}
           >
             <Panel name={t("covid.bar_chart1_type")}>
               <>
@@ -770,23 +775,24 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.cases.capita.unvax,
-                              backgroundColor: "#DC2626",
+                              backgroundColor: BLOOD_COLOR[500],
                               stack: "1",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.data.cases.capita.fullyvax,
-                              backgroundColor: "#D1D5DB",
+                              backgroundColor: GRAYBAR_COLOR[100],
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.cases.capita.boosted,
-                              backgroundColor: "#0F172A",
+                              backgroundColor: GRAYBAR_COLOR[300],
                               stack: "4",
                             },
                           ],
                         }}
+                        decimal={1}
                         enableLegend
                         layout={isMobile ? "horizontal" : "vertical"}
                         enableGridX={isMobile}
@@ -802,24 +808,25 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.deaths.capita.unvax,
-                              backgroundColor: BLOOD_COLOR[300],
+                              backgroundColor: BLOOD_COLOR[500],
                               stack: "1",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.data.deaths.capita.fullyvax,
-                              backgroundColor: "#D1D5DB",
+                              backgroundColor: GRAYBAR_COLOR[100],
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.deaths.capita.boosted,
-                              backgroundColor: "#2563EB",
+                              backgroundColor: GRAYBAR_COLOR[300],
                               stack: "4",
                             },
                           ],
                         }}
                         enableLegend
+                        decimal={1}
                         layout={isMobile ? "horizontal" : "vertical"}
                         enableGridX={isMobile}
                         enableGridY={!isMobile}
@@ -842,24 +849,25 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.cases.abs.unvax,
-                              backgroundColor: BLOOD_COLOR[300],
+                              backgroundColor: BLOOD_COLOR[500],
                               stack: "1",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.data.cases.abs.fullyvax,
-                              backgroundColor: "#D1D5DB",
+                              backgroundColor: GRAYBAR_COLOR[100],
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.cases.abs.boosted,
-                              backgroundColor: "#2563EB",
+                              backgroundColor: GRAYBAR_COLOR[300],
                               stack: "4",
                             },
                           ],
                         }}
                         layout={isMobile ? "horizontal" : "vertical"}
+                        decimal={0}
                         enableLegend
                         enableGridX={isMobile}
                         enableGridY={!isMobile}
@@ -874,23 +882,24 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.deaths.abs.unvax,
-                              backgroundColor: BLOOD_COLOR[300],
+                              backgroundColor: BLOOD_COLOR[500],
                               stack: "1",
                             },
                             {
                               label: `${t("covid.bar_chart2_label3")}`,
                               data: bar_chart.data.deaths.abs.fullyvax,
-                              backgroundColor: "#D1D5DB",
+                              backgroundColor: GRAYBAR_COLOR[100],
                               stack: "3",
                             },
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.deaths.abs.boosted,
-                              backgroundColor: "#2563EB",
+                              backgroundColor: GRAYBAR_COLOR[300],
                               stack: "4",
                             },
                           ],
                         }}
+                        decimal={0}
                         layout={isMobile ? "horizontal" : "vertical"}
                         enableLegend
                         enableGridX={isMobile}
