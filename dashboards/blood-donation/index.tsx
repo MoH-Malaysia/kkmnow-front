@@ -159,9 +159,11 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               axisLeft="state"
               schema={BLOOD_SUPPLY_SCHEMA()}
               color={[...BLOOD_SUPPLY_COLOR].reverse()}
-              onClick={(id, x) =>
-                router.push(`/blood-donation/${id}?bsot=${x}`, undefined, { scroll: false })
-              }
+              onClick={(id, x) => {
+                if (id === "mys")
+                  router.push(`/blood-donation?bsot=${x}`, undefined, { scroll: false });
+                else router.push(`/blood-donation/${id}?bsot=${x}`, undefined, { scroll: false });
+              }}
               //menu={<MenuDropdown />}
             />
             <div>
