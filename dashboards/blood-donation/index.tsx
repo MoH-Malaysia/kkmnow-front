@@ -152,28 +152,15 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               className="h-[420px] w-[600px]"
               title={t("blood.table_title")}
               hoverTarget="row"
-              data={Object.values(heatmap_bloodstock.data)}
+              data={heatmap_bloodstock.data}
               axisLeft="state"
               schema={BLOOD_SUPPLY_SCHEMA()}
-              color={BLOOD_SUPPLY_COLOR}
+              color={[...BLOOD_SUPPLY_COLOR].reverse()}
               //menu={<MenuDropdown />}
             />
             <div>
               <Tabs
-                title={
-                  <Tooltip
-                    trigger={open => (
-                      <span
-                        className="font-bold underline decoration-dashed underline-offset-4"
-                        onClick={() => open()}
-                      >
-                        {t("blood.area_title")}
-                      </span>
-                    )}
-                  >
-                    {t("blood.area_tooltip")}
-                  </Tooltip>
-                }
+                title={t("blood.area_title")}
                 state={currentState}
                 //menu={<MenuDropdown />}
               >
@@ -195,6 +182,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         },
                       ],
                     }}
+                    tickYCount={3}
+                    tickYCallback={value => (value >= 99 ? "Safe" : value >= 66 ? "Mid" : "Low")}
                     enableGridX={false}
                   />
                 </Panel>
@@ -216,6 +205,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         },
                       ],
                     }}
+                    tickYCount={3}
+                    tickYCallback={value => (value >= 99 ? "Safe" : value >= 66 ? "Mid" : "Low")}
                     enableGridX={false}
                   />
                 </Panel>
@@ -237,10 +228,12 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         },
                       ],
                     }}
+                    tickYCount={3}
+                    tickYCallback={value => (value >= 99 ? "Safe" : value >= 66 ? "Mid" : "Low")}
                     enableGridX={false}
                   />
                 </Panel>
-                <Panel name={t("blood.area_type3")}>
+                <Panel name={t("blood.area_type4")}>
                   <Timeseries
                     className="h-[350px] w-full"
                     interval="week"
@@ -258,6 +251,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         },
                       ],
                     }}
+                    tickYCount={3}
+                    tickYCallback={value => (value >= 99 ? "Safe" : value >= 66 ? "Mid" : "Low")}
                     enableGridX={false}
                   />
                 </Panel>

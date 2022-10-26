@@ -65,7 +65,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
     if (!schema) return;
     let { data, formattedValue } = props;
     for (const scheme of schema) {
-      if (data[key] <= scheme.max) {
+      if (data[key] >= scheme.max) {
         if (!scheme[_key]) return formattedValue;
         return scheme[_key];
       }
@@ -182,7 +182,6 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                     }
               }
               label={schema ? props => get(props, "label") : undefined}
-              //   labelTextColor={schema ? props => get(props, "labelColor") : undefined}
               labelTextColor={
                 schema
                   ? props => get(props, "labelColor")

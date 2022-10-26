@@ -13,7 +13,7 @@ export const BLOOD_SUPPLY_SCHEMA = (): HeatmapSchema[] => {
     {
       label: t("blood.low"),
       labelColor: "#FFF",
-      max: 0,
+      max: 2,
     },
     {
       label: t("blood.mid"),
@@ -23,12 +23,7 @@ export const BLOOD_SUPPLY_SCHEMA = (): HeatmapSchema[] => {
     {
       label: t("blood.safe"),
       labelColor: "#000",
-      max: 2,
-    },
-    {
-      label: t("blood.high"),
-      labelColor: "#000",
-      max: 3,
+      max: 0,
     },
   ];
 };

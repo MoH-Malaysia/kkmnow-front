@@ -15,6 +15,7 @@ import {
   Legend,
   ChartData,
   ChartTypeRegistry,
+  Tick,
 } from "chart.js";
 import { CrosshairPlugin } from "chartjs-plugin-crosshair";
 import AnnotationPlugin from "chartjs-plugin-annotation";
@@ -64,6 +65,8 @@ interface TimeseriesProps {
   gridYValues?: Array<number> | undefined;
   minY?: number;
   maxY?: number;
+  tickYCount?: number;
+  tickYCallback?: (value: number) => string | number | string[] | number[] | null | undefined;
   enableRightScale?: boolean;
   enableCallout?: boolean;
   enableCrosshair?: boolean;
@@ -87,6 +90,8 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   stats,
   state,
   subheader,
+  tickYCount,
+  tickYCallback,
   type = "bar",
   enableRightScale = false,
   enableCallout = false,
@@ -129,21 +134,23 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
           position: "chartArea" as const,
           align: "start",
         },
-        tooltip: {
-          enabled: true,
-          bodyFont: {
-            family: "Inter",
-          },
-          mode: "index",
-          intersect: false,
-          callbacks: {
-            label: function (item) {
-              return `${item.dataset.label}: ${
-                item.parsed.y ? +item.parsed.y.toFixed(0).toLocaleString() : "-"
-              }`;
-            },
-          },
-        },
+        tooltip: enableCrosshair
+          ? {
+              enabled: true,
+              bodyFont: {
+                family: "Inter",
+              },
+              mode: "index",
+              intersect: false,
+              callbacks: {
+                label: function (item) {
+                  return `${item.dataset.label}: ${
+                    item.parsed.y ? +item.parsed.y.toFixed(0).toLocaleString() : "-"
+                  }`;
+                },
+              },
+            }
+          : false,
         annotation: enableCallout
           ? {
               clip: false,
@@ -221,10 +228,12 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
         x: {
           type: "time",
           time: {
+            minUnit: "day",
             unit: interval === "auto" ? autoScale : interval,
             round: round === "auto" ? autoRound : round,
 
             displayFormats: {
+              day: "dd MMM",
               quarter: "MMM",
               month: "MMM",
               week: "dd MMM",
@@ -245,6 +254,15 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
             font: {
               family: "Inter",
             },
+            callback: value => {
+              if (
+                (interval && ["day", "week"].includes(interval)) ||
+                (autoScale && ["day", "week"].includes(autoScale))
+              ) {
+                if (value.toString().length <= 3) return `01 ${value}`;
+              }
+              return value;
+            },
           },
           stacked: mode === "stacked",
         },
@@ -257,10 +275,24 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
             drawBorder: false,
             offset: false,
           },
+          afterBuildTicks: axis => {
+            if (tickYCount) {
+              let ticks: Tick[] = [];
+              let values = axis.ticks.map(t => t.value);
+              let max = Math.max(...values);
+              const interval = Math.floor(max / tickYCount);
+
+              for (let i = 0; i <= max; i++) {
+                if (i % interval === 0) ticks.push({ value: i });
+              }
+              axis.ticks = ticks;
+            }
+          },
           ticks: {
-            padding: 6,
             callback: (value: string | number) => {
-              return value && numFormat(value as number).concat(unitY ?? "");
+              return value && tickYCallback
+                ? tickYCallback(value as number)
+                : numFormat(value as number).concat(unitY ?? "");
             },
             font: {
               family: "Inter",

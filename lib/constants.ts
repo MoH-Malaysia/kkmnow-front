@@ -154,7 +154,6 @@ export const CHOROPLETH_RED_PURPLE_SCALE = [
 export const BLOOD_SUPPLY_COLOR: Array<string> = [
   "rgba(255, 78, 78, 1)",
   "rgba(255, 192, 192, 1)",
-  "rgba(248, 250, 252, 1)",
   "rgba(255, 255, 255, 1)",
 ];
 

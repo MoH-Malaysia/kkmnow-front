@@ -10,6 +10,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { DateTime } from "luxon";
 import { useTranslation } from "next-i18next";
 import { routes } from "@lib/routes";
+import { sortMsiaFirst } from "@lib/helpers";
 
 const BloodDonationIndex: Page = ({
   last_updated,
@@ -94,6 +95,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const period = DateTime.fromFormat(item, "yyyy-MM-dd");
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
+
+  data.heatmap_bloodstock.data = sortMsiaFirst(Object.values(data.heatmap_bloodstock.data), "id");
 
   return {
     props: {

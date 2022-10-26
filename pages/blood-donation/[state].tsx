@@ -5,6 +5,7 @@ import { Layout, Metadata, StateDropdown, StateModal } from "@components/index";
 import BloodDonationDashboard from "@dashboards/blood-donation";
 import { get } from "@lib/api";
 import { CountryAndStates, STATES } from "@lib/constants";
+import { sortMsiaFirst } from "@lib/helpers";
 import { routes } from "@lib/routes";
 import { Page } from "@lib/types";
 import { DateTime } from "luxon";
@@ -119,6 +120,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     const period = DateTime.fromFormat(item, "yyyy-MM-dd");
     return period.monthShort !== "Jan" ? period.monthShort : period.year.toString();
   });
+
+  data.heatmap_bloodstock.data = sortMsiaFirst(Object.values(data.heatmap_bloodstock.data), "id");
 
   return {
     props: {
