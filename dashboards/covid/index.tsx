@@ -770,7 +770,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label1")}`,
                               data: bar_chart.data.cases.capita.unvax,
-                              backgroundColor: BLOOD_COLOR[300],
+                              backgroundColor: "#DC2626",
                               stack: "1",
                             },
                             {
@@ -782,7 +782,7 @@ const CovidDashboard: FunctionComponent<CovidDashboardProps> = ({
                             {
                               label: `${t("covid.bar_chart2_label4")}`,
                               data: bar_chart.data.cases.capita.boosted,
-                              backgroundColor: "#2563EB",
+                              backgroundColor: "#0F172A",
                               stack: "4",
                             },
                           ],
