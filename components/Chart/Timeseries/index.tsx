@@ -65,6 +65,7 @@ interface TimeseriesProps {
   gridYValues?: Array<number> | undefined;
   minY?: number;
   maxY?: number;
+  decimal?: number;
   tickYCount?: number;
   tickYCallback?: (value: number) => string | number | string[] | number[] | null | undefined;
   enableRightScale?: boolean;
@@ -90,6 +91,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   stats,
   state,
   subheader,
+  decimal = 0,
   tickYCount,
   tickYCallback,
   type = "bar",
@@ -145,7 +147,9 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
               callbacks: {
                 label: function (item) {
                   return `${item.dataset.label}: ${
-                    item.parsed.y ? +item.parsed.y.toFixed(0).toLocaleString() : "-"
+                    item.parsed.y
+                      ? numFormat(item.parsed.y, "standard", decimal).concat(unitY)
+                      : "-"
                   }`;
                 },
               },

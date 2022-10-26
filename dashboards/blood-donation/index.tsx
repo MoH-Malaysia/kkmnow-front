@@ -191,6 +191,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         },
                       ],
                     }}
+                    unitY="%"
                     tickYCount={3}
                     tickYCallback={value => (value >= 99 ? "Safe" : value >= 66 ? "Mid" : "Low")}
                     enableGridX={false}
@@ -214,6 +215,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         },
                       ],
                     }}
+                    unitY="%"
                     tickYCount={3}
                     tickYCallback={value => (value >= 99 ? "Safe" : value >= 66 ? "Mid" : "Low")}
                     enableGridX={false}
@@ -237,6 +239,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         },
                       ],
                     }}
+                    unitY="%"
                     tickYCount={3}
                     tickYCallback={value => (value >= 99 ? "Safe" : value >= 66 ? "Mid" : "Low")}
                     enableGridX={false}
@@ -260,6 +263,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         },
                       ],
                     }}
+                    unitY="%"
                     tickYCount={3}
                     tickYCallback={value => (value >= 99 ? "Safe" : value >= 66 ? "Mid" : "Low")}
                     enableGridX={false}
