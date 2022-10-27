@@ -152,7 +152,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
         >
           <div className="grid grid-cols-1 gap-12 xl:grid-cols-2 ">
             <Heatmap
-              className="h-[420px] w-[600px]"
+              className="h-[420px] w-full lg:w-[600px]"
               title={t("blood.table_title")}
               hoverTarget="row"
               data={heatmap_bloodstock.data}
@@ -160,6 +160,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               schema={BLOOD_SUPPLY_SCHEMA()}
               color={BLOOD_SUPPLY_COLOR}
               enableBorder
+              enableOverflow={false}
               onClick={(id, x) => {
                 if (id === "mys")
                   router.push(`/blood-donation?bsot=${x}`, undefined, { scroll: false });
@@ -522,20 +523,21 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                 state={currentState}
               >
                 <Panel name={t("blood.heatmap1_panel1")}>
-                  <>
+                  <div className="table-responsive">
                     <Heatmap
-                      className="flex h-[150px] overflow-visible"
+                      className="flex h-[150px] w-[600px] lg:w-full"
                       data={[
                         heatmap_donorrate.data.capita.male,
                         heatmap_donorrate.data.capita.female,
                       ]}
                       subdata
+                      enableOverflow={false}
                       axisLeft="default"
                       color="blues"
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[200px] w-[600px] lg:w-full"
                       title={t("blood.heatmap2_title")}
                       data={[
                         heatmap_donorrate.data.capita.male_chinese,
@@ -545,12 +547,13 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       ]}
                       subdata
                       axisLeft="default"
+                      enableOverflow={false}
                       axisTop={null}
                       color="blues"
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[200px] w-[600px] lg:w-full"
                       title={t("blood.heatmap3_title")}
                       data={[
                         heatmap_donorrate.data.capita.female_chinese,
@@ -560,25 +563,27 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       ]}
                       subdata
                       axisLeft="default"
+                      enableOverflow={false}
                       axisTop={null}
                       color="blues"
                     />
-                  </>
+                  </div>
                 </Panel>
 
                 <Panel name={t("blood.heatmap1_panel2")}>
-                  <>
+                  <div className="table-responsive">
                     <Heatmap
-                      className="flex h-[150px] overflow-auto lg:overflow-visible"
+                      className="flex h-[150px] w-[600px] lg:w-full"
                       data={[heatmap_donorrate.data.perc.male, heatmap_donorrate.data.perc.female]}
                       subdata
                       axisLeft="default"
                       unitY="%"
+                      enableOverflow={false}
                       color="blues"
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[200px] w-[600px] lg:w-full"
                       title={t("blood.heatmap2_title")}
                       data={[
                         heatmap_donorrate.data.perc.male_chinese,
@@ -590,11 +595,12 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       unitY="%"
                       axisLeft="default"
                       axisTop={null}
+                      enableOverflow={false}
                       color="blues"
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[200px] w-[600px] lg:w-full"
                       title={t("blood.heatmap3_title")}
                       data={[
                         heatmap_donorrate.data.perc.female_chinese,
@@ -606,23 +612,25 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       unitY="%"
                       axisLeft="default"
                       axisTop={null}
+                      enableOverflow={false}
                       color="blues"
                     />
-                  </>
+                  </div>
                 </Panel>
                 <Panel name={t("blood.heatmap1_panel3")}>
-                  <>
+                  <div className="table-responsive">
                     <Heatmap
-                      className="flex h-[150px] overflow-visible"
+                      className="flex h-[150px] w-[600px] lg:w-full"
                       data={[heatmap_donorrate.data.abs.male, heatmap_donorrate.data.abs.female]}
                       subdata
                       axisLeft="default"
                       valueFormat="<-,.1~s"
+                      enableOverflow={false}
                       color="blues"
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[200px] w-[600px] lg:w-full"
                       title={t("blood.heatmap2_title")}
                       data={[
                         heatmap_donorrate.data.abs.male_chinese,
@@ -634,11 +642,12 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       valueFormat="<-,.2~s"
                       axisLeft="default"
                       axisTop={null}
+                      enableOverflow={false}
                       color="blues"
                     />
 
                     <Heatmap
-                      className="flex h-[200px] overflow-visible"
+                      className="flex h-[200px] w-[600px] lg:w-full"
                       title={t("blood.heatmap3_title")}
                       data={[
                         heatmap_donorrate.data.abs.female_chinese,
@@ -649,15 +658,16 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                       subdata
                       valueFormat="<-,.1~s"
                       axisLeft="default"
+                      enableOverflow={false}
                       axisTop={null}
                       color="blues"
                     />
-                  </>
+                  </div>
                 </Panel>
               </Tabs>
             </div>
             <Heatmap
-              className="flex h-[550px] w-[600px] overflow-auto lg:overflow-visible "
+              className="flex h-[550px] w-[600px] "
               title={t("blood.heatmap4_title")}
               state={currentState}
               //menu={<MenuDropdown />}

@@ -26,6 +26,7 @@ interface HeatmapProps {
   unitX?: string;
   unitY?: string;
   enableBorder?: boolean;
+  enableOverflow?: boolean;
   hoverTarget?: "cell" | "row" | "column" | "rowColumn";
   axisLeft?: AxisProps<any> | "state" | "default";
   axisTop?: AxisProps<any> | null;
@@ -57,6 +58,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
   interactive = true,
   hoverTarget,
   enableBorder = false,
+  enableOverflow = true,
   axisLeft,
   axisTop,
   legend,
@@ -155,7 +157,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
     <div>
       <ChartHeader title={title} menu={menu} controls={controls} state={state} />
 
-      <div className="table-responsive">
+      <div className={`${enableOverflow ? "table-responsive" : ""}`}>
         <div className={`${className} lg:w-auto`}>
           {legend?.left && (
             <span className="rotate-180 text-center font-medium [writing-mode:vertical-lr]">

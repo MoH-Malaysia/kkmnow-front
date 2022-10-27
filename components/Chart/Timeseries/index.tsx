@@ -148,7 +148,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
                 label: function (item) {
                   return `${item.dataset.label}: ${
                     item.parsed.y
-                      ? numFormat(item.parsed.y, "standard", decimal).concat(unitY)
+                      ? numFormat(item.parsed.y, "standard", decimal).concat(unitY ?? "")
                       : "-"
                   }`;
                 },
