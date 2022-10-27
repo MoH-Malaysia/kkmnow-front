@@ -50,7 +50,7 @@ const Home: Page = ({}: InferGetStaticPropsType<typeof getStaticProps>) => {
       <Container className="min-h-screen py-12">
         <h1 className="mb-8 text-2xl md:text-center">{t("home.timeline.title")}</h1>
         {timeline.map((event, index) => (
-          <div className="flex gap-8 md:block md:gap-0">
+          <div key={index} className="flex gap-8 md:block md:gap-0">
             {/* TIMELINE FOR MOBILE DEVICES */}
             {isMobile && (
               <div className="w-4">

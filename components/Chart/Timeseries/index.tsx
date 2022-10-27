@@ -284,7 +284,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
               let ticks: Tick[] = [];
               let values = axis.ticks.map(t => t.value);
               let max = Math.max(...values);
-              const interval = Math.floor(max / tickYCount);
+              const interval = Math.floor((maxY ? maxY : max) / tickYCount);
 
               for (let i = 0; i <= max; i++) {
                 if (i % interval === 0) ticks.push({ value: i });
