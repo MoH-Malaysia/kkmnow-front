@@ -25,6 +25,7 @@ interface HeatmapProps {
   interactive?: boolean;
   unitX?: string;
   unitY?: string;
+  enableBorder?: boolean;
   hoverTarget?: "cell" | "row" | "column" | "rowColumn";
   axisLeft?: AxisProps<any> | "state" | "default";
   axisTop?: AxisProps<any> | null;
@@ -55,6 +56,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
   forceSquare = false,
   interactive = true,
   hoverTarget,
+  enableBorder = false,
   axisLeft,
   axisTop,
   legend,
@@ -67,7 +69,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
     if (!schema) return;
     let { data, formattedValue } = props;
     for (const scheme of schema) {
-      if (data[key] >= scheme.max) {
+      if (data[key] <= scheme.max) {
         if (!scheme[_key]) return formattedValue;
         return scheme[_key];
       }
@@ -209,6 +211,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                   </div>
                 );
               }}
+              borderWidth={enableBorder ? 0.5 : 0}
               axisLeft={getAxisLeft()}
               isInteractive={interactive}
               forceSquare={forceSquare}
@@ -258,6 +261,7 @@ const Heatmap: FunctionComponent<HeatmapProps> = ({
                 forceSquare={forceSquare}
                 inactiveOpacity={0.3}
                 isInteractive={interactive}
+                borderWidth={enableBorder ? 0.5 : 0}
                 label={schema ? props => get(props, "label") : undefined}
                 labelTextColor={props => computeTextColor(props.value as number, true)}
                 theme={{

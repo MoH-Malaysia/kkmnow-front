@@ -158,7 +158,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
               data={heatmap_bloodstock.data}
               axisLeft="state"
               schema={BLOOD_SUPPLY_SCHEMA()}
-              color={[...BLOOD_SUPPLY_COLOR].reverse()}
+              color={BLOOD_SUPPLY_COLOR}
+              enableBorder
               onClick={(id, x) => {
                 if (id === "mys")
                   router.push(`/blood-donation?bsot=${x}`, undefined, { scroll: false });
