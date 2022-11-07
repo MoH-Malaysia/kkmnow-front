@@ -530,7 +530,7 @@
     "choro_description": "This data shows the % of the total population in each state which has pledged to donate their organs.",
     "bar1_header": "How strong is new pledger recruitment in {{ state }}?",
     "bar1_description": "To meet Malaysia's healthcare needs, it is vital to recruit as many new pledgers as possible.",
-    "bar_title": "Number of new donors",
+    "bar_title": "New Pledges",
     "annual": "Annual",
     "monthly": "Monthly",
     "bar1_tooltip1": "New Pledges",
