@@ -530,11 +530,11 @@
     "choro_description": "Data ini menunjukkan % populasi keseluruhan di setiap negeri yang telah berikrar untuk menderma organ.",
     "bar1_header": "Seberapa kuat pengambilan penderma baharu di {{ state }}?",
     "bar1_description": "Untuk memenuhi keperluan sistem kesihatan di Malaysia, adalah penting untuk mendapatkan pengikrar baru sebanyak yang mungkin.",
-    "bar_title": "Bilangan penderma baru",
+    "bar_title": "Bilangan Pengikrar Baru",
     "annual": "Tahunan",
     "monthly": "Bulanan",
-    "bar1_tooltip1": "Penderma Baru",
-    "bar2_title": "Penderma baru mengikut kumpulan umur",
+    "bar1_tooltip1": "Pengikrar Baru",
+    "bar2_title": "Pengikrar Baru mengikut Kumpulan Umur",
     "year": "1 tahun lepas",
     "month": "1 bulan lepas",
     "heatmap_header": "Berapakah jumlah penduduk di {{ state }} yang menderma darah?",
@@ -552,6 +552,6 @@
     "new_donor2": "Bulanan",
     "map_btm": "Bagaimana data ini dikumpul",
     "map_desc": "(placeholder)",
-    "donor": "Penderma"
+    "donor": "Pengikrar"
   }
 }

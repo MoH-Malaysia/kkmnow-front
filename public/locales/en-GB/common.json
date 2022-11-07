@@ -533,8 +533,8 @@
     "bar_title": "Number of new donors",
     "annual": "Annual",
     "monthly": "Monthly",
-    "bar1_tooltip1": "New Donors",
-    "bar2_title": "New donors by age group",
+    "bar1_tooltip1": "New Pledges",
+    "bar2_title": "New Pledges by Age Group",
     "year": "Past 1 year",
     "month": "Past 1 month",
     "heatmap_header": "What proportion of the population in {{ state }} donates blood?",
@@ -547,11 +547,11 @@
     "heatmap2_title": "Male",
     "heatmap3_title": "Female",
     "chart_header": "Motivation: Why do people pledge to donate organs?",
-    "bar1_title": "Number of new donors",
+    "bar1_title": "Number of new pledges",
     "new_donor1": "Annual",
     "new_donor2": "Monthly",
     "map_btm": "How is this data collected?",
     "map_desc": "(placeholder)",
-    "donor": "Donor"
+    "donor": "Pledger"
   }
 }
