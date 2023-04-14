@@ -137,7 +137,7 @@
   "covid": {
     "title": "COVID-19",
     "title_header": "Data terkini tentang pandemik di {{ state }}.",
-    "title_description1": "Berdasarkan dashboard COVIDNOW yang sebelumnya, halaman ini memberi ringkasan tentang pandemik di Malaysia dan membolehkan anda mengikuti perkembangan terkini setiap hari.",
+    "title_description1": "Berdasarkan dashboard COVIDNOW yang sebelumnya, halaman ini memberi ringkasan tentang pandemik di Malaysia dan membolehkan anda mengikuti perkembangan terkini setiap minggu.",
     "title_description2": "",
     "description_link": "",
     "zoom": "Data untuk",
