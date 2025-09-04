@@ -5,12 +5,5 @@
   "github": {
     "silent": false
   },
-  "functions": {
-    "apps/kkmnow/pages/dashboard/index.tsx": {
-      "maxDuration": 5
-    },
-    "kkmnows/app/pages/data-catalogue/**/*": {
-      "maxDuration": 5
-    }
-  }
+  "functions": {}
 }
