@@ -11,7 +11,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "ignoreDeprecations": "6.0"
   },
 
   "exclude": ["node_modules"]

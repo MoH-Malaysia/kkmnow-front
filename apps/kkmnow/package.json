@@ -8,7 +8,8 @@
     "dev": "next dev",
     "build": "next build",
     "postbuild": "next-sitemap",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "lint-staged": {
     "*.{js,ts,tsx,css,md}": "prettier --write"
