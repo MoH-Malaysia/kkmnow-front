@@ -10,7 +10,7 @@ const KKMNOWFooter: FunctionComponent = () => {
       <div className="flex w-full flex-col gap-2 md:w-[200px]">
         <p className="font-bold">{t("common:nav.open_source")}</p>
 
-        <At className="link-dim" external href="https://github.com/data-gov-my/datagovmy-front">
+        <At className="link-dim" external href="https://github.com/MoH-Malaysia/kkmnow-front">
           {t("common:nav.frontend")}
         </At>
         <At className="link-dim" external href="https://github.com/data-gov-my/datagovmy-back">
