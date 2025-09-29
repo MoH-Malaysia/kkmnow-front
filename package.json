@@ -5,14 +5,14 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "lambda/*"  
+    "lambda/*"
   ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "e2e:test": "turbo run e2e:test",
-    "prepare": "husky install",
+    "prepare": "husky",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "lint-staged": {
@@ -22,9 +22,7 @@
     "autoprefixer": "^10.4.14",
     "eslint-config-datagovmy": "*",
     "husky": ">=6",
-    "inquirer-recursive": "^0.0.7",
     "lint-staged": ">=10",
-    "plop": "^3.1.2",
     "postcss": "^8.4.31",
     "prettier": "^3.2.5",
     "tailwindcss": "^3.3.1",

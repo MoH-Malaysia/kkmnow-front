@@ -155,6 +155,7 @@
     "leaflet.markercluster": "^1.5.3",
     "lodash": "^4.17.21",
     "luxon": "^3.0.3",
+    "match-sorter": "^8.0.3",
     "next-i18next": "^13.2.2",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
