@@ -1,13 +1,14 @@
 import { FunctionComponent, ReactElement } from "react";
-import { ResponsiveWaffle, WaffleFillDirection } from "@nivo/waffle";
+import { ResponsiveWaffle } from "@nivo/waffle";
+import { GridFillDirection } from "@nivo/grid";
 import { default as ChartHeader, ChartHeaderProps } from "./chart-header";
 import { useTheme } from "next-themes";
 interface WaffleProps extends ChartHeaderProps {
   className?: string;
   data?: {
-    id: string | number;
+    id: string;
     value: number;
-    label: string | number;
+    label: string;
   }[];
   total?: number;
   padding?: number;
@@ -21,7 +22,7 @@ interface WaffleProps extends ChartHeaderProps {
     top?: number | undefined;
   };
   children?: ReactElement | ReactElement[];
-  fillDirection?: WaffleFillDirection;
+  fillDirection?: GridFillDirection;
   interactive?: boolean;
 }
 

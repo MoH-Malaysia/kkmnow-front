@@ -8,7 +8,7 @@ const Progress: FunctionComponent = () => {
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
-    let trickle: NodeJS.Timer;
+    let trickle: NodeJS.Timeout;
 
     const gradualTimeout = (callback: (progress: number) => void) => {
       let n = 0,
