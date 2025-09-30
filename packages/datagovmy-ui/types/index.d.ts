@@ -86,11 +86,6 @@ export type EventType =
   | "select_dropdown"
   | "code_copy";
 
-export type MixpanelBase = {
-  project_id: string | number;
-  event: EventType;
-};
-
 /**************************MISCELLANEOUS ******************************/
 export type MetaPage = Record<string, any> & {
   meta: {

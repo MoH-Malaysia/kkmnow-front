@@ -1,5 +1,3 @@
-import { OverridedMixpanel, Mixpanel } from "mixpanel-browser";
-
 declare namespace NodeJS {
   export interface ProcessEnv {
     APP_URL: string;
@@ -18,12 +16,5 @@ declare module "chartjs-plugin-crosshair" {
 
   export interface InteractionModeMap {
     interpolate: Function;
-  }
-}
-declare global {
-  interface Window {
-    mixpanel: OverridedMixpanel & {
-      instance: Mixpanel;
-    };
   }
 }
