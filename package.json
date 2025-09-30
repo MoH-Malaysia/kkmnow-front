@@ -19,13 +19,9 @@
     "*.{js,ts,tsx,css,md}": "prettier --write"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.14",
-    "eslint-config-datagovmy": "*",
     "husky": ">=6",
     "lint-staged": ">=10",
-    "postcss": "^8.4.31",
     "prettier": "^3.2.5",
-    "tailwindcss": "^3.3.1",
     "turbo": "^1.10.2",
     "typescript": "^5.1.3"
   },

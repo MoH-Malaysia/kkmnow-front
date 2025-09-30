@@ -86,7 +86,7 @@ const Bar: FunctionComponent<BarProps> = ({
   datalabels,
   _ref,
 }) => {
-  const ref = useRef<ChartJSOrUndefined<"bar", any[], string | number>>();
+  const ref = useRef<ChartJSOrUndefined<"bar", any[], string | number>>(undefined);
   const isVertical = useMemo(() => layout === "vertical", [layout]);
   const { size } = useContext(WindowContext);
   ChartJS.register(

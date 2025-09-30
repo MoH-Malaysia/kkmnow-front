@@ -44,7 +44,7 @@ const Pyramid: FunctionComponent<PyramidProps> = ({
   maxX,
   _ref,
 }) => {
-  const ref = useRef<ChartJSOrUndefined<"bar", any[], string | number>>();
+  const ref = useRef<ChartJSOrUndefined<"bar", any[], string | number>>(undefined);
   ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, ChartTooltip);
 
   const display = (value: number, type: "compact" | "standard"): string => {
