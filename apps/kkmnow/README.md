@@ -31,8 +31,6 @@ The following are the environment variables (.env) used for data.gov.my. Please 
 | NEXT_PUBLIC_I18N_URL            | ✅       | https://dlz3uh7rpztx1.cloudfront.net | i18n url. Used to serve translation json        |
 | NEXT_PUBLIC_AUTHORIZATION_TOKEN | ✅       | _Create own_                         | Authorization token for AKSARA BE communication |
 | NEXT_PUBLIC_API_URL             | ✅       | http://localhost:8000 (development)  | AKSARA BE base URL                              |
-| MIXPANEL_TOKEN                  | ⬜️       | _Create own_                         | Mixpanel token. Optional                        |
-| NEXT_PUBLIC_MIXPANEL_TOKEN      | ⬜️       | $MIXPANEL_TOKEN                      | Mixpanel token, made public. Optional           |
 
 ## Commands to Know
 
