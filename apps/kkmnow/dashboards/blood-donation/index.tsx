@@ -48,7 +48,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
   choropleth,
 }) => {
   const { t, i18n } = useTranslation(["dashboard-blood-donation", "common"]);
-  const { theme = "light" } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const sixMonths = Math.ceil(
     Math.abs(
@@ -336,7 +336,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                           data: barchart_time.data.annual.y,
                           borderRadius: 12,
                           barThickness: 12,
-                          backgroundColor: theme === "light" ? "#18181B" : "#FFFFFF",
+                          backgroundColor:
+                            resolvedTheme === "light" ? AKSARA_COLOR.BLACK : AKSARA_COLOR.WHITE,
                         },
                       ],
                     }}
@@ -355,7 +356,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                           data: barchart_time.data.monthly.y,
                           borderRadius: 12,
                           barThickness: 12,
-                          backgroundColor: theme === "light" ? "#18181B" : "#FFFFFF",
+                          backgroundColor:
+                            resolvedTheme === "light" ? AKSARA_COLOR.BLACK : AKSARA_COLOR.WHITE,
                         },
                       ],
                     }}
@@ -378,7 +380,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                           data: barchart_age.data.past_year.y,
                           borderRadius: 12,
                           barThickness: 12,
-                          backgroundColor: theme === "light" ? "#18181B" : "#FFFFFF",
+                          backgroundColor:
+                            resolvedTheme === "light" ? AKSARA_COLOR.BLACK : AKSARA_COLOR.WHITE,
                         },
                       ],
                     }}
@@ -397,7 +400,8 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                           data: barchart_age.data.past_month.y,
                           borderRadius: 12,
                           barThickness: 12,
-                          backgroundColor: theme === "light" ? "#18181B" : "#FFFFFF",
+                          backgroundColor:
+                            resolvedTheme === "light" ? AKSARA_COLOR.BLACK : AKSARA_COLOR.WHITE,
                         },
                       ],
                     }}

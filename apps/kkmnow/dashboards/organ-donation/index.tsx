@@ -16,6 +16,7 @@ import { getTopIndices, numFormat, toDate } from "datagovmy-ui/helpers";
 import { useData, useSlice, useTranslation } from "datagovmy-ui/hooks";
 import { TimeseriesOption } from "datagovmy-ui/types";
 import { DateTime } from "luxon";
+import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { FunctionComponent } from "react";
 
@@ -48,6 +49,7 @@ const OrganDonation: FunctionComponent<OrganDonationProps> = ({
   barchart_time,
 }) => {
   const { t, i18n } = useTranslation(["dashboard-organ-donation", "common"]);
+  const { resolvedTheme } = useTheme();
 
   const sixMonths = Math.ceil(
     Math.abs(
@@ -242,7 +244,8 @@ const OrganDonation: FunctionComponent<OrganDonationProps> = ({
                           data: barchart_time.data.annual.y,
                           borderRadius: 12,
                           barThickness: 12,
-                          backgroundColor: AKSARA_COLOR.BLACK,
+                          backgroundColor:
+                            resolvedTheme === "light" ? AKSARA_COLOR.BLACK : AKSARA_COLOR.WHITE,
                         },
                       ],
                     }}
@@ -260,7 +263,8 @@ const OrganDonation: FunctionComponent<OrganDonationProps> = ({
                           data: barchart_time.data.monthly.y,
                           borderRadius: 12,
                           barThickness: 12,
-                          backgroundColor: AKSARA_COLOR.BLACK,
+                          backgroundColor:
+                            resolvedTheme === "light" ? AKSARA_COLOR.BLACK : AKSARA_COLOR.WHITE,
                         },
                       ],
                     }}
@@ -282,7 +286,7 @@ const OrganDonation: FunctionComponent<OrganDonationProps> = ({
                           data: barchart_age.data.past_year.y,
                           borderRadius: 12,
                           barThickness: 12,
-                          backgroundColor: AKSARA_COLOR.BLACK,
+                          backgroundColor: resolvedTheme === "light" ? AKSARA_COLOR.BLACK : AKSARA_COLOR.WHITE,
                         },
                       ],
                     }}
@@ -300,7 +304,7 @@ const OrganDonation: FunctionComponent<OrganDonationProps> = ({
                           data: barchart_age.data.past_month.y,
                           borderRadius: 12,
                           barThickness: 12,
-                          backgroundColor: AKSARA_COLOR.BLACK,
+                          backgroundColor: resolvedTheme === "light" ? AKSARA_COLOR.BLACK : AKSARA_COLOR.WHITE,
                         },
                       ],
                     }}
