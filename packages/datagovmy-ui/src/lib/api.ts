@@ -16,7 +16,7 @@ type BaseURL = "api" | "app" | "api_s3" | string;
 const instance = (base: BaseURL, headers: Record<string, string> = {}) => {
   const urls: Record<BaseURL, string> = {
     api: process.env.NEXT_PUBLIC_API_URL,
-    api_s3: process.env.S3_URL,
+    api_s3: process.env.NEXT_PUBLIC_S3_URL,
     app: process.env.NEXT_PUBLIC_APP_URL,
   };
   const BROWSER_RUNTIME = typeof window !== "undefined";

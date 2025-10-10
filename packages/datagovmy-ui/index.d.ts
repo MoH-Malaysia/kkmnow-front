@@ -2,7 +2,7 @@ declare namespace NodeJS {
   export interface ProcessEnv {
     APP_URL: string;
     APP_ENV: string;
-    S3_URL: string;
+    NEXT_PUBLIC_S3_URL: string;
     NEXT_PUBLIC_APP_ENV: "production" | "staging" | "development";
     NEXT_PUBLIC_APP_URL: string;
     NEXT_PUBLIC_API_URL: string;
