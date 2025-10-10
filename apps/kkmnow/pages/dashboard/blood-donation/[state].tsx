@@ -3,7 +3,7 @@ import { Page } from "datagovmy-ui/types";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import Layout from "@components/Layout";
 import { Metadata, StateDropdown, StateModal } from "datagovmy-ui/components";
-import { CountryAndStates } from "datagovmy-ui/constants";
+import { CountryAndStates, STATES } from "datagovmy-ui/constants";
 import { withi18n } from "datagovmy-ui/decorators";
 import { get } from "datagovmy-ui/api";
 import { DateTime } from "luxon";
@@ -24,19 +24,6 @@ const BloodDonationState: Page = ({
   choropleth,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation(["dashboard-blood-donation", "common"]);
-  let vars: Record<string, any> = {};
-
-  Object.entries(barchart_variables.data).forEach(([key, values]: [string, any]) => {
-    vars[key] = Object.entries(values).reduce((previous, current: [string, any]) => {
-      return {
-        ...previous,
-        [current[0]]: current[1].map((item: any) => ({
-          ...item,
-          x: t(item.x),
-        })),
-      };
-    }, {});
-  });
 
   return (
     <AnalyticsProvider meta={meta}>
@@ -52,15 +39,14 @@ const BloodDonationState: Page = ({
         timeseries={timeseries}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
-        barchart_variables={{
-          data_as_of: barchart_variables.data_as_of,
-          data: vars,
-        }}
+        barchart_variables={barchart_variables}
         choropleth={choropleth}
       />
     </AnalyticsProvider>
   );
 };
+
+const wp_states = ["pjy", "pls", "lbn"];
 
 BloodDonationState.layout = (page, props) => (
   <WindowProvider>
@@ -70,16 +56,12 @@ BloodDonationState.layout = (page, props) => (
           width="w-max xl:w-64"
           url={routes.BLOOD_DONATION}
           currentState={props.params.state}
-          exclude={["pjy", "pls", "lbn"]}
+          exclude={wp_states}
           hideOnScroll
         />
       }
     >
-      <StateModal
-        state={props.params.state}
-        url={routes.BLOOD_DONATION}
-        exclude={["pjy", "pls", "lbn"]}
-      />
+      <StateModal state={props.params.state} url={routes.BLOOD_DONATION} exclude={wp_states} />
       {page}
     </Layout>
   </WindowProvider>
@@ -96,7 +78,18 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-blood-donation", "common"],
   async ({ params }) => {
-    const { data } = await get("/dashboard", { dashboard: "blood_donation", state: params?.state });
+    const current_state = String(params.state);
+
+    // validate param
+    const notStateKey = !STATES.map(state => state.key).includes(current_state);
+    const isWilayah = wp_states.includes(current_state);
+    if (notStateKey || isWilayah) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const { data } = await get(`/dashboards-kkmnow/blood-donation-${current_state}.json`, {}, "api_s3");
 
     // transfrom:
     data.bar_chart_time.data.monthly.x = data.bar_chart_time.data.monthly.x.map((item: any) => {

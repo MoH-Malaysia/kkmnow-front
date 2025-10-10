@@ -199,7 +199,7 @@ const COVIDVaccination: FunctionComponent<COVIDVaccinationProps> = ({
               />
             )}
             <Tabs.List
-              options={[t("filter_age"), t("filter_dose")]}
+              options={[t("filter_dose"), t("filter_age")]}
               current={data.vax_tab}
               onChange={i => setData("vax_tab", i)}
             />
