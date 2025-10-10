@@ -5,6 +5,28 @@ import { getRollingToken } from "./api-edge";
 type BaseURL = "api" | "app" | string;
 
 /**
+ * S3 GET helper function.
+ * @param {string} url Endpoint URL
+ * @param {AxiosRequestConfig} config from axios, eg: headers, params, etc
+ * @returns {Promise<AxiosResponse>} Promised response
+ */
+export const getS3 = (url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .create({
+        baseURL: process.env.S3_URL,
+        ...config,
+      })
+      .get(url)
+      .then(resp => resolve(resp))
+      .catch(err => {
+        console.error(err);
+        reject(err);
+      });
+  });
+};
+
+/**
  * Base URL builder for AKSARA.
  * @param base "api" | "app"
  * @param {Record<string, string>} headers Additional headers
