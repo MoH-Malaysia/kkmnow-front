@@ -3,7 +3,7 @@ import { Page } from "datagovmy-ui/types";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import Layout from "@components/Layout";
 import { Metadata, StateDropdown, StateModal } from "datagovmy-ui/components";
-import { CountryAndStates } from "datagovmy-ui/constants";
+import { CountryAndStates, STATES } from "datagovmy-ui/constants";
 import { withi18n } from "datagovmy-ui/decorators";
 import { getS3 } from "datagovmy-ui/api";
 import { DateTime } from "luxon";
@@ -46,6 +46,8 @@ const BloodDonationState: Page = ({
   );
 };
 
+const wp_states = ["pjy", "pls", "lbn"];
+
 BloodDonationState.layout = (page, props) => (
   <WindowProvider>
     <Layout
@@ -54,16 +56,12 @@ BloodDonationState.layout = (page, props) => (
           width="w-max xl:w-64"
           url={routes.BLOOD_DONATION}
           currentState={props.params.state}
-          exclude={["pjy", "pls", "lbn"]}
+          exclude={wp_states}
           hideOnScroll
         />
       }
     >
-      <StateModal
-        state={props.params.state}
-        url={routes.BLOOD_DONATION}
-        exclude={["pjy", "pls", "lbn"]}
-      />
+      <StateModal state={props.params.state} url={routes.BLOOD_DONATION} exclude={wp_states} />
       {page}
     </Layout>
   </WindowProvider>
@@ -80,7 +78,18 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-blood-donation", "common"],
   async ({ params }) => {
-    const { data } = await getS3(`/dashboards-kkmnow/blood-donation-${params.state}.json`);
+    const current_state = String(params.state);
+
+    // validate param
+    const notStateKey = !STATES.map(state => state.key).includes(current_state);
+    const isWilayah = wp_states.includes(current_state);
+    if (notStateKey || isWilayah) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const { data } = await getS3(`/dashboards-kkmnow/blood-donation-${current_state}.json`);
 
     // transfrom:
     data.bar_chart_time.data.monthly.x = data.bar_chart_time.data.monthly.x.map((item: any) => {
