@@ -265,6 +265,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         layout="horizontal"
                         unit="%"
                         sort="desc"
+                        formatX={key => t(key)}
                       />
                     </div>
                     <div className="grid gap-12 lg:col-span-2 lg:grid-cols-2">
@@ -275,6 +276,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         layout="horizontal"
                         unit="%"
                         sort="desc"
+                        formatX={key => t(key)}
                       />
                       <BarMeter
                         title={t("barmeter3_title")}
@@ -283,6 +285,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         layout="horizontal"
                         unit="%"
                         sort="desc"
+                        formatX={key => t(key)}
                       />
                       <BarMeter
                         title={t("barmeter4_title")}
@@ -291,6 +294,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         layout="horizontal"
                         unit="%"
                         sort="desc"
+                        formatX={key => t(key)}
                       />
                       <BarMeter
                         title={t("barmeter5_title")}
@@ -299,6 +303,7 @@ const BloodDonationDashboard: FunctionComponent<BloodDonationDashboardProps> = (
                         layout="horizontal"
                         unit="%"
                         sort="desc"
+                        formatX={key => t(key)}
                       />
                     </div>
                   </div>

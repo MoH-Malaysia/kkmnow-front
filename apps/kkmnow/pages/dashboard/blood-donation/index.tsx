@@ -24,20 +24,6 @@ const BloodDonation: Page = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t } = useTranslation(["dashboard-blood-donation", "common"]);
 
-  let vars: Record<string, any> = {};
-
-  // TODO (@irfan): optimise this later.
-  Object.entries(barchart_variables.data).forEach(([key, values]: [string, any]) => {
-    vars[key] = Object.entries(values).reduce((previous, current: [string, any]) => {
-      return Object.assign(previous, {
-        [current[0]]: current[1].map((item: any) => ({
-          ...item,
-          x: t(item.x),
-        })),
-      });
-    }, {});
-  });
-
   return (
     <AnalyticsProvider meta={meta}>
       <Metadata title={t("header")} description={t("description")} keywords="" />
@@ -48,10 +34,7 @@ const BloodDonation: Page = ({
         timeseries={timeseries}
         barchart_age={barchart_age}
         barchart_time={barchart_time}
-        barchart_variables={{
-          data_as_of: barchart_variables.data_as_of,
-          data: vars,
-        }}
+        barchart_variables={barchart_variables}
         choropleth={choropleth}
       />
     </AnalyticsProvider>
