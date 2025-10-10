@@ -5,7 +5,7 @@ import Layout from "@components/Layout";
 import { Metadata, StateDropdown, StateModal } from "datagovmy-ui/components";
 import { CountryAndStates, STATES } from "datagovmy-ui/constants";
 import { withi18n } from "datagovmy-ui/decorators";
-import { getS3 } from "datagovmy-ui/api";
+import { get } from "datagovmy-ui/api";
 import { DateTime } from "luxon";
 import { routes } from "@lib/routes";
 import BloodDonationDashboard from "@dashboards/blood-donation";
@@ -89,7 +89,7 @@ export const getStaticProps: GetStaticProps = withi18n(
       };
     }
 
-    const { data } = await getS3(`/dashboards-kkmnow/blood-donation-${current_state}.json`);
+    const { data } = await get(`/dashboards-kkmnow/blood-donation-${current_state}.json`, {}, "api_s3");
 
     // transfrom:
     data.bar_chart_time.data.monthly.x = data.bar_chart_time.data.monthly.x.map((item: any) => {

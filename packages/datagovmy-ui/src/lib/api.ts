@@ -2,29 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { parseCookies } from "./helpers";
 import { getRollingToken } from "./api-edge";
 
-type BaseURL = "api" | "app" | string;
-
-/**
- * S3 GET helper function.
- * @param {string} url Endpoint URL
- * @param {AxiosRequestConfig} config from axios, eg: headers, params, etc
- * @returns {Promise<AxiosResponse>} Promised response
- */
-export const getS3 = (url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
-  return new Promise((resolve, reject) => {
-    axios
-      .create({
-        baseURL: process.env.S3_URL,
-        ...config,
-      })
-      .get(url)
-      .then(resp => resolve(resp))
-      .catch(err => {
-        console.error(err);
-        reject(err);
-      });
-  });
-};
+type BaseURL = "api" | "app" | "api_s3" | string;
 
 /**
  * Base URL builder for AKSARA.
@@ -38,18 +16,21 @@ export const getS3 = (url: string, config?: AxiosRequestConfig): Promise<AxiosRe
 const instance = (base: BaseURL, headers: Record<string, string> = {}) => {
   const urls: Record<BaseURL, string> = {
     api: process.env.NEXT_PUBLIC_API_URL,
+    api_s3: process.env.S3_URL,
     app: process.env.NEXT_PUBLIC_APP_URL,
   };
   const BROWSER_RUNTIME = typeof window !== "undefined";
 
   const authorization = !BROWSER_RUNTIME
     ? process.env.NEXT_PUBLIC_AUTHORIZATION_TOKEN
+    : base === "api_s3"
+    ? ""
     : parseCookies(document.cookie).rolling_token;
 
   const config: AxiosRequestConfig = {
     baseURL: urls[base] || base,
     headers: {
-      Authorization: `Bearer ${authorization}`,
+      ...(authorization && { Authorization: `Bearer ${authorization}` }),
       ...headers,
     },
   };
@@ -75,7 +56,11 @@ export const get = (
       .then((response: AxiosResponse) => resolve(response))
       .catch(async (err: AxiosError<{ status: number; message: string }>) => {
         // TODO maybe add retries with axios-retry, for all fetch methods OR refactor away from rolling token
-        if (err.response?.data.status === 401 && typeof window !== "undefined") {
+        if (
+          err.response?.data.status === 401 &&
+          typeof window !== "undefined" &&
+          base !== "api_s3"
+        ) {
           const edgeResponse = await getRollingToken();
           if (edgeResponse) {
             const { token } = await edgeResponse.json();
