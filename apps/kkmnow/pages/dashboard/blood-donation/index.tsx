@@ -1,5 +1,5 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { get } from "datagovmy-ui/api";
+import { getS3 } from "datagovmy-ui/api";
 import { useTranslation } from "datagovmy-ui/hooks";
 import { WindowProvider } from "datagovmy-ui/contexts/window";
 import { withi18n } from "datagovmy-ui/decorators";
@@ -84,7 +84,7 @@ BloodDonation.layout = (page, props) => (
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-blood-donation", "common"],
   async () => {
-    const { data } = await get("/dashboard", { dashboard: "blood_donation", state: "mys" });
+    const { data } = await getS3("/dashboards-kkmnow/blood-donation-mys.json");
 
     // transform:
     data.bar_chart_time.data.monthly.x = data.bar_chart_time.data.monthly.x.map((item: any) => {
