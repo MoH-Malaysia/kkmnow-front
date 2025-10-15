@@ -4,7 +4,7 @@ import { WindowProvider } from "datagovmy-ui/contexts/window";
 import OrganDonationDashboard from "@dashboards/organ-donation";
 import { useTranslation } from "datagovmy-ui/hooks";
 import { get } from "datagovmy-ui/api";
-import { CountryAndStates } from "datagovmy-ui/constants";
+import { CountryAndStates, STATE_CODES } from "datagovmy-ui/constants";
 import { routes } from "@lib/routes";
 import { withi18n } from "datagovmy-ui/decorators";
 import { DateTime } from "luxon";
@@ -72,7 +72,16 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-organ-donation"],
   async ({ params }) => {
-    const { data } = await get("/dashboard", { dashboard: "organ_donation", state: params?.state });
+    const curr_state_code = String(params.state);
+
+    // validate param
+    if (!STATE_CODES.includes(curr_state_code)) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const { data } = await get(`/dashboards/organ-donation-${curr_state_code}.json`, {}, "api_s3");
 
     // transform:
     data.barchart_time.data.monthly.x = data.barchart_time.data.monthly.x.map((item: any) => {

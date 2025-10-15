@@ -7,7 +7,7 @@ import { get } from "datagovmy-ui/api";
 import { withi18n } from "datagovmy-ui/decorators";
 import { routes } from "@lib/routes";
 import { Page } from "datagovmy-ui/types";
-import { CountryAndStates } from "datagovmy-ui/constants";
+import { CountryAndStates, STATE_CODES } from "datagovmy-ui/constants";
 
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import { AnalyticsProvider } from "datagovmy-ui/contexts/analytics";
@@ -68,7 +68,15 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-peka-b40", "common"],
   async ({ params }) => {
-    const { data } = await get("/dashboard", { dashboard: "peka_b40", state: params?.state });
+    const curr_state_code = String(params.state);
+
+    // validate param
+    if (!STATE_CODES.includes(curr_state_code)) {
+      return {
+        notFound: true,
+      };
+    }
+    const { data } = await get(`/dashboards/peka-b40-${curr_state_code}.json`, {}, "api_s3");
 
     return {
       props: {

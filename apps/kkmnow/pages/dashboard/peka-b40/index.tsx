@@ -55,7 +55,7 @@ PekaB40.layout = (page, props) => (
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-peka-b40", "common"],
   async () => {
-    const { data } = await get("/dashboard", { dashboard: "peka_b40", state: "mys" });
+    const { data } = await get("/dashboards/peka-b40-mys.json", {}, "api_s3");
 
     return {
       notFound: false,

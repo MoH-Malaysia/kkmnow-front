@@ -87,6 +87,12 @@ export const STATES: Array<Record<string, any>> = [
 ];
 
 /**
+ * Three letter codes of Malaysia and every state. 
+ * ["mys", "jhr", "kdh", ...]
+ */
+export const STATE_CODES: string[] = [MALAYSIA].concat(STATES).map(state => state.key);
+
+/**
  * Dictionary of code to country/state name. IIFE
  * @example CountryAndStates["mlk"] -> "Melaka"
  */
