@@ -6,7 +6,7 @@ type BaseURL = "api" | "app" | "api_s3" | string;
 
 /**
  * Base URL builder for AKSARA.
- * @param base "api" | "app"
+ * @param base "api" | "api_s3" | "app"
  * @param {Record<string, string>} headers Additional headers
  * @returns Base of URL
  *
@@ -41,7 +41,7 @@ const instance = (base: BaseURL, headers: Record<string, string> = {}) => {
  * Universal GET helper function.
  * @param {string} route Endpoint URL
  * @param {Record<string, string>} params Queries
- * @param {"api" | "app"} base api | local
+ * @param {"api" | "api_s3" |"app"} base api | api_s3 | app
  * @returns {Promise<AxiosResponse>} Promised response
  */
 export const get = (
