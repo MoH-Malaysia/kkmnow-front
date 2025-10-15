@@ -60,7 +60,7 @@ OrganDonation.layout = (page, props) => (
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-organ-donation", "common"],
   async () => {
-    const { data } = await get("/dashboard", { dashboard: "organ_donation", state: "mys" });
+    const { data } = await get("/dashboards/organ-donation-mys.json", {}, "api_s3");
 
     // transform:
     data.barchart_time.data.monthly.x = data.barchart_time.data.monthly.x.map((item: any) => {
