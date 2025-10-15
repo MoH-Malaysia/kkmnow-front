@@ -3,7 +3,7 @@ import { Page } from "datagovmy-ui/types";
 import { InferGetStaticPropsType, GetStaticProps, GetStaticPaths } from "next";
 import Layout from "@components/Layout";
 import { Metadata, StateDropdown, StateModal } from "datagovmy-ui/components";
-import { CountryAndStates, STATES } from "datagovmy-ui/constants";
+import { CountryAndStates, STATE_CODES } from "datagovmy-ui/constants";
 import { withi18n } from "datagovmy-ui/decorators";
 import { get } from "datagovmy-ui/api";
 import { DateTime } from "luxon";
@@ -78,18 +78,18 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-blood-donation", "common"],
   async ({ params }) => {
-    const current_state = String(params.state);
+    const curr_state_code = String(params.state);
 
     // validate param
-    const notStateKey = !STATES.map(state => state.key).includes(current_state);
-    const isWilayah = wp_states.includes(current_state);
-    if (notStateKey || isWilayah) {
+    const notStateCode = !STATE_CODES.includes(curr_state_code);
+    const isWilayah = wp_states.includes(curr_state_code);
+    if (notStateCode || isWilayah) {
       return {
         notFound: true,
       };
     }
 
-    const { data } = await get(`/dashboards-kkmnow/blood-donation-${current_state}.json`, {}, "api_s3");
+    const { data } = await get(`/dashboards/blood-donation-${curr_state_code}.json`, {}, "api_s3");
 
     // transfrom:
     data.bar_chart_time.data.monthly.x = data.bar_chart_time.data.monthly.x.map((item: any) => {

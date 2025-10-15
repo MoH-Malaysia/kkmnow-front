@@ -2,7 +2,7 @@ import Layout from "@components/Layout";
 import { Metadata, StateDropdown, StateModal } from "datagovmy-ui/components";
 import CovidVaccinationDashboard from "@dashboards/covid-vaccination";
 import { get } from "datagovmy-ui/api";
-import { CountryAndStates } from "datagovmy-ui/constants";
+import { CountryAndStates, STATE_CODES } from "datagovmy-ui/constants";
 import { withi18n } from "datagovmy-ui/decorators";
 import { routes } from "@lib/routes";
 import { Page } from "datagovmy-ui/types";
@@ -77,8 +77,17 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps = withi18n(
   ["dashboard-covid-vaccination", "common"],
   async ({ params }) => {
-    const state = params?.state ? params.state[0] : "mys";
-    const { data } = await get("/dashboard", { dashboard: "covid_vax", state: state });
+    const curr_state_code = params.state ? String(params.state) : "mys";
+
+    // validate param
+    if (!STATE_CODES.includes(curr_state_code)) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const { data } = await get(`/dashboards/covid-vax-${curr_state_code}.json`, {}, "api_s3");
+
     data.snapshot.data = sortMsiaFirst(data.snapshot.data, "state");
 
     return {
@@ -89,7 +98,7 @@ export const getStaticProps: GetStaticProps = withi18n(
           category: "healthcare",
           agency: "KKM",
         },
-        params: { state },
+        params: { state: curr_state_code },
         last_updated: data.data_last_updated,
         next_update: data.data_next_update,
         waffle: data.waffle,
