@@ -5,6 +5,7 @@ export const routes = {
   BLOOD_DONATION: "/dashboard/blood-donation",
   ORGAN_DONATION: "/dashboard/organ-donation",
   PEKA_B40: "/dashboard/peka-b40",
+  DENGUE: "/dashboard/dengue",
   FACILITIES: "/dashboard/healthcare-facilities",
   HOSPITAL_BED_UTILISATION: "/dashboard/hospital-bed-utilisation",
   COVIDNOW_DATA: "/dashboard/covidnow-data",
