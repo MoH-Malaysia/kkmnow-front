@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kkmnow:dashboard:sha-2011-country:v1",
+  "title": "SHA 2011 dashboard country payload (v1)",
+  "description": "dashboards/sha-2011-<iso3 lowercase>.json, one per country, read by /dashboard/sha-2011[/<country>]. View-only: never committed or published. v1 describes the payload as produced by the data pipeline's exporter.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["country", "dims", "oop_share", "sdg382", "transition"],
+  "properties": {
+    "country": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "name"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "dims": {
+      "description": "One entry per SHA 2011 dimension; null when the country has no data for it",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hf", "fs", "hp", "hc"],
+      "properties": {
+        "hf": {
+          "$ref": "#/$defs/dimension"
+        },
+        "fs": {
+          "$ref": "#/$defs/dimension"
+        },
+        "hp": {
+          "$ref": "#/$defs/dimension"
+        },
+        "hc": {
+          "$ref": "#/$defs/dimension"
+        }
+      }
+    },
+    "oop_share": {
+      "description": "[year, OOP % of CHE]",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "items": false,
+        "minItems": 2
+      }
+    },
+    "sdg382": {
+      "description": "[survey year, threshold, % of population spending above it]",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer"
+          },
+          {
+            "enum": ["10%", "25%"]
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "items": false,
+        "minItems": 3
+      }
+    },
+    "transition": {
+      "description": "[year, CHE per capita (USD), OOP % of CHE]",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "number"
+          }
+        ],
+        "items": false,
+        "minItems": 3
+      }
+    }
+  },
+  "$defs": {
+    "code": {
+      "type": "string",
+      "pattern": "^(hf|fs|hp|hc)[0-9]*(nec)?$"
+    },
+    "codes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/code"
+      },
+      "uniqueItems": true
+    },
+    "dimension": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["years", "min_years", "codes", "levels", "leaf", "has_crosstab", "values"],
+          "properties": {
+            "years": {
+              "description": "Years with data, ascending",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "min_years": {
+              "description": "Fewer years than this and the tab shows a notice instead of charts",
+              "type": "integer",
+              "minimum": 1
+            },
+            "codes": {
+              "description": "Codes with data, in classification order",
+              "$ref": "#/$defs/codes"
+            },
+            "levels": {
+              "description": "Aggregation level -> codes whose values sum to the total at that level",
+              "type": "object",
+              "propertyNames": {
+                "pattern": "^[1-9]$"
+              },
+              "additionalProperties": {
+                "$ref": "#/$defs/codes"
+              },
+              "minProperties": 1
+            },
+            "leaf": {
+              "description": "Deepest complete breakdown, used for composition charts",
+              "$ref": "#/$defs/codes"
+            },
+            "has_crosstab": {
+              "description": "HC only: government / private cross-tab metrics present",
+              "type": "boolean"
+            },
+            "values": {
+              "description": "Metric -> code -> values aligned with years. A code missing under a metric means no data",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "$ref": "#/$defs/byCode"
+                },
+                "_che": {
+                  "$ref": "#/$defs/byCode"
+                },
+                "_gdp": {
+                  "$ref": "#/$defs/byCode"
+                },
+                "_usd": {
+                  "$ref": "#/$defs/byCode"
+                },
+                "_usd2023": {
+                  "$ref": "#/$defs/byCode"
+                },
+                "_usd_pc": {
+                  "$ref": "#/$defs/byCode"
+                },
+                "_usd2023_pc": {
+                  "$ref": "#/$defs/byCode"
+                },
+                "_gghed": {
+                  "$ref": "#/$defs/byCode"
+                },
+                "_pvtd": {
+                  "$ref": "#/$defs/byCode"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "byCode": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/code"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": ["number", "null"]
+        }
+      }
+    }
+  }
+}

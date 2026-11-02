@@ -6,5 +6,7 @@ module.exports = {
   priority: 0.7,
   autoLastmod: true,
   outDir: "public",
-  exclude: ["/404", "/ms-MY/404", "500", "/ms-MY/500"],
+  exclude: ["en-GB", "ms-MY", "zh-MY", "ta-MY"]
+    .flatMap(l => [`/${l}/404`, `/${l}/500`])
+    .concat(["/404", "500"]),
 };

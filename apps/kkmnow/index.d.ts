@@ -4,6 +4,7 @@ declare namespace NodeJS {
   export interface ProcessEnv {
     APP_URL: string;
     REVALIDATE_TOKEN: string;
+    PRIVATE_DATA_SOURCE?: string;
 
     NEXT_PUBLIC_AUTHORIZATION_TOKEN: string;
     NEXT_PUBLIC_API_URL: string;

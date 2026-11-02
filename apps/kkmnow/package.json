@@ -17,10 +17,12 @@
   "dependencies": {
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^2.0.11",
+    "@nivo/sunburst": "0.79.1",
     "@tanstack/match-sorter-utils": "^8.1.1",
     "@tanstack/react-table": "^8.5.2",
     "@vercel/edge-config": "^0.2.1",
     "axios": "^1.12.2",
+    "chartjs-chart-treemap": "2.3.1",
     "datagovmy-ui": "*",
     "i18next-http-backend": "^2.2.0",
     "lodash": "^4.17.21",

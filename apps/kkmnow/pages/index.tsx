@@ -7,6 +7,7 @@ import { routes } from "@lib/routes";
 import { Metadata } from "datagovmy-ui/components";
 import DashboardIndex from "@dashboards/index";
 import { get } from "datagovmy-ui/api";
+import { getPrivateJson } from "@lib/private-data";
 
 const Home: Page = ({
   last_updated,
@@ -14,6 +15,7 @@ const Home: Page = ({
   keystats,
   timeseries,
   timeseries_callout,
+  financing,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { t, i18n } = useTranslation(["kkmnow-home"]);
   return (
@@ -25,13 +27,26 @@ const Home: Page = ({
         keystats={keystats}
         timeseries={timeseries}
         timeseries_callout={timeseries_callout}
+        financing={financing}
       />
     </>
   );
 };
 
-export const getStaticProps: GetStaticProps = withi18n(["kkmnow-home"], async () => {
+export const getStaticProps: GetStaticProps = withi18n(["kkmnow-home", "kkmnow-home-local", "dashboard-fiscal", "dashboard-sha-2011"], async () => {
   const { data } = await get("/dashboard/", { dashboard: "kkmnow_homepage" });
+  // The MOH budget card: one figure from the view-only fiscal payload (the payload stays server-side)
+  let financing: { moh_budget: number; year: number } | null = null;
+  try {
+    const f = await getPrivateJson<any>("dashboards/fiscal.json");
+    const years: number[] = f.budget_alloc.years;
+    financing = {
+      moh_budget: f.budget_alloc.series.budget_alloc_moh_total[years.length - 1],
+      year: years[years.length - 1],
+    };
+  } catch (e) {
+    financing = null;
+  }
 
   const dashboard_route = {
     data_as_of: "2023-11-20 23:59",
@@ -72,6 +87,20 @@ export const getStaticProps: GetStaticProps = withi18n(["kkmnow-home"], async ()
         agency: "phcorp",
         route: routes.PEKA_B40,
       },
+      {
+        id: "dashboard-fiscal",
+        name: "fiscal",
+        agency: "moh",
+        route: routes.FISCAL,
+        text: { name: "dashboard-fiscal:header", description: "dashboard-fiscal:card_description" },
+      },
+      {
+        id: "dashboard-sha-2011",
+        name: "sha-2011",
+        agency: "moh",
+        route: routes.SHA_2011,
+        text: { name: "dashboard-sha-2011:header", description: "dashboard-sha-2011:card_description" },
+      },
     ],
   };
 
@@ -88,6 +117,7 @@ export const getStaticProps: GetStaticProps = withi18n(["kkmnow-home"], async ()
       keystats: data.keystats,
       timeseries: data.timeseries,
       timeseries_callout: data.timeseries_callout,
+      financing,
     },
   };
 });

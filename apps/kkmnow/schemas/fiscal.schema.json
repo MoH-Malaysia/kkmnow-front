@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kkmnow:dashboard:fiscal:v1",
+  "title": "Fiscal dashboard payload (v1)",
+  "description": "dashboards/fiscal.json, read by /dashboard/fiscal. View-only: never committed or published. v1 describes the payload as produced by the data pipeline's exporter. Values keep source units (RM million, %, RM per person).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["data_last_updated", "fiscal", "budget_alloc", "ghed"],
+  "properties": {
+    "data_last_updated": {
+      "description": "Publication date of the newest source edition: YYYY-MM or YYYY-MM-DD",
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}(-\\d{2})?$"
+    },
+    "fiscal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "years", "series", "kpi", "imf_projection_from"],
+      "properties": {
+        "x": {
+          "description": "Epoch milliseconds of 1 January (UTC) of each entry in years",
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 1
+        },
+        "years": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/year"
+          },
+          "minItems": 1
+        },
+        "series": {
+          "description": "Indicator id -> values aligned with years",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/indicator"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/series"
+          },
+          "minProperties": 1
+        },
+        "kpi": {
+          "description": "Headline tiles: each indicator's latest year, value and status",
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/indicator"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["year", "value", "status"],
+            "properties": {
+              "year": {
+                "$ref": "#/$defs/year"
+              },
+              "value": {
+                "type": "number"
+              },
+              "status": {
+                "$ref": "#/$defs/status"
+              }
+            }
+          }
+        },
+        "imf_projection_from": {
+          "description": "First year the source marks as an IMF WEO projection",
+          "$ref": "#/$defs/year"
+        }
+      }
+    },
+    "budget_alloc": {
+      "description": "Original allocations as tabled in each year's own Budget",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["years", "series", "revision"],
+      "properties": {
+        "years": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/year"
+          },
+          "minItems": 1
+        },
+        "series": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^budget_alloc_[a-z0-9_]+$"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/series"
+          }
+        },
+        "revision": {
+          "description": "How far the revised estimate for the year before the last Budget moved federal OE",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["year", "revised_oe", "original_oe"],
+              "properties": {
+                "year": {
+                  "$ref": "#/$defs/year"
+                },
+                "revised_oe": {
+                  "type": "number"
+                },
+                "original_oe": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ghed": {
+      "description": "WHO GHED international benchmarks",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["priority", "scatter", "countries"],
+      "properties": {
+        "priority": {
+          "description": "GGHE-D as % of GGE, per ASEAN member",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["x", "series"],
+          "properties": {
+            "x": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "series": {
+              "type": "object",
+              "propertyNames": {
+                "$ref": "#/$defs/iso3"
+              },
+              "additionalProperties": {
+                "$ref": "#/$defs/series"
+              }
+            }
+          }
+        },
+        "scatter": {
+          "description": "Year -> [country code, GDP per capita (USD), CHE per capita (USD)]",
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^\\d{4}$"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/iso3"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 3
+            }
+          }
+        },
+        "countries": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/iso3"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "income"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "income": {
+                "description": "World Bank income group",
+                "enum": ["Low", "Lower-middle", "Upper-middle", "High", null]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "year": {
+      "type": "integer",
+      "minimum": 1900,
+      "maximum": 2100
+    },
+    "iso3": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "indicator": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "series": {
+      "type": "array",
+      "items": {
+        "type": ["number", "null"]
+      }
+    },
+    "status": {
+      "description": "Per-row status, anchored to the latest Budget year",
+      "enum": ["actual", "revised_estimate", "budget_estimate", "projection"]
+    }
+  }
+}
