@@ -8,6 +8,8 @@ const pwa = require("next-pwa")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   i18n,
+  // Optional path prefix, e.g. when served behind a reverse proxy at a sub-path. Unset by default.
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH || "",
   reactStrictMode: false, // Bug requires strict-mode false: https://github.com/plouc/nivo/issues/2009
   poweredByHeader: false,
   transpilePackages: ["datagovmy-ui"],
@@ -27,7 +29,9 @@ const nextConfig = {
     META_URL: "https://data.moh.gov.my",
     META_IMAGE: "https://data.moh.gov.my/static/images/jata_512.png",
   },
-  webpack(config) {
+  webpack(config, { isServer }) {
+    // next-i18next.config.js reads local locale files on the server only
+    if (!isServer) config.resolve.fallback = { ...config.resolve.fallback, fs: false, path: false };
     config.module.rules.push({
       test: /index\.(js|mjs|jsx|ts|tsx)$/,
       include: mPath => mPath.includes("datagovmy-ui"),

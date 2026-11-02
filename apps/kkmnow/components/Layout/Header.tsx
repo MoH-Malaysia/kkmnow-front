@@ -1,5 +1,7 @@
 import { At, Header, Nav, Megamenu } from "datagovmy-ui/components";
 import { useTranslation } from "datagovmy-ui/hooks";
+import { PAGE_LANGUAGES, servesPageLocales } from "@lib/locales";
+import { useRouter } from "next/router";
 import { FunctionComponent, ReactNode } from "react";
 
 interface HeaderProps {
@@ -8,13 +10,18 @@ interface HeaderProps {
 
 const KKMNOWHeader: FunctionComponent<HeaderProps> = ({ stateSelector }) => {
   const { t } = useTranslation(["dashboards"]);
+  const { pathname } = useRouter();
 
   return (
     <Header>
-      <Nav stateSelector={stateSelector}>
+      <Nav
+        stateSelector={stateSelector}
+        extraLanguages={servesPageLocales(pathname) ? PAGE_LANGUAGES : []}
+      >
         {close => (
           <>
             <Nav.Item title={t("common:nav.home")} link="/" onClick={close} />
+            <Nav.Item title={t("common:nav.dashboards")} link="/dashboard" onClick={close} />
             <Nav.Item title={t("common:nav.catalogue")} link="/data-catalogue" onClick={close} />
             <Nav.Item
               title={t("common:nav.moh_github")}

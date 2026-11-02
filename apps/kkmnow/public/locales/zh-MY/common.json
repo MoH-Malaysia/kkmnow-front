@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "主页",
+    "dashboards": "仪表板",
+    "catalogue": "数据目录",
+    "moh_github": "卫生部 GitHub",
+    "open_source": "开源",
+    "frontend": "前端代码库：NextJS",
+    "backend": "后端代码库：Django",
+    "uiux": "UI + UX 设计：Figma",
+    "open_data": "开放数据",
+    "open_data_portal": "开放数据门户",
+    "gov": "马来西亚政府"
+  },
+  "components": {
+    "theme": "主题",
+    "light": "浅色",
+    "dark": "深色",
+    "brought_by": "数据提供单位",
+    "brought_by_the": "数据提供单位",
+    "visit_portal": "访问我们的网站"
+  },
+  "common": {
+    "last_updated": "最后更新：{{ date }}",
+    "next_update": "下次更新：{{ date }}",
+    "clear": "清除",
+    "reset_default": "重置为默认",
+    "close": "关闭",
+    "no_data": "无数据",
+    "play": "播放",
+    "pause": "暂停"
+  },
+  "placeholder": {
+    "all": "全部",
+    "search": "搜索",
+    "no_results": "无结果",
+    "loading": "加载中..."
+  },
+  "categories": {
+    "healthcare": "医疗保健",
+    "public_finances": "公共财政"
+  }
+}

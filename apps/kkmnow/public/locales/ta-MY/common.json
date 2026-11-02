@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "முகப்பு",
+    "dashboards": "தகவல் பலகைகள்",
+    "catalogue": "தரவுப் பட்டியல்",
+    "moh_github": "சுகாதார அமைச்சு GitHub",
+    "open_source": "திறந்த மூலம்",
+    "frontend": "முன்முனைக் களஞ்சியம்: NextJS",
+    "backend": "பின்முனைக் களஞ்சியம்: Django",
+    "uiux": "UI + UX வடிவமைப்பு: Figma",
+    "open_data": "திறந்த தரவு",
+    "open_data_portal": "திறந்த தரவுத் தளம்",
+    "gov": "மலேசிய அரசாங்கம்"
+  },
+  "components": {
+    "theme": "கருப்பொருள்",
+    "light": "ஒளி",
+    "dark": "இருள்",
+    "brought_by": "வழங்குபவர்",
+    "brought_by_the": "வழங்குபவர்",
+    "visit_portal": "எங்கள் தளத்தைப் பார்வையிடுங்கள்"
+  },
+  "common": {
+    "last_updated": "கடைசியாகப் புதுப்பிக்கப்பட்டது: {{ date }}",
+    "next_update": "அடுத்த புதுப்பிப்பு: {{ date }}",
+    "clear": "அழி",
+    "reset_default": "இயல்புநிலைக்கு மீட்டமை",
+    "close": "மூடு",
+    "no_data": "தரவு இல்லை",
+    "play": "இயக்கு",
+    "pause": "இடைநிறுத்து"
+  },
+  "placeholder": {
+    "all": "அனைத்தும்",
+    "search": "தேடு",
+    "no_results": "முடிவுகள் இல்லை",
+    "loading": "ஏற்றுகிறது..."
+  },
+  "categories": {
+    "healthcare": "சுகாதாரம்",
+    "public_finances": "பொது நிதி"
+  }
+}

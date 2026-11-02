@@ -1,0 +1,6 @@
+{
+  "as_of": "Setakat {{date}}",
+  "moh_budget": "Belanjawan KKM",
+  "moh_budget_value": "RM {{value}} bilion",
+  "budget_year": "Bajet {{year}}"
+}

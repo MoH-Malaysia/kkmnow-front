@@ -11,6 +11,8 @@ import { FunctionComponent, ReactNode, useState } from "react";
 type NavRootProps = {
   children: (close: () => void) => ReactNode;
   stateSelector?: ReactNode;
+  /** Languages offered on this page in addition to the site's own */
+  extraLanguages?: typeof languages;
 };
 
 type NavItemProps = {
@@ -53,9 +55,10 @@ const Item: FunctionComponent<NavItemProps> = ({
   );
 };
 
-const Nav: NavFunctionComponent = ({ children, stateSelector }) => {
+const Nav: NavFunctionComponent = ({ children, stateSelector, extraLanguages = [] }) => {
   const [showMobile, setShowMobile] = useState<boolean>(false);
   const { language, onLanguageChange } = useLanguage();
+  const options = [...languages, ...extraLanguages];
 
   const close = () => setShowMobile(false);
   const open = () => setShowMobile(true);
@@ -69,9 +72,9 @@ const Nav: NavFunctionComponent = ({ children, stateSelector }) => {
         <ThemeToggle />
         <Dropdown
           width="w-fit"
-          selected={languages.find(lang => lang.value === language)}
+          selected={options.find(lang => lang.value === language)}
           onChange={onLanguageChange}
-          options={languages}
+          options={options}
         />
       </div>
 
@@ -81,9 +84,9 @@ const Nav: NavFunctionComponent = ({ children, stateSelector }) => {
         <ThemeToggle />
         <Dropdown
           width="w-fit"
-          selected={languages.find(lang => lang.value === language)}
+          selected={options.find(lang => lang.value === language)}
           onChange={onLanguageChange}
-          options={languages}
+          options={options}
         />
         {showMobile ? (
           <XMarkIcon

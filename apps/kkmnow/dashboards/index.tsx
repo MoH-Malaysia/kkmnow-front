@@ -3,21 +3,14 @@ import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 import { useData, useSlice, useTranslation } from "datagovmy-ui/hooks";
 import { FunctionComponent, ReactNode, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Agency, WithData } from "datagovmy-ui/types";
 import { routes } from "@lib/routes";
 import { numFormat, toDate } from "datagovmy-ui/helpers";
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { BanknotesIcon } from "@heroicons/react/24/outline";
 import dynamic from "next/dynamic";
 import { AKSARA_COLOR } from "datagovmy-ui/constants";
-import {
-  BloodDropIcon,
-  HeartIcon,
-  VirusIcon,
-  VentilatorIcon,
-  MedicalCardIcon,
-  InjectionIcon,
-  HospitalBedIcon,
-} from "datagovmy-ui/icons/kkmnow";
+import { BloodDropIcon, HeartIcon, MedicalCardIcon } from "datagovmy-ui/icons/kkmnow";
 import { DateTime } from "luxon";
 import AgencyIcon from "datagovmy-ui/icons/agency";
 
@@ -36,6 +29,7 @@ interface StatProps {
   url: string;
   value: string;
   data_as_of: string;
+  color: string; // accent: icon, corner wash, hover border
 }
 
 type Dashboard = {
@@ -43,6 +37,8 @@ type Dashboard = {
   name: string;
   agency: Agency;
   route: string;
+  /** i18n keys for the card when its text is not on the translation CDN (fiscal, SHA 2011) */
+  text?: { name: string; description: string };
 };
 
 type View = {
@@ -61,6 +57,7 @@ interface DashboardIndexProps {
   timeseries_callout: WithData<
     Record<"downloads" | "views", { callout1: number; callout2: number }>
   >;
+  financing?: { moh_budget: number; year: number } | null; // RM million, latest budget year
 }
 
 const DashboardIndex: FunctionComponent<DashboardIndexProps> = ({
@@ -69,8 +66,9 @@ const DashboardIndex: FunctionComponent<DashboardIndexProps> = ({
   keystats,
   timeseries,
   timeseries_callout,
+  financing,
 }) => {
-  const { t, i18n } = useTranslation(["kkmnow-home", "dashboards"]);
+  const { t, i18n } = useTranslation(["kkmnow-home", "dashboards", "kkmnow-home-local"]);
 
   const twoMonths = Math.ceil(
     Math.abs(
@@ -105,57 +103,50 @@ const DashboardIndex: FunctionComponent<DashboardIndexProps> = ({
     ];
   };
 
+  const asOf = (d: string) =>
+    t("kkmnow-home-local:as_of", { date: toDate(d, "dd MMM", i18n.language) });
+  // Sources that stopped updating (COVID-19 cases and vaccination, bed and ICU use) are not shown
+  // here; their dashboards remain.
   const STATS = useMemo<StatProps[]>(
     () => [
       {
-        icon: <VirusIcon className="h-6 w-6" />,
-        title: "stats.covid",
-        url: routes.COVID_19,
-        value: numFormat(keystats.data.covid.callout, "standard", 0, "long", i18n.language, true),
-        data_as_of: toDate(keystats.data.covid.data_as_of, `dd MMM`, i18n.language),
-      },
-      {
-        icon: <InjectionIcon className="h-6 w-6" />,
-        title: "stats.covid_vax",
-        url: routes.COVID_VACCINATION,
-        value: numFormat(keystats.data.covid_vax.callout, "standard", 0),
-        data_as_of: toDate(keystats.data.covid_vax.data_as_of, `dd MMM`, i18n.language),
-      },
-      {
-        icon: <HospitalBedIcon className="h-6 w-6" />,
-        title: "stats.util_bed",
-        url: routes.HOSPITAL_BED_UTILISATION,
-        value: numFormat(keystats.data.util_bed.callout, "compact", 1) + "%",
-        data_as_of: toDate(keystats.data.util_bed.data_as_of, "dd MMM", i18n.language),
-      },
-      {
-        icon: <VentilatorIcon className="h-6 w-6" />,
-        title: "stats.util_icu",
-        url: routes.HOSPITAL_BED_UTILISATION,
-        value: numFormat(keystats.data.util_icu.callout, "compact", 1) + "%",
-        data_as_of: toDate(keystats.data.util_icu.data_as_of, "dd MMM", i18n.language),
-      },
-      {
-        icon: <BloodDropIcon className="h-6 w-6" />,
+        icon: <BloodDropIcon className="h-5 w-5" />,
         title: "stats.blood",
         url: routes.BLOOD_DONATION,
         value: numFormat(keystats.data.blood.callout, "standard", 0),
-        data_as_of: toDate(keystats.data.blood.data_as_of, "dd MMM", i18n.language),
+        data_as_of: asOf(keystats.data.blood.data_as_of),
+        color: "#E11D48",
       },
       {
-        icon: <HeartIcon className="h-6 w-6" />,
+        icon: <HeartIcon className="h-5 w-5" />,
         title: "stats.organ",
         url: routes.ORGAN_DONATION,
         value: numFormat(keystats.data.organ.callout, "standard", 0),
-        data_as_of: toDate(keystats.data.organ.data_as_of, "dd MMM", i18n.language),
+        data_as_of: asOf(keystats.data.organ.data_as_of),
+        color: "#7C3AED",
       },
       {
-        icon: <MedicalCardIcon className="h-6 w-6" />,
+        icon: <MedicalCardIcon className="h-5 w-5" />,
         title: "stats.pekab40",
         url: routes.PEKA_B40,
         value: numFormat(keystats.data.pekab40.callout, "standard", 0),
-        data_as_of: toDate(keystats.data.pekab40.data_as_of, "dd MMM", i18n.language),
+        data_as_of: asOf(keystats.data.pekab40.data_as_of),
+        color: "#30C3B2",
       },
+      ...(financing
+        ? [
+            {
+              icon: <BanknotesIcon className="h-5 w-5" />,
+              title: "kkmnow-home-local:moh_budget",
+              url: routes.FISCAL,
+              value: t("kkmnow-home-local:moh_budget_value", {
+                value: (financing.moh_budget / 1000).toFixed(1),
+              }),
+              data_as_of: t("kkmnow-home-local:budget_year", { year: financing.year }),
+              color: "#2563EB",
+            },
+          ]
+        : []),
     ],
     [i18n.language]
   );
@@ -188,26 +179,35 @@ const DashboardIndex: FunctionComponent<DashboardIndexProps> = ({
       />
       <Container className="min-h-screen">
         <Section title={t("at_a_glance")}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {STATS.map(({ data_as_of, icon, title, value, url }: StatProps) => (
-              <div className="flex items-center gap-3" key={url + title}>
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-outline dark:bg-washed-dark">
-                  {icon}
-                </div>
-                <div className="space-y-0.5">
-                  <At
-                    href={url}
-                    className="relative flex flex-wrap items-start gap-1.5 text-sm font-medium uppercase text-dim transition-all [text-underline-position:from-font] hover:text-black hover:underline dark:hover:text-white"
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {STATS.map(({ data_as_of, icon, title, value, url, color }: StatProps) => (
+              <Link
+                key={url + title}
+                href={url}
+                className="border-outline dark:border-washed-dark group flex flex-col justify-between gap-4 rounded-2xl border p-5 transition hover:shadow-md"
+                style={{
+                  background: `radial-gradient(120% 90% at 100% 0%, ${color}17 0%, transparent 55%)`,
+                }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = `${color}80`)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = "")}
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="flex h-9 w-9 items-center justify-center rounded-full"
+                    style={{ backgroundColor: `${color}1F`, color }}
                   >
-                    <span>{t(title)}</span>
-                    <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-                  </At>
-                  <span className="flex items-baseline gap-1.5">
-                    <p className="text-2xl font-medium">{value}</p>
-                    <p className="text-sm text-dim">{`(${data_as_of})`}</p>
+                    {icon}
                   </span>
+                  <span className="text-dim text-xs font-medium uppercase tracking-wide">
+                    {t(title)}
+                  </span>
+                  <ArrowUpRightIcon className="text-dim ml-auto h-4 w-4 opacity-0 transition group-hover:opacity-100" />
                 </div>
-              </div>
+                <div>
+                  <p className="text-3xl font-semibold tabular-nums leading-none">{value}</p>
+                  <p className="text-dim mt-2 text-xs">{data_as_of}</p>
+                </div>
+              </Link>
             ))}
           </div>
         </Section>
@@ -318,10 +318,10 @@ const DashboardCard: FunctionComponent<{ item: Dashboard }> = ({ item }) => {
         <div className="flex grow flex-col items-start gap-3 overflow-hidden">
           <div className="grow space-y-3">
             <p className="truncate text-lg font-bold dark:text-white" title={item.name}>
-              {t(`dashboards.${item.name}.name`)}
+              {t(item.text?.name ?? `dashboards.${item.name}.name`)}
             </p>
             <p className="text-sm dark:text-white" title={item.name}>
-              {t(`dashboards.${item.name}.description`)}
+              {t(item.text?.description ?? `dashboards.${item.name}.description`)}
             </p>
           </div>
           <div className="relative w-full">

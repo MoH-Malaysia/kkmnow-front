@@ -89,6 +89,8 @@ export interface TimeseriesProps extends ChartHeaderProps {
     ticks: Tick[]
   ) => string | string[] | number | number[] | null | undefined;
   tickSource?: "auto" | "data" | "labels";
+  /** Let Chart.js drop x ticks that would overlap (default). Turn off when tickXCallback already thins them */
+  autoSkipX?: boolean;
   gridOffsetX?: boolean;
   tooltipCallback?: (item: TooltipItem<"line">) => string | string[];
   tooltipFontStyle?: "normal" | "italic" | "oblique" | "initial" | "inherit";
@@ -141,6 +143,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
   tooltipItemSort,
   generateLabels,
   tickXCallback,
+  autoSkipX = true,
   tickSource = "auto",
   forcedTheme,
   beginZero = true,
@@ -412,6 +415,7 @@ const Timeseries: FunctionComponent<TimeseriesProps> = ({
             borderDash: [5, 10],
           },
           ticks: {
+            autoSkip: autoSkipX,
             autoSkipPadding: 10,
             source: tickSource,
             callback: tickXCallback,

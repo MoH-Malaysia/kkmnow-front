@@ -66,3 +66,5 @@ dist/
 apps/app/public/translations
 apps/kkmnow/public/translations
 apps/opendosm/public/translations
+# View-only dashboard payloads live outside git (see apps/kkmnow/lib/private-data.ts)
+apps/kkmnow/data/

@@ -28,12 +28,20 @@ type ResolvedProps<T> = GetStaticPropsResult<T> & GetServerSidePropsResult<T>;
 export const withi18n = <T extends Context>(
   namespace: string | string[] | null,
   getProps: (ctx: T) => Promise<ResolvedProps<MetaPage>>,
-  option?: { cache_expiry: number }
+  option?: {
+    cache_expiry?: number;
+    /** Opt-in locales (config.optInLocales) this page serves */
+    locales?: string[];
+  }
 ): ((ctx: T) => Promise<ResolvedProps<MetaPage>>) => {
   return async (context: T) => {
     const config = await readNextI18nConfig();
     if (!config) throw new Error("Config next-i18next.config.js is not found");
-    const { autoloadNs = [], ...userConfig } = config;
+    const { autoloadNs = [], optInLocales = [], ...userConfig } = config;
+
+    // A page renders in an opt-in locale only if it asked to; otherwise it doesn't exist there
+    if (optInLocales.includes(context.locale!) && !option?.locales?.includes(context.locale!))
+      return { notFound: true } as ResolvedProps<MetaPage>;
 
     const namespaces =
       namespace === null
@@ -48,7 +56,11 @@ export const withi18n = <T extends Context>(
     ]);
 
     // Cache content to browser for getServerSideProps operations (production only)
-    if ("res" in context && option && process.env.NEXT_PUBLIC_APP_ENV === "production")
+    if (
+      "res" in context &&
+      option?.cache_expiry &&
+      process.env.NEXT_PUBLIC_APP_ENV === "production"
+    )
       context.res.setHeader(
         "Cache-Control",
         `public, s-maxage=${option.cache_expiry}, stale-while-revalidate=${option.cache_expiry}`

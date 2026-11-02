@@ -47,7 +47,8 @@ const AgencyBadge: FunctionComponent<AgencyBadgeProps> = ({
       AgencyLink[agency]
     );
 
-  return wrap(<BaseBadge name={name} icon={icon} isDivision={isDivision} />, url);
+  // A custom name with a link gets the same "Visit our portal" hover as a built-in agency
+  return wrap(<BaseBadge name={name} icon={icon} isDivision={isDivision} external={!!url} />, url);
 };
 
 interface BaseBadgeProps {

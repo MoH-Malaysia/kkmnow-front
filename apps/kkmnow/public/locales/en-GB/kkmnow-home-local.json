@@ -1,0 +1,6 @@
+{
+  "as_of": "As of {{date}}",
+  "moh_budget": "MOH Budget",
+  "moh_budget_value": "RM {{value}} bn",
+  "budget_year": "Budget {{year}}"
+}
