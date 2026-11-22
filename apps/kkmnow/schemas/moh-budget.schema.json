@@ -1,0 +1,444 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:kkmnow:dashboard:moh-budget:v1",
+  "title": "MoH Budget dashboard payload (v1)",
+  "description": "dashboards/moh-budget.json, read by /dashboard/moh-budget. View-only: never committed or published. Built from MoF's Budget books for the Ministry of Health, B.42 (Bekalan 42) and P.42 (Pembangunan 42), Budget 2014 onwards; every book is checked to add up before it is written.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "data_last_updated",
+    "years",
+    "ministry",
+    "oe_by_objek_am",
+    "programmes",
+    "books",
+    "sources",
+    "source_rounding",
+    "ocr_corrections",
+    "de_by_objek_am",
+    "chart_corrections",
+    "source_differences",
+    "posts_by_programme",
+    "emoluments_by_programme"
+  ],
+  "properties": {
+    "data_last_updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "years": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 2
+    },
+    "ministry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["oe", "oe_restated", "posts", "de", "oe_actual", "de_actual"],
+      "properties": {
+        "oe": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "oe_restated": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "posts": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "de": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "oe_actual": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          },
+          "description": "Actual OE in RM, from each book's first-page chart (printed in RM million, so a multiple of 1,000,000)"
+        },
+        "de_actual": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          },
+          "description": "Actual DE in RM, as oe_actual"
+        }
+      }
+    },
+    "oe_by_objek_am": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["10000", "20000", "30000", "40000", "50000"],
+      "properties": {
+        "10000": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "20000": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "30000": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "40000": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "50000": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        }
+      }
+    },
+    "de_by_objek_am": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["20000", "30000", "40000"],
+      "description": "DE estimate by Objek Am, from each book's summary page (year N); a year whose own summary is unreadable takes the next book's N-1 column",
+      "properties": {
+        "20000": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "30000": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        },
+        "40000": {
+          "type": "array",
+          "items": {
+            "type": ["integer", "null"]
+          }
+        }
+      }
+    },
+    "programmes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": ["integer", "null"]
+        }
+      }
+    },
+    "posts_by_programme": {
+      "type": "object",
+      "description": "Posts as printed in each book's year-N column, by programme; only programmes that print posts. Values align with `years`.",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": ["integer", "null"]
+        }
+      }
+    },
+    "emoluments_by_programme": {
+      "type": "object",
+      "description": "Emoluments (Objek Am 10000) estimate in RM by programme, as `programmes`. Values align with `years`.",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": ["integer", "null"]
+        }
+      }
+    },
+    "books": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^\\d{4}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["oe", "de"],
+        "properties": {
+          "oe": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["total_prev", "total_cur", "posts", "rows"],
+            "properties": {
+              "total_prev": {
+                "type": "integer"
+              },
+              "total_cur": {
+                "type": "integer"
+              },
+              "posts": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                ],
+                "description": "Posts as printed [N-1 column, N]. From Budget 2015 the N-1 column repeats year N, so only the second value is meaningful."
+              },
+              "rows": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "programme",
+                    "level",
+                    "name",
+                    "prev",
+                    "cur",
+                    "oa_prev",
+                    "oa_cur",
+                    "posts",
+                    "posts_prev_book"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "pattern": "^\\d{6}$"
+                    },
+                    "programme": {
+                      "type": "string"
+                    },
+                    "level": {
+                      "enum": ["programme", "activity"]
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "prev": {
+                      "type": "integer"
+                    },
+                    "cur": {
+                      "type": "integer"
+                    },
+                    "oa_prev": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "minItems": 5,
+                      "maxItems": 5
+                    },
+                    "oa_cur": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "minItems": 5,
+                      "maxItems": 5
+                    },
+                    "posts": {
+                      "oneOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          },
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      ],
+                      "description": "Posts as printed [N-1 column, N]. From Budget 2015 the N-1 column repeats year N, so only the second value is meaningful."
+                    },
+                    "posts_prev_book": {
+                      "type": ["integer", "null"],
+                      "description": "The previous Budget's posts for this programme or activity, from the previous book's year-N column (activities matched by name). Null when there is no previous book or no matching row; 0 when the matching row printed no posts."
+                    }
+                  }
+                },
+                "minItems": 1
+              }
+            }
+          },
+          "de": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["actual_period", "revised_year", "total", "adjustment", "projects"],
+            "properties": {
+              "actual_period": {
+                "type": ["string", "null"],
+                "pattern": "^\\d{4}(-\\d{4})?$"
+              },
+              "revised_year": {
+                "type": "integer"
+              },
+              "total": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["cost", "actual", "revised", "direct", "loan"],
+                    "properties": {
+                      "cost": {
+                        "type": "integer"
+                      },
+                      "actual": {
+                        "type": "integer"
+                      },
+                      "revised": {
+                        "type": "integer"
+                      },
+                      "direct": {
+                        "type": "integer"
+                      },
+                      "loan": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                ]
+              },
+              "adjustment": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["cost", "actual", "revised", "direct", "loan"],
+                    "properties": {
+                      "cost": {
+                        "type": "integer"
+                      },
+                      "actual": {
+                        "type": "integer"
+                      },
+                      "revised": {
+                        "type": "integer"
+                      },
+                      "direct": {
+                        "type": "integer"
+                      },
+                      "loan": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                ]
+              },
+              "projects": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["code", "name", "cost", "actual", "revised", "direct", "loan"],
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "pattern": "^\\d{5}$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "cost": {
+                      "type": "integer"
+                    },
+                    "actual": {
+                      "type": "integer"
+                    },
+                    "revised": {
+                      "type": "integer"
+                    },
+                    "direct": {
+                      "type": "integer"
+                    },
+                    "loan": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["budget_year", "part", "url", "sha256", "extraction"],
+        "properties": {
+          "budget_year": {
+            "type": "integer"
+          },
+          "part": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://belanjawan\\.mof\\.gov\\.my/"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "extraction": {
+            "enum": ["text", "ocr"]
+          }
+        }
+      }
+    },
+    "source_rounding": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "source_differences": {
+      "type": "object",
+      "description": "Differences between official figures (books against each other, or a printed value that matches something unexpected); see build.source_differences",
+      "additionalProperties": true
+    },
+    "ocr_corrections": {
+      "type": "integer"
+    },
+    "chart_corrections": {
+      "type": "integer",
+      "description": "Chart labels missed by OCR and filled after checking the page image"
+    }
+  }
+}

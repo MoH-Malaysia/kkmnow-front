@@ -1,0 +1,194 @@
+{
+  "header": "卫生部财政预算",
+  "description": "卫生部按计划、活动和项目组划分的行政与发展开销预算（{{from}}年至{{to}}年各年度联邦财政预算所提呈），以及其实际开支。",
+  "publisher": "卫生部卫生转型办公室",
+  "budget_year": "{{year}}年财政预算",
+  "kpi_when": "{{year}}年 · 预算",
+  "rm_million": "{{amount}}百万令吉",
+  "table_scroll": "左右滑动表格以查看所有栏目。",
+  "kpi": {
+    "oe": "行政开销预算（B.42）",
+    "de": "发展开销预算（P.42）",
+    "total": "预算总额（B.42 + P.42）",
+    "posts": "获拨款职位",
+    "posts_change": "与{{year}}年财政预算相比的变化",
+    "emoluments_per_post": "每个职位的薪酬"
+  },
+  "series": {
+    "oe": "行政开销（B.42）",
+    "de": "发展开销（P.42）",
+    "actual": "实际",
+    "estimate": "提呈时的预算",
+    "net_change": "净变化",
+    "ministry": "卫生部"
+  },
+  "objek_am": {
+    "10000": "薪酬",
+    "20000": "供应与服务",
+    "30000": "资产",
+    "40000": "拨款与固定付款",
+    "50000": "其他开支"
+  },
+  "programmes": {
+    "management": "管理",
+    "medical": "医疗",
+    "public_health": "公共卫生",
+    "oral_health": "口腔健康",
+    "pharmacy": "药剂服务",
+    "research": "研究与技术支援",
+    "food_safety": "食品安全与质量",
+    "special": "特别计划",
+    "new_policy": "新政策",
+    "one_off": "一次性",
+    "financial_commitment": "财务承诺",
+    "health_promotion_board": "马来西亚健康促进局",
+    "medical_device_authority": "医疗器械管理局",
+    "guarantee_company": "政府担保公司",
+    "other": "其他计划"
+  },
+  "section_overview": {
+    "title": "卫生部预算与实际开支",
+    "description": "预算为每年财政预算所提呈的数字。每本预算书也以图表列出卫生部此前三年的实际开支，下方将其与预算对照。计划、Objek Am和职位仅为预算数字。"
+  },
+  "section_posts": {
+    "title": "获拨款职位",
+    "description": "每年行政开销预算中的职位数目（Bil. Jawatan），按计划和活动划分。变化是将每年财政预算与上一年财政预算书相比较。"
+  },
+  "charts": {
+    "totals": "行政与发展开销预算，{{from}}–{{to}}",
+    "totals_note": "十亿令吉。",
+    "objek_am": "按Objek Am划分的行政开销预算，{{from}}–{{to}}",
+    "objek_am_note": "十亿令吉。",
+    "programmes": "按计划划分的行政开销预算，{{from}}–{{to}}",
+    "programmes_note": "十亿令吉。较小的计划已合并。",
+    "posts_note": "获拨款职位（Bil. Jawatan）。",
+    "oe_actual": "行政开销：实际与预算，{{from}}–{{to}}",
+    "oe_actual_note": "十亿令吉。柱形：实际开支。线条：提呈时的预算。",
+    "de_actual": "发展开销：实际与预算，{{from}}–{{to}}",
+    "de_actual_note": "十亿令吉。柱形：实际开支。线条：提呈时的预算。",
+    "de_objek_am": "按Objek Am划分的发展开销预算，{{from}}–{{to}}",
+    "de_objek_am_note": "十亿令吉。",
+    "posts_programmes": "按计划划分的职位，{{from}}–{{to}}",
+    "posts_change": "职位与上一年财政预算相比的变化，{{from}}–{{to}}",
+    "posts_change_note": "柱形：按计划的变化。圆点：净变化。",
+    "emoluments_per_post": "每个职位的薪酬，{{from}}–{{to}}",
+    "emoluments_per_post_note": "每职位令吉数：薪酬预算除以获拨款职位数。"
+  },
+  "section_book": {
+    "title": "{{year}}年财政预算详情",
+    "description": "卫生部{{year}}年财政预算书（B.42和P.42）所列的计划、活动和发展项目组。选择其他财政预算年份以查看该年的预算书。"
+  },
+  "oe_table": {
+    "title": "按计划和活动划分的行政开销预算，{{year}}年财政预算",
+    "search": "搜索活动名称或代码",
+    "code": "代码",
+    "name": "计划／活动",
+    "prev": "{{year}}年预算",
+    "cur": "{{year}}年预算",
+    "change": "变化",
+    "emoluments": "薪酬占比",
+    "posts": "{{year}}年职位",
+    "total": "行政开销预算总额",
+    "note": "百万令吉。活动名称按原文（马来文）。",
+    "posts_change": "与{{year}}年相比的变化"
+  },
+  "de_table": {
+    "title": "按项目组（Butiran）划分的发展开销预算，{{year}}年财政预算",
+    "code": "代码",
+    "name": "项目组（Butiran）",
+    "cost": "项目总成本",
+    "actual": "实际 {{period}}",
+    "revised": "{{year}}年修订",
+    "budget": "{{year}}年预算",
+    "adjustment": "调整（按原文）",
+    "total": "发展开销预算总额",
+    "note": "百万令吉。项目组名称按原文（马来文）。"
+  },
+  "section_sources": {
+    "title": "来源与说明",
+    "source": "所有数字均取自财政部为卫生部编制的《联邦政府开支预算》（Anggaran Perbelanjaan Persekutuan）：B.42（Bekalan 42）为行政开销预算，P.42（Pembangunan 42）为发展开销预算。财政部每年在belanjawan.mof.gov.my以PDF格式发布一本预算书。实际开支取自每本预算书首页的图表。",
+    "books_title": "预算书",
+    "col_budget": "财政预算",
+    "col_book": "B.42 / P.42",
+    "col_notes": "说明",
+    "part": "第{{part}}部分"
+  },
+  "book_notes": {
+    "first_book": "财政部在网上发布的最早一本卫生部预算书。其{{prev}}年栏目列出{{prev}}年的预算；职位和计划从{{year}}年开始。",
+    "de_restated": "所列{{year}}年发展开销预算为{{restated}}百万令吉。本页采用{{year}}年财政预算书中的{{tabled}}百万令吉。",
+    "cumulative": "P.42的实际栏目为{{period}}的累计数。",
+    "adjustment": "P.42还列有前两年项目细节的调整行（Pelarasan）。计入该行后，{{revised}}年修订总额为{{total}}百万令吉；仅项目行合计为{{rows}}百万令吉。",
+    "rounding": "有一项印刷总额与其各行之和相差1令吉；数字按原文呈现。",
+    "de_objek_am_2018": "按Objek Am划分的发展开销预算：采用2019年财政预算书所列的划分。",
+    "retabled_2023": "于2023年2月提呈。2022年10月提呈的财政预算因国会解散而失效。"
+  },
+  "treemap": {
+    "title": "{{year}}年财政预算行政开销预算的去向（按活动）",
+    "title_posts": "{{year}}年财政预算职位的分布（按活动）",
+    "size": "大小",
+    "size_allocation": "预算",
+    "size_posts": "职位",
+    "colour": "颜色",
+    "colour_programme": "计划",
+    "colour_change": "变化",
+    "allocation": "{{year}}年预算",
+    "change": "与{{year}}年相比的预算变化",
+    "posts": "{{year}}年职位",
+    "or_new": "或新增",
+    "range": "{{from}}至{{to}}",
+    "note": "每个方块代表一项活动，按计划分组。将鼠标悬停或点按方块以查看其数字。",
+    "note_change": "颜色：行政开销预算从{{prev}}年至{{year}}年的变化。"
+  },
+  "posts_moves": {
+    "title": "按活动划分的职位最大变化，{{year}}年财政预算",
+    "note": "与{{prev}}年财政预算相比的变化。活动名称按原文（马来文）。"
+  },
+  "card_description": "卫生部按计划、活动和项目组划分的行政与发展开销预算，取自每年的财政预算书。",
+  "new": "新增",
+  "fiscal_link": "联邦政府财政分析",
+  "glossary": "B.42（Bekalan 42）：卫生部的行政开销预算。P.42（Pembangunan 42）：卫生部的发展开销预算。Objek Am：财政部按开支类型的分类。Butiran：发展开销预算中的一行，通常为一组项目。",
+  "disclaimer": "本仪表板按原样呈现财政部公布的财政预算数字，仅供参考。除标明为实际开支外，数字均为预算。发布者不保证数据的准确性，亦不对依据这些信息作出的任何决定承担责任。",
+  "report_errors": "如发现任何错误，请告知我们。",
+  "notes": {
+    "title": "关于来源的说明",
+    "description": "同一年份的数字在不同官方出版物之间可能有所不同。遇此情况，本页采用以下做法。",
+    "col_topic": "主题",
+    "col_note": "说明",
+    "estimates_actuals": {
+      "title": "预算与实际开支",
+      "text": "同一年份的财政预算、修订预算和实际开支是不同的数字。预算按每年预算书所提呈。实际开支按此后预算书首页图表所列（百万令吉）；由于追加预算和年内变动，它可能与预算不同。"
+    },
+    "fiscal": {
+      "title": "财政分析页面上的卫生部数字",
+      "text": "该页面采用财政部的卫生领域开支，与本页所用的卫生部本身预算（B.42 / P.42）是不同的衡量指标。"
+    },
+    "previous_year": {
+      "title": "上一年的数字",
+      "text": "每本预算书也列出上一年的数字，并按其本身的计划结构重新列示，因此某项计划或活动可能与较早的预算书不同。本页各年份的数字（包括职位）均取自该年份本身的预算书。"
+    },
+    "programmes": {
+      "title": "跨年份的计划",
+      "text": "由于财政部在2018年和2019年财政预算中重新编号，计划按名称配对。计划的内容在不同预算书之间也有变化，尤其是2017、2019和2021年财政预算（特别计划扩大；财务承诺于2021年出现），因此这些年份之间计划的数字并非同口径可比。"
+    },
+    "posts": {
+      "title": "职位",
+      "text": "财政预算所拨款的职位数目（Bil. Jawatan），而非在职人员。自2015年财政预算起，每本预算书的上一年职位栏目重复其预算年度的数字，因此职位变化是将每年财政预算与上一年财政预算书相比较。各预算书之间的活动按名称配对，包括少数被财政部改名的活动；在上一本预算书中找不到对应的活动不显示变化。"
+    },
+    "emoluments_per_post": {
+      "title": "每个职位的薪酬",
+      "text": "薪酬（10000）预算除以获拨款职位数，因此并非平均薪金。部分薪酬项目未列职位，例如新政策和特别计划下的拨备。管理计划下的财务（Kewangan）活动列有大额薪酬但职位很少，因此管理不作为计划线条显示。"
+    },
+    "development": {
+      "title": "发展开销预算",
+      "text": "直接融资加上任何贷款融资。发展开销不含薪酬。"
+    },
+    "p42_actual": {
+      "title": "实际发展开支",
+      "text": "卫生部总额取自每本预算书首页的图表。P.42表格的实际和修订栏目仅涵盖所列项目组，部分项目列为0（在近年的预算书中，实际栏目的PPP/PFI），因此其总额可能较低。"
+    },
+    "geography": {
+      "title": "州属与选区",
+      "text": "财政部的预算书并未按州属或国会选区细分卫生部的预算。"
+    }
+  }
+}

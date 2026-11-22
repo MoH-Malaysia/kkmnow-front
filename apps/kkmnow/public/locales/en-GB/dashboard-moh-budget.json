@@ -1,0 +1,194 @@
+{
+  "header": "Ministry of Health Budget",
+  "description": "The Ministry of Health's operating and development estimates by programme, activity and project group, as tabled in each federal Budget from {{from}} to {{to}}, and its actual spending.",
+  "publisher": "Health Transformation Office, Ministry of Health",
+  "budget_year": "Budget {{year}}",
+  "kpi_when": "{{year}} · budget estimate",
+  "rm_million": "RM {{amount}} million",
+  "table_scroll": "Swipe the table sideways to see all columns.",
+  "kpi": {
+    "oe": "Operating estimate (B.42)",
+    "de": "Development estimate (P.42)",
+    "total": "Total estimate (B.42 + P.42)",
+    "posts": "Posts funded",
+    "posts_change": "Change from Budget {{year}}",
+    "emoluments_per_post": "Emoluments per post"
+  },
+  "series": {
+    "oe": "Operating (B.42)",
+    "de": "Development (P.42)",
+    "actual": "Actual",
+    "estimate": "Estimate as tabled",
+    "net_change": "Net change",
+    "ministry": "MoH"
+  },
+  "objek_am": {
+    "10000": "Emoluments",
+    "20000": "Supplies and services",
+    "30000": "Assets",
+    "40000": "Grants and fixed payments",
+    "50000": "Other expenditure"
+  },
+  "programmes": {
+    "management": "Management",
+    "medical": "Medical",
+    "public_health": "Public Health",
+    "oral_health": "Oral Health",
+    "pharmacy": "Pharmaceutical Services",
+    "research": "Research and Technical Support",
+    "food_safety": "Food Safety and Quality",
+    "special": "Special Programme",
+    "new_policy": "New Policy",
+    "one_off": "One-Off",
+    "financial_commitment": "Financial Commitment",
+    "health_promotion_board": "Malaysian Health Promotion Board",
+    "medical_device_authority": "Medical Device Authority",
+    "guarantee_company": "Government Guarantee Company",
+    "other": "Other programmes"
+  },
+  "section_overview": {
+    "title": "MoH estimates and actual spending",
+    "description": "Estimates are the figures tabled in each year's Budget. Each book also charts the ministry's actual spending for three earlier years, shown against the estimates below. Programmes, Objek Am and posts are estimates only."
+  },
+  "section_posts": {
+    "title": "Posts funded",
+    "description": "Posts (Bil. Jawatan) in each year's operating estimate, by programme and activity. Changes compare each Budget with the previous Budget's book."
+  },
+  "charts": {
+    "totals": "Operating and development estimates, {{from}}–{{to}}",
+    "totals_note": "RM billion.",
+    "objek_am": "Operating estimate by Objek Am, {{from}}–{{to}}",
+    "objek_am_note": "RM billion.",
+    "programmes": "Operating estimate by programme, {{from}}–{{to}}",
+    "programmes_note": "RM billion. Smaller programmes are combined.",
+    "posts_note": "Posts funded (Bil. Jawatan).",
+    "oe_actual": "Operating expenditure: actual and estimate, {{from}}–{{to}}",
+    "oe_actual_note": "RM billion. Bars: actual spending. Line: estimate as tabled.",
+    "de_actual": "Development expenditure: actual and estimate, {{from}}–{{to}}",
+    "de_actual_note": "RM billion. Bars: actual spending. Line: estimate as tabled.",
+    "de_objek_am": "Development estimate by Objek Am, {{from}}–{{to}}",
+    "de_objek_am_note": "RM billion.",
+    "posts_programmes": "Posts by programme, {{from}}–{{to}}",
+    "posts_change": "Change in posts from the previous Budget, {{from}}–{{to}}",
+    "posts_change_note": "Bars: change by programme. Dots: net change.",
+    "emoluments_per_post": "Emoluments per post, {{from}}–{{to}}",
+    "emoluments_per_post_note": "RM per post: the Emoluments estimate divided by posts funded."
+  },
+  "section_book": {
+    "title": "Budget {{year}} in detail",
+    "description": "Programmes, activities and development project groups as printed in the Budget {{year}} book for the Ministry of Health (B.42 and P.42). Pick another Budget year to see its book."
+  },
+  "oe_table": {
+    "title": "Operating estimate by programme and activity, Budget {{year}}",
+    "search": "Search activity name or code",
+    "code": "Code",
+    "name": "Programme / activity",
+    "prev": "Estimate {{year}}",
+    "cur": "Estimate {{year}}",
+    "change": "Change",
+    "emoluments": "Emoluments share",
+    "posts": "Posts {{year}}",
+    "total": "Total operating estimate",
+    "note": "RM million. Activity names as printed (Malay).",
+    "posts_change": "Change from {{year}}"
+  },
+  "de_table": {
+    "title": "Development estimate by project group (Butiran), Budget {{year}}",
+    "code": "Code",
+    "name": "Project group (Butiran)",
+    "cost": "Total project cost",
+    "actual": "Actual {{period}}",
+    "revised": "Revised {{year}}",
+    "budget": "Estimate {{year}}",
+    "adjustment": "Adjustment (as printed)",
+    "total": "Total development estimate",
+    "note": "RM million. Project group names as printed (Malay)."
+  },
+  "section_sources": {
+    "title": "Sources and notes",
+    "source": "All figures are from the Ministry of Finance's Federal Government Expenditure Estimates (Anggaran Perbelanjaan Persekutuan) for the Ministry of Health: B.42 (Bekalan 42), the operating estimate, and P.42 (Pembangunan 42), the development estimate. MoF publishes one book a year as a PDF at belanjawan.mof.gov.my. Actual spending is from the chart on the first page of each book.",
+    "books_title": "Budget books",
+    "col_budget": "Budget",
+    "col_book": "B.42 / P.42",
+    "col_notes": "Notes",
+    "part": "Part {{part}}"
+  },
+  "book_notes": {
+    "first_book": "The earliest Ministry of Health book MoF publishes online. Its {{prev}} column gives the {{prev}} estimates; posts and programmes start at {{year}}.",
+    "de_restated": "Shows the {{year}} development estimate as RM{{restated}} million. This page uses RM{{tabled}} million, from the Budget {{year}} book.",
+    "cumulative": "The P.42 actual column is cumulative over {{period}}.",
+    "adjustment": "P.42 also prints an adjustment row (Pelarasan) for project details of the two previous years. With it, revised {{revised}} totals RM{{total}} million; the project rows alone total RM{{rows}} million.",
+    "rounding": "One printed total differs by RM1 from the sum of its rows; figures are shown as printed.",
+    "de_objek_am_2018": "Development estimate by Objek Am: the split printed in the Budget 2019 book.",
+    "retabled_2023": "Tabled in February 2023. The Budget tabled in October 2022 lapsed when Parliament was dissolved."
+  },
+  "treemap": {
+    "title": "Where the Budget {{year}} operating estimate goes, by activity",
+    "title_posts": "Where the Budget {{year}} posts are, by activity",
+    "size": "Size",
+    "size_allocation": "Estimate",
+    "size_posts": "Posts",
+    "colour": "Colour",
+    "colour_programme": "Programme",
+    "colour_change": "Change",
+    "allocation": "Estimate {{year}}",
+    "change": "Change in estimate from {{year}}",
+    "posts": "Posts {{year}}",
+    "or_new": "or new",
+    "range": "{{from}} to {{to}}",
+    "note": "Each box is an activity, grouped by programme. Hover or tap a box for its figures.",
+    "note_change": "Colour: change in the operating estimate from {{prev}} to {{year}}."
+  },
+  "posts_moves": {
+    "title": "Largest changes in posts by activity, Budget {{year}}",
+    "note": "Change from Budget {{prev}}. Activity names as printed (Malay)."
+  },
+  "card_description": "The Ministry of Health's operating and development estimates by programme, activity and project group, from each year's Budget book.",
+  "new": "new",
+  "fiscal_link": "Federal Government Fiscal Analysis",
+  "glossary": "B.42 (Bekalan 42): MoH's operating estimate. P.42 (Pembangunan 42): MoH's development estimate. MoH: Ministry of Health. MoF: Ministry of Finance. Objek Am: MoF's classification of spending by type. Butiran: a line of the development estimate, usually a group of projects.",
+  "disclaimer": "This dashboard shows MoF's published Budget figures as printed, for informational purposes only. Figures are estimates unless marked as actual spending. The publisher makes no guarantees regarding accuracy and assumes no liability for decisions made based on this information.",
+  "report_errors": "Please report any errors.",
+  "notes": {
+    "title": "Notes on sources",
+    "description": "Figures for the same year can differ between official publications. Where they do, this page uses the following.",
+    "col_topic": "Topic",
+    "col_note": "Note",
+    "estimates_actuals": {
+      "title": "Estimates and actual spending",
+      "text": "A Budget estimate, a revised estimate and actual spending for the same year are different figures. Estimates are as tabled in each year's book. Actual spending is as printed, in RM million, in the chart on the first page of later books; it can differ from the estimate because of supplementary estimates and changes during the year."
+    },
+    "fiscal": {
+      "title": "MoH figures on the fiscal analysis page",
+      "text": "That page uses MoF's health-sector expenditure, a different measure from MoH's own estimates (B.42 / P.42) used here."
+    },
+    "previous_year": {
+      "title": "Figures for the previous year",
+      "text": "Each book also shows the previous year, restated in its own programme structure, so a programme or activity can differ from the earlier book. This page takes each year's figures, including posts, from that year's own book."
+    },
+    "programmes": {
+      "title": "Programmes across years",
+      "text": "Programmes are matched by name, because MoF renumbered them in Budget 2018 and 2019. What a programme contains also changed between books, notably in Budget 2017, 2019 and 2021 (Special Programme grew; Financial Commitment appeared in 2021), so a programme's figures are not like-for-like across those years."
+    },
+    "posts": {
+      "title": "Posts",
+      "text": "The number of posts (Bil. Jawatan) the Budget funds, not staff in post. From Budget 2015, each book's previous-year posts column repeats its Budget-year figure, so a change in posts compares each Budget with the previous Budget's book. Activities are matched between books by name, including a few that MoF renamed; an activity with no match in the previous book shows no change."
+    },
+    "emoluments_per_post": {
+      "title": "Emoluments per post",
+      "text": "The Emoluments (10000) estimate divided by posts funded, so it is not an average salary. Some emoluments lines print no posts, such as provisions under New Policy and Special Programme. The Management programme's Finance (Kewangan) activity prints large emoluments with few posts, so Management is not shown as a programme line."
+    },
+    "development": {
+      "title": "Development estimate",
+      "text": "Direct financing plus any loan financing. Development spending has no emoluments."
+    },
+    "p42_actual": {
+      "title": "Actual development spending",
+      "text": "The ministry total is from the chart on the first page of each book. The actual and revised columns of the P.42 table cover the listed project groups only, and some lines print 0 (in recent books, PPP/PFI in the actual column), so their totals can be lower."
+    },
+    "geography": {
+      "title": "States and constituencies",
+      "text": "MoF's Budget books do not break the ministry's budget down by state or parliamentary constituency."
+    }
+  }
+}

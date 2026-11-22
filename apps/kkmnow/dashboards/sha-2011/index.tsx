@@ -31,6 +31,7 @@ import {
   DIMS,
   Metric,
   METRICS,
+  SDG382_COMPONENTS,
   SharedPayload,
   Values,
 } from "./types";
@@ -70,6 +71,7 @@ const Doughnut = dynamic(
 
 const HIGHLIGHT = { light: "#2a78d6", dark: "#3987e5" };
 const SDG_COLORS = { "10%": "#eb6834", "25%": "#2a78d6" };
+const SDG382_2025_COLORS = { total: "#2a78d6", large: "#eb6834", impoverishing: "#8b5cf6" };
 
 /** Default codes in the trend comparison, per dimension */
 const TREND_DEFAULTS: Partial<Record<Dim, string[]>> = {
@@ -223,6 +225,8 @@ const DimensionPanel: FunctionComponent<DimensionPanelProps> = ({
   country,
   oop_share,
   sdg382,
+  sdg382_2025,
+  uhc_sci,
   transition,
   shared,
 }) => {
@@ -482,6 +486,8 @@ const DimensionPanel: FunctionComponent<DimensionPanelProps> = ({
           country={country}
           oop_share={oop_share}
           sdg382={sdg382}
+          sdg382_2025={sdg382_2025}
+          uhc_sci={uhc_sci}
           transition={transition}
           shared={shared}
         />
@@ -616,11 +622,15 @@ const DimensionPanel: FunctionComponent<DimensionPanelProps> = ({
 };
 
 /**
- * Out-of-pocket share, SDG 3.8.2 catastrophic spending and the health financing transition.
+ * Out-of-pocket share, SDG 3.8.2 (2025 and 2015 definitions), SDG 3.8.1 service coverage,
+ * coverage against financial hardship across countries, and the health financing transition.
  */
 const FinancialProtection: FunctionComponent<
-  Pick<SHA2011DashboardProps, "country" | "oop_share" | "sdg382" | "transition" | "shared">
-> = ({ country, oop_share, sdg382, transition, shared }) => {
+  Pick<
+    SHA2011DashboardProps,
+    "country" | "oop_share" | "sdg382" | "sdg382_2025" | "uhc_sci" | "transition" | "shared"
+  >
+> = ({ country, oop_share, sdg382, sdg382_2025, uhc_sci, transition, shared }) => {
   const { t } = useTranslation(["dashboard-sha-2011", "common"]);
   const { theme } = useTheme();
   const dark = theme === "dark";
@@ -628,6 +638,16 @@ const FinancialProtection: FunctionComponent<
   const hoverInk = dark ? AKSARA_COLOR.WHITE : AKSARA_COLOR.BLACK;
 
   const surveyYears = [...new Set(sdg382.map(([y]) => y))];
+  const surveyYears2025 = [...new Set(sdg382_2025.map(([y]) => y))];
+  const names = Object.fromEntries(shared.countries.map(c => [c.code, c.name]));
+  const { sci_year, points } = shared.uhc_scatter;
+  const scatterPoint = ([code, sci, fh, year]: [string, number, number, number]) => ({
+    x: sci,
+    y: fh,
+    name: names[code] ?? code,
+    year,
+  });
+  const ink = dark ? AKSARA_COLOR.WHITE : AKSARA_COLOR.BLACK;
   const paths = { ...shared.asean, [country.code]: { name: country.name, transition } };
   // Draw the selected country last so it sits on top
   const order = [...Object.keys(paths).filter(c => c !== country.code), country.code];
@@ -637,6 +657,7 @@ const FinancialProtection: FunctionComponent<
     <>
       <div className="flex flex-col gap-3">
         <h5>{t("charts.financial_protection")}</h5>
+        <p className="text-dim text-sm">{t("charts.sdg382_definitions")}</p>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           {oop_share.length ? (
             <Timeseries
@@ -665,6 +686,40 @@ const FinancialProtection: FunctionComponent<
             />
           ) : (
             <p className="text-dim">{t("charts.no_oop")}</p>
+          )}
+          {sdg382_2025.length ? (
+            <Timeseries
+              className="h-[350px] w-full"
+              interval="year"
+              {...yearAxis}
+              generateLabels={lineLegend}
+              round="year"
+              mode="grouped"
+              type="line"
+              enableLegend
+              unitY="%"
+              precision={[1, 0]}
+              title={t("charts.sdg382_2025", { country: country.name })}
+              description={t("charts.sdg382_note")}
+              data={{
+                labels: surveyYears2025.map(epoch),
+                datasets: SDG382_COMPONENTS.map(component => ({
+                  type: "line",
+                  label: t(`charts.sdg382_2025_${component}`),
+                  data: surveyYears2025.map(
+                    y => sdg382_2025.find(([sy, c]) => sy === y && c === component)?.[2] ?? null
+                  ),
+                  borderColor: SDG382_2025_COLORS[component],
+                  backgroundColor: SDG382_2025_COLORS[component],
+                  showLine: false,
+                  pointRadius: component === "total" ? 7 : 5,
+                  pointHoverRadius: component === "total" ? 9 : 7,
+                  pointStyle: component === "total" ? "circle" : "rectRot",
+                })),
+              }}
+            />
+          ) : (
+            <p className="text-dim">{t("charts.no_sdg382_2025", { country: country.name })}</p>
           )}
           {sdg382.length ? (
             <Timeseries
@@ -699,7 +754,83 @@ const FinancialProtection: FunctionComponent<
           ) : (
             <p className="text-dim">{t("charts.no_sdg382", { country: country.name })}</p>
           )}
+          {uhc_sci.length ? (
+            <Timeseries
+              className="h-[350px] w-full"
+              interval="year"
+              {...yearAxis}
+              generateLabels={lineLegend}
+              round="year"
+              mode="grouped"
+              precision={[0, 0]}
+              suggestedMinY={0}
+              suggestedMaxY={100}
+              title={t("charts.uhc_sci", { country: country.name })}
+              description={t("charts.uhc_sci_note")}
+              data={{
+                labels: uhc_sci.map(([y]) => epoch(y)),
+                datasets: [
+                  {
+                    type: "line",
+                    label: t("charts.uhc_sci_series"),
+                    data: uhc_sci.map(([, v]) => v),
+                    borderColor: highlight,
+                    backgroundColor: highlight,
+                    borderWidth: 2,
+                  },
+                ],
+              }}
+            />
+          ) : (
+            <p className="text-dim">{t("charts.no_uhc_sci", { country: country.name })}</p>
+          )}
         </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <h5>{t("charts.uhc_scatter", { country: country.name })}</h5>
+        <p className="text-dim text-sm">
+          {t("charts.uhc_scatter_note", { year: sci_year })}
+          {!points.some(([code]) => code === country.code) &&
+            ` ${t("charts.uhc_scatter_missing", { country: country.name })}`}
+        </p>
+        <LogScatter
+          className="h-[500px] w-full"
+          scaleX="linear"
+          scaleY="linear"
+          formatY={v => `${v}%`}
+          titleX={t("charts.uhc_scatter_x", { year: sci_year })}
+          titleY={t("charts.uhc_scatter_y")}
+          tooltipLabel={(p: LogScatterPoint) =>
+            t("charts.uhc_scatter_tooltip", {
+              country: p.name,
+              sci: numFormat(p.x, "standard", [0, 0]),
+              year: sci_year,
+              fh: numFormat(p.y, "standard", [1, 1]),
+              survey: p.year,
+            })
+          }
+          datasets={[
+            {
+              label: country.name,
+              data: points.filter(([code]) => code === country.code).map(scatterPoint),
+              backgroundColor: highlight,
+              borderColor: ink,
+              borderWidth: 2,
+              pointRadius: 9,
+              pointHoverRadius: 11,
+            },
+            {
+              label: t("charts.other_countries"),
+              data: points.filter(([code]) => code !== country.code).map(scatterPoint),
+              backgroundColor: AKSARA_COLOR.GREY + "99",
+              borderColor: AKSARA_COLOR.GREY,
+              borderWidth: 1,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+            },
+          ]}
+        />
       </div>
 
       <div className="flex flex-col gap-3">

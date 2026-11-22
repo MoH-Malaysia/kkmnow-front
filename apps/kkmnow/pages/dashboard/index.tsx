@@ -5,6 +5,7 @@ import { withi18n } from "datagovmy-ui/decorators";
 import { Page } from "datagovmy-ui/types";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 
+import { mohBudgetEnabled } from "@lib/moh-budget";
 import { routes } from "@lib/routes";
 
 const DashboardIndex: Page = ({ entries }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -33,7 +34,13 @@ const local = (namespace: string, route: string): HubEntry => ({
 });
 
 export const getStaticProps: GetStaticProps = withi18n(
-  ["dashboards", "dashboard-fiscal", "dashboard-sha-2011"],
+  [
+    "dashboards",
+    "dashboard-fiscal",
+    "dashboard-sha-2011",
+    // Only while switched on, so a hidden page's text isn't sent either
+    ...(mohBudgetEnabled() ? ["dashboard-moh-budget"] : []),
+  ],
   async () => {
     const entries: HubEntry[] = [
       cdn("blood-donation", routes.BLOOD_DONATION),
@@ -41,6 +48,8 @@ export const getStaticProps: GetStaticProps = withi18n(
       cdn("covid-vaccination", routes.COVID_VACCINATION),
       local("dashboard-fiscal", routes.FISCAL),
       local("dashboard-sha-2011", routes.SHA_2011),
+      // Listed only while the page is switched on (lib/moh-budget.ts)
+      ...(mohBudgetEnabled() ? [local("dashboard-moh-budget", routes.MOH_BUDGET)] : []),
       cdn("hospital-bed-utilisation", routes.HOSPITAL_BED_UTILISATION),
       cdn("organ-donation", routes.ORGAN_DONATION),
       cdn("peka-b40", routes.PEKA_B40),
