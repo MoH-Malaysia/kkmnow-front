@@ -35,13 +35,20 @@ export type DimensionData = {
   values: Partial<Record<Metric | CrosstabMetric, Record<string, Values>>>;
 };
 
+export const SDG382_COMPONENTS = ["total", "large", "impoverishing"] as const;
+export type Sdg382Component = (typeof SDG382_COMPONENTS)[number];
+
 export type CountryPayload = {
   country: { code: string; name: string };
   dims: Record<Dim, DimensionData | null>;
   /** [year, OOP % of CHE] */
   oop_share: Array<[number, number]>;
-  /** [survey year, threshold ("10%" | "25%"), % of population] */
+  /** SDG 3.8.2, 2015 definition: [survey year, threshold ("10%" | "25%"), % of population] */
   sdg382: Array<[number, string, number]>;
+  /** SDG 3.8.2, 2025 definition: [survey year, component, % of population] */
+  sdg382_2025: Array<[number, Sdg382Component, number]>;
+  /** SDG 3.8.1 UHC service coverage index: [year, index 0-100] */
+  uhc_sci: Array<[number, number]>;
   /** [year, CHE per capita (USD), OOP % of CHE] */
   transition: Array<[number, number, number]>;
 };
@@ -56,4 +63,7 @@ export type SharedPayload = {
   /** Every code of each dimension, in classification order */
   hierarchy: Record<Dim, HierarchyEntry[]>;
   asean: Record<string, { name: string; transition: Array<[number, number, number]> }>;
+  /** SDG 3.8.1 in sci_year against each country's latest SDG 3.8.2 (2025 definition):
+   * points are [iso3, service coverage index, % of population, survey year] */
+  uhc_scatter: { sci_year: number; points: Array<[string, number, number, number]> };
 };

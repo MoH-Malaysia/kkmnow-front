@@ -1,6 +1,6 @@
 /**
  * Server-only loader for dashboard payloads that are view-only and must not be committed or
- * published as open data (fiscal, SHA 2011). Import only from getStaticProps.
+ * published as open data (fiscal, SHA 2011, MoH Budget). Import only from getStaticProps.
  *
  * PRIVATE_DATA_SOURCE points at the payload root, laid out like the public S3 bucket
  * (dashboards/<name>.json). It is either:

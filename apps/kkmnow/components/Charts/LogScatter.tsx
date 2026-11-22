@@ -38,8 +38,12 @@ interface LogScatterProps {
   datasets: ChartDataset<"scatter", LogScatterPoint[]>[];
   titleX: string;
   titleY: string;
-  /** "linear" keeps y on a plain axis (log-linear); the x axis is always logarithmic */
+  /** "linear" keeps y on a plain axis (log-linear) */
   scaleY?: "logarithmic" | "linear";
+  /** The x axis is logarithmic unless set to "linear" */
+  scaleX?: "logarithmic" | "linear";
+  /** Tick labels for a linear x axis */
+  formatX?: (value: number) => string;
   /** Formats a linear y tick */
   formatY?: (value: number) => string;
   tooltipLabel: (point: LogScatterPoint) => string;
@@ -53,8 +57,8 @@ interface LogScatterProps {
 }
 
 /**
- * Scatter with a logarithmic x axis (and optionally y). datagovmy-ui's Scatter only draws
- * linear axes. Datasets with showLine draw a path through their points.
+ * Scatter with a logarithmic x axis by default (and optionally y). datagovmy-ui's Scatter only
+ * draws linear axes. Datasets with showLine draw a path through their points.
  */
 const LogScatter: FunctionComponent<LogScatterProps> = ({
   className = "h-[500px] w-full",
@@ -62,6 +66,8 @@ const LogScatter: FunctionComponent<LogScatterProps> = ({
   titleX,
   titleY,
   scaleY = "logarithmic",
+  scaleX = "logarithmic",
+  formatX = v => `${v}`,
   formatY = v => `${v}`,
   tooltipLabel,
   highlightOnHover = false,
@@ -109,7 +115,19 @@ const LogScatter: FunctionComponent<LogScatterProps> = ({
               interaction: { mode: "nearest", intersect: false },
             }),
             scales: {
-              x: logAxis(titleX),
+              x:
+                scaleX === "logarithmic"
+                  ? logAxis(titleX)
+                  : {
+                      type: "linear" as const,
+                      title: title(titleX),
+                      grid: gridLines,
+                      ticks: {
+                        color: ink,
+                        font: { family: "Inter" },
+                        callback: (value: number | string) => formatX(Number(value)),
+                      },
+                    },
               y:
                 scaleY === "logarithmic"
                   ? logAxis(titleY)

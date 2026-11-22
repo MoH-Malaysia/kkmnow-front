@@ -7,10 +7,10 @@ export const config = {
   matcher: ["/", "/dashboard/:path*", "/data-catalogue/:path*", "/zh-MY/:path*", "/ta-MY/:path*"],
 };
 
-// Languages that only the fiscal and SHA 2011 dashboards offer (see lib/locales.ts). While they are
+// Languages that only the fiscal, SHA 2011 and MoH Budget dashboards offer (see lib/locales.ts). While they are
 // switched off in next-i18next.config.js, Next never routes these locales and this check is idle.
 const PAGE_LOCALES = ["zh-MY", "ta-MY"];
-const PAGE_LOCALE_ROUTE = /\/dashboard\/(fiscal|sha-2011)(\/|$)/;
+const PAGE_LOCALE_ROUTE = /\/dashboard\/(fiscal|sha-2011|moh-budget)(\/|$)/;
 
 export async function middleware(request: NextRequest) {
   let response: NextResponse;

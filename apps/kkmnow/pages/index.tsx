@@ -8,6 +8,7 @@ import { Metadata } from "datagovmy-ui/components";
 import DashboardIndex from "@dashboards/index";
 import { get } from "datagovmy-ui/api";
 import { getPrivateJson } from "@lib/private-data";
+import { mohBudgetEnabled } from "@lib/moh-budget";
 
 const Home: Page = ({
   last_updated,
@@ -33,7 +34,7 @@ const Home: Page = ({
   );
 };
 
-export const getStaticProps: GetStaticProps = withi18n(["kkmnow-home", "kkmnow-home-local", "dashboard-fiscal", "dashboard-sha-2011"], async () => {
+export const getStaticProps: GetStaticProps = withi18n(["kkmnow-home", "kkmnow-home-local", "dashboard-fiscal", "dashboard-sha-2011", ...(mohBudgetEnabled() ? ["dashboard-moh-budget"] : [])], async () => {
   const { data } = await get("/dashboard/", { dashboard: "kkmnow_homepage" });
   // The MOH budget card: one figure from the view-only fiscal payload (the payload stays server-side)
   let financing: { moh_budget: number; year: number } | null = null;
@@ -101,6 +102,18 @@ export const getStaticProps: GetStaticProps = withi18n(["kkmnow-home", "kkmnow-h
         route: routes.SHA_2011,
         text: { name: "dashboard-sha-2011:header", description: "dashboard-sha-2011:card_description" },
       },
+      // Listed only while the page is switched on (lib/moh-budget.ts)
+      ...(mohBudgetEnabled()
+        ? [
+            {
+              id: "dashboard-moh-budget",
+              name: "moh-budget",
+              agency: "moh",
+              route: routes.MOH_BUDGET,
+              text: { name: "dashboard-moh-budget:header", description: "dashboard-moh-budget:card_description" },
+            },
+          ]
+        : []),
     ],
   };
 

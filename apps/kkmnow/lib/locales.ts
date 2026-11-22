@@ -2,7 +2,7 @@ import { routes } from "@lib/routes";
 import i18nConfig from "../next-i18next.config";
 
 /**
- * Languages offered only on the fiscal and SHA 2011 dashboards. Turned on or off in one place,
+ * Languages offered only on the fiscal, SHA 2011 and MoH Budget dashboards. Turned on or off in one place,
  * PAGE_LOCALES_ENABLED in next-i18next.config.js. Chinese is Simplified, as used in Malaysia.
  */
 export const PAGE_LOCALES: string[] = i18nConfig.optInLocales ?? [];
@@ -13,7 +13,7 @@ export const PAGE_LANGUAGES = [
 ].filter(l => PAGE_LOCALES.includes(l.value));
 
 /** Routes (and their sub-routes) that serve PAGE_LOCALES */
-export const PAGE_LOCALE_ROUTES = [routes.FISCAL, routes.SHA_2011];
+export const PAGE_LOCALE_ROUTES = [routes.FISCAL, routes.SHA_2011, routes.MOH_BUDGET];
 
 export const servesPageLocales = (pathname: string) =>
   PAGE_LOCALE_ROUTES.some(r => pathname === r || pathname.startsWith(`${r}/`));

@@ -5,7 +5,7 @@
   "description": "dashboards/sha-2011-<iso3 lowercase>.json, one per country, read by /dashboard/sha-2011[/<country>]. View-only: never committed or published. v1 describes the payload as produced by the data pipeline's exporter.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["country", "dims", "oop_share", "sdg382", "transition"],
+  "required": ["country", "dims", "oop_share", "sdg382", "sdg382_2025", "uhc_sci", "transition"],
   "properties": {
     "country": {
       "type": "object",
@@ -60,7 +60,7 @@
       }
     },
     "sdg382": {
-      "description": "[survey year, threshold, % of population spending above it]",
+      "description": "SDG 3.8.2, 2015 definition (archived by WHO): [survey year, threshold, % of population spending above it]",
       "type": "array",
       "items": {
         "type": "array",
@@ -77,6 +77,47 @@
         ],
         "items": false,
         "minItems": 3
+      }
+    },
+    "sdg382_2025": {
+      "description": "SDG 3.8.2, 2025 definition: [survey year, component, % of population]. total = OOP above 40% of the household discretionary budget; large (component 1) and impoverishing (component 2) add up to total where WHO reports them",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer"
+          },
+          {
+            "enum": ["total", "large", "impoverishing"]
+          },
+          {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        ],
+        "items": false,
+        "minItems": 3
+      }
+    },
+    "uhc_sci": {
+      "description": "SDG 3.8.1 UHC service coverage index: [year, index 0-100]",
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        ],
+        "items": false,
+        "minItems": 2
       }
     },
     "transition": {

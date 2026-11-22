@@ -1,0 +1,194 @@
+{
+  "header": "Belanjawan Kementerian Kesihatan",
+  "description": "Anggaran perbelanjaan mengurus dan pembangunan Kementerian Kesihatan mengikut program, aktiviti dan kumpulan projek, seperti yang dibentangkan dalam setiap Belanjawan Persekutuan dari {{from}} hingga {{to}}, serta perbelanjaan sebenarnya.",
+  "publisher": "Pejabat Transformasi Kesihatan, Kementerian Kesihatan",
+  "budget_year": "Belanjawan {{year}}",
+  "kpi_when": "{{year}} · anggaran belanjawan",
+  "rm_million": "RM {{amount}} juta",
+  "table_scroll": "Leret jadual ke sisi untuk melihat semua lajur.",
+  "kpi": {
+    "oe": "Anggaran mengurus (B.42)",
+    "de": "Anggaran pembangunan (P.42)",
+    "total": "Jumlah anggaran (B.42 + P.42)",
+    "posts": "Jawatan dibiayai",
+    "posts_change": "Perubahan daripada Belanjawan {{year}}",
+    "emoluments_per_post": "Emolumen bagi setiap jawatan"
+  },
+  "series": {
+    "oe": "Mengurus (B.42)",
+    "de": "Pembangunan (P.42)",
+    "actual": "Sebenar",
+    "estimate": "Anggaran seperti yang dibentangkan",
+    "net_change": "Perubahan bersih",
+    "ministry": "KKM"
+  },
+  "objek_am": {
+    "10000": "Emolumen",
+    "20000": "Perkhidmatan dan bekalan",
+    "30000": "Aset",
+    "40000": "Pemberian dan kenaan bayaran tetap",
+    "50000": "Perbelanjaan lain"
+  },
+  "programmes": {
+    "management": "Pengurusan",
+    "medical": "Perubatan",
+    "public_health": "Kesihatan Awam",
+    "oral_health": "Kesihatan Pergigian",
+    "pharmacy": "Perkhidmatan Farmasi",
+    "research": "Penyelidikan dan Sokongan Teknikal",
+    "food_safety": "Keselamatan dan Kualiti Makanan",
+    "special": "Program Khusus",
+    "new_policy": "Dasar Baharu",
+    "one_off": "One-Off",
+    "financial_commitment": "Komitmen Kewangan",
+    "health_promotion_board": "Lembaga Promosi Kesihatan Malaysia",
+    "medical_device_authority": "Pihak Berkuasa Peranti Perubatan",
+    "guarantee_company": "Syarikat Jaminan Kerajaan",
+    "other": "Program lain"
+  },
+  "section_overview": {
+    "title": "Anggaran dan perbelanjaan sebenar KKM",
+    "description": "Anggaran ialah angka yang dibentangkan dalam Belanjawan setiap tahun. Setiap buku juga memaparkan carta perbelanjaan sebenar kementerian bagi tiga tahun sebelumnya, yang ditunjukkan berbanding anggaran di bawah. Program, Objek Am dan jawatan ialah anggaran sahaja."
+  },
+  "section_posts": {
+    "title": "Jawatan dibiayai",
+    "description": "Jawatan (Bil. Jawatan) dalam anggaran mengurus setiap tahun, mengikut program dan aktiviti. Perubahan membandingkan setiap Belanjawan dengan buku Belanjawan sebelumnya."
+  },
+  "charts": {
+    "totals": "Anggaran mengurus dan pembangunan, {{from}}–{{to}}",
+    "totals_note": "RM bilion.",
+    "objek_am": "Anggaran mengurus mengikut Objek Am, {{from}}–{{to}}",
+    "objek_am_note": "RM bilion.",
+    "programmes": "Anggaran mengurus mengikut program, {{from}}–{{to}}",
+    "programmes_note": "RM bilion. Program yang lebih kecil digabungkan.",
+    "posts_note": "Jawatan dibiayai (Bil. Jawatan).",
+    "oe_actual": "Perbelanjaan mengurus: sebenar dan anggaran, {{from}}–{{to}}",
+    "oe_actual_note": "RM bilion. Bar: perbelanjaan sebenar. Garis: anggaran seperti yang dibentangkan.",
+    "de_actual": "Perbelanjaan pembangunan: sebenar dan anggaran, {{from}}–{{to}}",
+    "de_actual_note": "RM bilion. Bar: perbelanjaan sebenar. Garis: anggaran seperti yang dibentangkan.",
+    "de_objek_am": "Anggaran pembangunan mengikut Objek Am, {{from}}–{{to}}",
+    "de_objek_am_note": "RM bilion.",
+    "posts_programmes": "Jawatan mengikut program, {{from}}–{{to}}",
+    "posts_change": "Perubahan jawatan daripada Belanjawan sebelumnya, {{from}}–{{to}}",
+    "posts_change_note": "Bar: perubahan mengikut program. Titik: perubahan bersih.",
+    "emoluments_per_post": "Emolumen bagi setiap jawatan, {{from}}–{{to}}",
+    "emoluments_per_post_note": "RM bagi setiap jawatan: anggaran Emolumen dibahagikan dengan jawatan yang dibiayai."
+  },
+  "section_book": {
+    "title": "Perincian Belanjawan {{year}}",
+    "description": "Program, aktiviti dan kumpulan projek pembangunan seperti yang dicetak dalam buku Belanjawan {{year}} bagi Kementerian Kesihatan (B.42 dan P.42). Pilih tahun Belanjawan lain untuk melihat bukunya."
+  },
+  "oe_table": {
+    "title": "Anggaran mengurus mengikut program dan aktiviti, Belanjawan {{year}}",
+    "search": "Cari nama atau kod aktiviti",
+    "code": "Kod",
+    "name": "Program / aktiviti",
+    "prev": "Anggaran {{year}}",
+    "cur": "Anggaran {{year}}",
+    "change": "Perubahan",
+    "emoluments": "Peratusan emolumen",
+    "posts": "Jawatan {{year}}",
+    "total": "Jumlah anggaran mengurus",
+    "note": "RM juta. Nama aktiviti seperti yang dicetak.",
+    "posts_change": "Perubahan daripada {{year}}"
+  },
+  "de_table": {
+    "title": "Anggaran pembangunan mengikut kumpulan projek (Butiran), Belanjawan {{year}}",
+    "code": "Kod",
+    "name": "Kumpulan projek (Butiran)",
+    "cost": "Jumlah anggaran harga projek",
+    "actual": "Perbelanjaan sebenar {{period}}",
+    "revised": "Anggaran dipinda {{year}}",
+    "budget": "Anggaran {{year}}",
+    "adjustment": "Pelarasan (seperti dicetak)",
+    "total": "Jumlah anggaran pembangunan",
+    "note": "RM juta. Nama kumpulan projek seperti yang dicetak."
+  },
+  "section_sources": {
+    "title": "Sumber dan nota",
+    "source": "Semua angka diambil daripada Anggaran Perbelanjaan Persekutuan terbitan Kementerian Kewangan bagi Kementerian Kesihatan: B.42 (Bekalan 42), iaitu anggaran perbelanjaan mengurus, dan P.42 (Pembangunan 42), iaitu anggaran perbelanjaan pembangunan. MoF menerbitkan satu buku setiap tahun dalam format PDF di belanjawan.mof.gov.my. Perbelanjaan sebenar diambil daripada carta di halaman pertama setiap buku.",
+    "books_title": "Buku Belanjawan",
+    "col_budget": "Belanjawan",
+    "col_book": "B.42 / P.42",
+    "col_notes": "Nota",
+    "part": "Bahagian {{part}}"
+  },
+  "book_notes": {
+    "first_book": "Buku Kementerian Kesihatan terawal yang diterbitkan MoF dalam talian. Lajur {{prev}} buku ini memberikan anggaran bagi {{prev}}; jawatan dan program bermula pada {{year}}.",
+    "de_restated": "Menunjukkan anggaran pembangunan {{year}} sebanyak RM{{restated}} juta. Halaman ini menggunakan RM{{tabled}} juta, daripada buku Belanjawan {{year}}.",
+    "cumulative": "Lajur perbelanjaan sebenar P.42 ialah kumulatif bagi {{period}}.",
+    "adjustment": "P.42 juga mencetak baris pelarasan (Pelarasan) bagi butiran projek dua tahun sebelumnya. Termasuk baris itu, jumlah anggaran dipinda {{revised}} ialah RM{{total}} juta; baris projek sahaja berjumlah RM{{rows}} juta.",
+    "rounding": "Satu jumlah yang dicetak berbeza sebanyak RM1 daripada hasil tambah barisnya; angka dipaparkan seperti yang dicetak.",
+    "de_objek_am_2018": "Anggaran pembangunan mengikut Objek Am: pecahan yang dicetak dalam buku Belanjawan 2019.",
+    "retabled_2023": "Dibentangkan pada Februari 2023. Belanjawan yang dibentangkan pada Oktober 2022 luput apabila Parlimen dibubarkan."
+  },
+  "treemap": {
+    "title": "Agihan anggaran mengurus Belanjawan {{year}} mengikut aktiviti",
+    "title_posts": "Agihan jawatan Belanjawan {{year}} mengikut aktiviti",
+    "size": "Saiz",
+    "size_allocation": "Anggaran",
+    "size_posts": "Jawatan",
+    "colour": "Warna",
+    "colour_programme": "Program",
+    "colour_change": "Perubahan",
+    "allocation": "Anggaran {{year}}",
+    "change": "Perubahan anggaran daripada {{year}}",
+    "posts": "Jawatan {{year}}",
+    "or_new": "atau baharu",
+    "range": "{{from}} hingga {{to}}",
+    "note": "Setiap kotak ialah satu aktiviti, dikumpulkan mengikut program. Halakan tetikus atau ketik pada kotak untuk melihat angkanya.",
+    "note_change": "Warna: perubahan anggaran mengurus daripada {{prev}} kepada {{year}}."
+  },
+  "posts_moves": {
+    "title": "Perubahan jawatan terbesar mengikut aktiviti, Belanjawan {{year}}",
+    "note": "Perubahan daripada Belanjawan {{prev}}. Nama aktiviti seperti yang dicetak."
+  },
+  "card_description": "Anggaran mengurus dan pembangunan Kementerian Kesihatan mengikut program, aktiviti dan kumpulan projek, daripada buku Belanjawan setiap tahun.",
+  "new": "baharu",
+  "fiscal_link": "Analisis Fiskal Kerajaan Persekutuan",
+  "glossary": "B.42 (Bekalan 42): anggaran perbelanjaan mengurus KKM. P.42 (Pembangunan 42): anggaran perbelanjaan pembangunan KKM. KKM: Kementerian Kesihatan Malaysia. MoF: Kementerian Kewangan Malaysia. Objek Am: klasifikasi perbelanjaan MoF mengikut jenis. Butiran: satu baris anggaran pembangunan, biasanya sekumpulan projek.",
+  "disclaimer": "Papan pemuka ini memaparkan angka Belanjawan terbitan MoF seperti yang dicetak, untuk tujuan maklumat sahaja. Angka ialah anggaran melainkan ditanda sebagai perbelanjaan sebenar. Penerbit tidak memberikan sebarang jaminan tentang ketepatannya dan tidak bertanggungjawab atas sebarang keputusan yang dibuat berdasarkan maklumat ini.",
+  "report_errors": "Sila laporkan sebarang ralat.",
+  "notes": {
+    "title": "Nota tentang sumber",
+    "description": "Angka bagi tahun yang sama boleh berbeza antara terbitan rasmi. Dalam keadaan sedemikian, halaman ini menggunakan sumber berikut.",
+    "col_topic": "Perkara",
+    "col_note": "Nota",
+    "estimates_actuals": {
+      "title": "Anggaran dan perbelanjaan sebenar",
+      "text": "Anggaran Belanjawan, anggaran dipinda dan perbelanjaan sebenar bagi tahun yang sama ialah angka yang berbeza. Anggaran adalah seperti yang dibentangkan dalam buku setiap tahun. Perbelanjaan sebenar adalah seperti yang dicetak, dalam RM juta, dalam carta di halaman pertama buku tahun-tahun berikutnya; ia boleh berbeza daripada anggaran kerana anggaran tambahan dan perubahan sepanjang tahun."
+    },
+    "fiscal": {
+      "title": "Angka KKM dalam halaman analisis fiskal",
+      "text": "Halaman itu menggunakan perbelanjaan sektor kesihatan MoF, iaitu ukuran yang berbeza daripada anggaran KKM sendiri (B.42 / P.42) yang digunakan di sini."
+    },
+    "previous_year": {
+      "title": "Angka tahun sebelumnya",
+      "text": "Setiap buku turut memaparkan tahun sebelumnya, disusun semula mengikut struktur programnya sendiri, jadi sesuatu program atau aktiviti mungkin berbeza daripada buku terdahulu. Halaman ini mengambil angka setiap tahun, termasuk jawatan, daripada buku tahun itu sendiri."
+    },
+    "programmes": {
+      "title": "Program antara tahun",
+      "text": "Program dipadankan mengikut nama kerana MoF menomborkan semula program dalam Belanjawan 2018 dan 2019. Kandungan program juga berubah antara buku, terutamanya dalam Belanjawan 2017, 2019 dan 2021 (Program Khusus bertambah; Komitmen Kewangan muncul pada 2021), jadi angka sesuatu program tidak boleh dibandingkan secara langsung antara tahun-tahun tersebut."
+    },
+    "posts": {
+      "title": "Jawatan",
+      "text": "Bilangan jawatan (Bil. Jawatan) yang dibiayai Belanjawan, bukan bilangan anggota yang berkhidmat. Mulai Belanjawan 2015, lajur jawatan tahun sebelumnya dalam setiap buku mengulangi angka tahun Belanjawan, jadi perubahan jawatan membandingkan setiap Belanjawan dengan buku Belanjawan sebelumnya. Aktiviti dipadankan antara buku mengikut nama, termasuk beberapa aktiviti yang dinamakan semula oleh MoF; aktiviti yang tiada padanan dalam buku sebelumnya tidak menunjukkan perubahan."
+    },
+    "emoluments_per_post": {
+      "title": "Emolumen bagi setiap jawatan",
+      "text": "Anggaran Emolumen (10000) dibahagikan dengan jawatan yang dibiayai, jadi ia bukan purata gaji. Sesetengah baris emolumen tidak mencetak jawatan, seperti peruntukan di bawah Dasar Baharu dan Program Khusus. Aktiviti Kewangan dalam program Pengurusan mencetak emolumen yang besar dengan jawatan yang sedikit, jadi Pengurusan tidak ditunjukkan sebagai garis program."
+    },
+    "development": {
+      "title": "Anggaran pembangunan",
+      "text": "Anggaran cara langsung serta pinjaman, jika ada. Perbelanjaan pembangunan tidak mengandungi emolumen."
+    },
+    "p42_actual": {
+      "title": "Perbelanjaan pembangunan sebenar",
+      "text": "Jumlah kementerian diambil daripada carta di halaman pertama setiap buku. Lajur perbelanjaan sebenar dan anggaran dipinda dalam jadual P.42 meliputi kumpulan projek yang disenaraikan sahaja, dan sesetengah baris dicetak 0 (dalam buku terkini, PPP/PFI dalam lajur perbelanjaan sebenar), jadi jumlahnya boleh lebih rendah."
+    },
+    "geography": {
+      "title": "Negeri dan kawasan parlimen",
+      "text": "Buku Belanjawan MoF tidak membahagikan belanjawan kementerian mengikut negeri atau kawasan parlimen."
+    }
+  }
+}

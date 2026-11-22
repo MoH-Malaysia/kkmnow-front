@@ -19,7 +19,8 @@
         "NEXT_PUBLIC_TINYBIRD_TOKEN",
         "NEXT_PUBLIC_TINYBIRD_URL",
         "PRIVATE_DATA_SOURCE",
-        "PRIVATE_DATA_TOKEN"
+        "PRIVATE_DATA_TOKEN",
+        "MOH_BUDGET_ENABLED"
       ],
       "outputMode": "new-only",
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]

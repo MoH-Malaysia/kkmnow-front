@@ -13,11 +13,17 @@ const namespaces = [
   "dashboard-peka-b40",
   "dashboard-fiscal",
   "dashboard-sha-2011",
+  "dashboard-moh-budget",
   "kkmnow-home-local",
 ];
 
 // Namespaces not yet published to the i18n CDN; served from public/locales instead.
-const LOCAL_NAMESPACES = ["dashboard-fiscal", "dashboard-sha-2011", "kkmnow-home-local"];
+const LOCAL_NAMESPACES = [
+  "dashboard-fiscal",
+  "dashboard-sha-2011",
+  "dashboard-moh-budget",
+  "kkmnow-home-local",
+];
 // Public files sit under the basePath when one is set (see next.config.js)
 const LOCAL_PREFIX = `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/locales/`;
 const LOCAL_LOAD_PATH = `${LOCAL_PREFIX}{{lng}}/{{ns}}.json`;
@@ -30,8 +36,8 @@ const config = defineConfig(namespaces, [
   "kkmnow-home",
 ]);
 
-// Languages offered only by pages that opt in through withi18n's `locales` option (the fiscal and
-// SHA 2011 dashboards). Every other page returns 404 for them, and middleware.ts redirects those
+// Languages offered only by pages that opt in through withi18n's `locales` option (the fiscal,
+// SHA 2011 and MoH Budget dashboards). Every other page returns 404 for them, and middleware.ts redirects those
 // requests to English. Their translations, including the shared strings those pages show, are
 // local files in public/locales/{zh-MY,ta-MY}; missing keys fall back to English.
 // Switched off for now (translations pending review): set to true to offer them.
