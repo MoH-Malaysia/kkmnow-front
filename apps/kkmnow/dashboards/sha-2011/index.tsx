@@ -262,7 +262,11 @@ const DimensionPanel: FunctionComponent<DimensionPanelProps> = ({
 
   /** Stacked area of the level codes for one metric */
   const area = (m: Metric | CrosstabMetric, title: string) => {
-    const series = levelCodes.map(code => slice(data.values[m]?.[code]));
+    const raw = levelCodes.map(code => slice(data.values[m]?.[code]));
+    // A code missing in a year that has other values (e.g. an n.e.c. line GHED stops
+    // reporting) is a gap of zero in the stack; a null would break every layer above it.
+    const reported = inRange.map((_, i) => raw.some(s => s[i] !== null));
+    const series = raw.map(s => s.map((v, i) => (v === null && reported[i] ? 0 : v)));
     // Stacked: the axis has to fit the yearly totals
     const totals = inRange.map((_, i) => series.reduce((sum, s) => sum + Math.abs(s[i] ?? 0), 0));
     const scale = scaleOf(m, maxAbs([totals]));
