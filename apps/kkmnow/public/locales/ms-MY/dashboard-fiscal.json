@@ -16,11 +16,11 @@
   },
   "section_moh": {
     "title": "Kementerian Kesihatan dalam belanjawan Persekutuan",
-    "description": "OE dan DE KKM diambil daripada jadual perbelanjaan mengikut sektor Kementerian Kewangan (sektor Kesihatan) dan sedikit berbeza daripada akaun KKM sendiri (B.42 / P.42). Akaun Kesihatan Nasional Malaysia (MNHA) melaporkan angka KKM yang berbeza, iaitu KKM sebagai sumber pembiayaan dalam sempadan akaun kesihatan, yang tidak sama dengan OE + DE KKM. Peruntukan belanjawan bukan perbelanjaan sebenar. Nilai benar dideflasikan dengan deflator KDNK (2015 = 100)."
+    "description": "OE dan DE KKM diambil daripada jadual perbelanjaan mengikut sektor Kementerian Kewangan (sektor Kesihatan) dan boleh berbeza sedikit daripada akaun KKM sendiri (B.42 / P.42) disebabkan, sebagai contoh, kemasukan maksud bekalan perbendaharaan pusat (B.11, B.12). OE + DE KKM yang dilaporkan menggunakan kaedah akaun kesihatan lain mempunyai perbezaan definisi (cth. fi pengguna, pengambilan tanah, dana luar belanjawan, sumbangan, transaksi PPP, promosi pelancongan kesihatan, geran/yuran kepada badan antarabangsa, dan sanitasi). Peruntukan belanjawan bukan perbelanjaan sebenar. Nilai benar dideflasikan dengan deflator KDNK (2015 = 100)."
   },
   "section_international": {
     "title": "Penanda aras antarabangsa (World Bank / WHO GHED)",
-    "description": "WHO GHED (diterbitkan semula oleh World Bank) melaporkan perbelanjaan kesihatan semasa (CHE), ukuran SHA 2011 yang digunakan oleh WHO dan OECD: perbelanjaan penggunaan akhir ke atas barangan dan perkhidmatan penjagaan kesihatan (penjagaan kuratif, pemulihan dan jangka panjang, perkhidmatan sokongan, barangan perubatan, pencegahan, serta tadbir urus dan pentadbiran pembiayaan). Angka utama Akaun Kesihatan Nasional Malaysia (MNHA) Kementerian Kesihatan, jumlah perbelanjaan kesihatan (TEH), menambah perbelanjaan berkaitan kesihatan: pembentukan modal institusi penyedia penjagaan kesihatan, pendidikan dan latihan anggota kesihatan, penyelidikan dan pembangunan dalam kesihatan, dan perkara berkaitan kesihatan lain. Oleh itu TEH lebih tinggi daripada CHE (2024: RM89.8b berbanding RM77.9b, MNHA 2011–2024). Siri WHO bagi Malaysia mungkin menggunakan edisi MNHA yang lebih awal serta KDNK WHO sendiri dan anggaran penduduk PBB."
+    "description": "Perbelanjaan kesihatan semasa (CHE) yang dilaporkan di bawah SHA 2011 berbeza daripada jumlah perbelanjaan kesihatan (TEH). TEH menambah perbelanjaan berkaitan kesihatan yang lain: pembentukan modal institusi penyedia penjagaan kesihatan, pendidikan dan latihan anggota kesihatan, penyelidikan dan pembangunan dalam kesihatan, dan perkara berkaitan kesihatan lain. Oleh itu TEH lazimnya lebih tinggi daripada CHE. Kaedah dan sumber data bagi tahun-tahun awal dalam siri ini juga mungkin berbeza."
   },
   "section_macro": {
     "title": "Konteks makroekonomi dan hutang"
@@ -139,7 +139,7 @@
     "budget_year": "Belanjawan {{year}}",
     "change": "Perubahan",
     "pp": "mata peratusan",
-    "note": "Setiap lajur ialah peruntukan tahun tersebut seperti yang dibentangkan dalam Belanjawannya sendiri: OE dan DE kasar Persekutuan daripada Tinjauan Fiskal (OE + DE ialah belanjawan utama), KKM daripada anggaran kementerian (B.42 / P.42). Carta di atas menggunakan perbelanjaan KKM daripada jadual perbelanjaan mengikut sektor MoF, yang sedikit berbeza daripada anggaran kementerian. Anggaran belanjawan tidak termasuk langkah yang diumumkan dalam ucapan Belanjawan tahun tersebut. Jumlah Persekutuan juga tidak termasuk rizab luar jangka yang ditambah oleh MoF pada angka utamanya, jadi peruntukan KKM di sini sedikit lebih tinggi daripada peruntukan yang dinyatakan oleh MoF.",
+    "note": "Setiap lajur ialah peruntukan tahun tersebut seperti yang dibentangkan dalam Belanjawannya sendiri: OE dan DE kasar Persekutuan daripada Tinjauan Fiskal (OE + DE ialah belanjawan utama), KKM daripada anggaran kementerian (B.42 / P.42). Carta di atas menggunakan perbelanjaan KKM daripada jadual perbelanjaan mengikut sektor MoF, yang sedikit berbeza daripada anggaran kementerian. Anggaran belanjawan tidak termasuk langkah yang diumumkan dalam ucapan Belanjawan tahun tersebut. Jumlah Persekutuan juga tidak termasuk rizab luar jangka yang ditambah oleh MoF pada angka utamanya, jadi bahagian KKM di sini sedikit lebih tinggi daripada bahagian yang dinyatakan oleh MoF.",
     "rows": {
       "budget_alloc_federal_total": "Belanjawan Persekutuan (OE + DE), RM bilion",
       "budget_alloc_federal_oe": "OE Persekutuan, RM bilion",
@@ -147,12 +147,12 @@
       "budget_alloc_moh_total": "Peruntukan KKM (OE + DE), RM bilion",
       "budget_alloc_moh_oe": "OE KKM, RM bilion",
       "budget_alloc_moh_de": "DE KKM, RM bilion",
-      "budget_alloc_moh_pct_federal_total": "Peruntukan KKM dalam belanjawan Persekutuan (%)",
-      "budget_alloc_moh_oe_pct_federal_oe": "Peruntukan OE KKM dalam OE Persekutuan (%)",
-      "budget_alloc_moh_de_pct_federal_de": "Peruntukan DE KKM dalam DE Persekutuan (%)"
+      "budget_alloc_moh_pct_federal_total": "Bahagian KKM dalam belanjawan Persekutuan (%)",
+      "budget_alloc_moh_oe_pct_federal_oe": "Bahagian OE KKM dalam OE Persekutuan (%)",
+      "budget_alloc_moh_de_pct_federal_de": "Bahagian DE KKM dalam DE Persekutuan (%)"
     }
   },
-  "glossary": "OE: perbelanjaan mengurus. DE: perbelanjaan pembangunan. KKM: Kementerian Kesihatan Malaysia. MoF: Kementerian Kewangan Malaysia.",
+  "glossary": "OE: perbelanjaan mengurus. DE: perbelanjaan pembangunan. KKM: Kementerian Kesihatan Malaysia. MoF: Kementerian Kewangan Malaysia. pp: mata peratusan.",
   "disclaimer": "Papan pemuka ini memaparkan data yang tersedia secara umum sebagaimana adanya untuk tujuan maklumat sahaja. Penerbit tidak memberikan sebarang jaminan tentang ketepatannya dan tidak bertanggungjawab atas sebarang keputusan yang dibuat berdasarkan maklumat ini. Papan pemuka ini bukan produk WHO tetapi berasaskan data WHO GHED, digunakan dengan atribusi di bawah [terma WHO](https://www.who.int/about/policies/publishing/copyright).",
   "report_errors": "Sila laporkan sebarang ralat."
 }

@@ -16,11 +16,11 @@
   },
   "section_moh": {
     "title": "The Ministry of Health in the federal budget",
-    "description": "MoH OE and DE are from the Ministry of Finance's expenditure-by-sector tables (Health sector) and differ slightly from MoH's own ministry accounts (B.42 / P.42). The Malaysia National Health Accounts (MNHA) report a different MoH figure, MoH as a source of financing within the health-accounts boundary, which does not equal MoH OE + DE. Budget allocations are not actual spending. Real values are deflated with the GDP deflator (2015 = 100)."
+    "description": "MoH OE and DE are from the Ministry of Finance's expenditure-by-sector tables (Health sector) and can differ slightly from MoH's own ministry accounts (B.42 / P.42) due to, for example, the inclusion of central treasury votes (B.11, B.12). MoH OE + DE reported using other health accounts methodologies have definitional differences (e.g., user fees, land acquisition, extra-budgetary funds, donations, PPP transactions, health tourism promotion, grants/dues to international bodies, and sanitation). Budget allocations are not actual spending. Real values are deflated with the GDP deflator (2015 = 100)."
   },
   "section_international": {
     "title": "International benchmarks (World Bank / WHO GHED)",
-    "description": "WHO GHED (republished by the World Bank) reports current health expenditure (CHE), the SHA 2011 measure used by WHO and OECD: final consumption expenditure on health care goods and services (curative, rehabilitative and long-term care, ancillary services, medical goods, prevention, and governance and financing administration). The Ministry of Health's Malaysia National Health Accounts (MNHA) headline, total expenditure on health (TEH), adds health-related expenditure: capital formation of health care provider institutions, education and training of health personnel, research and development in health, and other health-related items. TEH is therefore higher than CHE (2024: RM89.8b vs RM77.9b, MNHA 2011–2024). WHO's Malaysia series may also carry an earlier MNHA edition and uses WHO's own GDP and UN population estimates."
+    "description": "Current health expenditure (CHE) reported under the SHA 2011 differs from total expenditure on health (TEH). TEH adds additional health-related expenditures: capital formation of health care provider institutions, education and training of health personnel, research and development in health, and other health-related items. TEH is therefore typically higher than CHE. Methodology and data sources for earlier years in the series may also vary."
   },
   "section_macro": {
     "title": "Macroeconomic and debt context"

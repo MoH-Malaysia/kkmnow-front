@@ -1,6 +1,14 @@
 import { Chart as ChartJS } from "chart.js";
 import type { Chart, LegendItem, Scale, Tick } from "chart.js";
 
+/*
+ * Years are timestamps at 00:00 UTC on 1 January (Date.UTC). The Luxon date adapter works in the
+ * viewer's time zone by default, so ticks, round: "year" and tooltips used local years: in UTC+8
+ * every year axis read one year early, and in UTC-5 the points moved back a year. Run every time
+ * scale in UTC. Registering the time scale later merges its own defaults into this.
+ */
+ChartJS.defaults.set("scales.time", { adapters: { date: { zone: "utc" } } });
+
 const YEAR_STEPS = [1, 2, 5, 10, 20, 25, 50];
 /** Minimum horizontal room per year label, in px */
 const MIN_LABEL_GAP = 48;

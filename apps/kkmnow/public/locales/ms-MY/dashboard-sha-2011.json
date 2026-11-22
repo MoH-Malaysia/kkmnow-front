@@ -1,7 +1,7 @@
 {
   "header": "Akaun Kesihatan (SHA 2011)",
-  "description": "Bagaimana perbelanjaan kesihatan dibiayai, dari mana dananya, siapa yang menyediakan penjagaan dan apa yang dibelanjakan, menggunakan WHO Global Health Expenditure Database (GHED).",
-  "card_description": "Bagaimana perbelanjaan kesihatan dibiayai, siapa yang menyediakan penjagaan dan apa yang dibelanjakan, bagi negara di seluruh dunia, menggunakan WHO Global Health Expenditure Database (GHED).",
+  "description": "Bagaimana perbelanjaan kesihatan dibiayai, dari mana dananya, siapa yang menyediakan penjagaan dan apa yang dibeli, menggunakan WHO Global Health Expenditure Database (GHED).",
+  "card_description": "Bagaimana perbelanjaan kesihatan dibiayai, siapa yang menyediakan penjagaan dan apa yang dibeli, bagi negara di seluruh dunia, menggunakan WHO Global Health Expenditure Database (GHED).",
   "publisher": "Pejabat Transformasi Kesihatan, Kementerian Kesihatan",
   "insufficient": "Data {{dim}} tidak mencukupi untuk {{country}}.",
   "no_data_year": "Tiada data untuk {{year}}.",
@@ -50,7 +50,7 @@
     },
     "composition": "Komposisi {{dim}}: {{country}}, {{year}}",
     "hierarchy": "Hierarki penyedia: {{country}}, {{year}}",
-    "composition_note": "Pecahan paling terperinci yang tersedia, supaya komposisi berjumlah kepada keseluruhan. Tuding untuk nilai.",
+    "composition_note": "Pecahan paling terperinci yang tersedia, supaya bahagian-bahagiannya membentuk jumlah keseluruhan. Tuding untuk nilai.",
     "trend": "Perbandingan trend: {{country}}",
     "trend_empty": "Pilih kod untuk membandingkan trendnya.",
     "govt_private": "Perbelanjaan kerajaan berbanding swasta: {{country}}, tahap {{level}}",
@@ -158,7 +158,7 @@
     "hp73": "Pentadbiran insurans kesihatan swasta",
     "hp79": "Agensi pentadbiran lain",
     "hp8": "Lain-lain ekonomi",
-    "hp81": "Isi rumah sebagai penyedia penjagaan di rumah",
+    "hp81": "Isi rumah sebagai penyedia penjagaan kesihatan di rumah",
     "hp82": "Industri lain (pengeluar sekunder)",
     "hp83": "Pekerja kesihatan komuniti",
     "hp9": "Luar negara",
@@ -213,6 +213,6 @@
     "hc9": "Perkhidmatan penjagaan kesihatan lain (t.t.t.l.)"
   },
   "glossary": "CHE: perbelanjaan kesihatan semasa. GGHE-D: perbelanjaan kesihatan kerajaan am domestik. PVT-D: perbelanjaan kesihatan swasta domestik. NCU: unit mata wang negara (RM bagi Malaysia). NPISH: institusi bukan berasaskan keuntungan yang memberi perkhidmatan kepada isi rumah. IEC: maklumat, pendidikan dan kaunseling. CAGR: kadar pertumbuhan tahunan terkompaun. t.t.t.l.: tidak termasuk di tempat lain.",
-  "disclaimer": "Papan pemuka ini memaparkan data yang tersedia secara umum sebagaimana adanya untuk tujuan maklumat sahaja. Penerbit tidak memberikan sebarang jaminan tentang ketepatannya dan tidak bertanggungjawab atas sebarang keputusan yang dibuat berdasarkan maklumat ini. Papan pemuka ini bukan produk WHO tetapi berasaskan data WHO (GHED dan GHO).",
+  "disclaimer": "Papan pemuka ini memaparkan data yang tersedia secara umum sebagaimana adanya untuk tujuan maklumat sahaja. Penerbit tidak memberikan sebarang jaminan tentang ketepatannya dan tidak bertanggungjawab atas sebarang keputusan yang dibuat berdasarkan maklumat ini. Papan pemuka ini bukan produk WHO tetapi berasaskan data WHO (GHED dan Global Health Observatory).",
   "report_errors": "Sila laporkan sebarang ralat."
 }
